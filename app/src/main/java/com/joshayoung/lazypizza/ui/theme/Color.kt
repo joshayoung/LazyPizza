@@ -2,10 +2,16 @@ package com.joshayoung.lazypizza.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+var textPrimary = Color(0x03131F)
+var textSecondary = Color(0xFF627686)
+var textSecondary8 = Color(0xFF627686).copy(alpha = 0.08f)
+var textOnPrimary = Color(0xFFFFFFFF)
+var background = Color(0xFFE6E7ED)
+var surfaceHigher = Color(0xFFFFFFFF)
+var surfaceHighest = Color(0xFFF0F3F6)
+var outline = Color(0xFFE6E7ED)
+var outline50 = Color(0xFFE6E7ED).copy(alpha = 0.5f)
+var primaryGradientStart = Color(0xFFF9966F)
+var primaryGradientEnd = Color(0xFFF36B50)
+val primary = Color(0xFFF36B50)
+var primary8 = Color(0xFFF36B50).copy(alpha = 0.08f)
