@@ -1,53 +1,37 @@
 package com.joshayoung.lazypizza
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.LifecycleObserver
+import androidx.navigation.compose.rememberNavController
+import com.joshayoung.lazypizza.navigation.NavigationRoot
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import kotlinx.coroutines.delay
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         val splashScreen = installSplashScreen()
 
-        splashScreen.setKeepOnScreenCondition {
-            true
-        }
+        splashScreen.setKeepOnScreenCondition { viewModel.state.isLoading }
 
         enableEdgeToEdge()
         setContent {
             LazyPizzaTheme {
-                StartPage()
+                val navController = rememberNavController()
+                NavigationRoot(navController = navController)
             }
         }
-    }
-}
-
-@Composable
-fun StartPage() {
-    LaunchedEffect(Unit) {
-        delay(3000)
-    }
-    Text(text = "Lazy Pizza")
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LazyPizzaTheme {
     }
 }
