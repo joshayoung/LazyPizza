@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -74,4 +75,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.storage)
 }
