@@ -1,5 +1,5 @@
 package com.joshayoung.lazypizza
 
-data class MainState (
-    val isLoading : Boolean = false
+data class MainState(
+    val isLoading: Boolean = false,
 )

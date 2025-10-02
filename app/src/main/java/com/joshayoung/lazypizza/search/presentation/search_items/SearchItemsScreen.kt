@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
@@ -30,65 +27,77 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.ui.theme.GrayPhone
-import com.joshayoung.lazypizza.ui.theme.PhoneIcon
-import com.joshayoung.lazypizza.ui.theme.PizzaHeader
 import com.joshayoung.lazypizza.ui.theme.PizzaLogo
-import kotlin.contracts.contract
 
 @Composable
 fun SearchItemsScreen() {
     Text("Search Items")
     Scaffold(
         topBar = {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                ,
+            Row(
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row( modifier = Modifier
-                    .background(Color.Red)
-                    .windowInsetsPadding(WindowInsets.safeDrawing),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                Row(
+                    modifier =
+                        Modifier
+                            .background(Color.Red)
+                            .windowInsetsPadding(WindowInsets.safeDrawing),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Image(imageVector = PizzaLogo, contentDescription = null
-                        , modifier = Modifier
-                            .padding(end = 10.dp)
+                    Image(
+                        imageVector = PizzaLogo,
+                        contentDescription = null,
+                        modifier =
+                            Modifier
+                                .padding(end = 10.dp),
                     )
-                    Text(text = "LazyPizza",
+                    Text(
+                        text = "LazyPizza",
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-
-                        )
+                        fontWeight = FontWeight.Bold,
+                    )
                 }
-                Row(modifier = Modifier
-                    , verticalAlignment = Alignment.CenterVertically
+                Row(
+                    modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(imageVector = GrayPhone, contentDescription = null, tint = Color.Gray,
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                        )
+                    Icon(
+                        imageVector = GrayPhone,
+                        contentDescription = null,
+                        tint = Color.Gray,
+                        modifier =
+                            Modifier
+                                .padding(end = 10.dp),
+                    )
                     Text(text = "+1 (555) 321-7890")
                 }
             }
-        }
+        },
     ) { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
+        Column(
+            modifier =
+                Modifier
+                    .padding(innerPadding),
         ) {
-            Image(painterResource(id = R.drawable.pizza_header),
+            Image(
+                painterResource(id = R.drawable.pizza_header),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .fillMaxWidth()
-                )
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
+            )
             BasicTextField(
-                state = TextFieldState(
-                    initialText = "Search for delicious food…"
-                )
+                state =
+                    TextFieldState(
+                        initialText = "Search for delicious food…",
+                    ),
             )
         }
-
     }
 }
 
