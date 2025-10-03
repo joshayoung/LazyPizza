@@ -1,6 +1,9 @@
 # LazyPizza
 Android Application for Pizza Orders
 
+### Notes
+* `io.coil-kt.coil3:coil-network-okhttp` is needed to get `AsyncImage` working with `coil`.
+
 ### Ktlint
 * `./gradlew ktlintCheck` - generate reports
 * `./gradlew ktlintFormat` - format code
