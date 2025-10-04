@@ -15,6 +15,9 @@ Android Application for Pizza Orders
 * Console: https://console.firebase.google.com
 * Storage: https://console.firebase.google.com/project/lazypizza-22122/storage/lazypizza-22122.firebasestorage.app/files
 
+### Generate SHA-256 Key
+* `./gradlew signingReport`
+
 ### Resources
 * [Font](https://fonts.google.com/specimen/Instrument+Sans)
 * https://firebase.google.com/docs/storage/android/start
