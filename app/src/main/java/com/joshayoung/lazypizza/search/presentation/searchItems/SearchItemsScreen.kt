@@ -1,9 +1,8 @@
-package com.joshayoung.lazypizza.search.presentation.search_items
+package com.joshayoung.lazypizza.search.presentation.searchItems
 
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

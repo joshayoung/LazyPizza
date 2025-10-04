@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.search_items
+package com.joshayoung.lazypizza.search.presentation.searchItems
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
