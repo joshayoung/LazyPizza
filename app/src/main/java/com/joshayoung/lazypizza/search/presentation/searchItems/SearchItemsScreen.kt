@@ -34,13 +34,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.search.presentation.components.LazyImage
 import com.joshayoung.lazypizza.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.ui.theme.PizzaLogo
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchItemsScreen(viewModel: SearchItemsViewModel = koinViewModel()) {
+fun SearchItemsScreenRoot(viewModel: SearchItemsViewModel = koinViewModel()) {
     val images = viewModel.images.collectAsState(initial = emptyList())
+    val myImages: MutableList<ImageResource> = mutableListOf()
+    images.value.forEach {
+        myImages.add(ImageResource.RemoteFilePath(it))
+    }
+    SearchItemsScreen(images = myImages)
+}
+@Composable
+fun SearchItemsScreen(images: List<ImageResource>) {
 
     Text("Search Items")
     Scaffold(
@@ -55,7 +65,6 @@ fun SearchItemsScreen(viewModel: SearchItemsViewModel = koinViewModel()) {
                 Row(
                     modifier =
                         Modifier
-                            .background(Color.Red)
                             .windowInsetsPadding(WindowInsets.safeDrawing),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
@@ -68,6 +77,7 @@ fun SearchItemsScreen(viewModel: SearchItemsViewModel = koinViewModel()) {
                     )
                     Text(
                         text = "LazyPizza",
+                        color = MaterialTheme.colorScheme.background,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                     )
@@ -113,34 +123,20 @@ fun SearchItemsScreen(viewModel: SearchItemsViewModel = koinViewModel()) {
                     Modifier
                         .fillMaxSize(),
             ) {
-                Text("test")
+
 
                 LazyColumn(
                     modifier =
                         Modifier
-                            .background(Color.Red)
                             .size(400.dp)
                             .fillMaxSize(),
                 ) {
-                    items(images.value) { imageUrl ->
-                        AsyncImage(
-                            model = imageUrl,
-                            contentDescription = null,
-                            onError = {
-                                Log.e("test", "", it.result.throwable)
-                            },
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .aspectRatio(1280f / 847f),
-                        )
+                    items(images) { imageUrl ->
+                        LazyImage(imageUrl)
                     }
                 }
-                Text("test2")
             }
 
-            Text("test2", modifier = Modifier.background(Color.Red))
-            Text("test1", modifier = Modifier.background(Color.Red))
         }
     }
 }
@@ -148,5 +144,8 @@ fun SearchItemsScreen(viewModel: SearchItemsViewModel = koinViewModel()) {
 @Preview(showBackground = true)
 @Composable
 fun SearchItemsScreenPreview() {
-    SearchItemsScreen()
+    SearchItemsScreen(images = mutableListOf(
+        ImageResource.DrawableResource(R.drawable.hawaiian),
+        ImageResource.DrawableResource(R.drawable.meat_lovers)
+    ))
 }
