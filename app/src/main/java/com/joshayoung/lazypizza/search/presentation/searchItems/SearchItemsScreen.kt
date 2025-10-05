@@ -19,9 +19,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,11 +33,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
+import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.ImageResource
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
-import com.joshayoung.lazypizza.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.PizzaLogo
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -54,58 +52,14 @@ fun SearchItemsScreenRoot(viewModel: SearchItemsViewModel = koinViewModel()) {
 
 @Composable
 fun SearchItemsScreen(state: SearchItemsState) {
-    Scaffold(
-        topBar = {
-            Row(
-                modifier =
-                    Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    modifier =
-                    Modifier,
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Image(
-                        imageVector = PizzaLogo,
-                        contentDescription = null,
-                        modifier =
-                            Modifier
-                                .padding(end = 10.dp)
-                    )
-                    Text(
-                        text = "LazyPizza",
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Row(
-                    modifier = Modifier,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = GrayPhone,
-                        contentDescription = null,
-                        tint = Color.Gray,
-                        modifier =
-                            Modifier
-                                .padding(end = 10.dp)
-                    )
-                    Text(text = "+1 (555) 321-7890", style = MaterialTheme.typography.titleSmall)
-                }
-            }
-        }
+    LazyPizzaScaffold(
+        topAppBar = { LazyPizzaAppBar() }
     ) { innerPadding ->
         Column(
             modifier =
                 Modifier
-                    .background(Color(0xFFFAFBFC))
                     .padding(innerPadding)
+                    .background(Color(0xFFFAFBFC))
                     .padding(horizontal = 20.dp)
         ) {
             Image(
