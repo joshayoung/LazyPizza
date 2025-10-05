@@ -8,7 +8,7 @@ import com.joshayoung.lazypizza.search.ImageResource
 
 @Composable
 fun LazyImage(imageResource: ImageResource) {
-    when(imageResource) {
+    when (imageResource) {
         is ImageResource.DrawableResource -> {
             Image(painterResource(id = imageResource.id), contentDescription = null)
         }
@@ -16,5 +16,4 @@ fun LazyImage(imageResource: ImageResource) {
             AsyncImage(model = imageResource.path, contentDescription = null)
         }
     }
-
 }

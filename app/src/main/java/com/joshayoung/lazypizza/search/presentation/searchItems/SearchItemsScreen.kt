@@ -1,23 +1,27 @@
 package com.joshayoung.lazypizza.search.presentation.searchItems
 
-import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,7 +36,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.search.ImageResource
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
@@ -49,15 +52,18 @@ fun SearchItemsScreenRoot(viewModel: SearchItemsViewModel = koinViewModel()) {
     }
     SearchItemsScreen(images = myImages)
 }
+
 @Composable
 fun SearchItemsScreen(images: List<ImageResource>) {
-
     Text("Search Items")
     Scaffold(
+        modifier = Modifier,
         topBar = {
             Row(
                 modifier =
                     Modifier
+                        .padding(horizontal = 20.dp)
+                        .padding(bottom = 20.dp)
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -66,6 +72,7 @@ fun SearchItemsScreen(images: List<ImageResource>) {
                     modifier =
                         Modifier
                             .windowInsetsPadding(WindowInsets.safeDrawing),
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Image(
@@ -77,7 +84,7 @@ fun SearchItemsScreen(images: List<ImageResource>) {
                     )
                     Text(
                         text = "LazyPizza",
-                        color = MaterialTheme.colorScheme.background,
+                        color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                     )
@@ -102,7 +109,9 @@ fun SearchItemsScreen(images: List<ImageResource>) {
         Column(
             modifier =
                 Modifier
-                    .padding(innerPadding),
+                    .background(Color(0xFFFAFBFC))
+                    .padding(innerPadding)
+                    .padding(horizontal = 20.dp),
         ) {
             Image(
                 painterResource(id = R.drawable.pizza_header),
@@ -123,20 +132,55 @@ fun SearchItemsScreen(images: List<ImageResource>) {
                     Modifier
                         .fillMaxSize(),
             ) {
-
-
                 LazyColumn(
-                    modifier =
-                        Modifier
-                            .size(400.dp)
-                            .fillMaxSize(),
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(images) { imageUrl ->
-                        LazyImage(imageUrl)
+                        ItemAndPrice(imageUrl)
                     }
                 }
             }
+        }
+    }
+}
 
+@Composable
+fun ItemAndPrice(image: ImageResource) {
+    Card(
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = 2.dp,
+            ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.surface),
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+    ) {
+        Row {
+            Box(
+                modifier =
+                    Modifier
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .width(100.dp),
+            ) {
+                LazyImage(image)
+            }
+            Column(
+                modifier =
+                    Modifier
+                        .background(MaterialTheme.colorScheme.surface)
+                        .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text("Margherita", fontWeight = FontWeight.Bold)
+                Text("Tomato sauce, mozzarella, fresh basil, olive oil")
+                Text("$8.99")
+            }
         }
     }
 }
@@ -144,8 +188,11 @@ fun SearchItemsScreen(images: List<ImageResource>) {
 @Preview(showBackground = true)
 @Composable
 fun SearchItemsScreenPreview() {
-    SearchItemsScreen(images = mutableListOf(
-        ImageResource.DrawableResource(R.drawable.hawaiian),
-        ImageResource.DrawableResource(R.drawable.meat_lovers)
-    ))
+    SearchItemsScreen(
+        images =
+            mutableListOf(
+                ImageResource.DrawableResource(R.drawable.hawaiian),
+                ImageResource.DrawableResource(R.drawable.meat_lovers),
+            ),
+    )
 }

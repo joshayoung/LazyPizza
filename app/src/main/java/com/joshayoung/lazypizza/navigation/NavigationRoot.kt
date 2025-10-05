@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsScreen
 import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsScreenRoot
 
 @Composable

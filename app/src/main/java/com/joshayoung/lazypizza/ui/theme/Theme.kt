@@ -8,7 +8,7 @@ private val LazyPizzaColorScheme =
     darkColorScheme(
         primary = primary,
         onPrimary = textOnPrimary,
-        background = background,
+        background = alternativeBackground,
         outline = outline,
         outlineVariant = outline50,
         surface = surfaceHigher,
