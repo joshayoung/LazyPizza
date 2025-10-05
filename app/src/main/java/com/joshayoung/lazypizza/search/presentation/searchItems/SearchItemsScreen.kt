@@ -7,7 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,12 +41,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchItemsScreenRoot(viewModel: SearchItemsViewModel = koinViewModel()) {
-    Column {
-        Spacer(Modifier.height(100.dp))
-        SearchItemsScreen(
-            state = viewModel.state.collectAsStateWithLifecycle().value
-        )
-    }
+    SearchItemsScreen(
+        state = viewModel.state.collectAsStateWithLifecycle().value
+    )
 }
 
 @Composable
