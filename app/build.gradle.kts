@@ -1,4 +1,8 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import com.android.build.api.dsl.VariantDimension
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,6 +11,10 @@ plugins {
     kotlin("plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("com.google.gms.google-services")
+}
+
+val localProperties = Properties().apply {
+    load(File(rootProject.projectDir, "local.properties").inputStream())
 }
 
 android {
@@ -34,6 +42,29 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "API_ENDPOINT",
+                localProperties.getProperty("API_ENDPOINT")
+            )
+            buildConfigField(
+                "String",
+                "API_PROJECT_ID",
+                localProperties.getProperty("API_PROJECT_ID")
+            )
+            buildConfigField(
+                "String",
+                "BUCKET_ID",
+                localProperties.getProperty("BUCKET_ID")
+            )
+            buildConfigField(
+                "String",
+                "MODE",
+                localProperties.getProperty("MODE")
+            )
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -51,6 +82,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -83,4 +115,5 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
     implementation("com.google.firebase:firebase-auth")
+    implementation("io.appwrite:sdk-for-android:8.1.0")
 }

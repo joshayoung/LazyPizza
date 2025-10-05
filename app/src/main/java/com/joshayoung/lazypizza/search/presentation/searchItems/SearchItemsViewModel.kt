@@ -1,31 +1,44 @@
 package com.joshayoung.lazypizza.search.presentation.searchItems
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ListResult
+import com.joshayoung.lazypizza.search.ImageResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaStorage
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
-class SearchItemsViewModel : ViewModel() {
-    private val storage = FirebaseStorage.getInstance()
+class SearchItemsViewModel(
+    private val lazyPizzaStorage: LazyPizzaStorage
+) : ViewModel() {
 
-    private val _images = MutableStateFlow<List<String>>(emptyList())
-    val images: StateFlow<List<String>> = _images
+    private var _state = MutableStateFlow(SearchItemsState(images = emptyList()))
+    val state =
+        _state
+            .onStart {
+                loadData()
+            }.stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(1000L),
+                SearchItemsState(images = emptyList()),
+            )
 
-    init {
+    private fun loadData() {
         viewModelScope.launch {
-            var i = fetchImageUrls()
-
-            _images.value = i
+            val all = lazyPizzaStorage.getAllFiles()
+            val i = all.map { ImageResource.RemoteFilePath(it) }
+            _state.update {
+                it.copy(
+                    i
+                )
+            }
         }
-    }
-
-    suspend fun fetchImageUrls(): List<String> {
-        val storageReference = FirebaseStorage.getInstance().reference.child("pizzas/")
-        val result: ListResult = storageReference.listAll().await()
-        return result.items.map { it.downloadUrl.await().toString() }
     }
 }

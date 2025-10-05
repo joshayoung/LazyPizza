@@ -12,6 +12,8 @@ import com.google.firebase.auth.auth
 import com.google.firebase.initialize
 import com.joshayoung.lazypizza.navigation.NavigationRoot
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import io.appwrite.Client
+import io.appwrite.services.Storage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -19,12 +21,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Firebase.initialize(context = this)
-        val auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
-        if (user == null) {
-            auth.signInAnonymously()
-        }
 
         val splashScreen = installSplashScreen()
 
