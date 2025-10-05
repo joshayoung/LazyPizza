@@ -2,10 +2,11 @@ package com.joshayoung.lazypizza.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 private val LazyPizzaColorScheme =
-    darkColorScheme(
+    lightColorScheme(
         primary = primary,
         onPrimary = textOnPrimary,
         background = alternativeBackground,
@@ -13,7 +14,7 @@ private val LazyPizzaColorScheme =
         outlineVariant = outline50,
         surface = surfaceHigher,
         surfaceVariant = surfaceHighest,
-        onSecondary = textSecondary,
+        onSecondary = textSecondary
     )
 
 @Composable
@@ -22,6 +23,6 @@ fun LazyPizzaTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content,
+        content = content
     )
 }

@@ -1,7 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-import com.android.build.api.dsl.VariantDimension
 import java.util.Properties
 
 plugins {
@@ -13,9 +10,10 @@ plugins {
     id("com.google.gms.google-services")
 }
 
-val localProperties = Properties().apply {
-    load(File(rootProject.projectDir, "local.properties").inputStream())
-}
+val localProperties =
+    Properties().apply {
+        load(File(rootProject.projectDir, "local.properties").inputStream())
+    }
 
 android {
     namespace = "com.joshayoung.lazypizza"
@@ -69,7 +67,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
+                "proguard-rules.pro"
             )
         }
     }

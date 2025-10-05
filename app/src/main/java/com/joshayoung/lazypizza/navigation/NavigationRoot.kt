@@ -10,7 +10,7 @@ import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsScree
 fun NavigationRoot(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Search,
+        startDestination = Routes.Search
     ) {
         composable<Routes.Search> {
             SearchItemsScreenRoot()

@@ -10,9 +10,10 @@ class AppWriteStorage(
     private var context: Context
 ) : LazyPizzaStorage {
     override suspend fun getAllFiles(): List<String> {
-        val client = Client(this.context)
-            .setEndpoint(BuildConfig.API_ENDPOINT)
-            .setProject(BuildConfig.API_PROJECT_ID)
+        val client =
+            Client(this.context)
+                .setEndpoint(BuildConfig.API_ENDPOINT)
+                .setProject(BuildConfig.API_PROJECT_ID)
         val storage = Storage(client)
         val t = storage.listFiles(BuildConfig.BUCKET_ID)
         val all = t.files.map { imagePath(it.id) }
@@ -20,8 +21,9 @@ class AppWriteStorage(
         return all
     }
 
-    private fun imagePath(id: String) : String {
-        val t =  """
+    private fun imagePath(id: String): String {
+        val t =
+            """
             ${BuildConfig.API_ENDPOINT}/
             storage/buckets/
             ${BuildConfig.BUCKET_ID}
@@ -29,7 +31,7 @@ class AppWriteStorage(
             $id
             /view?project=${BuildConfig.API_PROJECT_ID}
             &mode=${BuildConfig.MODE}
-        """.trimIndent()
+            """.trimIndent()
 
         return t.replace("\n", "").replace(Regex("\\s+"), "").trim()
     }

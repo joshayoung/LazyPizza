@@ -19,7 +19,7 @@ class LazyPizzaApp : Application() {
             androidContext(this@LazyPizzaApp)
             androidLogger(Level.DEBUG)
             modules(
-                appModule,
+                appModule
             )
         }
     }
