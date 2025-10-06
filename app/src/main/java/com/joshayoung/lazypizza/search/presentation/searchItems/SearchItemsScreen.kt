@@ -51,9 +51,11 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.ImageResource
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
+import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.SearchIcon
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -83,34 +85,7 @@ fun SearchItemsScreen(state: SearchItemsState) {
                     Modifier
                         .fillMaxWidth()
             )
-            BasicTextField(
-                state =
-                    TextFieldState(
-                        initialText = "Search for delicious food…"
-                    ),
-                decorator = {
-                    Row() {
-                        Icon(
-                            imageVector = SearchIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error
-                        )
-
-                        Box(modifier = Modifier
-                            .padding(start = 10.dp)) {
-                            Text("Search for delicious food…")
-
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .padding(vertical = 10.dp)
-                    .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(20.dp))
-                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(10.dp)
-                    .fillMaxWidth()
-            )
+            SearchField(state.search)
             val options = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
             val selectedIndex by remember { mutableIntStateOf(-1) }
             Row() {
