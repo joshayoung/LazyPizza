@@ -1,12 +1,12 @@
 package com.joshayoung.lazypizza.search.presentation.searchItems
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaDatabase
 import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,14 +19,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchItemsViewModel(
-    private val lazyPizzaStorage: LazyPizzaStorage
+    private val lazyPizzaStorage: LazyPizzaStorage,
+    private val lazyPizzaDatabase: LazyPizzaDatabase
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchItemsState(images = emptyList()))
 
     val state =
         _state
             .onStart {
-                loadData()
+//                loadData()
             }.stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(1000L),
@@ -34,7 +35,12 @@ class SearchItemsViewModel(
             )
 
     init {
-        _state.value.search.textAsFlow()
+        viewModelScope.launch {
+            var t = lazyPizzaDatabase.getAllData()
+            println()
+        }
+        _state.value.search
+            .textAsFlow()
             .onEach { search ->
                 searchList(search)
             }.launchIn(viewModelScope)
@@ -46,7 +52,6 @@ class SearchItemsViewModel(
                 images = emptyList()
             )
         }
-
     }
 
     private fun loadData() {

@@ -5,5 +5,5 @@ import com.joshayoung.lazypizza.search.ImageResource
 
 data class SearchItemsState(
     var images: List<ImageResource>,
-    var search : TextFieldState = TextFieldState()
+    var search: TextFieldState = TextFieldState()
 )

@@ -16,14 +16,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -38,7 +36,7 @@ fun SearchField(state: TextFieldState) {
     BasicTextField(
         state = state,
         decorator = { innerBox ->
-            Row() {
+            Row {
                 Icon(
                     imageVector = SearchIcon,
                     contentDescription = null,
@@ -46,7 +44,8 @@ fun SearchField(state: TextFieldState) {
                 )
                 Spacer(Modifier.width(10.dp))
 
-                Box(modifier = Modifier
+                Box(
+                    modifier = Modifier
                 ) {
                     if (state.text.isEmpty() && !isFocused) {
                         Text("Search for delicious food…")
@@ -55,16 +54,19 @@ fun SearchField(state: TextFieldState) {
                 }
             }
         },
-        modifier = Modifier
-            .padding(vertical = 10.dp)
-            .onFocusChanged {
-                isFocused = it.isFocused
-            }
-            .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(20.dp))
-            .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(10.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(vertical = 10.dp)
+                .onFocusChanged {
+                    isFocused = it.isFocused
+                }.border(
+                    1.dp,
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(20.dp)
+                ).shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(10.dp)
+                .fillMaxWidth()
     )
 }
 

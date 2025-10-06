@@ -61,6 +61,16 @@ android {
                 "MODE",
                 localProperties.getProperty("MODE")
             )
+            buildConfigField(
+                "String",
+                "DATABASE_ID",
+                localProperties.getProperty("DATABASE_ID")
+            )
+            buildConfigField(
+                "String",
+                "COLLECTION_ID",
+                localProperties.getProperty("COLLECTION_ID")
+            )
         }
 
         release {
