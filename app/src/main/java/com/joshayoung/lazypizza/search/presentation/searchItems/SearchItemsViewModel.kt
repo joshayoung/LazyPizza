@@ -23,7 +23,6 @@ class SearchItemsViewModel(
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchItemsState(images = emptyList()))
 
-
     val state =
         _state
             .onStart {
@@ -35,7 +34,7 @@ class SearchItemsViewModel(
             )
 
     init {
-        state.value.search.textAsFlow()
+        _state.value.search.textAsFlow()
             .onEach { search ->
                 searchList(search)
             }.launchIn(viewModelScope)
