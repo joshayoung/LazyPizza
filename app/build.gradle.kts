@@ -58,11 +58,6 @@ android {
             )
             buildConfigField(
                 "String",
-                "MODE",
-                localProperties.getProperty("MODE")
-            )
-            buildConfigField(
-                "String",
                 "DATABASE_ID",
                 localProperties.getProperty("DATABASE_ID")
             )
@@ -70,6 +65,21 @@ android {
                 "String",
                 "COLLECTION_ID",
                 localProperties.getProperty("COLLECTION_ID")
+            )
+            buildConfigField(
+                "String",
+                "AUTH_USERNAME",
+                localProperties.getProperty("AUTH_USERNAME")
+            )
+            buildConfigField(
+                "String",
+                "AUTH_EMAIL",
+                localProperties.getProperty("AUTH_EMAIL")
+            )
+            buildConfigField(
+                "String",
+                "AUTH_PASSWORD",
+                localProperties.getProperty("AUTH_PASSWORD")
             )
         }
 

@@ -30,7 +30,6 @@ class AppWriteStorage(
             /files/
             $id
             /view?project=${BuildConfig.API_PROJECT_ID}
-            &mode=${BuildConfig.MODE}
             """.trimIndent()
 
         return t.replace("\n", "").replace(Regex("\\s+"), "").trim()
