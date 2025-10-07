@@ -22,3 +22,4 @@ Android Application for Pizza Orders
 * [Font](https://fonts.google.com/specimen/Instrument+Sans)
 * https://firebase.google.com/docs/storage/android/start
 * [Image Caching with Coil Compose - Everything You Need to Know](https://www.youtube.com/watch?v=qQVCtkg-O7w)
+* [Async with Token](https://github.com/coil-kt/coil/discussions/2558#discussioncomment-10963528)

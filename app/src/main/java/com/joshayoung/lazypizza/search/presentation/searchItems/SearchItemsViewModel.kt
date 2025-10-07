@@ -59,7 +59,8 @@ class SearchItemsViewModel(
     private fun loadData() {
         viewModelScope.launch {
             val all = lazyPizzaStorage.getAllFiles()
-            val i = all.map { ImageResource.RemoteFilePath(it) }
+            val token = lazyPizzaAuth.getToken()
+            val i = all.map { ImageResource.RemoteFilePath(it, token = token) }
             _state.update {
                 it.copy(
                     i

@@ -12,6 +12,17 @@ import kotlinx.coroutines.withContext
 class AppWriteAuth(
     private var context: Context
 ) : LazyPizzaAuth {
+    override suspend fun getToken(): String {
+        val client =
+            Client(context)
+                .setEndpoint(BuildConfig.API_ENDPOINT)
+                .setProject(BuildConfig.API_PROJECT_ID)
+        val account = Account(client)
+        val jwtInfo = account.createJWT()
+
+        return jwtInfo.jwt
+    }
+
     override suspend fun loginUser(
         email: String,
         password: String
