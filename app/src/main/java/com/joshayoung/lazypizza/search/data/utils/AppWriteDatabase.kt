@@ -31,7 +31,8 @@ class AppWriteDatabase(
                         name = document.data["name"] as? String ?: "",
                         price = document.data["price"] as? String ?: "0.00",
                         description = document.data["description"] as? String ?: "",
-                        imageUrl = document.data["imageUrl"] as? String ?: ""
+                        imageUrl = document.data["imageUrl"] as? String,
+                        plImageUrl = document.data["plImageUrl"] as? String
                     )
                 }
             } catch (e: Exception) {

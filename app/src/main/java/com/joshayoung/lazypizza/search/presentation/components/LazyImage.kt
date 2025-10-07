@@ -19,24 +19,32 @@ fun LazyImage(imageResource: ImageResource) {
             Image(painterResource(id = imageResource.id), contentDescription = null)
         }
         is ImageResource.RemoteFilePath -> {
-            val headers =
-                NetworkHeaders
-                    .Builder()
-                    .set("Authorization", imageResource.token)
-                    .build()
-            val request =
-                ImageRequest
-                    .Builder(context)
-                    .data(imageResource.path)
-                    .httpHeaders(headers)
-                    .build()
-            AsyncImage(model = request, contentDescription = null, onError = {
-                Log.e(
-                    "ImageError",
-                    it.result.throwable.message
-                        .toString()
+            if (imageResource.token != null) {
+                val headers =
+                    NetworkHeaders
+                        .Builder()
+                        .set("Authorization", "Bearer ${imageResource.token}")
+                        .build()
+                val request =
+                    ImageRequest
+                        .Builder(context)
+                        .data(imageResource.path)
+                        .httpHeaders(headers)
+                        .build()
+                AsyncImage(
+                    model = request,
+                    contentDescription = null,
+                    onError = {
+                        Log.e(
+                            "ee",
+                            it.result.throwable.message
+                                .toString()
+                        )
+                    }
                 )
-            })
+            } else {
+                AsyncImage(model = imageResource.path, contentDescription = null)
+            }
         }
     }
 }

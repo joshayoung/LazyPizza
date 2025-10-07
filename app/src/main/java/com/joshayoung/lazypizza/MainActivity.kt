@@ -24,7 +24,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             LazyPizzaTheme {
                 val navController = rememberNavController()
-                NavigationRoot(navController = navController)
+                if (!viewModel.state.isLoading) {
+                    NavigationRoot(navController = navController)
+                }
             }
         }
     }

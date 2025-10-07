@@ -2,27 +2,16 @@ package com.joshayoung.lazypizza.search.data.utils
 
 import android.content.Context
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
 import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaAuth
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class AppWriteAuth(
-    private var context: Context
+    private var context: Context,
+    private var lazyPizzaPreference: LazyPizzaPreference
 ) : LazyPizzaAuth {
-    override suspend fun getToken(): String {
-        val client =
-            Client(context)
-                .setEndpoint(BuildConfig.API_ENDPOINT)
-                .setProject(BuildConfig.API_PROJECT_ID)
-        val account = Account(client)
-        val jwtInfo = account.createJWT()
-
-        return jwtInfo.jwt
-    }
-
     override suspend fun loginUser(
         email: String,
         password: String
@@ -34,23 +23,19 @@ class AppWriteAuth(
 
         val account = Account(client)
         try {
-            val userData =
-                withContext(Dispatchers.IO) {
-                    account.get()
-                }
+            val currentSession = account.getSession("current")
 
-            if (userData.status) {
-                return true
-            }
+            return currentSession.current
         } catch (_: AppwriteException) {
             return try {
-                val session = account.createEmailPasswordSession(email, password)
-                session.current
+                account.createEmailPasswordSession(email, password)
+                val token = account.createJWT()
+                lazyPizzaPreference.saveJwt(token.jwt)
+
+                return true
             } catch (e: Exception) {
                 false
             }
         }
-
-        return false
     }
 }

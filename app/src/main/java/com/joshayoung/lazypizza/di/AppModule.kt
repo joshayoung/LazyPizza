@@ -2,6 +2,8 @@ package com.joshayoung.lazypizza.di
 
 import com.joshayoung.lazypizza.LazyPizzaApp
 import com.joshayoung.lazypizza.MainViewModel
+import com.joshayoung.lazypizza.core.data.SharedPreferencesPreference
+import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
 import com.joshayoung.lazypizza.search.data.utils.AppWriteAuth
 import com.joshayoung.lazypizza.search.data.utils.AppWriteDatabase
 import com.joshayoung.lazypizza.search.data.utils.AppWriteStorage
@@ -25,5 +27,6 @@ var appModule =
         }
         single { AppWriteStorage(get()) }.bind<LazyPizzaStorage>()
         single { AppWriteDatabase(get()) }.bind<LazyPizzaDatabase>()
-        single { AppWriteAuth(get()) }.bind<LazyPizzaAuth>()
+        single { AppWriteAuth(get(), get()) }.bind<LazyPizzaAuth>()
+        single { SharedPreferencesPreference(get()) }.bind<LazyPizzaPreference>()
     }

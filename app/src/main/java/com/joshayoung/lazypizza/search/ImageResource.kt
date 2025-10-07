@@ -7,6 +7,6 @@ sealed class ImageResource {
 
     data class RemoteFilePath(
         val path: String?,
-        val token: String
+        val token: String?
     ) : ImageResource()
 }

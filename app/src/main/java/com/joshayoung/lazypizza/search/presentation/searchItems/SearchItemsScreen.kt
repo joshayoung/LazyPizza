@@ -3,7 +3,6 @@ package com.joshayoung.lazypizza.search.presentation.searchItems
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,7 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
@@ -113,7 +111,7 @@ fun SearchItemsScreen(state: SearchItemsState) {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(state.products) { product ->
-                        ItemAndPrice(product, state)
+                        ItemAndPrice(product, state.token)
                     }
                 }
             }
@@ -124,7 +122,7 @@ fun SearchItemsScreen(state: SearchItemsState) {
 @Composable
 fun ItemAndPrice(
     product: Product,
-    state: SearchItemsState
+    token: String?
 ) {
     Card(
         colors =
@@ -149,10 +147,11 @@ fun ItemAndPrice(
             verticalAlignment = Alignment.CenterVertically
         ) {
             LazyImage(
-                if (product.imageUrl != null) {
-                    ImageResource.RemoteFilePath(product.imageUrl, token = state.token)
+                // TODO: Move this to a debug/preview check:
+                if (product.imageResource != null) {
+                    ImageResource.DrawableResource(product.imageResource)
                 } else {
-                    ImageResource.DrawableResource(product.imageResource ?: 0)
+                    ImageResource.RemoteFilePath(product.remoteImageUrl, token = token)
                 }
             )
             Column(
