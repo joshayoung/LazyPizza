@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.search.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -29,7 +30,13 @@ fun LazyImage(imageResource: ImageResource) {
                     .data(imageResource.path)
                     .httpHeaders(headers)
                     .build()
-            AsyncImage(model = request, contentDescription = null)
+            AsyncImage(model = request, contentDescription = null, onError = {
+                Log.e(
+                    "ImageError",
+                    it.result.throwable.message
+                        .toString()
+                )
+            })
         }
     }
 }

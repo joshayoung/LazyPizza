@@ -1,9 +1,10 @@
 package com.joshayoung.lazypizza.search.presentation.searchItems
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.search.data.models.Product
 
 data class SearchItemsState(
-    var images: List<ImageResource>,
-    var search: TextFieldState = TextFieldState()
+    var search: TextFieldState = TextFieldState(),
+    var products: List<Product> = emptyList(),
+    val token: String = ""
 )

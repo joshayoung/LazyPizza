@@ -7,7 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,6 +38,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.search.data.models.Product
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -112,8 +112,8 @@ fun SearchItemsScreen(state: SearchItemsState) {
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(state.images) { imageUrl ->
-                        ItemAndPrice(imageUrl)
+                    items(state.products) { product ->
+                        ItemAndPrice(product, state)
                     }
                 }
             }
@@ -122,7 +122,10 @@ fun SearchItemsScreen(state: SearchItemsState) {
 }
 
 @Composable
-fun ItemAndPrice(image: ImageResource) {
+fun ItemAndPrice(
+    product: Product,
+    state: SearchItemsState
+) {
     Card(
         colors =
             CardDefaults.cardColors(
@@ -145,19 +148,25 @@ fun ItemAndPrice(image: ImageResource) {
                     .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LazyImage(image)
+            LazyImage(
+                if (product.imageUrl != null) {
+                    ImageResource.RemoteFilePath(product.imageUrl, token = state.token)
+                } else {
+                    ImageResource.DrawableResource(product.imageResource ?: 0)
+                }
+            )
             Column(
                 modifier =
                     Modifier
-                        .fillMaxHeight()
+                        .fillMaxSize()
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(start = 20.dp)
                         .padding(vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text("Margherita", fontWeight = FontWeight.Bold)
-                Text("Tomato sauce, mozzarella, fresh basil, olive oil")
-                Text("$8.99", style = MaterialTheme.typography.titleLarge)
+                Text(product.name, fontWeight = FontWeight.Bold)
+                Text(product.description)
+                Text(product.price, style = MaterialTheme.typography.titleLarge)
             }
         }
     }
@@ -170,10 +179,20 @@ fun SearchItemsScreenPreview() {
         SearchItemsScreen(
             state =
                 SearchItemsState(
-                    images =
+                    products =
                         listOf(
-                            ImageResource.DrawableResource(R.drawable.hawaiian),
-                            ImageResource.DrawableResource(R.drawable.meat_lovers)
+                            Product(
+                                description = "A delicious food",
+                                imageResource = R.drawable.hawaiian,
+                                name = "Hawaiian Pizza",
+                                price = "$10.19"
+                            ),
+                            Product(
+                                description = "Another food",
+                                imageResource = R.drawable.meat_lovers,
+                                name = "Meat Lovers Pizza",
+                                price = "$12.98"
+                            )
                         )
                 )
         )
