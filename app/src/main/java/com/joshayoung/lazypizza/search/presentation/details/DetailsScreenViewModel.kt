@@ -1,0 +1,3 @@
+package com.joshayoung.lazypizza.search.presentation.details
+
+class DetailsScreenViewModel

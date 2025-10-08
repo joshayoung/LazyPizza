@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.search.presentation.searchItems
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,14 +48,21 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchItemsScreenRoot(viewModel: SearchItemsViewModel = koinViewModel()) {
+fun SearchItemsScreenRoot(
+    viewModel: SearchItemsViewModel = koinViewModel(),
+    goToDetails: () -> Unit
+) {
     SearchItemsScreen(
-        state = viewModel.state.collectAsStateWithLifecycle().value
+        state = viewModel.state.collectAsStateWithLifecycle().value,
+        goToDetails = goToDetails
     )
 }
 
 @Composable
-fun SearchItemsScreen(state: SearchItemsState) {
+fun SearchItemsScreen(
+    state: SearchItemsState,
+    goToDetails: () -> Unit
+) {
     LazyPizzaScaffold(
         topAppBar = { LazyPizzaAppBar() }
     ) { innerPadding ->
@@ -139,7 +147,7 @@ fun SearchItemsScreen(state: SearchItemsState) {
                             Text(iii.name)
                         }
                         items(iii.items) { product ->
-                            ItemAndPrice(product, state.token)
+                            ItemAndPrice(product, state.token, goToDetails = goToDetails)
                         }
                     }
                 }
@@ -151,7 +159,8 @@ fun SearchItemsScreen(state: SearchItemsState) {
 @Composable
 fun ItemAndPrice(
     product: Product,
-    token: String?
+    token: String?,
+    goToDetails: () -> Unit
 ) {
     Card(
         colors =
@@ -167,6 +176,9 @@ fun ItemAndPrice(
             Modifier
                 .height(140.dp)
                 .fillMaxWidth()
+                .clickable {
+                    goToDetails()
+                }
     ) {
         Row(
             modifier =
@@ -282,7 +294,8 @@ fun SearchItemsScreenPreview() {
                                     )
                             )
                         )
-                )
+                ),
+            goToDetails = {}
         )
     }
 }
