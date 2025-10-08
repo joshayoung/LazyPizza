@@ -23,3 +23,9 @@ Android Application for Pizza Orders
 * https://firebase.google.com/docs/storage/android/start
 * [Image Caching with Coil Compose - Everything You Need to Know](https://www.youtube.com/watch?v=qQVCtkg-O7w)
 * [Async with Token](https://github.com/coil-kt/coil/discussions/2558#discussioncomment-10963528)
+
+### Provided Resources
+* [Adding Shadows in Compose](https://developer.android.com/develop/ui/compose/graphics/draw/shadows)
+* [State in Jetpack Compose](https://developer.android.com/codelabs/jetpack-compose-state#0)
+* [Where to hoist state](https://developer.android.com/develop/ui/compose/state-hoisting)
+* [Stateful vs Stateless Composables](https://www.youtube.com/watch?v=C8IfGDrmwiE)
