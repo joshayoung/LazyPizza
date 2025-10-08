@@ -9,6 +9,7 @@ import coil3.compose.AsyncImage
 import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
+import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.search.ImageResource
 
 @Composable
@@ -23,7 +24,7 @@ fun LazyImage(imageResource: ImageResource) {
                 val headers =
                     NetworkHeaders
                         .Builder()
-                        .set("Authorization", "Bearer ${imageResource.token}")
+                        .set(BuildConfig.AUTH_HEADER, imageResource.token)
                         .build()
                 val request =
                     ImageRequest

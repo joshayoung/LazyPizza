@@ -81,6 +81,11 @@ android {
                 "AUTH_PASSWORD",
                 localProperties.getProperty("AUTH_PASSWORD")
             )
+            buildConfigField(
+                "String",
+                "AUTH_HEADER",
+                localProperties.getProperty("AUTH_HEADER")
+            )
         }
 
         release {
