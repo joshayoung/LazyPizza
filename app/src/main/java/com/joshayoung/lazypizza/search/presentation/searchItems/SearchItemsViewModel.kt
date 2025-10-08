@@ -58,9 +58,9 @@ class SearchItemsViewModel(
             val pizzas = lazyPizzaDatabase.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
             val drinks = lazyPizzaDatabase.getTableData(BuildConfig.DRINK_COLLECTION_ID)
             val iceCream = lazyPizzaDatabase.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
-            val all = pizzas + drinks + iceCream
-
-            val a =
+            val drinkStart = pizzas.count() + 1
+            val iceCreamStart = pizzas.count() + drinks.count() + 1
+            val all =
                 listOf(
                     AllProducts(
                         name = "pizzas",
@@ -77,7 +77,12 @@ class SearchItemsViewModel(
                 )
 
             _state.update {
-                it.copy(items = a)
+                it.copy(
+                    items = all,
+                    pizzaScrollPosition = 0,
+                    drinkScrollPosition = drinkStart,
+                    iceCreamScrollPosition = iceCreamStart
+                )
             }
         }
     }

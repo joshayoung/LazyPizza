@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +43,7 @@ import com.joshayoung.lazypizza.search.data.models.Product
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -55,6 +58,10 @@ fun SearchItemsScreen(state: SearchItemsState) {
     LazyPizzaScaffold(
         topAppBar = { LazyPizzaAppBar() }
     ) { innerPadding ->
+
+        val listState = remember { LazyListState() }
+        val coroutineScope = rememberCoroutineScope()
+
         Column(
             modifier =
                 Modifier
@@ -80,7 +87,22 @@ fun SearchItemsScreen(state: SearchItemsState) {
                         modifier =
                             Modifier
                                 .padding(end = 4.dp),
-                        onClick = {},
+                        onClick = {
+                            coroutineScope.launch {
+                                if (index == 0) {
+                                    listState.animateScrollToItem(state.pizzaScrollPosition)
+                                }
+                                if (index == 1) {
+                                    listState.animateScrollToItem(state.drinkScrollPosition)
+                                }
+                                if (index == 2) {
+                                    listState.animateScrollToItem(state.sauceScrollPosition)
+                                }
+                                if (index == 3) {
+                                    listState.animateScrollToItem(state.iceCreamScrollPosition)
+                                }
+                            }
+                        },
                         label = { Text(label) },
                         leadingIcon = null,
                         shape = RoundedCornerShape(8.dp),
@@ -108,6 +130,7 @@ fun SearchItemsScreen(state: SearchItemsState) {
                         .fillMaxSize()
             ) {
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
