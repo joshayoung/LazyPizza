@@ -63,11 +63,6 @@ android {
             )
             buildConfigField(
                 "String",
-                "COLLECTION_ID",
-                localProperties.getProperty("COLLECTION_ID")
-            )
-            buildConfigField(
-                "String",
                 "AUTH_USERNAME",
                 localProperties.getProperty("AUTH_USERNAME")
             )
@@ -85,6 +80,21 @@ android {
                 "String",
                 "AUTH_HEADER",
                 localProperties.getProperty("AUTH_HEADER")
+            )
+            buildConfigField(
+                "String",
+                "PIZZA_COLLECTION_ID",
+                localProperties.getProperty("PIZZA_COLLECTION_ID")
+            )
+            buildConfigField(
+                "String",
+                "DRINK_COLLECTION_ID",
+                localProperties.getProperty("DRINK_COLLECTION_ID")
+            )
+            buildConfigField(
+                "String",
+                "ICE_CREAM_COLLECTION_ID",
+                localProperties.getProperty("ICE_CREAM_COLLECTION_ID")
             )
         }
 

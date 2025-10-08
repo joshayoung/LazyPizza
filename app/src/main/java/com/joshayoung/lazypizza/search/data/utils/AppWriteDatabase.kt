@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 class AppWriteDatabase(
     private var context: Context
 ) : LazyPizzaDatabase {
-    override suspend fun getAllData(): List<Product> {
+    override suspend fun getTableData(table: String): List<Product> {
         val client =
             Client(context)
                 .setEndpoint(BuildConfig.API_ENDPOINT)
@@ -24,7 +24,7 @@ class AppWriteDatabase(
                 val response =
                     databases.listDocuments(
                         BuildConfig.DATABASE_ID,
-                        BuildConfig.COLLECTION_ID
+                        table
                     )
                 response.documents.map { document ->
                     Product(

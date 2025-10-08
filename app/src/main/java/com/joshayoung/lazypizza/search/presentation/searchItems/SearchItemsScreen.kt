@@ -36,6 +36,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.search.data.models.AllProducts
 import com.joshayoung.lazypizza.search.data.models.Product
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
@@ -110,8 +111,13 @@ fun SearchItemsScreen(state: SearchItemsState) {
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(state.products) { product ->
-                        ItemAndPrice(product, state.token)
+                    state.items.forEach { iii ->
+                        stickyHeader {
+                            Text(iii.name)
+                        }
+                        items(iii.items) { product ->
+                            ItemAndPrice(product, state.token)
+                        }
                     }
                 }
             }
@@ -178,19 +184,79 @@ fun SearchItemsScreenPreview() {
         SearchItemsScreen(
             state =
                 SearchItemsState(
-                    products =
+                    items =
                         listOf(
-                            Product(
-                                description = "A delicious food",
-                                imageResource = R.drawable.hawaiian,
-                                name = "Hawaiian Pizza",
-                                price = "$10.19"
+                            AllProducts(
+                                name = "Pizzas",
+                                items =
+                                    listOf(
+                                        Product(
+                                            description = "A delicious food",
+                                            imageResource = R.drawable.hawaiian,
+                                            name = "Hawaiian Pizza",
+                                            price = "$10.19"
+                                        ),
+                                        Product(
+                                            description = "Another food",
+                                            imageResource = R.drawable.meat_lovers,
+                                            name = "Meat Lovers Pizza",
+                                            price = "$12.98"
+                                        )
+                                    )
                             ),
-                            Product(
-                                description = "Another food",
-                                imageResource = R.drawable.meat_lovers,
-                                name = "Meat Lovers Pizza",
-                                price = "$12.98"
+                            AllProducts(
+                                name = "Ice Cream",
+                                items =
+                                    listOf(
+                                        Product(
+                                            description = "A delicious food",
+                                            imageResource = R.drawable.cookies,
+                                            name = "Hawaiian Pizza",
+                                            price = "$10.19"
+                                        ),
+                                        Product(
+                                            description = "Another food",
+                                            imageResource = R.drawable.strawberry,
+                                            name = "Meat Lovers Pizza",
+                                            price = "$12.98"
+                                        )
+                                    )
+                            ),
+                            AllProducts(
+                                name = "Drinks",
+                                items =
+                                    listOf(
+                                        Product(
+                                            description = "A delicious food",
+                                            imageResource = R.drawable.mineral_water,
+                                            name = "Hawaiian Pizza",
+                                            price = "$10.19"
+                                        ),
+                                        Product(
+                                            description = "Another food",
+                                            imageResource = R.drawable.pepsi,
+                                            name = "Meat Lovers Pizza",
+                                            price = "$12.98"
+                                        )
+                                    )
+                            ),
+                            AllProducts(
+                                name = "Sauces",
+                                items =
+                                    listOf(
+                                        Product(
+                                            description = "A delicious food",
+                                            imageResource = R.drawable.spicy_chili_sauce,
+                                            name = "Hawaiian Pizza",
+                                            price = "$10.19"
+                                        ),
+                                        Product(
+                                            description = "Another food",
+                                            imageResource = R.drawable.bbq_sauce,
+                                            name = "Meat Lovers Pizza",
+                                            price = "$12.98"
+                                        )
+                                    )
                             )
                         )
                 )
