@@ -50,7 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SearchItemsScreenRoot(
     viewModel: SearchItemsViewModel = koinViewModel(),
-    goToDetails: () -> Unit
+    goToDetails: (id: Int) -> Unit
 ) {
     SearchItemsScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
@@ -61,7 +61,7 @@ fun SearchItemsScreenRoot(
 @Composable
 fun SearchItemsScreen(
     state: SearchItemsState,
-    goToDetails: () -> Unit
+    goToDetails: (id: Int) -> Unit
 ) {
     LazyPizzaScaffold(
         topAppBar = { LazyPizzaAppBar() }
@@ -160,7 +160,7 @@ fun SearchItemsScreen(
 fun ItemAndPrice(
     product: Product,
     token: String?,
-    goToDetails: () -> Unit
+    goToDetails: (id: Int) -> Unit
 ) {
     Card(
         colors =
@@ -177,7 +177,7 @@ fun ItemAndPrice(
                 .height(140.dp)
                 .fillMaxWidth()
                 .clickable {
-                    goToDetails()
+                    goToDetails(11)
                 }
     ) {
         Row(
