@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.search.data.models
 
 data class Product(
-    val description: String,
+    val description: String? = null,
     val imageUrl: String? = null,
     val plImageUrl: String? = null,
     val imageResource: Int? = null,

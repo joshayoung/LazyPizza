@@ -96,6 +96,11 @@ android {
                 "ICE_CREAM_COLLECTION_ID",
                 localProperties.getProperty("ICE_CREAM_COLLECTION_ID")
             )
+            buildConfigField(
+                "String",
+                "TOPPINGS_COLLECTION_ID",
+                localProperties.getProperty("TOPPINGS_COLLECTION_ID")
+            )
         }
 
         release {

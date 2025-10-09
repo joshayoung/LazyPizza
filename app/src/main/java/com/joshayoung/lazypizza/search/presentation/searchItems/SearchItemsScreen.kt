@@ -205,7 +205,7 @@ fun ItemAndPrice(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(product.name, fontWeight = FontWeight.Bold)
-                Text(product.description)
+                Text(product.description ?: "")
                 Text(product.price, style = MaterialTheme.typography.titleLarge)
             }
         }

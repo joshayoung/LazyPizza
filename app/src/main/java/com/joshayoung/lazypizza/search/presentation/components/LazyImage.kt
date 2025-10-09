@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.search.presentation.components
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
@@ -13,11 +14,18 @@ import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.search.ImageResource
 
 @Composable
-fun LazyImage(imageResource: ImageResource) {
+fun LazyImage(
+    imageResource: ImageResource,
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
     when (imageResource) {
         is ImageResource.DrawableResource -> {
-            Image(painterResource(id = imageResource.id), contentDescription = null)
+            Image(
+                painterResource(id = imageResource.id),
+                contentDescription = null,
+                modifier = modifier
+            )
         }
         is ImageResource.RemoteFilePath -> {
             if (imageResource.token != null) {
@@ -33,6 +41,7 @@ fun LazyImage(imageResource: ImageResource) {
                         .httpHeaders(headers)
                         .build()
                 AsyncImage(
+                    modifier = modifier,
                     model = request,
                     contentDescription = null,
                     onError = {
@@ -44,7 +53,11 @@ fun LazyImage(imageResource: ImageResource) {
                     }
                 )
             } else {
-                AsyncImage(model = imageResource.path, contentDescription = null)
+                AsyncImage(
+                    modifier = modifier,
+                    model = imageResource.path,
+                    contentDescription = null
+                )
             }
         }
     }

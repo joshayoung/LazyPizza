@@ -10,6 +10,7 @@ import com.joshayoung.lazypizza.search.data.utils.AppWriteStorage
 import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaAuth
 import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaDatabase
 import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaStorage
+import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.android.ext.koin.androidApplication
@@ -21,6 +22,7 @@ var appModule =
     module {
         viewModelOf(::MainViewModel)
         viewModelOf(::SearchItemsViewModel)
+        viewModelOf(::DetailsScreenViewModel)
 
         single<CoroutineScope> {
             (androidApplication() as LazyPizzaApp).applicationScope
