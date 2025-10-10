@@ -3,19 +3,18 @@ package com.joshayoung.lazypizza.search.presentation.details
 import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -31,13 +29,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.search.ImageResource
 import com.joshayoung.lazypizza.search.data.models.Product
-import com.joshayoung.lazypizza.search.presentation.components.LazyImage
+import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -108,17 +104,21 @@ fun DetailsScreen(
                             .padding(bottom = 10.dp)
                 )
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3)
+                    columns = GridCells.Fixed(3),
+                    contentPadding = PaddingValues(0.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
                 ) {
                     stickyHeader {
                         Text(
                             "Add Extra Toppings".uppercase(),
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSecondary
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            modifier = Modifier.padding(bottom = 8.dp)
                         )
                     }
                     items(state.toppings) { topping ->
-                        ExtraTopping(
+                        ProductAndPriceComponent(
                             topping,
                             token = state.token,
                             modifier = Modifier
@@ -151,53 +151,6 @@ fun DetailsScreen(
 }
 
 @Composable
-fun ExtraTopping(
-    product: Product,
-    token: String?,
-    modifier: Modifier
-) {
-    Column(
-        modifier =
-            modifier
-                .padding(10.dp)
-                .height(150.dp)
-                .border(
-                    1.dp,
-                    color = MaterialTheme.colorScheme.outline,
-                    shape = RoundedCornerShape(15.dp)
-                ).padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier =
-                Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
-                    .padding(4.dp)
-        ) {
-            LazyImage(
-                // TODO: Move this to a debug/preview check:
-                if (product.imageResource != null) {
-                    ImageResource.DrawableResource(product.imageResource)
-                } else {
-                    ImageResource.RemoteFilePath(product.remoteImageUrl, token = token)
-                },
-                modifier =
-                    Modifier
-                        .size(60.dp)
-            )
-        }
-        Text(
-            product.name,
-            modifier = Modifier,
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
-        Text(product.price, style = MaterialTheme.typography.titleMedium)
-    }
-}
-
-@Composable
 @Preview
 fun DetailsScreenPreview() {
     LazyPizzaTheme {
@@ -214,29 +167,34 @@ fun DetailsScreenPreview() {
                     toppings =
                         listOf(
                             Product(
-                                name = "BBQ Sauce",
+                                name = "bacon",
                                 price = "1.00",
-                                imageResource = R.drawable.bbq_sauce
+                                imageResource = R.drawable.bacon
                             ),
                             Product(
-                                name = "Spicy Chili Sauce",
+                                name = "extra cheese",
                                 price = "1.10",
-                                imageResource = R.drawable.spicy_chili_sauce
+                                imageResource = R.drawable.cheese
                             ),
                             Product(
-                                name = "Basil",
+                                name = "corn",
                                 price = ".10",
-                                imageResource = R.drawable.basil
+                                imageResource = R.drawable.corn
                             ),
                             Product(
-                                name = "Pinapple",
+                                name = "tomato",
                                 price = ".10",
-                                imageResource = R.drawable.pineapple
+                                imageResource = R.drawable.tomato
                             ),
                             Product(
-                                name = "Olive",
+                                name = "olives",
                                 price = ".10",
                                 imageResource = R.drawable.olive
+                            ),
+                            Product(
+                                name = "pepperoni",
+                                price = ".10",
+                                imageResource = R.drawable.pepperoni
                             )
                         )
                 )
