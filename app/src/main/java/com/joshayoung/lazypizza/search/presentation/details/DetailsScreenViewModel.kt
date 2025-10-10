@@ -27,20 +27,14 @@ class DetailsScreenViewModel(
 
             return stringData?.toProduct()
         }
-//        set(value)  {
-//            savedStateHandle.set("pizza", value?.toJson())
-//        }
 
     init {
-//        savedStateHandle.get<String>("pizza")?.let { pizza ->
-//            val p = pizza.toProduct()
-//            println()
-//        }
-        val v = pizza
         viewModelScope.launch {
-            state.copy(
-                token = lazyPizzaPreference.getJwt()
-            )
+            state =
+                state.copy(
+                    product = pizza,
+                    token = lazyPizzaPreference.getJwt()
+                )
             var toppings = lazyPizzaDatabase.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
             state =
                 state.copy(

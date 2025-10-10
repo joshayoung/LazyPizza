@@ -77,12 +77,12 @@ fun DetailsScreen(state: DetailsState) {
                         .padding(horizontal = 10.dp)
             ) {
                 Text(
-                    text = state.title ?: "",
+                    text = state.product?.name ?: "",
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
                 )
                 Text(
-                    text = state.description ?: "",
+                    text = state.product?.description ?: "",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondary,
                     modifier =
@@ -166,9 +166,12 @@ fun DetailsScreenPreview() {
         DetailsScreen(
             state =
                 DetailsState(
-                    title = "Margherita",
-                    description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
-                    image = null,
+                    product =
+                        Product(
+                            name = "Margherita",
+                            description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
+                            price = "1.00"
+                        ),
                     toppings =
                         listOf(
                             Product(
