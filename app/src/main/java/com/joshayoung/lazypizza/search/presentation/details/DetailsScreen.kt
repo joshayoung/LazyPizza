@@ -17,14 +17,18 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +74,10 @@ fun DetailsScreen(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background),
+                        .padding(bottom = 20.dp)
+                        .background(
+                            Color.LightGray.copy(alpha = 0.2f)
+                        ),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -115,6 +122,26 @@ fun DetailsScreen(
                             topping,
                             token = state.token,
                             modifier = Modifier
+                        )
+                    }
+                }
+
+                Box(
+                    modifier =
+                        Modifier
+                            .shadow(
+                                2.dp,
+                                RoundedCornerShape(16.dp),
+                                ambientColor = MaterialTheme.colorScheme.primary
+                            )
+                ) {
+                    Button(onClick = {}, shape = RoundedCornerShape(16.dp)) {
+                        Text(
+                            "Add to Cart for $12.99",
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth(),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
