@@ -147,12 +147,8 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.storage)
-
     implementation(libs.coil)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
-    implementation(libs.firebase.auth)
     implementation(libs.sdk.for1.android)
 }
