@@ -2,14 +2,10 @@ package com.joshayoung.lazypizza.di
 
 import com.joshayoung.lazypizza.LazyPizzaApp
 import com.joshayoung.lazypizza.MainViewModel
+import com.joshayoung.lazypizza.core.data.AuthWriteRepository
 import com.joshayoung.lazypizza.core.data.SharedPreferencesPreference
-import com.joshayoung.lazypizza.core.domain.LazyPizzaAuth
-import com.joshayoung.lazypizza.core.domain.LazyPizzaDatabase
 import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
-import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
-import com.joshayoung.lazypizza.search.data.utils.AppWriteAuth
-import com.joshayoung.lazypizza.search.data.utils.AppWriteDatabase
-import com.joshayoung.lazypizza.search.data.utils.AppWriteStorage
+import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -27,8 +23,6 @@ var appModule =
         single<CoroutineScope> {
             (androidApplication() as LazyPizzaApp).applicationScope
         }
-        single { AppWriteStorage(get()) }.bind<LazyPizzaStorage>()
-        single { AppWriteDatabase(get()) }.bind<LazyPizzaDatabase>()
-        single { AppWriteAuth(get(), get()) }.bind<LazyPizzaAuth>()
+        single { AuthWriteRepository(get(), get()) }.bind<LazyPizzaRepository>()
         single { SharedPreferencesPreference(get()) }.bind<LazyPizzaPreference>()
     }

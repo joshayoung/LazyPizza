@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.domain.LazyPizzaAuth
+import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private var lazyPizzaAuth: LazyPizzaAuth
+    private var lazyPizzaRepository: LazyPizzaRepository
 ) : ViewModel() {
     var state by mutableStateOf(MainState())
         private set
@@ -18,7 +18,7 @@ class MainViewModel(
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             var loggedIn =
-                lazyPizzaAuth.loginUser(
+                lazyPizzaRepository.login(
                     BuildConfig.AUTH_EMAIL,
                     BuildConfig.AUTH_PASSWORD
                 )

@@ -3,8 +3,8 @@ package com.joshayoung.lazypizza.search.presentation.searchItems
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.domain.LazyPizzaDatabase
 import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.search.data.models.AllProducts
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchItemsViewModel(
-    private val lazyPizzaDatabase: LazyPizzaDatabase,
+    private val lazyPizzaRepository: LazyPizzaRepository,
     private val lazyPizzaPreference: LazyPizzaPreference
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchItemsState())
@@ -115,9 +115,9 @@ class SearchItemsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            pizzas = lazyPizzaDatabase.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
-            drinks = lazyPizzaDatabase.getTableData(BuildConfig.DRINK_COLLECTION_ID)
-            iceCream = lazyPizzaDatabase.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
+            pizzas = lazyPizzaRepository.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
+            drinks = lazyPizzaRepository.getTableData(BuildConfig.DRINK_COLLECTION_ID)
+            iceCream = lazyPizzaRepository.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
             val drinkStart = pizzas.count() + 1
             val iceCreamStart = pizzas.count() + drinks.count() + 1
             val all =
