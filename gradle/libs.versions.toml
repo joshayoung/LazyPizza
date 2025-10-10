@@ -1,5 +1,6 @@
 [versions]
 agp = "8.11.2"
+coil = "3.3.0"
 firebaseBom = "34.3.0"
 kotlin = "2.2.20"
 coreKtx = "1.17.0"
@@ -15,10 +16,15 @@ koinAndroidxCompose = "4.1.0"
 navigationCompose = "2.9.3"
 kotlinxSerializationJson = "1.9.0"
 ktlint = "13.1.0"
+sdkForAndroid = "8.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +45,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
+sdk-for1-android = { module = "io.appwrite:sdk-for-android", version.ref = "sdkForAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

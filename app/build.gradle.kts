@@ -150,9 +150,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.storage)
 
-    implementation("io.coil-kt.coil3:coil:3.3.0")
-    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
-    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
-    implementation("com.google.firebase:firebase-auth")
-    implementation("io.appwrite:sdk-for-android:8.1.0")
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.firebase.auth)
+    implementation(libs.sdk.for1.android)
 }
