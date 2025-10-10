@@ -77,7 +77,7 @@ fun DetailsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(R.drawable.meat_lovers),
+                    painter = painterResource(state.product?.imageResource ?: 0),
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
                     modifier =
@@ -162,7 +162,8 @@ fun DetailsScreenPreview() {
                         Product(
                             name = "Margherita",
                             description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
-                            price = "1.00"
+                            price = "1.00",
+                            imageResource = R.drawable.margherita
                         ),
                     toppings =
                         listOf(

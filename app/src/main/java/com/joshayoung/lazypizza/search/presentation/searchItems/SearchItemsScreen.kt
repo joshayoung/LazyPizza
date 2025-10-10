@@ -161,7 +161,7 @@ fun SearchItemsScreen(
                     ) {
                         state.items.forEach { iii ->
                             stickyHeader {
-                                Text(iii.name)
+                                Text(iii.name.first().titlecase() + iii.name.substring(1))
                             }
                             items(iii.items) { product ->
                                 ItemAndPrice(product, state.token, goToDetails = goToDetails)
@@ -237,7 +237,7 @@ fun SearchItemsScreenPreview() {
         SearchItemsScreen(
             state =
                 SearchItemsState(
-                    noItemsFound = true,
+//                    noItemsFound = true,
                     items =
                         listOf(
                             AllProducts(
