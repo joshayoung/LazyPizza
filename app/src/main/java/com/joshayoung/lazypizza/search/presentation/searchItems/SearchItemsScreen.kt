@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -138,17 +139,33 @@ fun SearchItemsScreen(
                     Modifier
                         .fillMaxSize()
             ) {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    state.items.forEach { iii ->
-                        stickyHeader {
-                            Text(iii.name)
-                        }
-                        items(iii.items) { product ->
-                            ItemAndPrice(product, state.token, goToDetails = goToDetails)
+                if (state.noItemsFound) {
+                    Box(
+                        modifier =
+                            Modifier
+                                .padding(top = 20.dp)
+                                .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            style = MaterialTheme.typography.bodyMedium,
+                            text = "No results found for your query",
+                            modifier = Modifier
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        state.items.forEach { iii ->
+                            stickyHeader {
+                                Text(iii.name)
+                            }
+                            items(iii.items) { product ->
+                                ItemAndPrice(product, state.token, goToDetails = goToDetails)
+                            }
                         }
                     }
                 }
@@ -220,6 +237,7 @@ fun SearchItemsScreenPreview() {
         SearchItemsScreen(
             state =
                 SearchItemsState(
+                    noItemsFound = true,
                     items =
                         listOf(
                             AllProducts(

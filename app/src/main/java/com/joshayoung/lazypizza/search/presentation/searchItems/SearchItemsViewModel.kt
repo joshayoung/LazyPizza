@@ -78,6 +78,18 @@ class SearchItemsViewModel(
         val filteredDrinks = drinks.filter { it.name.contains(search) }
         val filteredIceCream = iceCream.filter { it.name.contains(search) }
 
+        val itemsFound = filteredPizzas + filteredDrinks + filteredIceCream
+
+        if (itemsFound.count() < 1) {
+            _state.update {
+                it.copy(
+                    items = emptyList(),
+                    noItemsFound = true
+                )
+            }
+            return
+        }
+
         val all =
             listOf(
                 AllProducts(
@@ -95,7 +107,8 @@ class SearchItemsViewModel(
             )
         _state.update {
             it.copy(
-                items = all
+                items = all,
+                noItemsFound = false
             )
         }
     }

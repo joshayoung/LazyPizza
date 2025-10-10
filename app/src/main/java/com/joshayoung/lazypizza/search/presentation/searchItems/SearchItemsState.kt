@@ -10,5 +10,6 @@ data class SearchItemsState(
     val pizzaScrollPosition: Int = 0,
     val drinkScrollPosition: Int = 0,
     val sauceScrollPosition: Int = 0,
-    val iceCreamScrollPosition: Int = 0
+    val iceCreamScrollPosition: Int = 0,
+    val noItemsFound: Boolean = false
 )
