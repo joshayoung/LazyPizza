@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.components
+package com.joshayoung.lazypizza.core.presentation.components
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -11,7 +11,7 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 
 @Composable
 fun LazyImage(

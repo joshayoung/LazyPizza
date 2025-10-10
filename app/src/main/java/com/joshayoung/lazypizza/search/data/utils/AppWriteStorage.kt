@@ -2,7 +2,7 @@ package com.joshayoung.lazypizza.search.data.utils
 
 import android.content.Context
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaStorage
+import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import io.appwrite.Client
 import io.appwrite.services.Storage
 

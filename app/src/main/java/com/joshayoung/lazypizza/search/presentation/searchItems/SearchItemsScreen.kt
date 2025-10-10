@@ -37,13 +37,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.data.mappers.toJson
 import com.joshayoung.lazypizza.search.data.models.AllProducts
-import com.joshayoung.lazypizza.search.data.models.Product
-import com.joshayoung.lazypizza.search.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import kotlinx.coroutines.launch

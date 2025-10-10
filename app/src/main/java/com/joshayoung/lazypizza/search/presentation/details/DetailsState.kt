@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.search.presentation.details
 
-import com.joshayoung.lazypizza.search.data.models.Product
+import com.joshayoung.lazypizza.core.domain.models.Product
 
 data class DetailsState(
     val toppings: List<Product> = emptyList(),

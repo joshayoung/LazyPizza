@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search
+package com.joshayoung.lazypizza.core.presentation.models
 
 sealed class ImageResource {
     data class DrawableResource(

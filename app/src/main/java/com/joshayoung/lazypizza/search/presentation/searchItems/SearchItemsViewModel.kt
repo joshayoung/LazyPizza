@@ -3,11 +3,11 @@ package com.joshayoung.lazypizza.search.presentation.searchItems
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.domain.LazyPizzaDatabase
 import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.search.data.models.AllProducts
-import com.joshayoung.lazypizza.search.data.models.Product
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaDatabase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn

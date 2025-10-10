@@ -2,8 +2,8 @@ package com.joshayoung.lazypizza.search.data.utils
 
 import android.content.Context
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.search.data.models.Product
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaDatabase
+import com.joshayoung.lazypizza.core.domain.LazyPizzaDatabase
+import com.joshayoung.lazypizza.core.domain.models.Product
 import io.appwrite.Client
 import io.appwrite.services.Databases
 import kotlinx.coroutines.Dispatchers

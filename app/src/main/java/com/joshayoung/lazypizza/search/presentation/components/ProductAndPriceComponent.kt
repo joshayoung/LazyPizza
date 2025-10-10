@@ -29,10 +29,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.search.ImageResource
-import com.joshayoung.lazypizza.search.data.models.Product
+import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.presentation.components.LazyImage
+import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.background
 
 @Composable
 fun ProductAndPriceComponent(

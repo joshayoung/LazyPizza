@@ -30,9 +30,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.search.data.models.Product
 import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
@@ -76,6 +76,7 @@ fun DetailsScreen(
                         ),
                 contentAlignment = Alignment.Center
             ) {
+                // TODO: Change to Async Image:
                 Image(
                     painter = painterResource(state.product?.imageResource ?: 0),
                     contentDescription = null,

@@ -3,13 +3,13 @@ package com.joshayoung.lazypizza.di
 import com.joshayoung.lazypizza.LazyPizzaApp
 import com.joshayoung.lazypizza.MainViewModel
 import com.joshayoung.lazypizza.core.data.SharedPreferencesPreference
+import com.joshayoung.lazypizza.core.domain.LazyPizzaAuth
+import com.joshayoung.lazypizza.core.domain.LazyPizzaDatabase
 import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.search.data.utils.AppWriteAuth
 import com.joshayoung.lazypizza.search.data.utils.AppWriteDatabase
 import com.joshayoung.lazypizza.search.data.utils.AppWriteStorage
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaAuth
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaDatabase
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaStorage
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsViewModel
 import kotlinx.coroutines.CoroutineScope

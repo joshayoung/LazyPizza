@@ -7,10 +7,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.domain.LazyPizzaDatabase
 import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.search.data.mappers.toProduct
-import com.joshayoung.lazypizza.search.data.models.Product
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaDatabase
 import kotlinx.coroutines.launch
 
 class DetailsScreenViewModel(

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.data.models
+package com.joshayoung.lazypizza.core.domain.models
 
 import kotlinx.serialization.Serializable
 

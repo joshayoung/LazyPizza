@@ -2,8 +2,8 @@ package com.joshayoung.lazypizza.search.data.utils
 
 import android.content.Context
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.domain.LazyPizzaAuth
 import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaAuth
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account

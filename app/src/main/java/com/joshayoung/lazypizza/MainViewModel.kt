@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.search.domain.utils.LazyPizzaAuth
+import com.joshayoung.lazypizza.core.domain.LazyPizzaAuth
 import kotlinx.coroutines.launch
 
 class MainViewModel(
