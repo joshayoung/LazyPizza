@@ -8,5 +8,6 @@ data class DetailsState(
     val title: String? = null,
     val description: String? = null,
     val toppings: List<Product> = emptyList(),
-    val token: String = ""
+    val token: String = "",
+    val product: Product? = null
 )

@@ -1,5 +1,8 @@
 package com.joshayoung.lazypizza.search.data.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Product(
     val description: String? = null,
     val imageUrl: String? = null,

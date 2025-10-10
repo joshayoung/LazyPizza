@@ -39,6 +39,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.ImageResource
+import com.joshayoung.lazypizza.search.data.mappers.toJson
 import com.joshayoung.lazypizza.search.data.models.AllProducts
 import com.joshayoung.lazypizza.search.data.models.Product
 import com.joshayoung.lazypizza.search.presentation.components.LazyImage
@@ -50,7 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SearchItemsScreenRoot(
     viewModel: SearchItemsViewModel = koinViewModel(),
-    goToDetails: (id: Int) -> Unit
+    goToDetails: (product: String) -> Unit
 ) {
     SearchItemsScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
@@ -61,7 +62,7 @@ fun SearchItemsScreenRoot(
 @Composable
 fun SearchItemsScreen(
     state: SearchItemsState,
-    goToDetails: (id: Int) -> Unit
+    goToDetails: (product: String) -> Unit
 ) {
     LazyPizzaScaffold(
         topAppBar = { LazyPizzaAppBar() }
@@ -160,7 +161,7 @@ fun SearchItemsScreen(
 fun ItemAndPrice(
     product: Product,
     token: String?,
-    goToDetails: (id: Int) -> Unit
+    goToDetails: (product: String) -> Unit
 ) {
     Card(
         colors =
@@ -177,7 +178,7 @@ fun ItemAndPrice(
                 .height(140.dp)
                 .fillMaxWidth()
                 .clickable {
-                    goToDetails(11)
+                    goToDetails(product.toJson())
                 }
     ) {
         Row(

@@ -17,9 +17,9 @@ fun NavigationRoot(navController: NavHostController) {
     ) {
         composable<Routes.Search> {
             SearchItemsScreenRoot(
-                goToDetails = { id ->
+                goToDetails = { product ->
                     navController.navigate(
-                        Routes.Details.toString() + "?pizza=$id"
+                        Routes.Details.toString() + "?pizza=$product"
                     )
                 }
             )
@@ -32,8 +32,8 @@ fun NavigationRoot(navController: NavHostController) {
                     navArgument(
                         name = "pizza"
                     ) {
-                        type = NavType.IntType
-                        defaultValue = -1
+                        type = NavType.StringType
+                        defaultValue = ""
                     }
                 )
         ) {
