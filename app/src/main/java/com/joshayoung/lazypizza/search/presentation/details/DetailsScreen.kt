@@ -38,15 +38,26 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DetailsScreenRoot(viewModel: DetailsScreenViewModel = koinViewModel()) {
-    DetailsScreen(state = viewModel.state)
+fun DetailsScreenRoot(
+    viewModel: DetailsScreenViewModel = koinViewModel(),
+    navigateBack: () -> Unit
+) {
+    DetailsScreen(state = viewModel.state, navigateBack = navigateBack)
 }
 
 @Composable
-fun DetailsScreen(state: DetailsState) {
+fun DetailsScreen(
+    state: DetailsState,
+    navigateBack: () -> Unit
+) {
     LazyPizzaScaffold(
         topAppBar = {
-            LazyPizzaAppBar()
+            LazyPizzaAppBar(
+                showLogo = false,
+                showContact = false,
+                showBackButton = true,
+                onBackClick = navigateBack
+            )
         }
     ) { innerPadding ->
         Column(
@@ -164,6 +175,7 @@ fun ExtraTopping(
 fun DetailsScreenPreview() {
     LazyPizzaTheme {
         DetailsScreen(
+            navigateBack = {},
             state =
                 DetailsState(
                     product =

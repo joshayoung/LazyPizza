@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsScreenRoot
 
@@ -37,7 +38,9 @@ fun NavigationRoot(navController: NavHostController) {
                     }
                 )
         ) {
-            DetailsScreenRoot()
+            DetailsScreenRoot(navigateBack = {
+                navController.navigateUp()
+            })
         }
     }
 }

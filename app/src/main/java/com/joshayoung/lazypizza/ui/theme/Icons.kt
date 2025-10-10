@@ -36,3 +36,7 @@ val SearchIcon: ImageVector
 val TrashIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(R.drawable.trash)
+
+val BackIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.back)
