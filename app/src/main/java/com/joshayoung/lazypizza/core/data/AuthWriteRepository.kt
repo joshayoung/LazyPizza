@@ -8,6 +8,7 @@ import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 import io.appwrite.services.Databases
+import io.appwrite.services.TablesDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -40,18 +41,23 @@ class AuthWriteRepository(
         val databases = Databases(authWriteClient)
         return withContext(Dispatchers.IO) {
             try {
-                val response =
-                    databases.listDocuments(
-                        BuildConfig.DATABASE_ID,
-                        table
+                val tables =
+                    TablesDB(
+                        client = authWriteClient
                     )
-                response.documents.map { document ->
+                val response =
+                    tables.listRows(
+                        BuildConfig.DATABASE_ID,
+                        table,
+                        emptyList()
+                    )
+                response.rows.map { row ->
                     Product(
-                        name = document.data["name"] as? String ?: "",
-                        price = document.data["price"] as? String ?: "0.00",
-                        description = document.data["description"] as? String ?: "",
-                        imageUrl = document.data["imageUrl"] as? String,
-                        plImageUrl = document.data["plImageUrl"] as? String
+                        name = row.data["name"] as? String ?: "",
+                        price = row.data["price"] as? String ?: "0.00",
+                        description = row.data["description"] as? String ?: "",
+                        imageUrl = row.data["imageUrl"] as? String,
+                        plImageUrl = row.data["plImageUrl"] as? String
                     )
                 }
             } catch (e: Exception) {
