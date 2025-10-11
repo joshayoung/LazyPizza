@@ -1,7 +1,5 @@
 package com.joshayoung.lazypizza.search.presentation.details
 
-import android.media.Image
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,15 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
@@ -75,11 +73,16 @@ fun DetailsScreen(
                         ),
                 contentAlignment = Alignment.Center
             ) {
-                // TODO: Change to Async Image:
-                Image(
-                    painter = painterResource(state.product?.imageResource ?: 0),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
+                LazyImage(
+                    // TODO: Move this to a debug/preview check:
+                    if (state.product?.imageResource != null) {
+                        ImageResource.DrawableResource(state.product.imageResource)
+                    } else {
+                        ImageResource.RemoteFilePath(
+                            state.product?.remoteImageUrl,
+                            token = state.token
+                        )
+                    },
                     modifier =
                         Modifier
                             .size(300.dp)

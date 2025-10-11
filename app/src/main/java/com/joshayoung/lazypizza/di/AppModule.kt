@@ -24,7 +24,7 @@ var appModule =
         single<CoroutineScope> {
             (androidApplication() as LazyPizzaApp).applicationScope
         }
-        single { AuthWriteRepository(get(), get(), get()) }.bind<LazyPizzaRepository>()
+        single { AuthWriteRepository(get(), get()) }.bind<LazyPizzaRepository>()
         single { SharedPreferencesStorage(get()) }.bind<LazyPizzaStorage>()
 
         single {
