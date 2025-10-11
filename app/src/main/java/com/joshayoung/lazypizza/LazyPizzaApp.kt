@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza
 
 import android.app.Application
+import com.joshayoung.lazypizza.core.networking.JwtManager
 import com.joshayoung.lazypizza.di.appModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -14,6 +15,7 @@ class LazyPizzaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        JwtManager.init(this)
 
         startKoin {
             androidContext(this@LazyPizzaApp)

@@ -6,7 +6,6 @@ import com.joshayoung.lazypizza.search.data.models.Products
 data class HomeState(
     var search: TextFieldState = TextFieldState(),
     var items: List<Products> = emptyList(),
-    val token: String = "",
     val pizzaScrollPosition: Int = 0,
     val drinkScrollPosition: Int = 0,
     val sauceScrollPosition: Int = 0,

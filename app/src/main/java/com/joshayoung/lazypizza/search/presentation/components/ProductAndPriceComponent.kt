@@ -37,7 +37,6 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 @Composable
 fun ProductAndPriceComponent(
     product: Product,
-    token: String?,
     modifier: Modifier
 ) {
     Column(
@@ -64,7 +63,7 @@ fun ProductAndPriceComponent(
                 if (product.imageResource != null) {
                     ImageResource.DrawableResource(product.imageResource)
                 } else {
-                    ImageResource.RemoteFilePath(product.remoteImageUrl, token = token)
+                    ImageResource.RemoteFilePath(product.remoteImageUrl)
                 },
                 modifier =
                     Modifier
@@ -132,7 +131,6 @@ fun ProductAndPriceComponentPreview() {
                         name = "basil",
                         price = "1.1"
                     ),
-                token = "",
                 modifier = Modifier.size(200.dp)
             )
             ProductAndPriceComponent(
@@ -145,7 +143,6 @@ fun ProductAndPriceComponentPreview() {
                         name = "basil",
                         price = "0.50"
                     ),
-                token = "",
                 modifier = Modifier.size(200.dp)
             )
         }

@@ -164,7 +164,7 @@ fun HomeScreen(
                                 Text(iii.name.first().titlecase() + iii.name.substring(1))
                             }
                             items(iii.items) { product ->
-                                ItemAndPrice(product, state.token, goToDetails = goToDetails)
+                                ItemAndPrice(product, goToDetails = goToDetails)
                             }
                         }
                     }
@@ -177,7 +177,6 @@ fun HomeScreen(
 @Composable
 fun ItemAndPrice(
     product: Product,
-    token: String?,
     goToDetails: (product: String) -> Unit
 ) {
     Card(
@@ -210,7 +209,7 @@ fun ItemAndPrice(
                 if (product.imageResource != null) {
                     ImageResource.DrawableResource(product.imageResource)
                 } else {
-                    ImageResource.RemoteFilePath(product.remoteImageUrl, token = token)
+                    ImageResource.RemoteFilePath(product.remoteImageUrl)
                 }
             )
             Column(

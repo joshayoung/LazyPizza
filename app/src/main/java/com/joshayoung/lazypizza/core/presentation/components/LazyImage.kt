@@ -11,6 +11,7 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.networking.JwtManager
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 
 @Composable
@@ -19,6 +20,7 @@ fun LazyImage(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val token = JwtManager.token
     when (imageResource) {
         is ImageResource.DrawableResource -> {
             Image(
@@ -28,11 +30,11 @@ fun LazyImage(
             )
         }
         is ImageResource.RemoteFilePath -> {
-            if (imageResource.token != null) {
+            if (token != null) {
                 val headers =
                     NetworkHeaders
                         .Builder()
-                        .set(BuildConfig.AUTH_HEADER, imageResource.token)
+                        .set(BuildConfig.AUTH_HEADER, token)
                         .build()
                 val request =
                     ImageRequest

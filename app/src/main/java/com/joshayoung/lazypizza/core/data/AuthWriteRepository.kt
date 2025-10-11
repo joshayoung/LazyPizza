@@ -2,8 +2,8 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
-import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.networking.JwtManager
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AuthWriteRepository(
-    private var lazyPizzaStorage: LazyPizzaStorage,
     private var authWriteClient: Client
 ) : LazyPizzaRepository {
     override suspend fun login(
@@ -28,7 +27,7 @@ class AuthWriteRepository(
             return try {
                 account.createEmailPasswordSession(email, password)
                 val token = account.createJWT()
-                lazyPizzaStorage.saveJwt(token.jwt)
+                JwtManager.token = token.jwt
 
                 return true
             } catch (e: Exception) {

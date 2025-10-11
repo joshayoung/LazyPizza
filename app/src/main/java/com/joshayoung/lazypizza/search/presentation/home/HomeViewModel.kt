@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
-import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.search.data.models.Products
@@ -18,8 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val lazyPizzaRepository: LazyPizzaRepository,
-    private val lazyPizzaStorage: LazyPizzaStorage
+    private val lazyPizzaRepository: LazyPizzaRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(HomeState())
     private var pizzas: List<Product> = emptyList()
@@ -37,11 +35,6 @@ class HomeViewModel(
             )
 
     init {
-        _state.update {
-            it.copy(
-                token = lazyPizzaStorage.getJwt()
-            )
-        }
         _state.value.search
             .textAsFlow()
             .onEach { search ->

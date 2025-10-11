@@ -79,8 +79,7 @@ fun DetailsScreen(
                         ImageResource.DrawableResource(state.product.imageResource)
                     } else {
                         ImageResource.RemoteFilePath(
-                            state.product?.remoteImageUrl,
-                            token = state.token
+                            state.product?.remoteImageUrl
                         )
                     },
                     modifier =
@@ -123,7 +122,6 @@ fun DetailsScreen(
                     items(state.toppings) { topping ->
                         ProductAndPriceComponent(
                             topping,
-                            token = state.token,
                             modifier = Modifier
                         )
                     }
