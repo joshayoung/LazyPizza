@@ -29,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
@@ -41,7 +40,7 @@ fun ProductAndPriceComponent(
     productUi: ProductUi,
     modifier: Modifier
 ) {
-    val inPreviewOrDebug = LocalInspectionMode.current || BuildConfig.DEBUG
+    val inPreviewMode = LocalInspectionMode.current
     Column(
         modifier =
             modifier
@@ -62,7 +61,7 @@ fun ProductAndPriceComponent(
                     .padding(4.dp)
         ) {
             LazyImage(
-                if (inPreviewOrDebug) {
+                if (inPreviewMode) {
                     ImageResource.DrawableResource(productUi.imageResource)
                 } else {
                     ImageResource.RemoteFilePath(productUi.remoteImageUrl)

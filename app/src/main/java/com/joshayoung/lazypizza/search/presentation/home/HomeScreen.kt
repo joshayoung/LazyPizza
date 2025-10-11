@@ -37,13 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
-import com.joshayoung.lazypizza.search.data.mappers.toJson
 import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
@@ -182,7 +180,7 @@ fun ItemAndPrice(
     productUi: ProductUi,
     goToDetails: (product: String) -> Unit
 ) {
-    val inPreviewOrDebug = LocalInspectionMode.current || BuildConfig.DEBUG
+    val inPreviewMode = LocalInspectionMode.current
     Card(
         colors =
             CardDefaults.cardColors(
@@ -209,7 +207,7 @@ fun ItemAndPrice(
             verticalAlignment = Alignment.CenterVertically
         ) {
             LazyImage(
-                if (inPreviewOrDebug) {
+                if (inPreviewMode) {
                     ImageResource.DrawableResource(productUi.imageResource)
                 } else {
                     ImageResource.RemoteFilePath(productUi.remoteImageUrl)

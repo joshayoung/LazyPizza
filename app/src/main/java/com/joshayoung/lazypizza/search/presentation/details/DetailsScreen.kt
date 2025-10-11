@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
@@ -49,7 +48,7 @@ fun DetailsScreen(
     state: DetailsState,
     navigateBack: () -> Unit
 ) {
-    val inPreviewOrDebug = LocalInspectionMode.current || BuildConfig.DEBUG
+    val inPreviewMode = LocalInspectionMode.current
     LazyPizzaScaffold(
         topAppBar = {
             LazyPizzaAppBar(
@@ -77,7 +76,7 @@ fun DetailsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 LazyImage(
-                    if (inPreviewOrDebug) {
+                    if (inPreviewMode) {
                         ImageResource.DrawableResource(state.productUi?.imageResource)
                     } else {
                         ImageResource.RemoteFilePath(
