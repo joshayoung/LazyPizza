@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
 import coil3.network.NetworkHeaders
@@ -20,14 +21,22 @@ fun LazyImage(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val token = JwtManager.token
+    val isPreview = LocalInspectionMode.current
+
+    var token: String? = null
+    if (!isPreview) {
+        token = JwtManager.token
+    }
+
     when (imageResource) {
         is ImageResource.DrawableResource -> {
-            Image(
-                painterResource(id = imageResource.id),
-                contentDescription = null,
-                modifier = modifier
-            )
+            imageResource.id?.let { id ->
+                Image(
+                    painterResource(id = id),
+                    contentDescription = null,
+                    modifier = modifier
+                )
+            }
         }
         is ImageResource.RemoteFilePath -> {
             if (token != null) {

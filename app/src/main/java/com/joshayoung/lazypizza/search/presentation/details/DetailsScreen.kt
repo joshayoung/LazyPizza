@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
@@ -47,6 +49,7 @@ fun DetailsScreen(
     state: DetailsState,
     navigateBack: () -> Unit
 ) {
+    val inPreviewOrDebug = LocalInspectionMode.current || BuildConfig.DEBUG
     LazyPizzaScaffold(
         topAppBar = {
             LazyPizzaAppBar(
@@ -74,9 +77,8 @@ fun DetailsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 LazyImage(
-                    // TODO: Move this to a debug/preview check:
-                    if (state.product?.imageResource != null) {
-                        ImageResource.DrawableResource(state.product.imageResource)
+                    if (inPreviewOrDebug) {
+                        ImageResource.DrawableResource(state.product?.imageResource)
                     } else {
                         ImageResource.RemoteFilePath(
                             state.product?.remoteImageUrl

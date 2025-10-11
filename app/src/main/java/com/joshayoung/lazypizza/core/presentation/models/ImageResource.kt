@@ -2,7 +2,7 @@ package com.joshayoung.lazypizza.core.presentation.models
 
 sealed class ImageResource {
     data class DrawableResource(
-        val id: Int
+        val id: Int?
     ) : ImageResource()
 
     data class RemoteFilePath(
