@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
-import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
@@ -61,11 +60,7 @@ fun ProductAndPriceComponent(
                     .padding(4.dp)
         ) {
             LazyImage(
-                if (inPreviewMode) {
-                    ImageResource.DrawableResource(productUi.imageResource)
-                } else {
-                    ImageResource.RemoteFilePath(productUi.remoteImageUrl)
-                },
+                productUi,
                 modifier =
                     Modifier
                         .size(60.dp)

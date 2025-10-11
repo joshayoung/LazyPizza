@@ -31,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,7 +40,6 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
@@ -180,7 +178,6 @@ fun ItemAndPrice(
     productUi: ProductUi,
     goToDetails: (product: String) -> Unit
 ) {
-    val inPreviewMode = LocalInspectionMode.current
     Card(
         colors =
             CardDefaults.cardColors(
@@ -206,13 +203,7 @@ fun ItemAndPrice(
                     .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            LazyImage(
-                if (inPreviewMode) {
-                    ImageResource.DrawableResource(productUi.imageResource)
-                } else {
-                    ImageResource.RemoteFilePath(productUi.remoteImageUrl)
-                }
-            )
+            LazyImage(productUi)
             Column(
                 modifier =
                     Modifier

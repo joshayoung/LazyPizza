@@ -29,7 +29,6 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -76,13 +75,7 @@ fun DetailsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 LazyImage(
-                    if (inPreviewMode) {
-                        ImageResource.DrawableResource(state.productUi?.imageResource)
-                    } else {
-                        ImageResource.RemoteFilePath(
-                            state.productUi?.remoteImageUrl
-                        )
-                    },
+                    state.productUi,
                     modifier =
                         Modifier
                             .size(300.dp)

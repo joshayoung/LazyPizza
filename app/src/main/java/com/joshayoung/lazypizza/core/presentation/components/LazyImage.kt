@@ -14,18 +14,26 @@ import coil3.request.ImageRequest
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.networking.JwtManager
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
+import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 
 // TODO: Move preview and debug check here:
 @Composable
 fun LazyImage(
-    imageResource: ImageResource,
+    productUi: ProductUi?,
     modifier: Modifier = Modifier
 ) {
+    val inPreviewMode = LocalInspectionMode.current
     val context = LocalContext.current
-    val isPreview = LocalInspectionMode.current
+
+    val imageResource =
+        if (inPreviewMode) {
+            ImageResource.DrawableResource(productUi?.imageResource)
+        } else {
+            ImageResource.RemoteFilePath(productUi?.remoteImageUrl)
+        }
 
     var token: String? = null
-    if (!isPreview) {
+    if (!inPreviewMode) {
         token = JwtManager.token
     }
 
