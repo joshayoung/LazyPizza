@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
@@ -47,7 +46,9 @@ import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.data.mappers.toJson
 import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
+import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import io.appwrite.extensions.toJson
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -178,7 +179,7 @@ fun HomeScreen(
 
 @Composable
 fun ItemAndPrice(
-    product: Product,
+    productUi: ProductUi,
     goToDetails: (product: String) -> Unit
 ) {
     val inPreviewOrDebug = LocalInspectionMode.current || BuildConfig.DEBUG
@@ -197,7 +198,7 @@ fun ItemAndPrice(
                 .height(140.dp)
                 .fillMaxWidth()
                 .clickable {
-                    goToDetails(product.toJson())
+                    goToDetails(productUi.toJson())
                 }
     ) {
         Row(
@@ -209,9 +210,9 @@ fun ItemAndPrice(
         ) {
             LazyImage(
                 if (inPreviewOrDebug) {
-                    ImageResource.DrawableResource(product.imageResource)
+                    ImageResource.DrawableResource(productUi.imageResource)
                 } else {
-                    ImageResource.RemoteFilePath(product.remoteImageUrl)
+                    ImageResource.RemoteFilePath(productUi.remoteImageUrl)
                 }
             )
             Column(
@@ -223,9 +224,9 @@ fun ItemAndPrice(
                         .padding(vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(product.name, fontWeight = FontWeight.Bold)
-                Text(product.description ?: "")
-                Text(product.price, style = MaterialTheme.typography.titleLarge)
+                Text(productUi.name, fontWeight = FontWeight.Bold)
+                Text(productUi.description ?: "")
+                Text(productUi.price, style = MaterialTheme.typography.titleLarge)
             }
         }
     }
@@ -245,13 +246,13 @@ fun SearchItemsScreenPreview() {
                                 name = "Pizzas",
                                 items =
                                     listOf(
-                                        Product(
+                                        ProductUi(
                                             description = "A delicious food",
                                             imageResource = R.drawable.hawaiian,
                                             name = "Hawaiian Pizza",
                                             price = "$10.19"
                                         ),
-                                        Product(
+                                        ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.meat_lovers,
                                             name = "Meat Lovers Pizza",
@@ -263,13 +264,13 @@ fun SearchItemsScreenPreview() {
                                 name = "Ice Cream",
                                 items =
                                     listOf(
-                                        Product(
+                                        ProductUi(
                                             description = "A delicious food",
                                             imageResource = R.drawable.cookies,
                                             name = "Hawaiian Pizza",
                                             price = "$10.19"
                                         ),
-                                        Product(
+                                        ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.strawberry,
                                             name = "Meat Lovers Pizza",
@@ -281,13 +282,13 @@ fun SearchItemsScreenPreview() {
                                 name = "Drinks",
                                 items =
                                     listOf(
-                                        Product(
+                                        ProductUi(
                                             description = "A delicious food",
                                             imageResource = R.drawable.mineral_water,
                                             name = "Hawaiian Pizza",
                                             price = "$10.19"
                                         ),
-                                        Product(
+                                        ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.pepsi,
                                             name = "Meat Lovers Pizza",
@@ -299,13 +300,13 @@ fun SearchItemsScreenPreview() {
                                 name = "Sauces",
                                 items =
                                     listOf(
-                                        Product(
+                                        ProductUi(
                                             description = "A delicious food",
                                             imageResource = R.drawable.spicy_chili_sauce,
                                             name = "Hawaiian Pizza",
                                             price = "$10.19"
                                         ),
-                                        Product(
+                                        ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.bbq_sauce,
                                             name = "Meat Lovers Pizza",

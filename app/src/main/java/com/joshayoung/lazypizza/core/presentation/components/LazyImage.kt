@@ -15,6 +15,7 @@ import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.networking.JwtManager
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 
+// TODO: Move preview and debug check here:
 @Composable
 fun LazyImage(
     imageResource: ImageResource,

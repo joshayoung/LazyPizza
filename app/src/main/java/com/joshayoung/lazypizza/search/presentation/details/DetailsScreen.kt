@@ -27,12 +27,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
+import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -78,10 +78,10 @@ fun DetailsScreen(
             ) {
                 LazyImage(
                     if (inPreviewOrDebug) {
-                        ImageResource.DrawableResource(state.product?.imageResource)
+                        ImageResource.DrawableResource(state.productUi?.imageResource)
                     } else {
                         ImageResource.RemoteFilePath(
-                            state.product?.remoteImageUrl
+                            state.productUi?.remoteImageUrl
                         )
                     },
                     modifier =
@@ -95,12 +95,12 @@ fun DetailsScreen(
                         .padding(horizontal = 10.dp)
             ) {
                 Text(
-                    text = state.product?.name ?: "",
+                    text = state.productUi?.name ?: "",
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
                 )
                 Text(
-                    text = state.product?.description ?: "",
+                    text = state.productUi?.description ?: "",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondary,
                     modifier =
@@ -161,8 +161,8 @@ fun DetailsScreenPreview() {
             navigateBack = {},
             state =
                 DetailsState(
-                    product =
-                        Product(
+                    productUi =
+                        ProductUi(
                             name = "Margherita",
                             description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
                             price = "1.00",
@@ -170,32 +170,32 @@ fun DetailsScreenPreview() {
                         ),
                     toppings =
                         listOf(
-                            Product(
+                            ProductUi(
                                 name = "bacon",
                                 price = "1.00",
                                 imageResource = R.drawable.bacon
                             ),
-                            Product(
+                            ProductUi(
                                 name = "extra cheese",
                                 price = "1.10",
                                 imageResource = R.drawable.cheese
                             ),
-                            Product(
+                            ProductUi(
                                 name = "corn",
                                 price = ".10",
                                 imageResource = R.drawable.corn
                             ),
-                            Product(
+                            ProductUi(
                                 name = "tomato",
                                 price = ".10",
                                 imageResource = R.drawable.tomato
                             ),
-                            Product(
+                            ProductUi(
                                 name = "olives",
                                 price = ".10",
                                 imageResource = R.drawable.olive
                             ),
-                            Product(
+                            ProductUi(
                                 name = "pepperoni",
                                 price = ".10",
                                 imageResource = R.drawable.pepperoni

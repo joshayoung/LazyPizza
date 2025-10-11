@@ -31,14 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
+import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
 fun ProductAndPriceComponent(
-    product: Product,
+    productUi: ProductUi,
     modifier: Modifier
 ) {
     val inPreviewOrDebug = LocalInspectionMode.current || BuildConfig.DEBUG
@@ -63,9 +63,9 @@ fun ProductAndPriceComponent(
         ) {
             LazyImage(
                 if (inPreviewOrDebug) {
-                    ImageResource.DrawableResource(product.imageResource)
+                    ImageResource.DrawableResource(productUi.imageResource)
                 } else {
-                    ImageResource.RemoteFilePath(product.remoteImageUrl)
+                    ImageResource.RemoteFilePath(productUi.remoteImageUrl)
                 },
                 modifier =
                     Modifier
@@ -73,7 +73,7 @@ fun ProductAndPriceComponent(
             )
         }
         Text(
-            product.name,
+            productUi.name,
             modifier = Modifier,
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSecondary
@@ -86,7 +86,7 @@ fun ProductAndPriceComponent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ClickerButton(R.drawable.minus)
-            Text(product.price, style = MaterialTheme.typography.titleMedium)
+            Text(productUi.price, style = MaterialTheme.typography.titleMedium)
             ClickerButton(R.drawable.plus)
         }
     }
@@ -124,8 +124,8 @@ fun ProductAndPriceComponentPreview() {
     LazyPizzaTheme {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             ProductAndPriceComponent(
-                product =
-                    Product(
+                productUi =
+                    ProductUi(
                         description = "description",
                         imageUrl = "",
                         plImageUrl = "",
@@ -136,8 +136,8 @@ fun ProductAndPriceComponentPreview() {
                 modifier = Modifier.size(200.dp)
             )
             ProductAndPriceComponent(
-                product =
-                    Product(
+                productUi =
+                    ProductUi(
                         description = "description",
                         imageUrl = "",
                         plImageUrl = "",

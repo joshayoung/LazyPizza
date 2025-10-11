@@ -6,6 +6,7 @@ import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
+import com.joshayoung.lazypizza.core.toProductUi
 import com.joshayoung.lazypizza.search.data.models.Products
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -48,15 +49,15 @@ class HomeViewModel(
                 listOf(
                     Products(
                         name = "pizzas",
-                        items = pizzas
+                        items = pizzas.map { it.toProductUi() }
                     ),
                     Products(
                         name = "drinks",
-                        items = drinks
+                        items = drinks.map { it.toProductUi() }
                     ),
                     Products(
                         name = "ice cream",
-                        items = iceCream
+                        items = iceCream.map { it.toProductUi() }
                     )
                 )
             _state.update {
@@ -87,15 +88,15 @@ class HomeViewModel(
             listOf(
                 Products(
                     name = "pizzas",
-                    items = filteredPizzas
+                    items = filteredPizzas.map { it.toProductUi() }
                 ),
                 Products(
                     name = "drinks",
-                    items = filteredDrinks
+                    items = filteredDrinks.map { it.toProductUi() }
                 ),
                 Products(
                     name = "ice cream",
-                    items = filteredIceCream
+                    items = filteredIceCream.map { it.toProductUi() }
                 )
             )
         _state.update {
@@ -117,15 +118,15 @@ class HomeViewModel(
                 listOf(
                     Products(
                         name = "pizzas",
-                        items = pizzas
+                        items = pizzas.map { it.toProductUi() }
                     ),
                     Products(
                         name = "drinks",
-                        items = drinks
+                        items = drinks.map { it.toProductUi() }
                     ),
                     Products(
                         name = "ice cream",
-                        items = iceCream
+                        items = iceCream.map { it.toProductUi() }
                     )
                 )
 

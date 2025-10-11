@@ -1,8 +1,8 @@
 package com.joshayoung.lazypizza.search.data.models
 
-import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 
 data class Products(
     val name: String,
-    val items: List<Product>
+    val items: List<ProductUi>
 )

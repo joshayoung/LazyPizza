@@ -8,8 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
-import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.toProductUi
 import com.joshayoung.lazypizza.search.data.mappers.toProduct
+import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import kotlinx.coroutines.launch
 
 class DetailsScreenViewModel(
@@ -19,7 +20,7 @@ class DetailsScreenViewModel(
     var state by mutableStateOf(DetailsState())
         private set
 
-    val pizza: Product?
+    val pizza: ProductUi?
         get() {
             val stringData = savedStateHandle.get<String>("pizza")
 
@@ -30,12 +31,12 @@ class DetailsScreenViewModel(
         viewModelScope.launch {
             state =
                 state.copy(
-                    product = pizza
+                    productUi = pizza
                 )
             var toppings = lazyPizzaRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
             state =
                 state.copy(
-                    toppings = toppings
+                    toppings = toppings.map { it.toProductUi() }
                 )
         }
     }
