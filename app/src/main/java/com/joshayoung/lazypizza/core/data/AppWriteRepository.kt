@@ -7,19 +7,18 @@ import com.joshayoung.lazypizza.core.networking.JwtManager
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
-import io.appwrite.services.Databases
 import io.appwrite.services.TablesDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AuthWriteRepository(
-    private var authWriteClient: Client
+class AppWriteRepository(
+    private var appWriteClient: Client
 ) : LazyPizzaRepository {
     override suspend fun login(
         email: String,
         password: String
     ): Boolean {
-        val account = Account(authWriteClient)
+        val account = Account(appWriteClient)
         try {
             val currentSession = account.getSession("current")
 
@@ -37,13 +36,12 @@ class AuthWriteRepository(
         }
     }
 
-    override suspend fun getTableData(table: String): List<Product> {
-        val databases = Databases(authWriteClient)
-        return withContext(Dispatchers.IO) {
+    override suspend fun getTableData(table: String): List<Product> =
+        withContext(Dispatchers.IO) {
             try {
                 val tables =
                     TablesDB(
-                        client = authWriteClient
+                        client = appWriteClient
                     )
                 val response =
                     tables.listRows(
@@ -64,5 +62,4 @@ class AuthWriteRepository(
                 emptyList()
             }
         }
-    }
 }

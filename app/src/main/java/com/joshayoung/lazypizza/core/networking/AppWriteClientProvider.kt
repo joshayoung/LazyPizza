@@ -4,7 +4,7 @@ import android.content.Context
 import com.joshayoung.lazypizza.BuildConfig
 import io.appwrite.Client
 
-class AuthWriteClientProvider(
+class AppWriteClientProvider(
     private var context: Context
 ) {
     fun getInstance(): Client {

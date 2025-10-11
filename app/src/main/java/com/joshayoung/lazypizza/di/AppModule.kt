@@ -2,9 +2,9 @@ package com.joshayoung.lazypizza.di
 
 import com.joshayoung.lazypizza.LazyPizzaApp
 import com.joshayoung.lazypizza.MainViewModel
-import com.joshayoung.lazypizza.core.data.AuthWriteRepository
+import com.joshayoung.lazypizza.core.data.AppWriteRepository
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
-import com.joshayoung.lazypizza.core.networking.AuthWriteClientProvider
+import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.search.presentation.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -22,9 +22,9 @@ var appModule =
         single<CoroutineScope> {
             (androidApplication() as LazyPizzaApp).applicationScope
         }
-        single { AuthWriteRepository(get()) }.bind<LazyPizzaRepository>()
+        single { AppWriteRepository(get()) }.bind<LazyPizzaRepository>()
 
         single {
-            AuthWriteClientProvider(get()).getInstance()
+            AppWriteClientProvider(get()).getInstance()
         }
     }
