@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.core.data
 
-import android.content.Context
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
@@ -13,19 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AuthWriteRepository(
-    private var context: Context,
-    private var lazyPizzaStorage: LazyPizzaStorage
+    private var lazyPizzaStorage: LazyPizzaStorage,
+    private var authWriteClient: Client
 ) : LazyPizzaRepository {
     override suspend fun login(
         email: String,
         password: String
     ): Boolean {
-        val client =
-            Client(context)
-                .setEndpoint(BuildConfig.API_ENDPOINT)
-                .setProject(BuildConfig.API_PROJECT_ID)
-
-        val account = Account(client)
+        val account = Account(authWriteClient)
         try {
             val currentSession = account.getSession("current")
 
@@ -44,12 +38,7 @@ class AuthWriteRepository(
     }
 
     override suspend fun getTableData(table: String): List<Product> {
-        val client =
-            Client(context)
-                .setEndpoint(BuildConfig.API_ENDPOINT)
-                .setProject(BuildConfig.API_PROJECT_ID)
-
-        val databases = Databases(client)
+        val databases = Databases(authWriteClient)
         return withContext(Dispatchers.IO) {
             try {
                 val response =

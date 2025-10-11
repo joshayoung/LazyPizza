@@ -42,7 +42,7 @@ fun SearchField(state: TextFieldState) {
                 Icon(
                     imageVector = SearchIcon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error
+                    tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(Modifier.width(10.dp))
 
