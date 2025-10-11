@@ -6,9 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenRoot
-import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsScreenRoot
+import com.joshayoung.lazypizza.search.presentation.home.HomeScreenRoot
 
 @Composable
 fun NavigationRoot(navController: NavHostController) {
@@ -17,7 +16,7 @@ fun NavigationRoot(navController: NavHostController) {
         startDestination = Routes.Search
     ) {
         composable<Routes.Search> {
-            SearchItemsScreenRoot(
+            HomeScreenRoot(
                 goToDetails = { product ->
                     navController.navigate(
                         Routes.Details.toString() + "?pizza=$product"

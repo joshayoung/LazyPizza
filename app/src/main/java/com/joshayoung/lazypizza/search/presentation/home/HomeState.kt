@@ -1,9 +1,9 @@
-package com.joshayoung.lazypizza.search.presentation.searchItems
+package com.joshayoung.lazypizza.search.presentation.home
 
 import androidx.compose.foundation.text.input.TextFieldState
 import com.joshayoung.lazypizza.search.data.models.Products
 
-data class SearchItemsState(
+data class HomeState(
     var search: TextFieldState = TextFieldState(),
     var items: List<Products> = emptyList(),
     val token: String = "",

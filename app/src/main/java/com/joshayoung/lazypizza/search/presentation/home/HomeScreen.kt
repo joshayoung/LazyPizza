@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.searchItems
+package com.joshayoung.lazypizza.search.presentation.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -50,19 +50,19 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchItemsScreenRoot(
-    viewModel: SearchItemsViewModel = koinViewModel(),
+fun HomeScreenRoot(
+    viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (product: String) -> Unit
 ) {
-    SearchItemsScreen(
+    HomeScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToDetails = goToDetails
     )
 }
 
 @Composable
-fun SearchItemsScreen(
-    state: SearchItemsState,
+fun HomeScreen(
+    state: HomeState,
     goToDetails: (product: String) -> Unit
 ) {
     LazyPizzaScaffold(
@@ -234,9 +234,9 @@ fun ItemAndPrice(
 @Composable
 fun SearchItemsScreenPreview() {
     LazyPizzaTheme {
-        SearchItemsScreen(
+        HomeScreen(
             state =
-                SearchItemsState(
+                HomeState(
 //                    noItemsFound = true,
                     items =
                         listOf(

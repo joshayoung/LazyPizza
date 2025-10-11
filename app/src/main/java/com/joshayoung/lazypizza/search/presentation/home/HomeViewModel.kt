@@ -1,10 +1,10 @@
-package com.joshayoung.lazypizza.search.presentation.searchItems
+package com.joshayoung.lazypizza.search.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
+import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.search.data.models.Products
@@ -17,11 +17,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SearchItemsViewModel(
+class HomeViewModel(
     private val lazyPizzaRepository: LazyPizzaRepository,
     private val lazyPizzaStorage: LazyPizzaStorage
 ) : ViewModel() {
-    private var _state = MutableStateFlow(SearchItemsState())
+    private var _state = MutableStateFlow(HomeState())
     private var pizzas: List<Product> = emptyList()
     private var drinks: List<Product> = emptyList()
     private var iceCream: List<Product> = emptyList()
@@ -33,7 +33,7 @@ class SearchItemsViewModel(
             }.stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(1000L),
-                SearchItemsState()
+                HomeState()
             )
 
     init {
