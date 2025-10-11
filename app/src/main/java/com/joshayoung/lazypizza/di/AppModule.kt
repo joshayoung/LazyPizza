@@ -3,8 +3,8 @@ package com.joshayoung.lazypizza.di
 import com.joshayoung.lazypizza.LazyPizzaApp
 import com.joshayoung.lazypizza.MainViewModel
 import com.joshayoung.lazypizza.core.data.AuthWriteRepository
-import com.joshayoung.lazypizza.core.data.SharedPreferencesPreference
-import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.data.SharedPreferencesStorage
+import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.search.presentation.searchItems.SearchItemsViewModel
@@ -24,5 +24,5 @@ var appModule =
             (androidApplication() as LazyPizzaApp).applicationScope
         }
         single { AuthWriteRepository(get(), get()) }.bind<LazyPizzaRepository>()
-        single { SharedPreferencesPreference(get()) }.bind<LazyPizzaPreference>()
+        single { SharedPreferencesStorage(get()) }.bind<LazyPizzaStorage>()
     }

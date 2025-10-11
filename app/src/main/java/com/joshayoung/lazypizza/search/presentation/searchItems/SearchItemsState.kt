@@ -1,11 +1,11 @@
 package com.joshayoung.lazypizza.search.presentation.searchItems
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.joshayoung.lazypizza.search.data.models.AllProducts
+import com.joshayoung.lazypizza.search.data.models.Products
 
 data class SearchItemsState(
     var search: TextFieldState = TextFieldState(),
-    var items: List<AllProducts> = emptyList(),
+    var items: List<Products> = emptyList(),
     val token: String = "",
     val pizzaScrollPosition: Int = 0,
     val drinkScrollPosition: Int = 0,

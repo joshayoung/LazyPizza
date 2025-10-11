@@ -3,11 +3,11 @@ package com.joshayoung.lazypizza.core.data
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 
-class SharedPreferencesPreference(
+class SharedPreferencesStorage(
     private val context: Context
-) : LazyPizzaPreference {
+) : LazyPizzaStorage {
     override fun saveJwt(jwt: String) {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(

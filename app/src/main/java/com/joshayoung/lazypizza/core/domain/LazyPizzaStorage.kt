@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.core.domain
 
-interface LazyPizzaPreference {
+interface LazyPizzaStorage {
     fun saveJwt(jwt: String)
 
     fun getJwt(): String

@@ -3,11 +3,11 @@ package com.joshayoung.lazypizza.search.presentation.searchItems
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.domain.LazyPizzaPreference
+import com.joshayoung.lazypizza.core.domain.LazyPizzaStorage
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
-import com.joshayoung.lazypizza.search.data.models.AllProducts
+import com.joshayoung.lazypizza.search.data.models.Products
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class SearchItemsViewModel(
     private val lazyPizzaRepository: LazyPizzaRepository,
-    private val lazyPizzaPreference: LazyPizzaPreference
+    private val lazyPizzaStorage: LazyPizzaStorage
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchItemsState())
     private var pizzas: List<Product> = emptyList()
@@ -39,7 +39,7 @@ class SearchItemsViewModel(
     init {
         _state.update {
             it.copy(
-                token = lazyPizzaPreference.getJwt()
+                token = lazyPizzaStorage.getJwt()
             )
         }
         _state.value.search
@@ -53,15 +53,15 @@ class SearchItemsViewModel(
         if (search.count() == 0) {
             val all =
                 listOf(
-                    AllProducts(
+                    Products(
                         name = "pizzas",
                         items = pizzas
                     ),
-                    AllProducts(
+                    Products(
                         name = "drinks",
                         items = drinks
                     ),
-                    AllProducts(
+                    Products(
                         name = "ice cream",
                         items = iceCream
                     )
@@ -92,15 +92,15 @@ class SearchItemsViewModel(
 
         val all =
             listOf(
-                AllProducts(
+                Products(
                     name = "pizzas",
                     items = filteredPizzas
                 ),
-                AllProducts(
+                Products(
                     name = "drinks",
                     items = filteredDrinks
                 ),
-                AllProducts(
+                Products(
                     name = "ice cream",
                     items = filteredIceCream
                 )
@@ -122,15 +122,15 @@ class SearchItemsViewModel(
             val iceCreamStart = pizzas.count() + drinks.count() + 1
             val all =
                 listOf(
-                    AllProducts(
+                    Products(
                         name = "pizzas",
                         items = pizzas
                     ),
-                    AllProducts(
+                    Products(
                         name = "drinks",
                         items = drinks
                     ),
-                    AllProducts(
+                    Products(
                         name = "ice cream",
                         items = iceCream
                     )

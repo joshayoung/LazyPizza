@@ -43,7 +43,7 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
 import com.joshayoung.lazypizza.search.data.mappers.toJson
-import com.joshayoung.lazypizza.search.data.models.AllProducts
+import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import kotlinx.coroutines.launch
@@ -240,7 +240,7 @@ fun SearchItemsScreenPreview() {
 //                    noItemsFound = true,
                     items =
                         listOf(
-                            AllProducts(
+                            Products(
                                 name = "Pizzas",
                                 items =
                                     listOf(
@@ -258,7 +258,7 @@ fun SearchItemsScreenPreview() {
                                         )
                                     )
                             ),
-                            AllProducts(
+                            Products(
                                 name = "Ice Cream",
                                 items =
                                     listOf(
@@ -276,7 +276,7 @@ fun SearchItemsScreenPreview() {
                                         )
                                     )
                             ),
-                            AllProducts(
+                            Products(
                                 name = "Drinks",
                                 items =
                                     listOf(
@@ -294,7 +294,7 @@ fun SearchItemsScreenPreview() {
                                         )
                                     )
                             ),
-                            AllProducts(
+                            Products(
                                 name = "Sauces",
                                 items =
                                     listOf(
