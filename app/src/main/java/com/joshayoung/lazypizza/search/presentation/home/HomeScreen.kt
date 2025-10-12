@@ -49,6 +49,8 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
+import com.joshayoung.lazypizza.search.presentation.home.components.MultipleProductItem
+import com.joshayoung.lazypizza.search.presentation.models.ProductType
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import io.appwrite.extensions.toJson
@@ -248,32 +250,44 @@ fun ItemAndPrice(
                     goToDetails(productUi.toJson())
                 }
     ) {
-        Row(
-            modifier =
-                Modifier
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            LazyImage(productUi)
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 20.dp)
-                        .padding(vertical = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Text(productUi.name, fontWeight = FontWeight.Bold)
-                Text(productUi.description ?: "")
-                Text(productUi.price, style = MaterialTheme.typography.titleLarge)
-            }
+        if (productUi.type == ProductType.DRINK || productUi.type == ProductType.DESSERT) {
+            MultipleProductItem(productUi)
+        } else {
+            ProductItem(productUi)
         }
     }
 }
 
-@Preview(showBackground = true)
+@Composable
+fun ProductItem(
+    productUi: ProductUi,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier =
+            modifier
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LazyImage(productUi)
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(start = 20.dp)
+                    .padding(vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(productUi.name, fontWeight = FontWeight.Bold)
+            Text(productUi.description ?: "")
+            Text(productUi.price, style = MaterialTheme.typography.titleLarge)
+        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SearchItemsScreenPreview() {
     LazyPizzaTheme {
@@ -281,7 +295,7 @@ fun SearchItemsScreenPreview() {
             state =
                 HomeState(
 //                    noItemsFound = true,
-                    isLoadingProducts = true,
+//                    isLoadingProducts = true,
                     items =
                         listOf(
                             Products(

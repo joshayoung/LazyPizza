@@ -1,0 +1,71 @@
+package com.joshayoung.lazypizza.search.presentation.home.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+
+@Composable
+fun PriceAndQuantity(
+    price: String,
+    itemCount: MutableState<Int>
+) {
+    val calculatedPrice = itemCount.value * price.toDouble()
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        QuantitySelector(itemCount)
+        PriceWithNumber(itemCount, price, calculatedPrice)
+    }
+}
+
+@Composable
+fun PriceWithNumber(
+    itemCount: MutableState<Int>,
+    price: String,
+    calculatedPrice: Double
+) {
+    Column(
+        modifier =
+        Modifier
+    ) {
+        Text(
+            calculatedPrice.toString(),
+            modifier = Modifier
+        )
+        Row(modifier = Modifier, verticalAlignment = Alignment.Top) {
+            Text(itemCount.value.toString(), fontSize = 10.sp)
+            Text("x", fontSize = 10.sp)
+            Text(price, fontSize = 10.sp)
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PriceAndQuantityPreview() {
+    LazyPizzaTheme {
+        val itemCount = remember { mutableIntStateOf(1) }
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+        ) {
+            PriceAndQuantity("1.20", itemCount)
+        }
+    }
+}

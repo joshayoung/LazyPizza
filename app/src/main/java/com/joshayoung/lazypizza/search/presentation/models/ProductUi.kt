@@ -9,7 +9,8 @@ data class ProductUi(
     val plImageUrl: String? = null,
     val imageResource: Int? = null,
     val name: String,
-    val price: String
+    val price: String,
+    val type: ProductType? = null
 ) {
     val remoteImageUrl: String
         get() {

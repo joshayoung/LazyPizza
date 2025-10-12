@@ -8,6 +8,7 @@ import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.core.toProductUi
 import com.joshayoung.lazypizza.search.data.models.Products
+import com.joshayoung.lazypizza.search.presentation.models.ProductType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -127,11 +128,21 @@ class HomeViewModel(
                     ),
                     Products(
                         name = "drinks",
-                        items = drinks.map { it.toProductUi() }
+                        items =
+                            drinks.map { it.toProductUi() }.map {
+                                it.copy(
+                                    type = ProductType.DRINK
+                                )
+                            }
                     ),
                     Products(
                         name = "ice cream",
-                        items = iceCream.map { it.toProductUi() }
+                        items =
+                            iceCream.map { it.toProductUi() }.map {
+                                it.copy(
+                                    type = ProductType.DESSERT
+                                )
+                            }
                     )
                 )
 
