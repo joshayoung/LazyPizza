@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.search.presentation.details
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,15 +39,22 @@ fun DetailsScreenRoot(
     viewModel: DetailsScreenViewModel = koinViewModel(),
     navigateBack: () -> Unit
 ) {
-    DetailsScreen(state = viewModel.state, navigateBack = navigateBack)
+    DetailsScreen(
+        state = viewModel.state,
+        navigateBack = navigateBack,
+        onAction = { action ->
+            viewModel.onAction(action)
+        }
+    )
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun DetailsScreen(
     state: DetailsState,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onAction: (DetailAction) -> Unit
 ) {
-    val inPreviewMode = LocalInspectionMode.current
     LazyPizzaScaffold(
         topAppBar = {
             LazyPizzaAppBar(
@@ -116,6 +123,7 @@ fun DetailsScreen(
                     items(state.toppings) { topping ->
                         ProductAndPriceComponent(
                             topping,
+                            click = onAction,
                             modifier = Modifier
                         )
                     }
@@ -130,9 +138,10 @@ fun DetailsScreen(
                                 ambientColor = MaterialTheme.colorScheme.primary
                             )
                 ) {
-                    Button(onClick = {}, shape = RoundedCornerShape(16.dp)) {
+                    Button(onClick = {
+                    }, shape = RoundedCornerShape(16.dp)) {
                         Text(
-                            "Add to Cart for $12.99",
+                            "Add to Cart for ${String.format("$%.2f", state.totalPrice)}",
                             modifier =
                                 Modifier
                                     .fillMaxWidth(),
@@ -193,7 +202,8 @@ fun DetailsScreenPreview() {
                                 imageResource = R.drawable.pepperoni
                             )
                         )
-                )
+                ),
+            onAction = {}
         )
     }
 }

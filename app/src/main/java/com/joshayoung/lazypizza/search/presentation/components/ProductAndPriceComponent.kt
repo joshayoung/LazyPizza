@@ -24,22 +24,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
+import com.joshayoung.lazypizza.search.presentation.details.DetailAction
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
 fun ProductAndPriceComponent(
     productUi: ProductUi,
-    modifier: Modifier
+    modifier: Modifier,
+    click: (DetailAction) -> Unit
 ) {
-    val inPreviewMode = LocalInspectionMode.current
     Column(
         modifier =
             modifier
@@ -79,17 +79,26 @@ fun ProductAndPriceComponent(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ClickerButton(R.drawable.minus)
+            ClickerButton(R.drawable.minus, click = {
+                click(DetailAction.DecrementPrice(price = productUi.price))
+            })
             Text(productUi.price, style = MaterialTheme.typography.titleMedium)
-            ClickerButton(R.drawable.plus)
+            ClickerButton(R.drawable.plus, click = {
+                click(DetailAction.IncrementPrice(price = productUi.price))
+            })
         }
     }
 }
 
 @Composable
-fun ClickerButton(imageResource: Int) {
+fun ClickerButton(
+    imageResource: Int,
+    click: () -> Unit
+) {
     Button(
-        onClick = {},
+        onClick = {
+            click()
+        },
         contentPadding = PaddingValues(0.dp),
         shape = RoundedCornerShape(8.dp),
         colors =
@@ -126,7 +135,8 @@ fun ProductAndPriceComponentPreview() {
                         name = "basil",
                         price = "1.1"
                     ),
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier.size(200.dp),
+                click = {}
             )
             ProductAndPriceComponent(
                 productUi =
@@ -137,7 +147,8 @@ fun ProductAndPriceComponentPreview() {
                         name = "basil",
                         price = "0.50"
                     ),
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier.size(200.dp),
+                click = {}
             )
         }
     }
