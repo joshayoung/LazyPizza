@@ -108,6 +108,11 @@ class HomeViewModel(
     }
 
     private fun loadData() {
+        _state.update {
+            it.copy(
+                isLoadingProducts = true
+            )
+        }
         viewModelScope.launch {
             pizzas = lazyPizzaRepository.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
             drinks = lazyPizzaRepository.getTableData(BuildConfig.DRINK_COLLECTION_ID)
@@ -135,7 +140,8 @@ class HomeViewModel(
                     items = all,
                     pizzaScrollPosition = 0,
                     drinkScrollPosition = drinkStart,
-                    iceCreamScrollPosition = iceCreamStart
+                    iceCreamScrollPosition = iceCreamStart,
+                    isLoadingProducts = false
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.search.presentation.home
 
+import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,26 +16,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
@@ -45,30 +52,61 @@ import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import io.appwrite.extensions.toJson
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import kotlin.getValue
 
+@OptIn(FlowPreview::class)
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (product: String) -> Unit
 ) {
+    val applicationContext = LocalContext.current.applicationContext
+
+    val prefs by lazy {
+        applicationContext.getSharedPreferences("prefs", MODE_PRIVATE)
+    }
+    val scrollPosition = prefs.getInt("scroll_position", 0)
+
+    val lazyListState =
+        rememberLazyListState(
+            initialFirstVisibleItemIndex = scrollPosition
+        )
+
+    LaunchedEffect(lazyListState) {
+        snapshotFlow {
+            lazyListState.firstVisibleItemIndex
+        }.debounce(500L)
+            .collectLatest { index ->
+                prefs.edit {
+                    putInt("scroll_position", index)
+                        .apply()
+                }
+            }
+    }
+    val listState = remember { lazyListState }
+
     HomeScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
-        goToDetails = goToDetails
+        goToDetails = goToDetails,
+        listState = listState
     )
 }
 
 @Composable
 fun HomeScreen(
     state: HomeState,
-    goToDetails: (product: String) -> Unit
+    goToDetails: (product: String) -> Unit,
+    listState: LazyListState
 ) {
     LazyPizzaScaffold(
         topAppBar = { LazyPizzaAppBar() }
     ) { innerPadding ->
 
-        val listState = remember { LazyListState() }
         val coroutineScope = rememberCoroutineScope()
 
         Column(
@@ -153,17 +191,31 @@ fun HomeScreen(
                         )
                     }
                 } else {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        state.items.forEach { iii ->
-                            stickyHeader {
-                                Text(iii.name.first().titlecase() + iii.name.substring(1))
-                            }
-                            items(iii.items) { product ->
-                                ItemAndPrice(product, goToDetails = goToDetails)
+                    if (state.isLoadingProducts) {
+                        Box(
+                            modifier =
+                                Modifier
+                                    .padding(top = 40.dp)
+                                    .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                            )
+                        }
+                    } else {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            state.items.forEach { iii ->
+                                stickyHeader {
+                                    Text(iii.name.first().titlecase() + iii.name.substring(1))
+                                }
+                                items(iii.items) { product ->
+                                    ItemAndPrice(product, goToDetails = goToDetails)
+                                }
                             }
                         }
                     }
@@ -229,6 +281,7 @@ fun SearchItemsScreenPreview() {
             state =
                 HomeState(
 //                    noItemsFound = true,
+                    isLoadingProducts = true,
                     items =
                         listOf(
                             Products(
@@ -305,7 +358,8 @@ fun SearchItemsScreenPreview() {
                             )
                         )
                 ),
-            goToDetails = {}
+            goToDetails = {},
+            listState = LazyListState()
         )
     }
 }

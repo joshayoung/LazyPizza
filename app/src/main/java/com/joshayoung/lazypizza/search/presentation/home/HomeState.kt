@@ -10,5 +10,6 @@ data class HomeState(
     val drinkScrollPosition: Int = 0,
     val sauceScrollPosition: Int = 0,
     val iceCreamScrollPosition: Int = 0,
-    val noItemsFound: Boolean = false
+    val noItemsFound: Boolean = false,
+    val isLoadingProducts: Boolean = false
 )
