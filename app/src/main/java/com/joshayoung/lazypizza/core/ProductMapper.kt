@@ -7,7 +7,6 @@ fun Product.toProductUi(): ProductUi =
     ProductUi(
         description = description,
         imageUrl = imageUrl,
-        plImageUrl = plImageUrl,
         imageResource = imageResource,
         name = name,
         price = price

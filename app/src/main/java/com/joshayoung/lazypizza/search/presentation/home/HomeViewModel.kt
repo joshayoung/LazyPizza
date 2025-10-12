@@ -63,7 +63,8 @@ class HomeViewModel(
                 )
             _state.update {
                 it.copy(
-                    items = all
+                    items = all,
+                    noItemsFound = false
                 )
             }
             return

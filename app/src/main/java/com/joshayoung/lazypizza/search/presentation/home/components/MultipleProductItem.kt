@@ -78,7 +78,6 @@ fun MultipleProductItemPreview() {
                     ProductUi(
                         description = "description",
                         imageUrl = "",
-                        plImageUrl = "",
                         imageResource = R.drawable.seven_up,
                         name = "7-up",
                         price = "1.23"

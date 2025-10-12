@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 data class ProductUi(
     val description: String? = null,
     val imageUrl: String? = null,
-    val plImageUrl: String? = null,
     val imageResource: Int? = null,
     val name: String,
     val price: String,
@@ -15,6 +14,5 @@ data class ProductUi(
     val remoteImageUrl: String
         get() {
             return imageUrl ?: ""
-//            return plImageUrl ?: ""
         }
 }

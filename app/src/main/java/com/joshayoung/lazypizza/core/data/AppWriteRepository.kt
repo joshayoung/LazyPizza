@@ -54,8 +54,7 @@ class AppWriteRepository(
                         name = row.data["name"] as? String ?: "",
                         price = row.data["price"] as? String ?: "0.00",
                         description = row.data["description"] as? String ?: "",
-                        imageUrl = row.data["imageUrl"] as? String,
-                        plImageUrl = row.data["plImageUrl"] as? String
+                        imageUrl = row.data["imageUrl"] as? String
                     )
                 }
             } catch (e: Exception) {

@@ -65,7 +65,6 @@ fun ProductHeaderPreview() {
                 ProductUi(
                     description = "description",
                     imageUrl = "",
-                    plImageUrl = "",
                     imageResource = R.drawable.pepsi,
                     name = "Pepsi",
                     price = "1.12"

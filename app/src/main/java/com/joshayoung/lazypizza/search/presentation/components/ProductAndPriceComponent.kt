@@ -122,7 +122,6 @@ fun ProductAndPriceComponentPreview() {
                     ProductUi(
                         description = "description",
                         imageUrl = "",
-                        plImageUrl = "",
                         imageResource = R.drawable.basil,
                         name = "basil",
                         price = "1.1"
@@ -134,7 +133,6 @@ fun ProductAndPriceComponentPreview() {
                     ProductUi(
                         description = "description",
                         imageUrl = "",
-                        plImageUrl = "",
                         imageResource = R.drawable.bacon,
                         name = "basil",
                         price = "0.50"
