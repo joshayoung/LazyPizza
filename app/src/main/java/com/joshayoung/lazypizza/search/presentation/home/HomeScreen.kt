@@ -35,7 +35,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -57,6 +56,7 @@ import com.joshayoung.lazypizza.search.presentation.models.ProductType
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -111,133 +111,158 @@ fun HomeScreen(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
+    val coroutineScope = rememberCoroutineScope()
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
+            LazyPizzaScaffold(
+                topAppBar = { LazyPizzaAppBar() }
+            ) { innerPadding ->
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .background(Color(0xFFFAFBFC))
+                            .padding(horizontal = 20.dp)
+                ) {
+                    HeaderAndSearch(state)
+                    Chips(listState, coroutineScope, state)
+                    ProductItems(listState, state, goToDetails = goToDetails)
+                }
+            }
         }
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
         }
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
+            Column {
+                HeaderAndSearch(state)
+                Chips(listState, coroutineScope, state)
+                ProductItems(listState, state, goToDetails = goToDetails)
+            }
         }
     }
+}
 
-    LazyPizzaScaffold(
-        topAppBar = { LazyPizzaAppBar() }
-    ) { innerPadding ->
+@Composable
+fun HeaderAndSearch(state: HomeState) {
+    Image(
+        painterResource(id = R.drawable.pizza_header),
+        contentDescription = null,
+        contentScale = ContentScale.FillWidth,
+        modifier =
+            Modifier
+                .fillMaxWidth()
+    )
+    SearchField(state.search, modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp))
+}
 
-        val coroutineScope = rememberCoroutineScope()
-
-        Column(
-            modifier =
-                Modifier
-                    .padding(innerPadding)
-                    .background(Color(0xFFFAFBFC))
-                    .padding(horizontal = 20.dp)
-        ) {
-            Image(
-                painterResource(id = R.drawable.pizza_header),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
+@Composable
+fun Chips(
+    listState: LazyListState,
+    coroutineScope: CoroutineScope,
+    state: HomeState
+) {
+    val options = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
+    val selectedIndex by remember { mutableIntStateOf(-1) }
+    Row {
+        options.forEachIndexed { index, label ->
+            val selected = index == selectedIndex
+            AssistChip(
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 modifier =
                     Modifier
-                        .fillMaxWidth()
-            )
-            SearchField(state.search, modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp))
-            val options = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
-            val selectedIndex by remember { mutableIntStateOf(-1) }
-            Row {
-                options.forEachIndexed { index, label ->
-                    val selected = index == selectedIndex
-                    AssistChip(
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                        modifier =
-                            Modifier
-                                .padding(end = 4.dp),
-                        onClick = {
-                            coroutineScope.launch {
-                                if (index == 0) {
-                                    listState.animateScrollToItem(state.pizzaScrollPosition)
-                                }
-                                if (index == 1) {
-                                    listState.animateScrollToItem(state.drinkScrollPosition)
-                                }
-                                if (index == 2) {
-                                    listState.animateScrollToItem(state.sauceScrollPosition)
-                                }
-                                if (index == 3) {
-                                    listState.animateScrollToItem(state.iceCreamScrollPosition)
-                                }
+                        .padding(end = 4.dp),
+                onClick = {
+                    coroutineScope.launch {
+                        if (index == 0) {
+                            listState.animateScrollToItem(state.pizzaScrollPosition)
+                        }
+                        if (index == 1) {
+                            listState.animateScrollToItem(state.drinkScrollPosition)
+                        }
+                        if (index == 2) {
+                            listState.animateScrollToItem(state.sauceScrollPosition)
+                        }
+                        if (index == 3) {
+                            listState.animateScrollToItem(state.iceCreamScrollPosition)
+                        }
+                    }
+                },
+                label = { Text(label) },
+                leadingIcon = null,
+                shape = RoundedCornerShape(8.dp),
+                colors =
+                    AssistChipDefaults.assistChipColors(
+                        containerColor =
+                            if (selected) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.surface
+                            },
+                        labelColor =
+                            if (selected) {
+                                MaterialTheme.colorScheme.onPrimary
+                            } else {
+                                MaterialTheme.colorScheme.onSurface
                             }
-                        },
-                        label = { Text(label) },
-                        leadingIcon = null,
-                        shape = RoundedCornerShape(8.dp),
-                        colors =
-                            AssistChipDefaults.assistChipColors(
-                                containerColor =
-                                    if (selected) {
-                                        MaterialTheme.colorScheme.primary
-                                    } else {
-                                        MaterialTheme.colorScheme.surface
-                                    },
-                                labelColor =
-                                    if (selected) {
-                                        MaterialTheme.colorScheme.onPrimary
-                                    } else {
-                                        MaterialTheme.colorScheme.onSurface
-                                    }
-                            )
+                    )
+            )
+        }
+    }
+}
+
+@Composable
+fun ProductItems(
+    listState: LazyListState,
+    state: HomeState,
+    goToDetails: (String) -> Unit
+) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+    ) {
+        if (state.noItemsFound) {
+            Box(
+                modifier =
+                    Modifier
+                        .padding(top = 20.dp)
+                        .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    style = MaterialTheme.typography.bodyMedium,
+                    text = "No results found for your query",
+                    modifier = Modifier
+                )
+            }
+        } else {
+            if (state.isLoadingProducts) {
+                Box(
+                    modifier =
+                        Modifier
+                            .padding(top = 40.dp)
+                            .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
                     )
                 }
-            }
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-            ) {
-                if (state.noItemsFound) {
-                    Box(
-                        modifier =
-                            Modifier
-                                .padding(top = 20.dp)
-                                .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            style = MaterialTheme.typography.bodyMedium,
-                            text = "No results found for your query",
-                            modifier = Modifier
-                        )
-                    }
-                } else {
-                    if (state.isLoadingProducts) {
-                        Box(
-                            modifier =
-                                Modifier
-                                    .padding(top = 40.dp)
-                                    .fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                            )
+            } else {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    state.items.forEach { iii ->
+                        stickyHeader {
+                            Text(iii.name.first().titlecase() + iii.name.substring(1))
                         }
-                    } else {
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier,
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            state.items.forEach { iii ->
-                                stickyHeader {
-                                    Text(iii.name.first().titlecase() + iii.name.substring(1))
-                                }
-                                items(iii.items) { product ->
-                                    ItemAndPrice(product, goToDetails = goToDetails)
-                                }
-                            }
+                        items(iii.items) { product ->
+                            ItemAndPrice(product, goToDetails = goToDetails)
                         }
                     }
                 }
