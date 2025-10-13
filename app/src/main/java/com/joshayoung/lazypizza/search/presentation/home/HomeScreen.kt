@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.search.presentation.home
 
-import android.R.attr.clickable
 import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -310,14 +309,14 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.hawaiian,
                                             name = "Hawaiian Pizza",
-                                            price = BigDecimal("$10.19")
+                                            price = BigDecimal("10.19")
                                         ),
                                         ProductUi(
                                             id = "2",
                                             description = "Another food",
                                             imageResource = R.drawable.meat_lovers,
                                             name = "Meat Lovers Pizza",
-                                            price = BigDecimal("$12.98")
+                                            price = BigDecimal("12.98")
                                         )
                                     )
                             ),
@@ -330,14 +329,14 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.cookies,
                                             name = "Hawaiian Pizza",
-                                            price = BigDecimal("$10.19")
+                                            price = BigDecimal("10.19")
                                         ),
                                         ProductUi(
                                             id = "4",
                                             description = "Another food",
                                             imageResource = R.drawable.strawberry,
                                             name = "Meat Lovers Pizza",
-                                            price = BigDecimal("$13.28")
+                                            price = BigDecimal("13.28")
                                         )
                                     )
                             ),
@@ -350,14 +349,14 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.mineral_water,
                                             name = "Hawaiian Pizza",
-                                            price = BigDecimal("$8.18")
+                                            price = BigDecimal("8.18")
                                         ),
                                         ProductUi(
                                             id = "6",
                                             description = "Another food",
                                             imageResource = R.drawable.pepsi,
                                             name = "Meat Lovers Pizza",
-                                            price = BigDecimal("$18.88")
+                                            price = BigDecimal("18.88")
                                         )
                                     )
                             ),
@@ -370,14 +369,14 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.spicy_chili_sauce,
                                             name = "Hawaiian Pizza",
-                                            price = BigDecimal("$21.19")
+                                            price = BigDecimal("21.19")
                                         ),
                                         ProductUi(
                                             id = "8",
                                             description = "Another food",
                                             imageResource = R.drawable.bbq_sauce,
                                             name = "Meat Lovers Pizza",
-                                            price = BigDecimal("$5.43")
+                                            price = BigDecimal("5.43")
                                         )
                                     )
                             )
