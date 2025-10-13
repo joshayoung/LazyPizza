@@ -16,6 +16,7 @@ navigationCompose = "2.9.5"
 kotlinxSerializationJson = "1.9.0"
 ktlint = "13.1.0"
 sdkForAndroid = "11.0.0"
+adaptive = "1.1.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndr
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 sdk-for1-android = { module = "io.appwrite:sdk-for-android", version.ref = "sdkForAndroid" }
+material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

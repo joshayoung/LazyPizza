@@ -25,6 +25,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -47,6 +49,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.search.presentation.home.components.MultipleProductItem
@@ -106,6 +109,20 @@ fun HomeScreen(
     goToDetails: (id: String) -> Unit,
     listState: LazyListState
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
+
+    when (deviceConfiguration) {
+        DeviceConfiguration.MOBILE_PORTRAIT -> {
+        }
+        DeviceConfiguration.MOBILE_LANDSCAPE -> {
+        }
+        DeviceConfiguration.TABLET_PORTRAIT,
+        DeviceConfiguration.TABLET_LANDSCAPE,
+        DeviceConfiguration.DESKTOP -> {
+        }
+    }
+
     LazyPizzaScaffold(
         topAppBar = { LazyPizzaAppBar() }
     ) { innerPadding ->
@@ -294,7 +311,17 @@ fun ProductItem(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
+// @Preview(
+//    showBackground = true,
+//    widthDp = 840,
+//    heightDp = 360,
+// )
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 1280
+)
 @Composable
 fun SearchItemsScreenPreview() {
     LazyPizzaTheme {

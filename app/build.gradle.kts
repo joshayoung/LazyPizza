@@ -159,4 +159,5 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.sdk.for1.android)
+    implementation(libs.material3.adaptive)
 }
