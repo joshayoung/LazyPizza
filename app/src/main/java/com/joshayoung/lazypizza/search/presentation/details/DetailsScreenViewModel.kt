@@ -13,7 +13,6 @@ import com.joshayoung.lazypizza.search.data.mappers.toProduct
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 class DetailsScreenViewModel(
     private val lazyPizzaRepository: LazyPizzaRepository,
@@ -34,7 +33,7 @@ class DetailsScreenViewModel(
             state =
                 state.copy(
                     productUi = pizza,
-                    totalPrice = BigDecimal(pizza?.price).setScale(2, RoundingMode.HALF_UP)
+                    totalPrice = pizza?.price ?: BigDecimal(0)
                 )
             var toppings = lazyPizzaRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
             state =
@@ -47,7 +46,7 @@ class DetailsScreenViewModel(
     fun onAction(action: DetailAction) {
         when (action) {
             is DetailAction.DecrementPrice -> {
-                val newTotal = state.totalPrice - BigDecimal(action.price)
+                val newTotal = state.totalPrice - action.price
                 if (newTotal < BigDecimal(0)) {
                     state =
                         state.copy(
@@ -61,7 +60,7 @@ class DetailsScreenViewModel(
                     )
             }
             is DetailAction.IncrementPrice -> {
-                val newTotal = state.totalPrice + BigDecimal(action.price)
+                val newTotal = state.totalPrice + action.price
                 state =
                     state.copy(
                         totalPrice = newTotal

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import java.math.BigDecimal
 
 @Composable
 fun ProductHeader(
@@ -67,7 +68,7 @@ fun ProductHeaderPreview() {
                     imageUrl = "",
                     imageResource = R.drawable.pepsi,
                     name = "Pepsi",
-                    price = "1.12"
+                    price = BigDecimal("1.12")
                 ),
             itemCount
         )

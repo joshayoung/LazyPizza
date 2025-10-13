@@ -33,6 +33,7 @@ import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceCo
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
+import java.math.BigDecimal
 
 @Composable
 fun DetailsScreenRoot(
@@ -166,39 +167,39 @@ fun DetailsScreenPreview() {
                         ProductUi(
                             name = "Margherita",
                             description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
-                            price = "1.00",
+                            price = BigDecimal("1.00"),
                             imageResource = R.drawable.margherita
                         ),
                     toppings =
                         listOf(
                             ProductUi(
                                 name = "bacon",
-                                price = "1.00",
+                                price = BigDecimal("1.00"),
                                 imageResource = R.drawable.bacon
                             ),
                             ProductUi(
                                 name = "extra cheese",
-                                price = "1.10",
+                                price = BigDecimal("1.10"),
                                 imageResource = R.drawable.cheese
                             ),
                             ProductUi(
                                 name = "corn",
-                                price = ".10",
+                                price = BigDecimal("0.10"),
                                 imageResource = R.drawable.corn
                             ),
                             ProductUi(
                                 name = "tomato",
-                                price = ".10",
+                                price = BigDecimal("0.10"),
                                 imageResource = R.drawable.tomato
                             ),
                             ProductUi(
                                 name = "olives",
-                                price = ".10",
+                                price = BigDecimal("0.80"),
                                 imageResource = R.drawable.olive
                             ),
                             ProductUi(
                                 name = "pepperoni",
-                                price = ".10",
+                                price = BigDecimal("1.80"),
                                 imageResource = R.drawable.pepperoni
                             )
                         )

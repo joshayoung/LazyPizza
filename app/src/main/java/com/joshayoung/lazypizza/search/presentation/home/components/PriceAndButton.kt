@@ -19,10 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import java.math.BigDecimal
 
 @Composable
 fun PriceAndAddButton(
-    price: String,
+    price: BigDecimal,
     itemCount: MutableState<Int>
 ) {
     Row(
@@ -32,7 +33,7 @@ fun PriceAndAddButton(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(price, style = MaterialTheme.typography.titleLarge)
+        Text(price.toString(), style = MaterialTheme.typography.titleLarge)
         Button(
             onClick = {
                 itemCount.value += 1
@@ -57,7 +58,7 @@ fun PriceAndButtonPreview() {
     LazyPizzaTheme {
         val itemCount = remember { mutableIntStateOf(1) }
         Box(modifier = Modifier.width(300.dp)) {
-            PriceAndAddButton("1.20", itemCount)
+            PriceAndAddButton(BigDecimal("1.20"), itemCount)
         }
     }
 }

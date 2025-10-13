@@ -59,6 +59,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import java.math.BigDecimal
 import kotlin.getValue
 
 @OptIn(FlowPreview::class)
@@ -282,7 +283,7 @@ fun ProductItem(
         ) {
             Text(productUi.name, fontWeight = FontWeight.Bold)
             Text(productUi.description ?: "")
-            Text(productUi.price, style = MaterialTheme.typography.titleLarge)
+            Text(productUi.price.toString(), style = MaterialTheme.typography.titleLarge)
         }
     }
 }
@@ -306,13 +307,13 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.hawaiian,
                                             name = "Hawaiian Pizza",
-                                            price = "$10.19"
+                                            price = BigDecimal("$10.19")
                                         ),
                                         ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.meat_lovers,
                                             name = "Meat Lovers Pizza",
-                                            price = "$12.98"
+                                            price = BigDecimal("$12.98")
                                         )
                                     )
                             ),
@@ -324,13 +325,13 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.cookies,
                                             name = "Hawaiian Pizza",
-                                            price = "$10.19"
+                                            price = BigDecimal("$10.19")
                                         ),
                                         ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.strawberry,
                                             name = "Meat Lovers Pizza",
-                                            price = "$12.98"
+                                            price = BigDecimal("$13.28")
                                         )
                                     )
                             ),
@@ -342,13 +343,13 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.mineral_water,
                                             name = "Hawaiian Pizza",
-                                            price = "$10.19"
+                                            price = BigDecimal("$8.18")
                                         ),
                                         ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.pepsi,
                                             name = "Meat Lovers Pizza",
-                                            price = "$12.98"
+                                            price = BigDecimal("$18.88")
                                         )
                                     )
                             ),
@@ -360,13 +361,13 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.spicy_chili_sauce,
                                             name = "Hawaiian Pizza",
-                                            price = "$10.19"
+                                            price = BigDecimal("$21.19")
                                         ),
                                         ProductUi(
                                             description = "Another food",
                                             imageResource = R.drawable.bbq_sauce,
                                             name = "Meat Lovers Pizza",
-                                            price = "$12.98"
+                                            price = BigDecimal("$5.43")
                                         )
                                     )
                             )

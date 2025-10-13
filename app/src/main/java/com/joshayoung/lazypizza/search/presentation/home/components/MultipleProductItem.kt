@@ -24,6 +24,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import java.math.BigDecimal
 
 @Composable
 fun MultipleProductItem(productUi: ProductUi) {
@@ -80,7 +81,7 @@ fun MultipleProductItemPreview() {
                         imageUrl = "",
                         imageResource = R.drawable.seven_up,
                         name = "7-up",
-                        price = "1.23"
+                        price = BigDecimal("1.23")
                     )
             )
         }

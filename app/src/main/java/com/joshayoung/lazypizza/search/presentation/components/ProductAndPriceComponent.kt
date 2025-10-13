@@ -33,6 +33,7 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.details.DetailAction
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import java.math.BigDecimal
 
 @Composable
 fun ProductAndPriceComponent(
@@ -82,7 +83,7 @@ fun ProductAndPriceComponent(
             ClickerButton(R.drawable.minus, click = {
                 click(DetailAction.DecrementPrice(price = productUi.price))
             })
-            Text(productUi.price, style = MaterialTheme.typography.titleMedium)
+            Text(productUi.price.toString(), style = MaterialTheme.typography.titleMedium)
             ClickerButton(R.drawable.plus, click = {
                 click(DetailAction.IncrementPrice(price = productUi.price))
             })
@@ -133,7 +134,7 @@ fun ProductAndPriceComponentPreview() {
                         imageUrl = "",
                         imageResource = R.drawable.basil,
                         name = "basil",
-                        price = "1.1"
+                        price = BigDecimal("1.10")
                     ),
                 modifier = Modifier.size(200.dp),
                 click = {}
@@ -145,7 +146,7 @@ fun ProductAndPriceComponentPreview() {
                         imageUrl = "",
                         imageResource = R.drawable.bacon,
                         name = "basil",
-                        price = "0.50"
+                        price = BigDecimal("0.50")
                     ),
                 modifier = Modifier.size(200.dp),
                 click = {}
