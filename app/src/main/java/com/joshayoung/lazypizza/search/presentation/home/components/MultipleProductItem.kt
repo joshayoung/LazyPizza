@@ -77,6 +77,7 @@ fun MultipleProductItemPreview() {
             MultipleProductItem(
                 productUi =
                     ProductUi(
+                        id = "10",
                         description = "description",
                         imageUrl = "",
                         imageResource = R.drawable.seven_up,

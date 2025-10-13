@@ -130,6 +130,7 @@ fun ProductAndPriceComponentPreview() {
             ProductAndPriceComponent(
                 productUi =
                     ProductUi(
+                        id = "1",
                         description = "description",
                         imageUrl = "",
                         imageResource = R.drawable.basil,
@@ -142,6 +143,7 @@ fun ProductAndPriceComponentPreview() {
             ProductAndPriceComponent(
                 productUi =
                     ProductUi(
+                        id = "2",
                         description = "description",
                         imageUrl = "",
                         imageResource = R.drawable.bacon,

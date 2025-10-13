@@ -51,6 +51,7 @@ class AppWriteRepository(
                     )
                 response.rows.map { row ->
                     Product(
+                        id = row.data["id"] as? String ?: "",
                         name = row.data["name"] as? String ?: "",
                         price = row.data["price"] as? String ?: "0.00",
                         description = row.data["description"] as? String ?: "",

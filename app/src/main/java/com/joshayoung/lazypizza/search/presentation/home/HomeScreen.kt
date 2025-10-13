@@ -304,12 +304,14 @@ fun SearchItemsScreenPreview() {
                                 items =
                                     listOf(
                                         ProductUi(
+                                            id = "1",
                                             description = "A delicious food",
                                             imageResource = R.drawable.hawaiian,
                                             name = "Hawaiian Pizza",
                                             price = BigDecimal("$10.19")
                                         ),
                                         ProductUi(
+                                            id = "2",
                                             description = "Another food",
                                             imageResource = R.drawable.meat_lovers,
                                             name = "Meat Lovers Pizza",
@@ -322,12 +324,14 @@ fun SearchItemsScreenPreview() {
                                 items =
                                     listOf(
                                         ProductUi(
+                                            id = "3",
                                             description = "A delicious food",
                                             imageResource = R.drawable.cookies,
                                             name = "Hawaiian Pizza",
                                             price = BigDecimal("$10.19")
                                         ),
                                         ProductUi(
+                                            id = "4",
                                             description = "Another food",
                                             imageResource = R.drawable.strawberry,
                                             name = "Meat Lovers Pizza",
@@ -340,12 +344,14 @@ fun SearchItemsScreenPreview() {
                                 items =
                                     listOf(
                                         ProductUi(
+                                            id = "5",
                                             description = "A delicious food",
                                             imageResource = R.drawable.mineral_water,
                                             name = "Hawaiian Pizza",
                                             price = BigDecimal("$8.18")
                                         ),
                                         ProductUi(
+                                            id = "6",
                                             description = "Another food",
                                             imageResource = R.drawable.pepsi,
                                             name = "Meat Lovers Pizza",
@@ -358,12 +364,14 @@ fun SearchItemsScreenPreview() {
                                 items =
                                     listOf(
                                         ProductUi(
+                                            id = "7",
                                             description = "A delicious food",
                                             imageResource = R.drawable.spicy_chili_sauce,
                                             name = "Hawaiian Pizza",
                                             price = BigDecimal("$21.19")
                                         ),
                                         ProductUi(
+                                            id = "8",
                                             description = "Another food",
                                             imageResource = R.drawable.bbq_sauce,
                                             name = "Meat Lovers Pizza",

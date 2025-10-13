@@ -165,6 +165,7 @@ fun DetailsScreenPreview() {
                 DetailsState(
                     productUi =
                         ProductUi(
+                            id = "3",
                             name = "Margherita",
                             description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
                             price = BigDecimal("1.00"),
@@ -173,31 +174,37 @@ fun DetailsScreenPreview() {
                     toppings =
                         listOf(
                             ProductUi(
+                                id = "4",
                                 name = "bacon",
                                 price = BigDecimal("1.00"),
                                 imageResource = R.drawable.bacon
                             ),
                             ProductUi(
+                                id = "5",
                                 name = "extra cheese",
                                 price = BigDecimal("1.10"),
                                 imageResource = R.drawable.cheese
                             ),
                             ProductUi(
+                                id = "6",
                                 name = "corn",
                                 price = BigDecimal("0.10"),
                                 imageResource = R.drawable.corn
                             ),
                             ProductUi(
+                                id = "7",
                                 name = "tomato",
                                 price = BigDecimal("0.10"),
                                 imageResource = R.drawable.tomato
                             ),
                             ProductUi(
+                                id = "8",
                                 name = "olives",
                                 price = BigDecimal("0.80"),
                                 imageResource = R.drawable.olive
                             ),
                             ProductUi(
+                                id = "9",
                                 name = "pepperoni",
                                 price = BigDecimal("1.80"),
                                 imageResource = R.drawable.pepperoni

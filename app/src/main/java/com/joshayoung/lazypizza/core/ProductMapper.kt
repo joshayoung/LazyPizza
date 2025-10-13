@@ -7,6 +7,7 @@ import java.math.RoundingMode
 
 fun Product.toProductUi(): ProductUi =
     ProductUi(
+        id = id,
         description = description,
         imageUrl = imageUrl,
         imageResource = imageResource,
