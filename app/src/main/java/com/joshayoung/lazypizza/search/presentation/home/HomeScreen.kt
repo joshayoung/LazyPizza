@@ -126,7 +126,7 @@ fun HomeScreen(
                     Modifier
                         .fillMaxWidth()
             )
-            SearchField(state.search)
+            SearchField(state.search, modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp))
             val options = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
             val selectedIndex by remember { mutableIntStateOf(-1) }
             Row {
