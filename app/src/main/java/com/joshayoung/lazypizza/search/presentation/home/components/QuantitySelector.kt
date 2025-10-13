@@ -37,9 +37,10 @@ fun QuantitySelector(itemCount: MutableState<Int>) {
         })
         Text(
             text = itemCount.value.toString(),
+            style = MaterialTheme.typography.titleMedium,
             modifier =
                 Modifier
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 20.dp)
         )
         CountButton("+", itemCount, { itemCount.value += 1 })
     }

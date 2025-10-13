@@ -1,7 +1,9 @@
 package com.joshayoung.lazypizza.search.presentation.details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
 
@@ -76,9 +78,15 @@ fun DetailsScreen(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 20.dp)
                         .background(
-                            Color.LightGray.copy(alpha = 0.2f)
+                            MaterialTheme.colorScheme.background,
+                            shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                        ).border(
+                            BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.background
+                            ),
+                            shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)
                         ),
                 contentAlignment = Alignment.Center
             ) {
@@ -92,7 +100,8 @@ fun DetailsScreen(
             Column(
                 modifier =
                     Modifier
-                        .padding(horizontal = 10.dp)
+                        .background(MaterialTheme.colorScheme.surfaceHigher)
+                        .padding(10.dp)
             ) {
                 Text(
                     text = state.productUi?.name ?: "",
@@ -124,7 +133,11 @@ fun DetailsScreen(
                                 "Add Extra Toppings".uppercase(),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSecondary,
-                                modifier = Modifier.padding(bottom = 8.dp)
+                                modifier =
+                                    Modifier.padding(
+                                        top = 8.dp,
+                                        bottom = 8.dp
+                                    )
                             )
                         }
                         items(state.toppings) { topping ->
@@ -182,73 +195,73 @@ fun DetailsScreenPreview() {
                         listOf(
                             ProductUi(
                                 id = "4",
-                                name = "bacon",
+                                name = "Bacon",
                                 price = BigDecimal("1.00"),
                                 imageResource = R.drawable.bacon
                             ),
                             ProductUi(
                                 id = "5",
-                                name = "extra cheese",
+                                name = "Extra Cheese",
                                 price = BigDecimal("1.10"),
                                 imageResource = R.drawable.cheese
                             ),
                             ProductUi(
                                 id = "6",
-                                name = "corn",
+                                name = "Corn",
                                 price = BigDecimal("0.10"),
                                 imageResource = R.drawable.corn
                             ),
                             ProductUi(
                                 id = "7",
-                                name = "tomato",
+                                name = "Tomato",
                                 price = BigDecimal("0.10"),
                                 imageResource = R.drawable.tomato
                             ),
                             ProductUi(
                                 id = "8",
-                                name = "olives",
+                                name = "Olives",
                                 price = BigDecimal("0.80"),
                                 imageResource = R.drawable.olive
                             ),
                             ProductUi(
                                 id = "9",
-                                name = "pepperoni",
+                                name = "Pepperoni",
                                 price = BigDecimal("1.80"),
                                 imageResource = R.drawable.pepperoni
                             ),
                             ProductUi(
                                 id = "10",
-                                name = "mushroom",
+                                name = "Mushroom",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.mushroom
                             ),
                             ProductUi(
                                 id = "11",
-                                name = "basil",
+                                name = "Basil",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.basil
                             ),
                             ProductUi(
                                 id = "12",
-                                name = "pineapple",
+                                name = "Pineapple",
                                 price = BigDecimal("1.00"),
                                 imageResource = R.drawable.pineapple
                             ),
                             ProductUi(
                                 id = "13",
-                                name = "onion",
+                                name = "Onion",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.onion
                             ),
                             ProductUi(
                                 id = "14",
-                                name = "chili peppers",
+                                name = "Chili Peppers",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.chilli
                             ),
                             ProductUi(
                                 id = "15",
-                                name = "spinach",
+                                name = "Spinach",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.spinach
                             )
