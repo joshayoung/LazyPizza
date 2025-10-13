@@ -56,7 +56,7 @@ fun PriceAndAddButton(
 @Composable
 fun PriceAndButtonPreview() {
     LazyPizzaTheme {
-        val itemCount = remember { mutableIntStateOf(1) }
+        val itemCount = remember { mutableIntStateOf(0) }
         Box(modifier = Modifier.width(300.dp)) {
             PriceAndAddButton(BigDecimal("1.20"), itemCount)
         }

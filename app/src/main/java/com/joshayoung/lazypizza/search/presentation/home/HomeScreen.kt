@@ -253,10 +253,10 @@ fun ItemAndPrice(
                     }
                 }
     ) {
-        if (productUi.type == ProductType.DRINK || productUi.type == ProductType.DESSERT) {
-            MultipleProductItem(productUi)
-        } else {
+        if (productUi.type == ProductType.ENTRE) {
             ProductItem(productUi)
+        } else {
+            MultipleProductItem(productUi)
         }
     }
 }

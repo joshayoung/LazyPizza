@@ -34,21 +34,23 @@ fun ProductHeader(
                 .fillMaxWidth()
     ) {
         Text(productUi.name, fontWeight = FontWeight.Bold)
-        IconButton(
-            onClick = {
-                itemCount.value = 0
-            },
-            modifier =
-                Modifier
-                    .size(20.dp)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.trash),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+        if (itemCount.value > 0) {
+            IconButton(
+                onClick = {
+                    itemCount.value = 0
+                },
                 modifier =
-                Modifier
-            )
+                    Modifier
+                        .size(20.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.trash),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier =
+                    Modifier
+                )
+            }
         }
     }
 }

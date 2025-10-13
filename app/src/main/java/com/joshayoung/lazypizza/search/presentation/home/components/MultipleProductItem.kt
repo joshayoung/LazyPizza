@@ -28,7 +28,7 @@ import java.math.BigDecimal
 
 @Composable
 fun MultipleProductItem(productUi: ProductUi) {
-    val itemCount = remember { mutableIntStateOf(1) }
+    val itemCount = remember { mutableIntStateOf(0) }
     Row(
         modifier =
             Modifier
