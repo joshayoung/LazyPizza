@@ -53,6 +53,7 @@ import com.joshayoung.lazypizza.search.presentation.home.components.MultipleProd
 import com.joshayoung.lazypizza.search.presentation.models.ProductType
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -133,6 +134,7 @@ fun HomeScreen(
                 options.forEachIndexed { index, label ->
                     val selected = index == selectedIndex
                     AssistChip(
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                         modifier =
                             Modifier
                                 .padding(end = 4.dp),
@@ -235,7 +237,7 @@ fun ItemAndPrice(
     Card(
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surfaceHigher
             ),
         elevation =
             CardDefaults.cardElevation(
@@ -272,7 +274,10 @@ fun ProductItem(
                 .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        LazyImage(productUi)
+        LazyImage(
+            productUi,
+            modifier = Modifier
+        )
         Column(
             modifier =
                 Modifier

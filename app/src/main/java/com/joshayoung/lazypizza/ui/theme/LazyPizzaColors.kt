@@ -16,6 +16,6 @@ class LazyPizzaColors {
         var primaryGradientStart = Color(0xFFF9966F)
         var primaryGradientEnd = Color(0xFFF36B50)
         val primary = Color(0xFFF36B50)
-        var primary8 = Color(0xEAF36B50)
+        var primary8 = Color(0xFFF36B50).copy(alpha = 0.08f)
     }
 }

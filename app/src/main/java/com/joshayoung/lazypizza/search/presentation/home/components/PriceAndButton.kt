@@ -1,10 +1,14 @@
 package com.joshayoung.lazypizza.search.presentation.home.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.ui.theme.primary8
 import java.math.BigDecimal
+import java.util.Locale
 
 @Composable
 fun PriceAndAddButton(
@@ -33,19 +39,28 @@ fun PriceAndAddButton(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(price.toString(), style = MaterialTheme.typography.titleLarge)
+        val price = String.format(locale = Locale.US, "$%.2f", price)
+        Text(price, style = MaterialTheme.typography.titleLarge)
         Button(
             onClick = {
                 itemCount.value += 1
             },
+            contentPadding = PaddingValues(0.dp),
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent
-                )
+                ),
+            modifier =
+                Modifier
+                    .border(
+                        1.dp,
+                        color = MaterialTheme.colorScheme.primary8,
+                        shape = RoundedCornerShape(100.dp)
+                    ).padding(horizontal = 10.dp)
         ) {
             Text(
                 "Add to Cart",
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary
             )
         }
