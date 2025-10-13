@@ -53,7 +53,6 @@ import com.joshayoung.lazypizza.search.presentation.home.components.MultipleProd
 import com.joshayoung.lazypizza.search.presentation.models.ProductType
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import io.appwrite.extensions.toJson
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -66,7 +65,7 @@ import kotlin.getValue
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel(),
-    goToDetails: (product: String) -> Unit
+    goToDetails: (id: String) -> Unit
 ) {
     val applicationContext = LocalContext.current.applicationContext
 
@@ -103,7 +102,7 @@ fun HomeScreenRoot(
 @Composable
 fun HomeScreen(
     state: HomeState,
-    goToDetails: (product: String) -> Unit,
+    goToDetails: (id: String) -> Unit,
     listState: LazyListState
 ) {
     LazyPizzaScaffold(
@@ -231,7 +230,7 @@ fun HomeScreen(
 @Composable
 fun ItemAndPrice(
     productUi: ProductUi,
-    goToDetails: (product: String) -> Unit
+    goToDetails: (id: String) -> Unit
 ) {
     Card(
         colors =
@@ -248,7 +247,7 @@ fun ItemAndPrice(
                 .height(140.dp)
                 .fillMaxWidth()
                 .clickable {
-                    goToDetails(productUi.toJson())
+                    goToDetails(productUi.id)
                 }
     ) {
         if (productUi.type == ProductType.DRINK || productUi.type == ProductType.DESSERT) {

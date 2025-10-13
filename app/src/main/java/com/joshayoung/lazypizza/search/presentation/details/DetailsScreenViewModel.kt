@@ -9,8 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.toProductUi
-import com.joshayoung.lazypizza.search.data.mappers.toProduct
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -21,25 +19,29 @@ class DetailsScreenViewModel(
     var state by mutableStateOf(DetailsState())
         private set
 
-    val pizza: ProductUi?
+    val productId: String?
         get() {
-            val stringData = savedStateHandle.get<String>("pizza")
+            val stringData = savedStateHandle.get<String>("productId")
 
-            return stringData?.toProduct()
+            return stringData
         }
 
     init {
         viewModelScope.launch {
-            state =
-                state.copy(
-                    productUi = pizza,
-                    totalPrice = pizza?.price ?: BigDecimal(0)
-                )
-            var toppings = lazyPizzaRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
-            state =
-                state.copy(
-                    toppings = toppings.map { it.toProductUi() }
-                )
+            val product = lazyPizzaRepository.getData(productId)
+            if (product != null) {
+                val productUi = product.toProductUi()
+                state =
+                    state.copy(
+                        productUi = productUi,
+                        totalPrice = productUi.price
+                    )
+                var toppings = lazyPizzaRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
+                state =
+                    state.copy(
+                        toppings = toppings.map { it.toProductUi() }
+                    )
+            }
         }
     }
 

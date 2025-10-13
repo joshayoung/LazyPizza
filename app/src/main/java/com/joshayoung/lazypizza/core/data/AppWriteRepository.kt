@@ -8,8 +8,6 @@ import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 import io.appwrite.services.TablesDB
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class AppWriteRepository(
     private var appWriteClient: Client
@@ -36,30 +34,59 @@ class AppWriteRepository(
         }
     }
 
-    override suspend fun getTableData(table: String): List<Product> =
-        withContext(Dispatchers.IO) {
-            try {
-                val tables =
-                    TablesDB(
-                        client = appWriteClient
-                    )
-                val response =
-                    tables.listRows(
-                        BuildConfig.DATABASE_ID,
-                        table,
-                        emptyList()
-                    )
+    override suspend fun getTableData(table: String): List<Product> {
+        try {
+            val tables =
+                TablesDB(
+                    client = appWriteClient
+                )
+            val response =
+                tables.listRows(
+                    BuildConfig.DATABASE_ID,
+                    table,
+                    emptyList()
+                )
+            val data =
                 response.rows.map { row ->
                     Product(
-                        id = row.data["id"] as? String ?: "",
+                        id = row.data["\$id"] as? String ?: "",
                         name = row.data["name"] as? String ?: "",
                         price = row.data["price"] as? String ?: "0.00",
                         description = row.data["description"] as? String ?: "",
                         imageUrl = row.data["imageUrl"] as? String
                     )
                 }
-            } catch (e: Exception) {
-                emptyList()
-            }
+
+            return data
+        } catch (e: Exception) {
+            return emptyList()
         }
+    }
+
+    override suspend fun getData(productId: String?): Product? {
+        try {
+            val tables = TablesDB(client = appWriteClient)
+            productId?.let { id ->
+                val response =
+                    tables.getRow(
+                        BuildConfig.DATABASE_ID,
+                        BuildConfig.PIZZA_COLLECTION_ID,
+                        id
+                    )
+                val t = response.data["name"]
+
+                return Product(
+                    id = response.data["\$id"] as? String ?: "",
+                    name = response.data["name"] as? String ?: "",
+                    price = response.data["price"] as? String ?: "0.00",
+                    description = response.data["description"] as? String ?: "",
+                    imageUrl = response.data["imageUrl"] as? String ?: ""
+                )
+            }
+        } catch (e: Exception) {
+            null
+        }
+
+        return null
+    }
 }

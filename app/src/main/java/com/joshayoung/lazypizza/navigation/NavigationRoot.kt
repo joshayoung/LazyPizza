@@ -17,20 +17,20 @@ fun NavigationRoot(navController: NavHostController) {
     ) {
         composable<Routes.Search> {
             HomeScreenRoot(
-                goToDetails = { product ->
+                goToDetails = { id ->
                     navController.navigate(
-                        Routes.Details.toString() + "?pizza=$product"
+                        Routes.Details.toString() + "?productId=$id"
                     )
                 }
             )
         }
 
         composable(
-            route = Routes.Details.toString() + "?pizza={pizza}",
+            route = Routes.Details.toString() + "?productId={productId}",
             arguments =
                 listOf(
                     navArgument(
-                        name = "pizza"
+                        name = "productId"
                     ) {
                         type = NavType.StringType
                         defaultValue = ""
