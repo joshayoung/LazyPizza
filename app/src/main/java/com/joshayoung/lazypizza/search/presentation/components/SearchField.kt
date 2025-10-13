@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.SearchIcon
+import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 
 @Composable
 fun SearchField(state: TextFieldState) {
@@ -50,7 +51,10 @@ fun SearchField(state: TextFieldState) {
                     modifier = Modifier
                 ) {
                     if (state.text.isEmpty() && !isFocused) {
-                        Text("Search for delicious food…")
+                        Text(
+                            "Search for delicious food…",
+                            color = MaterialTheme.colorScheme.onSecondary
+                        )
                     }
                     innerBox()
                 }
@@ -66,7 +70,7 @@ fun SearchField(state: TextFieldState) {
                     MaterialTheme.colorScheme.surfaceVariant,
                     shape = RoundedCornerShape(20.dp)
                 ).shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .background(MaterialTheme.colorScheme.surfaceHigher)
                 .padding(10.dp)
                 .fillMaxWidth()
     )
