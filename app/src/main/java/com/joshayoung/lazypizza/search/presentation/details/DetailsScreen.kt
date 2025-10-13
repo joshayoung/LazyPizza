@@ -208,6 +208,42 @@ fun DetailsScreenPreview() {
                                 name = "pepperoni",
                                 price = BigDecimal("1.80"),
                                 imageResource = R.drawable.pepperoni
+                            ),
+                            ProductUi(
+                                id = "10",
+                                name = "mushroom",
+                                price = BigDecimal("0.50"),
+                                imageResource = R.drawable.mushroom
+                            ),
+                            ProductUi(
+                                id = "11",
+                                name = "basil",
+                                price = BigDecimal("0.50"),
+                                imageResource = R.drawable.basil
+                            ),
+                            ProductUi(
+                                id = "12",
+                                name = "pineapple",
+                                price = BigDecimal("1.00"),
+                                imageResource = R.drawable.pineapple
+                            ),
+                            ProductUi(
+                                id = "13",
+                                name = "onion",
+                                price = BigDecimal("0.50"),
+                                imageResource = R.drawable.onion
+                            ),
+                            ProductUi(
+                                id = "14",
+                                name = "chili peppers",
+                                price = BigDecimal("0.50"),
+                                imageResource = R.drawable.chilli
+                            ),
+                            ProductUi(
+                                id = "15",
+                                name = "spinach",
+                                price = BigDecimal("0.50"),
+                                imageResource = R.drawable.spinach
                             )
                         )
                 ),
