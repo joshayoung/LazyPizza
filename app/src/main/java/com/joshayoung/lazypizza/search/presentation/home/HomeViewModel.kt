@@ -24,6 +24,7 @@ class HomeViewModel(
     private var _state = MutableStateFlow(HomeState())
     private var pizzas: List<Product> = emptyList()
     private var drinks: List<Product> = emptyList()
+    private var sauces: List<Product> = emptyList()
     private var iceCream: List<Product> = emptyList()
 
     val state =
@@ -118,9 +119,11 @@ class HomeViewModel(
         viewModelScope.launch {
             pizzas = lazyPizzaRepository.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
             drinks = lazyPizzaRepository.getTableData(BuildConfig.DRINK_COLLECTION_ID)
+            sauces = lazyPizzaRepository.getTableData(BuildConfig.SAUCES_COLLECTION_ID)
             iceCream = lazyPizzaRepository.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
             val drinkStart = pizzas.count() + 1
-            val iceCreamStart = pizzas.count() + drinks.count() + 1
+            val saucesStart = pizzas.count() + drinks.count() + 1
+            val iceCreamStart = pizzas.count() + drinks.count() + sauces.count() + 1
             val all =
                 listOf(
                     Products(
@@ -133,6 +136,15 @@ class HomeViewModel(
                             drinks.map { it.toProductUi() }.map {
                                 it.copy(
                                     type = ProductType.DRINK
+                                )
+                            }
+                    ),
+                    Products(
+                        name = "sauces",
+                        items =
+                            sauces.map { it.toProductUi() }.map {
+                                it.copy(
+                                    type = ProductType.SAUCE
                                 )
                             }
                     ),
@@ -152,6 +164,7 @@ class HomeViewModel(
                     items = all,
                     pizzaScrollPosition = 0,
                     drinkScrollPosition = drinkStart,
+                    sauceScrollPosition = saucesStart,
                     iceCreamScrollPosition = iceCreamStart,
                     isLoadingProducts = false
                 )
