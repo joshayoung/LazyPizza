@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.search.presentation.home
 
+import android.R.attr.clickable
 import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -247,7 +248,9 @@ fun ItemAndPrice(
                 .height(140.dp)
                 .fillMaxWidth()
                 .clickable {
-                    goToDetails(productUi.id)
+                    if (productUi.type == ProductType.ENTRE) {
+                        goToDetails(productUi.id)
+                    }
                 }
     ) {
         if (productUi.type == ProductType.DRINK || productUi.type == ProductType.DESSERT) {

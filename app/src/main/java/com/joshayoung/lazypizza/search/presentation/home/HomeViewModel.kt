@@ -128,7 +128,12 @@ class HomeViewModel(
                 listOf(
                     Products(
                         name = "pizzas",
-                        items = pizzas.map { it.toProductUi() }
+                        items =
+                            pizzas.map { it.toProductUi() }.map {
+                                it.copy(
+                                    type = ProductType.ENTRE
+                                )
+                            }
                     ),
                     Products(
                         name = "drinks",
