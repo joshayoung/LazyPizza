@@ -8,12 +8,12 @@ import androidx.compose.ui.graphics.Color
 
 private val LazyPizzaColorScheme =
     lightColorScheme(
-        primary = primary,
-        onPrimary = textOnPrimary,
-        background = background,
-        outline = outline,
-        outlineVariant = outline50,
-        onSecondary = textSecondary
+        primary = LazyPizzaColors.primary,
+        onPrimary = LazyPizzaColors.textOnPrimary,
+        background = LazyPizzaColors.background,
+        outline = LazyPizzaColors.outline,
+        outlineVariant = LazyPizzaColors.outline50,
+        onSecondary = LazyPizzaColors.textSecondary
     )
 
 @Composable
@@ -21,37 +21,37 @@ fun extendedColor(light: Color): Color = light
 
 val ColorScheme.textPrimary: Color @Composable get() =
     extendedColor(
-        light = textPrimary
+        light = LazyPizzaColors.textPrimary
     )
 
 val ColorScheme.textSecondary8: Color @Composable get() =
     extendedColor(
-        light = textSecondary8
+        light = LazyPizzaColors.textSecondary8
     )
 
 val ColorScheme.surfaceHigher: Color @Composable get() =
     extendedColor(
-        light = surfaceHigher
+        light = LazyPizzaColors.surfaceHigher
     )
 
 val ColorScheme.surfaceHighest: Color @Composable get() =
     extendedColor(
-        light = surfaceHighest
+        light = LazyPizzaColors.surfaceHighest
     )
 
 val ColorScheme.primaryGradientStart: Color @Composable get() =
     extendedColor(
-        light = primaryGradientStart
+        light = LazyPizzaColors.primaryGradientStart
     )
 
 val ColorScheme.primaryGradientEnd: Color @Composable get() =
     extendedColor(
-        light = primaryGradientEnd
+        light = LazyPizzaColors.primaryGradientEnd
     )
 
 val ColorScheme.primary8: Color @Composable get() =
     extendedColor(
-        light = primary8
+        light = LazyPizzaColors.primary8
     )
 
 @Composable
