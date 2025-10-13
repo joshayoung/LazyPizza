@@ -107,26 +107,33 @@ fun DetailsScreen(
                         Modifier
                             .padding(bottom = 10.dp)
                 )
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    contentPadding = PaddingValues(0.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
+                Box(
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
                 ) {
-                    stickyHeader {
-                        Text(
-                            "Add Extra Toppings".uppercase(),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSecondary,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
-                    items(state.toppings) { topping ->
-                        ProductAndPriceComponent(
-                            topping,
-                            click = onAction,
-                            modifier = Modifier
-                        )
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3),
+                        contentPadding = PaddingValues(0.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                    ) {
+                        stickyHeader {
+                            Text(
+                                "Add Extra Toppings".uppercase(),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSecondary,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                        }
+                        items(state.toppings) { topping ->
+                            ProductAndPriceComponent(
+                                topping,
+                                click = onAction,
+                                modifier = Modifier
+                            )
+                        }
                     }
                 }
 
