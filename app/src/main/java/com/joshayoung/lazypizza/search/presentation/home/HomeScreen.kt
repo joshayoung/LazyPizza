@@ -13,10 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -78,14 +79,14 @@ fun HomeScreenRoot(
     }
     val scrollPosition = prefs.getInt("scroll_position", 0)
 
-    val lazyListState =
-        rememberLazyListState(
+    val lazyGridState =
+        rememberLazyGridState(
             initialFirstVisibleItemIndex = scrollPosition
         )
 
-    LaunchedEffect(lazyListState) {
+    LaunchedEffect(lazyGridState) {
         snapshotFlow {
-            lazyListState.firstVisibleItemIndex
+            lazyGridState.firstVisibleItemIndex
         }.debounce(500L)
             .collectLatest { index ->
                 prefs.edit {
@@ -94,12 +95,12 @@ fun HomeScreenRoot(
                 }
             }
     }
-    val listState = remember { lazyListState }
+    val listState = remember { lazyGridState }
 
     HomeScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToDetails = goToDetails,
-        listState = listState
+        lazyGridState = listState
     )
 }
 
@@ -107,7 +108,7 @@ fun HomeScreenRoot(
 fun HomeScreen(
     state: HomeState,
     goToDetails: (id: String) -> Unit,
-    listState: LazyListState
+    lazyGridState: LazyGridState
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -126,8 +127,8 @@ fun HomeScreen(
                             .padding(horizontal = 20.dp)
                 ) {
                     HeaderAndSearch(state)
-                    Chips(listState, coroutineScope, state)
-                    ProductItems(listState, state, goToDetails = goToDetails)
+                    Chips(lazyGridState, coroutineScope, state)
+                    ProductItems(lazyGridState, state, goToDetails = goToDetails, 1)
                 }
             }
         }
@@ -136,10 +137,20 @@ fun HomeScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            Column {
-                HeaderAndSearch(state)
-                Chips(listState, coroutineScope, state)
-                ProductItems(listState, state, goToDetails = goToDetails)
+            LazyPizzaScaffold(
+                topAppBar = { LazyPizzaAppBar() }
+            ) { innerPadding ->
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .background(Color(0xFFFAFBFC))
+                            .padding(horizontal = 20.dp)
+                ) {
+                    HeaderAndSearch(state)
+                    Chips(lazyGridState, coroutineScope, state)
+                    ProductItems(lazyGridState, state, goToDetails = goToDetails, 2)
+                }
             }
         }
     }
@@ -160,7 +171,7 @@ fun HeaderAndSearch(state: HomeState) {
 
 @Composable
 fun Chips(
-    listState: LazyListState,
+    lazyGridState: LazyGridState,
     coroutineScope: CoroutineScope,
     state: HomeState
 ) {
@@ -177,16 +188,16 @@ fun Chips(
                 onClick = {
                     coroutineScope.launch {
                         if (index == 0) {
-                            listState.animateScrollToItem(state.pizzaScrollPosition)
+                            lazyGridState.animateScrollToItem(state.pizzaScrollPosition)
                         }
                         if (index == 1) {
-                            listState.animateScrollToItem(state.drinkScrollPosition)
+                            lazyGridState.animateScrollToItem(state.drinkScrollPosition)
                         }
                         if (index == 2) {
-                            listState.animateScrollToItem(state.sauceScrollPosition)
+                            lazyGridState.animateScrollToItem(state.sauceScrollPosition)
                         }
                         if (index == 3) {
-                            listState.animateScrollToItem(state.iceCreamScrollPosition)
+                            lazyGridState.animateScrollToItem(state.iceCreamScrollPosition)
                         }
                     }
                 },
@@ -215,9 +226,10 @@ fun Chips(
 
 @Composable
 fun ProductItems(
-    listState: LazyListState,
+    lazyGridState: LazyGridState,
     state: HomeState,
-    goToDetails: (String) -> Unit
+    goToDetails: (String) -> Unit,
+    columns: Int
 ) {
     Column(
         modifier =
@@ -252,9 +264,9 @@ fun ProductItems(
                     )
                 }
             } else {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier,
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(columns),
+                    state = lazyGridState,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     state.items.forEach { iii ->
@@ -262,7 +274,13 @@ fun ProductItems(
                             Text(iii.name.first().titlecase() + iii.name.substring(1))
                         }
                         items(iii.items) { product ->
-                            ItemAndPrice(product, goToDetails = goToDetails)
+                            ItemAndPrice(
+                                product,
+                                goToDetails = goToDetails,
+                                modifier =
+                                    Modifier
+                                        .padding(end = 10.dp)
+                            )
                         }
                     }
                 }
@@ -274,7 +292,8 @@ fun ProductItems(
 @Composable
 fun ItemAndPrice(
     productUi: ProductUi,
-    goToDetails: (id: String) -> Unit
+    goToDetails: (id: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         colors =
@@ -287,7 +306,7 @@ fun ItemAndPrice(
             ),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.surface),
         modifier =
-            Modifier
+            modifier
                 .height(140.dp)
                 .fillMaxWidth()
                 .clickable {
@@ -336,7 +355,7 @@ fun ProductItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 // @Preview(
 //    showBackground = true,
 //    widthDp = 840,
@@ -440,7 +459,7 @@ fun SearchItemsScreenPreview() {
                         )
                 ),
             goToDetails = {},
-            listState = LazyListState()
+            lazyGridState = LazyGridState()
         )
     }
 }
