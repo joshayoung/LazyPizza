@@ -36,6 +36,7 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
+import java.util.Locale
 
 @Composable
 fun DetailsScreenRoot(
@@ -74,103 +75,126 @@ fun DetailsScreen(
                     .padding(innerPadding)
                     .fillMaxSize()
         ) {
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .background(
-                            MaterialTheme.colorScheme.background,
-                            shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-                        ).border(
-                            BorderStroke(
-                                1.dp,
-                                MaterialTheme.colorScheme.background
-                            ),
-                            shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)
-                        ),
-                contentAlignment = Alignment.Center
-            ) {
-                LazyImage(
-                    state.productUi,
-                    modifier =
-                        Modifier
-                            .size(300.dp)
-                )
-            }
+            DetailHeader(state = state)
             Column(
                 modifier =
                     Modifier
                         .background(MaterialTheme.colorScheme.surfaceHigher)
                         .padding(10.dp)
             ) {
+                DetailDescription(state)
+                Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
+                CartButton(state)
+            }
+        }
+    }
+}
+
+@Composable
+fun DetailHeader(state: DetailsState) {
+    Box(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(
+                    MaterialTheme.colorScheme.background,
+                    shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                ).border(
+                    BorderStroke(
+                        1.dp,
+                        MaterialTheme.colorScheme.background
+                    ),
+                    shape = RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)
+                ),
+        contentAlignment = Alignment.Center
+    ) {
+        LazyImage(
+            state.productUi,
+            modifier =
+                Modifier
+                    .size(300.dp)
+        )
+    }
+}
+
+@Composable
+fun DetailDescription(state: DetailsState) {
+    Text(
+        text = state.productUi?.name ?: "",
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier
+    )
+    Text(
+        text = state.productUi?.description ?: "",
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSecondary,
+        modifier =
+            Modifier
+                .padding(bottom = 10.dp)
+    )
+}
+
+@Composable
+fun Toppings(
+    state: DetailsState,
+    onAction: (DetailAction) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier =
+            modifier
+//                .weight(1f)
+                .fillMaxWidth()
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(0.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+        ) {
+            stickyHeader {
                 Text(
-                    text = state.productUi?.name ?: "",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                )
-                Text(
-                    text = state.productUi?.description ?: "",
-                    style = MaterialTheme.typography.bodySmall,
+                    "Add Extra Toppings".uppercase(),
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondary,
                     modifier =
-                        Modifier
-                            .padding(bottom = 10.dp)
-                )
-                Box(
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                ) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(3),
-                        contentPadding = PaddingValues(0.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier
-                    ) {
-                        stickyHeader {
-                            Text(
-                                "Add Extra Toppings".uppercase(),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSecondary,
-                                modifier =
-                                    Modifier.padding(
-                                        top = 8.dp,
-                                        bottom = 8.dp
-                                    )
-                            )
-                        }
-                        items(state.toppings) { topping ->
-                            ProductAndPriceComponent(
-                                topping,
-                                click = onAction,
-                                modifier = Modifier
-                            )
-                        }
-                    }
-                }
-
-                Box(
-                    modifier =
-                        Modifier
-                            .shadow(
-                                2.dp,
-                                RoundedCornerShape(16.dp),
-                                ambientColor = MaterialTheme.colorScheme.primary
-                            )
-                ) {
-                    Button(onClick = {
-                    }, shape = RoundedCornerShape(16.dp)) {
-                        Text(
-                            "Add to Cart for ${String.format("$%.2f", state.totalPrice)}",
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth(),
-                            textAlign = TextAlign.Center
+                        Modifier.padding(
+                            top = 8.dp,
+                            bottom = 8.dp
                         )
-                    }
-                }
+                )
             }
+            items(state.toppings) { topping ->
+                ProductAndPriceComponent(
+                    topping,
+                    click = onAction,
+                    modifier = Modifier
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CartButton(state: DetailsState) {
+    Box(
+        modifier =
+            Modifier
+                .shadow(
+                    2.dp,
+                    RoundedCornerShape(16.dp),
+                    ambientColor = MaterialTheme.colorScheme.primary
+                )
+    ) {
+        Button(onClick = {
+        }, shape = RoundedCornerShape(16.dp)) {
+            Text(
+                "Add to Cart for ${String.format(Locale.US, "$%.2f", state.totalPrice)}",
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
