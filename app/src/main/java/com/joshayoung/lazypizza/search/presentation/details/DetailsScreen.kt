@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -111,21 +112,35 @@ fun DetailsScreen(
                     )
                 }
             ) { innerPadding ->
-                Column(
+                Row(
                     modifier =
                         Modifier
                             .padding(innerPadding)
+                            .padding(10.dp)
                             .fillMaxSize()
                 ) {
-                    DetailHeader(state = state)
+                    Column(
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                    ) {
+                        DetailHeader(state = state)
+                        DetailDescription(state)
+                    }
                     Column(
                         modifier =
                             Modifier
                                 .background(MaterialTheme.colorScheme.surfaceHigher)
+                                .weight(1f)
                                 .padding(10.dp)
                     ) {
-                        DetailDescription(state)
-                        Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
+                        Toppings(
+                            state,
+                            onAction = onAction,
+                            modifier =
+                                Modifier
+                                    .padding(bottom = 10.dp)
+                        )
                         CartButton(state)
                     }
                 }
@@ -187,7 +202,6 @@ fun Toppings(
     Box(
         modifier =
             modifier
-//                .weight(1f)
                 .fillMaxWidth()
     ) {
         LazyVerticalGrid(
