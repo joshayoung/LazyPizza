@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -52,6 +53,9 @@ fun SearchField(
             Icon(
                 imageVector = SearchIcon,
                 contentDescription = null,
+                modifier =
+                    Modifier
+                        .size(14.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
             Spacer(Modifier.width(10.dp))

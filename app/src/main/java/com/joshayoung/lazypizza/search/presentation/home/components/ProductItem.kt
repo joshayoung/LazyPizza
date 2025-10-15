@@ -1,24 +1,22 @@
 package com.joshayoung.lazypizza.search.presentation.home.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
@@ -26,13 +24,16 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
+import java.util.Locale
 
 @Composable
-fun MultipleProductItem(productUi: ProductUi) {
-    val itemCount = remember { mutableIntStateOf(0) }
+fun ProductItem(
+    productUi: ProductUi,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier =
-        Modifier,
+        modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         LazyImage(
@@ -43,61 +44,65 @@ fun MultipleProductItem(productUi: ProductUi) {
                     .background(
                         MaterialTheme.colorScheme.surfaceVariant,
                         shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
-                    ).border(
-                        1.dp,
-                        color = Color.White,
-                        shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
                     )
         )
         Column(
             modifier =
                 Modifier
-                    .fillMaxHeight()
                     .background(
                         MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)
-                    ).border(
-                        1.dp,
-                        color = Color.White,
-                        shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)
-                    ).padding(10.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                        shape =
+                            RoundedCornerShape(
+                                topEnd = 12.dp,
+                                bottomEnd = 12.dp
+                            )
+                    ).padding(start = 20.dp)
+                    .padding(vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            ProductHeader(productUi, itemCount)
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                if (itemCount.intValue == 0) {
-                    PriceAndAddButton(productUi.price, itemCount = itemCount)
-                } else {
-                    PriceAndQuantity(productUi.price, itemCount)
-                }
-            }
+            Text(
+                productUi.name,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+            )
+            Text(
+                productUi.description ?: "",
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            val price = String.format(locale = Locale.US, "$%.2f", productUi.price)
+            Text(
+                price,
+                modifier = Modifier,
+                style = MaterialTheme.typography.titleLarge
+            )
         }
     }
 }
 
 @Preview
 @Composable
-fun MultipleProductItemPreview() {
+private fun ProductItemPreview() {
     LazyPizzaTheme {
         Column(
             modifier =
                 Modifier
                     .height(200.dp)
+                    .width(400.dp)
         ) {
-            MultipleProductItem(
+            ProductItem(
                 productUi =
                     ProductUi(
-                        id = "10",
-                        description = "description",
-                        imageUrl = "",
-                        imageResource = R.drawable.seven_up,
-                        name = "7-up",
-                        price = BigDecimal("1.23")
+                        id = "1",
+                        description =
+                            "Tomato sauce, mozzarella, mushrooms, " +
+                                "olives, bell pepper, onion, corn",
+                        imageResource = R.drawable.veggie_delight,
+                        name = "Veggie Delight",
+                        price = BigDecimal("9.79")
                     )
             )
         }

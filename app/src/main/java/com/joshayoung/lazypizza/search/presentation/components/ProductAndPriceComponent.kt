@@ -67,6 +67,7 @@ fun ProductAndPriceComponent(
                 .height(150.dp)
                 .clickable {
                     incrementMode = true
+                    click(DetailAction.IncrementPrice(productUi.price))
                 }.border(
                     1.dp,
                     color = borderColor,

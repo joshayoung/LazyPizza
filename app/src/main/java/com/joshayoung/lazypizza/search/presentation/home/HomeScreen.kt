@@ -4,7 +4,6 @@ import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,8 +20,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,24 +37,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.search.data.models.Products
 import com.joshayoung.lazypizza.search.presentation.components.SearchField
 import com.joshayoung.lazypizza.search.presentation.home.components.MultipleProductItem
+import com.joshayoung.lazypizza.search.presentation.home.components.ProductItem
 import com.joshayoung.lazypizza.search.presentation.models.ProductType
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
@@ -127,7 +122,7 @@ fun HomeScreen(
                             .background(Color(0xFFFAFBFC))
                             .padding(horizontal = 20.dp)
                 ) {
-                    HeaderAndSearch(state, 200.dp)
+                    HeaderAndSearch(state, 150.dp)
                     Chips(lazyGridState, coroutineScope, state)
                     ProductItems(lazyGridState, state, goToDetails = goToDetails, 1)
                 }
@@ -276,7 +271,7 @@ fun ProductItems(
                 ) {
                     state.items.forEach { iii ->
                         stickyHeader {
-                            Text(iii.name.uppercase(), style = MaterialTheme.typography.titleSmall)
+                            Text(iii.name.uppercase(), style = MaterialTheme.typography.bodySmall)
                         }
                         items(iii.items) { product ->
                             ItemAndPrice(
@@ -300,64 +295,32 @@ fun ItemAndPrice(
     goToDetails: (id: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceHigher
-            ),
-        elevation =
-            CardDefaults.cardElevation(
-                defaultElevation = 1.dp
-            ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.surface),
-        modifier =
-            modifier
-                .height(140.dp)
-                .fillMaxWidth()
-                .clickable {
-                    if (productUi.type == ProductType.ENTRE) {
-                        goToDetails(productUi.id)
-                    }
-                }
-    ) {
-        if (productUi.type == ProductType.ENTRE) {
-            ProductItem(productUi)
-        } else {
-            MultipleProductItem(productUi)
-        }
+//    Card(
+//        colors =
+//            CardDefaults.cardColors(
+//                containerColor = MaterialTheme.colorScheme.surfaceHigher
+//            ),
+//        elevation =
+//            CardDefaults.cardElevation(
+//                defaultElevation = 1.dp
+//            ),
+//        border = BorderStroke(1.dp, MaterialTheme.colorScheme.surface),
+//        modifier =
+//            modifier
+//                .height(140.dp)
+//                .fillMaxWidth()
+//                .clickable {
+//                    if (productUi.type == ProductType.ENTRE) {
+//                        goToDetails(productUi.id)
+//                    }
+//                }
+//    ) {
+    if (productUi.type == ProductType.ENTRE) {
+        ProductItem(productUi)
+    } else {
+        MultipleProductItem(productUi)
     }
-}
-
-@Composable
-fun ProductItem(
-    productUi: ProductUi,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier =
-            modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .fillMaxSize(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        LazyImage(
-            productUi,
-            modifier = Modifier
-        )
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(start = 20.dp)
-                    .padding(vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Text(productUi.name, fontWeight = FontWeight.Bold)
-            Text(productUi.description ?: "")
-            Text(productUi.price.toString(), style = MaterialTheme.typography.titleLarge)
-        }
-    }
+//    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -366,11 +329,11 @@ fun ProductItem(
 //    widthDp = 840,
 //    heightDp = 360,
 // )
-@Preview(
-    showBackground = true,
-    widthDp = 800,
-    heightDp = 1280
-)
+// @Preview(
+//    showBackground = true,
+//    widthDp = 800,
+//    heightDp = 1280
+// )
 @Composable
 fun SearchItemsScreenPreview() {
     LazyPizzaTheme {
@@ -390,14 +353,18 @@ fun SearchItemsScreenPreview() {
                                             description = "A delicious food",
                                             imageResource = R.drawable.hawaiian,
                                             name = "Hawaiian Pizza",
-                                            price = BigDecimal("10.19")
+                                            price = BigDecimal("10.19"),
+                                            type = ProductType.ENTRE
                                         ),
                                         ProductUi(
                                             id = "2",
-                                            description = "Another food",
+                                            description =
+                                                "Tomato sauce, mozzarella, " +
+                                                    "mushrooms, olives, bell pepper, onion, corn",
                                             imageResource = R.drawable.meat_lovers,
-                                            name = "Meat Lovers Pizza",
-                                            price = BigDecimal("12.98")
+                                            name = "Veggie Delight",
+                                            price = BigDecimal("9.79"),
+                                            type = ProductType.ENTRE
                                         )
                                     )
                             ),

@@ -60,7 +60,7 @@ fun PriceAndAddButton(
         ) {
             Text(
                 "Add to Cart",
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary
             )
         }

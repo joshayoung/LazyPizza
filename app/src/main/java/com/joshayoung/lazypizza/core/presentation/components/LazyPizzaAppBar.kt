@@ -98,9 +98,9 @@ fun Contact() {
             tint = Color.Gray,
             modifier =
                 Modifier
-                    .padding(end = 10.dp)
+                    .padding(end = 8.dp)
         )
-        Text(text = "+1 (555) 321-7890", style = MaterialTheme.typography.titleSmall)
+        Text(text = "+1 (555) 321-7890", style = MaterialTheme.typography.bodySmall)
     }
 }
 
