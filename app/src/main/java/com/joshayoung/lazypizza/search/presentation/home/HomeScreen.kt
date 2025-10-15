@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -126,7 +127,7 @@ fun HomeScreen(
                             .background(Color(0xFFFAFBFC))
                             .padding(horizontal = 20.dp)
                 ) {
-                    HeaderAndSearch(state)
+                    HeaderAndSearch(state, 200.dp)
                     Chips(lazyGridState, coroutineScope, state)
                     ProductItems(lazyGridState, state, goToDetails = goToDetails, 1)
                 }
@@ -147,7 +148,7 @@ fun HomeScreen(
                             .background(Color(0xFFFAFBFC))
                             .padding(horizontal = 20.dp)
                 ) {
-                    HeaderAndSearch(state)
+                    HeaderAndSearch(state, 140.dp)
                     Chips(lazyGridState, coroutineScope, state)
                     ProductItems(lazyGridState, state, goToDetails = goToDetails, 2)
                 }
@@ -157,7 +158,10 @@ fun HomeScreen(
 }
 
 @Composable
-fun HeaderAndSearch(state: HomeState) {
+fun HeaderAndSearch(
+    state: HomeState,
+    height: Dp
+) {
     Image(
         painterResource(id = R.drawable.pizza_header),
         contentDescription = null,
@@ -165,6 +169,7 @@ fun HeaderAndSearch(state: HomeState) {
         modifier =
             Modifier
                 .fillMaxWidth()
+                .height(height = height)
     )
     SearchField(state.search, modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp))
 }
@@ -271,7 +276,7 @@ fun ProductItems(
                 ) {
                     state.items.forEach { iii ->
                         stickyHeader {
-                            Text(iii.name.first().titlecase() + iii.name.substring(1))
+                            Text(iii.name.uppercase(), style = MaterialTheme.typography.titleSmall)
                         }
                         items(iii.items) { product ->
                             ItemAndPrice(
