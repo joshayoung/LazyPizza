@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -59,32 +61,74 @@ fun DetailsScreen(
     navigateBack: () -> Unit,
     onAction: (DetailAction) -> Unit
 ) {
-    LazyPizzaScaffold(
-        topAppBar = {
-            LazyPizzaAppBar(
-                showLogo = false,
-                showContact = false,
-                showBackButton = true,
-                onBackClick = navigateBack
-            )
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
+
+    when (deviceConfiguration) {
+        DeviceConfiguration.MOBILE_PORTRAIT -> {
+            LazyPizzaScaffold(
+                topAppBar = {
+                    LazyPizzaAppBar(
+                        showLogo = false,
+                        showContact = false,
+                        showBackButton = true,
+                        onBackClick = navigateBack
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                ) {
+                    DetailHeader(state = state)
+                    Column(
+                        modifier =
+                            Modifier
+                                .background(MaterialTheme.colorScheme.surfaceHigher)
+                                .padding(10.dp)
+                    ) {
+                        DetailDescription(state)
+                        Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
+                        CartButton(state)
+                    }
+                }
+            }
         }
-    ) { innerPadding ->
-        Column(
-            modifier =
-                Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
-        ) {
-            DetailHeader(state = state)
-            Column(
-                modifier =
-                    Modifier
-                        .background(MaterialTheme.colorScheme.surfaceHigher)
-                        .padding(10.dp)
-            ) {
-                DetailDescription(state)
-                Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
-                CartButton(state)
+        DeviceConfiguration.MOBILE_LANDSCAPE -> {
+        }
+        DeviceConfiguration.TABLET_PORTRAIT,
+        DeviceConfiguration.TABLET_LANDSCAPE,
+        DeviceConfiguration.DESKTOP -> {
+            LazyPizzaScaffold(
+                topAppBar = {
+                    LazyPizzaAppBar(
+                        showLogo = false,
+                        showContact = false,
+                        showBackButton = true,
+                        onBackClick = navigateBack
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                ) {
+                    DetailHeader(state = state)
+                    Column(
+                        modifier =
+                            Modifier
+                                .background(MaterialTheme.colorScheme.surfaceHigher)
+                                .padding(10.dp)
+                    ) {
+                        DetailDescription(state)
+                        Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
+                        CartButton(state)
+                    }
+                }
             }
         }
     }
@@ -200,7 +244,12 @@ fun CartButton(state: DetailsState) {
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 1280
+)
 fun DetailsScreenPreview() {
     LazyPizzaTheme {
         DetailsScreen(
