@@ -47,36 +47,9 @@ class HomeViewModel(
 
     private fun searchList(search: CharSequence) {
         if (search.count() == 0) {
-            val all =
-                listOf(
-                    Products(
-                        name = "pizzas",
-                        items = pizzas.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.ENTRE
-                            )
-                        },
-                    ),
-                    Products(
-                        name = "drinks",
-                        items = drinks.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.DRINK
-                            )
-                        }
-                    ),
-                    Products(
-                        name = "ice cream",
-                        items = iceCream.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.DESSERT
-                            )
-                        }
-                    )
-                )
             _state.update {
                 it.copy(
-                    items = all,
+                    items = allProducts(),
                     noItemsFound = false
                 )
             }
@@ -98,34 +71,37 @@ class HomeViewModel(
             }
             return
         }
-
         val all =
             listOf(
                 Products(
                     name = "pizzas",
-                    items = filteredPizzas.map { it.toProductUi() }.map {
-                        it.copy(
-                            type = ProductType.ENTRE
-                        )
-                    }
+                    items =
+                        filteredPizzas.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.ENTRE
+                            )
+                        }
                 ),
                 Products(
                     name = "drinks",
-                    items = filteredDrinks.map { it.toProductUi() }.map {
-                        it.copy(
-                            type = ProductType.DRINK
-                        )
-                    }
+                    items =
+                        filteredDrinks.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.DRINK
+                            )
+                        }
                 ),
                 Products(
                     name = "ice cream",
-                    items = filteredIceCream.map { it.toProductUi() }.map {
-                        it.copy(
-                            type = ProductType.DESSERT
-                        )
-                    }
+                    items =
+                        filteredIceCream.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.DESSERT
+                            )
+                        }
                 )
             )
+
         _state.update {
             it.copy(
                 items = all,
@@ -148,45 +124,8 @@ class HomeViewModel(
             val drinkStart = pizzas.count() + 1
             val saucesStart = pizzas.count() + drinks.count() + 1
             val iceCreamStart = pizzas.count() + drinks.count() + sauces.count() + 1
-            val all =
-                listOf(
-                    Products(
-                        name = "pizzas",
-                        items =
-                            pizzas.map { it.toProductUi() }.map {
-                                it.copy(
-                                    type = ProductType.ENTRE
-                                )
-                            }
-                    ),
-                    Products(
-                        name = "drinks",
-                        items =
-                            drinks.map { it.toProductUi() }.map {
-                                it.copy(
-                                    type = ProductType.DRINK
-                                )
-                            }
-                    ),
-                    Products(
-                        name = "sauces",
-                        items =
-                            sauces.map { it.toProductUi() }.map {
-                                it.copy(
-                                    type = ProductType.SAUCE
-                                )
-                            }
-                    ),
-                    Products(
-                        name = "ice cream",
-                        items =
-                            iceCream.map { it.toProductUi() }.map {
-                                it.copy(
-                                    type = ProductType.DESSERT
-                                )
-                            }
-                    )
-                )
+
+            val all = allProducts()
 
             _state.update {
                 it.copy(
@@ -199,5 +138,49 @@ class HomeViewModel(
                 )
             }
         }
+    }
+
+    private fun allProducts(): List<Products> {
+        val all =
+            listOf(
+                Products(
+                    name = "pizzas",
+                    items =
+                        pizzas.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.ENTRE
+                            )
+                        }
+                ),
+                Products(
+                    name = "drinks",
+                    items =
+                        drinks.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.DRINK
+                            )
+                        }
+                ),
+                Products(
+                    name = "sauces",
+                    items =
+                        sauces.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.SAUCE
+                            )
+                        }
+                ),
+                Products(
+                    name = "ice cream",
+                    items =
+                        iceCream.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.DESSERT
+                            )
+                        }
+                )
+            )
+
+        return all
     }
 }

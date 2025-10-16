@@ -270,11 +270,16 @@ fun ProductItems(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    state.items.forEach { iii ->
-                        stickyHeader {
-                            Text(iii.name.uppercase(), style = MaterialTheme.typography.bodySmall)
+                    state.items.forEach { item ->
+                        if (item.items.count() > 0) {
+                            stickyHeader {
+                                Text(
+                                    item.name.uppercase(),
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
                         }
-                        items(iii.items) { product ->
+                        items(item.items) { product ->
                             ItemAndPrice(
                                 product,
                                 goToDetails = goToDetails,
