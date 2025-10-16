@@ -24,9 +24,12 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
@@ -208,6 +211,7 @@ fun Toppings(
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(0.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
         ) {
             stickyHeader {
@@ -238,14 +242,21 @@ fun CartButton(state: DetailsState) {
     Box(
         modifier =
             Modifier
-                .shadow(
-                    2.dp,
-                    RoundedCornerShape(16.dp),
-                    ambientColor = MaterialTheme.colorScheme.primary
+                .dropShadow(
+                    shape = RoundedCornerShape(20.dp),
+                    shadow =
+                        Shadow(
+                            radius = 4.dp,
+                            spread = 2.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            offset = DpOffset(x = 2.dp, 2.dp)
+                        )
                 )
     ) {
-        Button(onClick = {
-        }, shape = RoundedCornerShape(16.dp)) {
+        Button(
+            onClick = { },
+            shape = RoundedCornerShape(16.dp)
+        ) {
             Text(
                 "Add to Cart for ${String.format(Locale.US, "$%.2f", state.totalPrice)}",
                 modifier =

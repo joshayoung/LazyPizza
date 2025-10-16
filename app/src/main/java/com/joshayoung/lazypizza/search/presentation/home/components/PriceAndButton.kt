@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,8 +56,9 @@ fun PriceAndAddButton(
                     .border(
                         1.dp,
                         color = MaterialTheme.colorScheme.primary8,
-                        shape = RoundedCornerShape(100.dp)
-                    ).padding(horizontal = 10.dp)
+                        shape = RoundedCornerShape(60.dp)
+                    ).padding(horizontal = 20.dp)
+                    .height(36.dp)
         ) {
             Text(
                 "Add to Cart",

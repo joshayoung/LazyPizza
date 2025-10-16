@@ -267,7 +267,8 @@ fun ProductItems(
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(columns),
                     state = lazyGridState,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     state.items.forEach { iii ->
                         stickyHeader {

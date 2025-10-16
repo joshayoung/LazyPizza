@@ -39,11 +39,12 @@ fun LazyPizzaAppBar(
     onBackClick: () -> Unit = {}
 ) {
     TopAppBar(
+        modifier = Modifier,
         title = {
             Row(
                 modifier =
                     Modifier
-                        .padding(horizontal = 20.dp)
+                        .padding(end = 20.dp)
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -108,9 +109,9 @@ fun Contact() {
 fun Logo() {
     Row(
         modifier =
-        Modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            Modifier
+                .padding(start = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             imageVector = PizzaLogo,

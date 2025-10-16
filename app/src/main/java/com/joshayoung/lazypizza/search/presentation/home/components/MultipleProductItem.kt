@@ -29,6 +29,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import java.math.BigDecimal
 
 @Composable
@@ -40,7 +41,11 @@ fun MultipleProductItem(
     Row(
         modifier =
             modifier
-                .dropShadow(
+                .border(
+                    1.dp,
+                    color = MaterialTheme.colorScheme.surfaceHigher,
+                    shape = RoundedCornerShape(12.dp)
+                ).dropShadow(
                     shape = RoundedCornerShape(20.dp),
                     shadow =
                         Shadow(
@@ -68,10 +73,6 @@ fun MultipleProductItem(
                     .fillMaxHeight()
                     .background(
                         MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)
-                    ).border(
-                        1.dp,
-                        color = Color.White,
                         shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)
                     ).padding(10.dp),
             verticalArrangement = Arrangement.SpaceBetween
