@@ -51,15 +51,27 @@ class HomeViewModel(
                 listOf(
                     Products(
                         name = "pizzas",
-                        items = pizzas.map { it.toProductUi() }
+                        items = pizzas.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.ENTRE
+                            )
+                        },
                     ),
                     Products(
                         name = "drinks",
-                        items = drinks.map { it.toProductUi() }
+                        items = drinks.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.DRINK
+                            )
+                        }
                     ),
                     Products(
                         name = "ice cream",
-                        items = iceCream.map { it.toProductUi() }
+                        items = iceCream.map { it.toProductUi() }.map {
+                            it.copy(
+                                type = ProductType.DESSERT
+                            )
+                        }
                     )
                 )
             _state.update {
@@ -91,15 +103,27 @@ class HomeViewModel(
             listOf(
                 Products(
                     name = "pizzas",
-                    items = filteredPizzas.map { it.toProductUi() }
+                    items = filteredPizzas.map { it.toProductUi() }.map {
+                        it.copy(
+                            type = ProductType.ENTRE
+                        )
+                    }
                 ),
                 Products(
                     name = "drinks",
-                    items = filteredDrinks.map { it.toProductUi() }
+                    items = filteredDrinks.map { it.toProductUi() }.map {
+                        it.copy(
+                            type = ProductType.DRINK
+                        )
+                    }
                 ),
                 Products(
                     name = "ice cream",
-                    items = filteredIceCream.map { it.toProductUi() }
+                    items = filteredIceCream.map { it.toProductUi() }.map {
+                        it.copy(
+                            type = ProductType.DESSERT
+                        )
+                    }
                 )
             )
         _state.update {

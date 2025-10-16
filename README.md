@@ -1,6 +1,19 @@
 # LazyPizza
 Android Application for Pizza Orders
 
+## Screenshots
+
+<p style='padding: 20px;' float="left">
+    <img alt="LazyPizza" src="./screenshots/tablet_home.png" width="200" />
+    <img alt="LazyPizza" src="./screenshots/tablet_details.png" width="200" />
+</p>
+
+## Walkthroughs
+
+<p style='padding: 20px;' float="left">
+    <img alt="LazyPizza" src="./videos/milestone_one.webm" width="200" />
+</p>
+
 ### Notes
 * `io.coil-kt.coil3:coil-network-okhttp` is needed to get `AsyncImage` working with `coil`.
 * **If your preview does not seem to be depicting the correct color for your `MaterialTheme` in the preview window, then make sure you are wrapping your preview in your theme block (i.e. `LazyPizzaTheme { ... }`).**
@@ -18,6 +31,10 @@ Android Application for Pizza Orders
 
 ### Generate SHA-256 Key
 * `./gradlew signingReport`
+
+## Convert Video Format
+* https://ffmpeg.org/ffmpeg.html#Video-and-Audio-file-format-conversion
+* `ffmpeg -i milestone_one.webm -c:v libx264 milestone_one.mp4`
 
 ### Resources
 * [Font](https://fonts.google.com/specimen/Instrument+Sans)
