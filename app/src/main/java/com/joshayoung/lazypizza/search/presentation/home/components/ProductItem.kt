@@ -18,10 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
@@ -35,13 +38,24 @@ import kotlin.Unit
 @Composable
 fun ProductItem(
     productUi: ProductUi,
-    goToDetails: (id: String) -> Unit
+    goToDetails: (id: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier =
-            Modifier.clickable {
-                goToDetails(productUi.id)
-            },
+            modifier
+                .dropShadow(
+                    shape = RoundedCornerShape(20.dp),
+                    shadow =
+                        Shadow(
+                            radius = 4.dp,
+                            spread = 2.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            offset = DpOffset(x = 2.dp, 2.dp)
+                        )
+                ).clickable {
+                    goToDetails(productUi.id)
+                },
         verticalAlignment = Alignment.CenterVertically
     ) {
         LazyImage(
@@ -97,6 +111,7 @@ fun ProductItem(
 private fun ProductItemPreview() {
     LazyPizzaTheme {
         Column(
+            verticalArrangement = Arrangement.SpaceAround,
             modifier =
                 Modifier
                     .fillMaxSize()
@@ -125,7 +140,7 @@ private fun ProductItemPreview() {
             Column(
                 modifier =
                     Modifier
-                        .height(200.dp)
+                        .height(100.dp)
                         .width(400.dp)
             ) {
                 ProductItem(

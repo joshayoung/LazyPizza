@@ -276,7 +276,8 @@ fun ProductItems(
                         items(iii.items) { product ->
                             ItemAndPrice(
                                 product,
-                                goToDetails = goToDetails
+                                goToDetails = goToDetails,
+                                modifier = Modifier.height(130.dp)
                             )
                         }
                     }
@@ -289,12 +290,13 @@ fun ProductItems(
 @Composable
 fun ItemAndPrice(
     productUi: ProductUi,
-    goToDetails: (id: String) -> Unit
+    goToDetails: (id: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     if (productUi.type == ProductType.ENTRE) {
-        ProductItem(productUi, goToDetails = goToDetails)
+        ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
-        MultipleProductItem(productUi)
+        MultipleProductItem(productUi, modifier = modifier)
     }
 }
 

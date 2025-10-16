@@ -19,8 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
@@ -29,12 +32,24 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 
 @Composable
-fun MultipleProductItem(productUi: ProductUi) {
+fun MultipleProductItem(
+    productUi: ProductUi,
+    modifier: Modifier = Modifier
+) {
     val itemCount = remember { mutableIntStateOf(0) }
     Row(
         modifier =
-            Modifier
-                .fillMaxWidth(),
+            modifier
+                .dropShadow(
+                    shape = RoundedCornerShape(20.dp),
+                    shadow =
+                        Shadow(
+                            radius = 4.dp,
+                            spread = 2.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            offset = DpOffset(x = 2.dp, 2.dp)
+                        )
+                ).fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LazyImage(
@@ -44,10 +59,6 @@ fun MultipleProductItem(productUi: ProductUi) {
                     .fillMaxHeight()
                     .background(
                         MaterialTheme.colorScheme.surfaceVariant,
-                        shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
-                    ).border(
-                        1.dp,
-                        color = Color.White,
                         shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
                     )
         )
