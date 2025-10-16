@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,7 +33,8 @@ fun MultipleProductItem(productUi: ProductUi) {
     val itemCount = remember { mutableIntStateOf(0) }
     Row(
         modifier =
-        Modifier,
+            Modifier
+                .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LazyImage(
@@ -80,26 +82,35 @@ fun MultipleProductItem(productUi: ProductUi) {
     }
 }
 
-@Preview
+@Preview()
 @Composable
 fun MultipleProductItemPreview() {
     LazyPizzaTheme {
         Column(
             modifier =
                 Modifier
-                    .height(200.dp)
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(20.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            MultipleProductItem(
-                productUi =
-                    ProductUi(
-                        id = "10",
-                        description = "description",
-                        imageUrl = "",
-                        imageResource = R.drawable.seven_up,
-                        name = "7-up",
-                        price = BigDecimal("1.23")
-                    )
-            )
+            Column(
+                modifier =
+                    Modifier
+                        .height(200.dp)
+            ) {
+                MultipleProductItem(
+                    productUi =
+                        ProductUi(
+                            id = "10",
+                            description = "description",
+                            imageUrl = "",
+                            imageResource = R.drawable.seven_up,
+                            name = "7-up",
+                            price = BigDecimal("1.23")
+                        )
+                )
+            }
         }
     }
 }

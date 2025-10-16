@@ -276,10 +276,7 @@ fun ProductItems(
                         items(iii.items) { product ->
                             ItemAndPrice(
                                 product,
-                                goToDetails = goToDetails,
-                                modifier =
-                                    Modifier
-                                        .padding(end = 10.dp)
+                                goToDetails = goToDetails
                             )
                         }
                     }
@@ -292,35 +289,13 @@ fun ProductItems(
 @Composable
 fun ItemAndPrice(
     productUi: ProductUi,
-    goToDetails: (id: String) -> Unit,
-    modifier: Modifier = Modifier
+    goToDetails: (id: String) -> Unit
 ) {
-//    Card(
-//        colors =
-//            CardDefaults.cardColors(
-//                containerColor = MaterialTheme.colorScheme.surfaceHigher
-//            ),
-//        elevation =
-//            CardDefaults.cardElevation(
-//                defaultElevation = 1.dp
-//            ),
-//        border = BorderStroke(1.dp, MaterialTheme.colorScheme.surface),
-//        modifier =
-//            modifier
-//                .height(140.dp)
-//                .fillMaxWidth()
-//                .clickable {
-//                    if (productUi.type == ProductType.ENTRE) {
-//                        goToDetails(productUi.id)
-//                    }
-//                }
-//    ) {
     if (productUi.type == ProductType.ENTRE) {
-        ProductItem(productUi)
+        ProductItem(productUi, goToDetails = goToDetails)
     } else {
         MultipleProductItem(productUi)
     }
-//    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)

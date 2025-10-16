@@ -1,11 +1,14 @@
 package com.joshayoung.lazypizza.search.presentation.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,15 +29,19 @@ import com.joshayoung.lazypizza.search.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 import java.util.Locale
+import kotlin.String
+import kotlin.Unit
 
 @Composable
 fun ProductItem(
     productUi: ProductUi,
-    modifier: Modifier = Modifier
+    goToDetails: (id: String) -> Unit
 ) {
     Row(
         modifier =
-        modifier,
+            Modifier.clickable {
+                goToDetails(productUi.id)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         LazyImage(
@@ -57,7 +65,8 @@ fun ProductItem(
                                 bottomEnd = 12.dp
                             )
                     ).padding(start = 20.dp)
-                    .padding(vertical = 10.dp),
+                    .padding(vertical = 10.dp)
+                    .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
@@ -90,21 +99,49 @@ private fun ProductItemPreview() {
         Column(
             modifier =
                 Modifier
-                    .height(200.dp)
-                    .width(400.dp)
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(20.dp)
         ) {
-            ProductItem(
-                productUi =
-                    ProductUi(
-                        id = "1",
-                        description =
-                            "Tomato sauce, mozzarella, mushrooms, " +
-                                "olives, bell pepper, onion, corn",
-                        imageResource = R.drawable.veggie_delight,
-                        name = "Veggie Delight",
-                        price = BigDecimal("9.79")
-                    )
-            )
+            Column(
+                modifier =
+                    Modifier
+                        .height(200.dp)
+                        .width(400.dp)
+            ) {
+                ProductItem(
+                    productUi =
+                        ProductUi(
+                            id = "1",
+                            description = "onion, corn",
+                            imageResource = R.drawable.veggie_delight,
+                            name = "Veggie Delight",
+                            price = BigDecimal("9.79")
+                        ),
+                    goToDetails = {}
+                )
+            }
+
+            Column(
+                modifier =
+                    Modifier
+                        .height(200.dp)
+                        .width(400.dp)
+            ) {
+                ProductItem(
+                    productUi =
+                        ProductUi(
+                            id = "1",
+                            description =
+                                "Tomato sauce, mozzarella, mushrooms, " +
+                                    "olives, bell pepper, onion, corn",
+                            imageResource = R.drawable.veggie_delight,
+                            name = "Veggie Delight",
+                            price = BigDecimal("9.79")
+                        ),
+                    goToDetails = {}
+                )
+            }
         }
     }
 }
