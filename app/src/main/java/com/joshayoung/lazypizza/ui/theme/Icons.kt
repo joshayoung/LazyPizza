@@ -40,3 +40,19 @@ val TrashIcon: ImageVector
 val BackIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(R.drawable.back)
+
+val MenuIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.book)
+
+val LogoutIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.logout)
+
+val CartIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.cart)
+
+val HistoryIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.history)

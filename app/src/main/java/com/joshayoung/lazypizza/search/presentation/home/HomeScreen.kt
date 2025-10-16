@@ -44,6 +44,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
+import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.search.data.models.Products
@@ -113,7 +114,10 @@ fun HomeScreen(
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             LazyPizzaScaffold(
-                topAppBar = { LazyPizzaAppBar() }
+                topAppBar = { LazyPizzaAppBar() },
+                bottomBar = {
+                    LazyPizzaBottomBar()
+                }
             ) { innerPadding ->
                 Column(
                     modifier =

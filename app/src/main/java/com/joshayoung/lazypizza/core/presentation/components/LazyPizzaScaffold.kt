@@ -17,10 +17,12 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 @Composable
 fun LazyPizzaScaffold(
     topAppBar: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
-        topBar = topAppBar
+        topBar = topAppBar,
+        bottomBar = bottomBar
     ) { innerPadding ->
         content(innerPadding)
     }
@@ -31,7 +33,10 @@ fun LazyPizzaScaffold(
 fun LazyPizzaScaffoldPreview() {
     LazyPizzaTheme {
         LazyPizzaScaffold(
-            topAppBar = { LazyPizzaAppBar() }
+            topAppBar = { LazyPizzaAppBar() },
+            bottomBar = {
+                LazyPizzaBottomBar()
+            }
         ) {
             Column(
                 modifier =
