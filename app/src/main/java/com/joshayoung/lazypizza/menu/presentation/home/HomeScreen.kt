@@ -46,6 +46,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.data.models.Products
 import com.joshayoung.lazypizza.menu.presentation.components.SearchField
@@ -68,9 +69,7 @@ import kotlin.getValue
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (id: String) -> Unit,
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
+    bottomNavItems: List<BottomNavItem>
 ) {
     val applicationContext = LocalContext.current.applicationContext
 
@@ -101,9 +100,7 @@ fun HomeScreenRoot(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToDetails = goToDetails,
         lazyGridState = listState,
-        navigateToDetails = navigateToDetails,
-        navigateToCart = navigateToCart,
-        navigateToHistory = navigateToHistory
+        bottomNavItems = bottomNavItems
     )
 }
 
@@ -112,9 +109,7 @@ fun HomeScreen(
     state: HomeState,
     goToDetails: (id: String) -> Unit,
     lazyGridState: LazyGridState,
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
+    bottomNavItems: List<BottomNavItem>
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -126,9 +121,7 @@ fun HomeScreen(
                 topAppBar = { LazyPizzaAppBar() },
                 bottomBar = {
                     LazyPizzaBottomBar(
-                        menuClick = navigateToDetails,
-                        cartClick = navigateToCart,
-                        historyClick = navigateToHistory
+                        bottomNavItems = bottomNavItems
                     )
                 }
             ) { innerPadding ->
@@ -432,9 +425,7 @@ fun SearchItemsScreenPreview() {
                 ),
             goToDetails = {},
             lazyGridState = LazyGridState(),
-            navigateToDetails = {},
-            navigateToCart = {},
-            navigateToHistory = {}
+            bottomNavItems = emptyList()
         )
     }
 }

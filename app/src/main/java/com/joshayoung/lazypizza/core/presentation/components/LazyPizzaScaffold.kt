@@ -36,9 +36,7 @@ fun LazyPizzaScaffoldPreview() {
             topAppBar = { LazyPizzaAppBar() },
             bottomBar = {
                 LazyPizzaBottomBar(
-                    menuClick = {},
-                    cartClick = {},
-                    historyClick = {}
+                    bottomNavItems = emptyList()
                 )
             }
         ) {

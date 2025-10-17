@@ -11,28 +11,19 @@ import androidx.compose.ui.Modifier
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import kotlin.getValue
 
 @Composable
-fun CartScreenRoot(
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
-) {
+fun CartScreenRoot(bottomNavItems: List<BottomNavItem>) {
     CartScreen(
-        navigateToDetails = navigateToDetails,
-        navigateToCart = navigateToCart,
-        navigateToHistory = navigateToHistory
+        bottomNavItems = bottomNavItems
     )
 }
 
 @Composable
-fun CartScreen(
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
-) {
+fun CartScreen(bottomNavItems: List<BottomNavItem>) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
     val coroutineScope = rememberCoroutineScope()
@@ -43,9 +34,7 @@ fun CartScreen(
                 topAppBar = { LazyPizzaAppBar() },
                 bottomBar = {
                     LazyPizzaBottomBar(
-                        menuClick = navigateToDetails,
-                        cartClick = navigateToCart,
-                        historyClick = navigateToHistory
+                        bottomNavItems = bottomNavItems
                     )
                 }
             ) { innerPadding ->

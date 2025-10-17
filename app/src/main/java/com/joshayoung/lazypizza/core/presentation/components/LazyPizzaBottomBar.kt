@@ -1,12 +1,17 @@
 package com.joshayoung.lazypizza.core.presentation.components
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -17,25 +22,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.ui.theme.CartIcon
-import com.joshayoung.lazypizza.ui.theme.HistoryIcon
+import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.utils.BottomNavItem
+import com.joshayoung.lazypizza.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.MenuIcon
+import com.joshayoung.lazypizza.ui.theme.primary8
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.ui.theme.textPrimary
 
 @Composable
-fun LazyPizzaBottomBar(
-    menuClick: () -> Unit,
-    cartClick: () -> Unit,
-    historyClick: () -> Unit
-) {
+fun LazyPizzaBottomBar(bottomNavItems: List<BottomNavItem>) {
     BottomAppBar(
         containerColor = Color.Transparent,
         actions = {
@@ -63,51 +65,63 @@ fun LazyPizzaBottomBar(
                             shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                         )
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier =
-                        Modifier
-                            .clickable {
-                                menuClick()
-                            }
-                ) {
-                    Icon(
-                        MenuIcon,
-                        contentDescription = null
-                    )
-                    Text("Menu")
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier =
-                        Modifier
-                            .clickable {
-                                cartClick()
-                            }
-                ) {
-                    Icon(
-                        CartIcon,
-                        contentDescription = null
-                    )
-                    Text("Cart")
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier =
-                        Modifier
-                            .clickable {
-                                historyClick()
-                            }
-                ) {
-                    Icon(
-                        HistoryIcon,
-                        contentDescription = null
-                    )
-                    Text("History")
+                val selected = false
+                bottomNavItems.forEach { item ->
+                    NavItem(item.label, item.clickAction, item.selected, item.imageResource)
                 }
             }
         }
     )
+}
+
+@Composable
+fun NavItem(
+    label: String,
+    clickAction: () -> Unit,
+    selected: Boolean,
+    imageResource: Int
+) {
+    var outlineBackground = Color.Transparent
+    var tint = MaterialTheme.colorScheme.onSecondary
+    if (selected) {
+        outlineBackground = MaterialTheme.colorScheme.primary8
+        tint = MaterialTheme.colorScheme.primary
+    }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier =
+            Modifier
+                .clickable {
+                    clickAction()
+                }
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier =
+                Modifier
+                    .background(outlineBackground, shape = CircleShape)
+                    .padding(4.dp)
+                    .size(28.dp)
+        ) {
+            Icon(
+                tint = tint,
+                painter = painterResource(imageResource),
+                contentDescription = null,
+                modifier =
+                    Modifier
+                        .height(16.dp)
+                        .width(16.dp)
+            )
+        }
+
+        Text(
+            label,
+            style = MaterialTheme.typography.titleSmall,
+            color = LazyPizzaColors.textSecondary,
+            modifier = Modifier.padding(top = 2.dp)
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -120,7 +134,29 @@ fun LazyPizzaBottomBarPreview() {
                     .fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            LazyPizzaBottomBar(menuClick = {}, cartClick = {}, historyClick = {})
+            LazyPizzaBottomBar(
+                bottomNavItems =
+                    listOf(
+                        BottomNavItem(
+                            label = "Menu",
+                            selected = true,
+                            clickAction = { },
+                            imageResource = R.drawable.book
+                        ),
+                        BottomNavItem(
+                            label = "Cart",
+                            selected = false,
+                            clickAction = { },
+                            imageResource = R.drawable.cart
+                        ),
+                        BottomNavItem(
+                            label = "History",
+                            selected = false,
+                            clickAction = { },
+                            imageResource = R.drawable.history
+                        )
+                    )
+            )
         }
     }
 }

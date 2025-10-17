@@ -5,36 +5,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 
 @Composable
-fun HistoryScreenRoot(
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
-) {
+fun HistoryScreenRoot(bottomNavItems: List<BottomNavItem>) {
     HistoryScreen(
-        navigateToDetails = navigateToDetails,
-        navigateToCart = navigateToCart,
-        navigateToHistory = navigateToHistory
+        bottomNavItems = bottomNavItems
     )
 }
 
 @Composable
-fun HistoryScreen(
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
-) {
+fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
     Text(text = "history screen")
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-    val coroutineScope = rememberCoroutineScope()
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
@@ -42,9 +31,7 @@ fun HistoryScreen(
                 topAppBar = { LazyPizzaAppBar() },
                 bottomBar = {
                     LazyPizzaBottomBar(
-                        menuClick = navigateToDetails,
-                        cartClick = navigateToCart,
-                        historyClick = navigateToHistory
+                        bottomNavItems = bottomNavItems
                     )
                 }
             ) { innerPadding ->
