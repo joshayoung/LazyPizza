@@ -26,21 +26,21 @@ fun NavigationRoot(navController: NavHostController) {
                 },
                 navigateToDetails = {
                     navController.navigate(Routes.Menu) {
-                        popUpTo(Routes.Menu) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
                 },
                 navigateToCart = {
                     navController.navigate(Routes.Cart) {
-                        popUpTo(Routes.Cart) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
                 },
                 navigateToHistory = {
                     navController.navigate(Routes.History) {
-                        popUpTo(Routes.History) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
@@ -71,21 +71,21 @@ fun NavigationRoot(navController: NavHostController) {
             CartScreenRoot(
                 navigateToDetails = {
                     navController.navigate(Routes.Menu) {
-                        popUpTo(Routes.Menu) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
                 },
                 navigateToCart = {
                     navController.navigate(Routes.Cart) {
-                        popUpTo(Routes.Cart) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
                 },
                 navigateToHistory = {
                     navController.navigate(Routes.History) {
-                        popUpTo(Routes.History) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
@@ -97,21 +97,21 @@ fun NavigationRoot(navController: NavHostController) {
             HistoryScreenRoot(
                 navigateToDetails = {
                     navController.navigate(Routes.Menu) {
-                        popUpTo(Routes.Menu) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
                 },
                 navigateToCart = {
                     navController.navigate(Routes.Cart) {
-                        popUpTo(Routes.Cart) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
                 },
                 navigateToHistory = {
                     navController.navigate(Routes.History) {
-                        popUpTo(Routes.History) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }
