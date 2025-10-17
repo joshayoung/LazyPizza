@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.core
 
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 import java.math.RoundingMode
 

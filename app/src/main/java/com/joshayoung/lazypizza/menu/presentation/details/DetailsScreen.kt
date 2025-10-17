@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.details
+package com.joshayoung.lazypizza.menu.presentation.details
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,8 +36,8 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.search.presentation.components.ProductAndPriceComponent
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.components.ProductAndPriceComponent
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import org.koin.androidx.compose.koinViewModel

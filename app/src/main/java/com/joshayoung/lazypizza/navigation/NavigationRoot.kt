@@ -8,8 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.joshayoung.lazypizza.cart.CartScreenRoot
 import com.joshayoung.lazypizza.history.HistoryScreenRoot
-import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenRoot
-import com.joshayoung.lazypizza.search.presentation.home.HomeScreenRoot
+import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
+import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 
 @Composable
 fun NavigationRoot(navController: NavHostController) {

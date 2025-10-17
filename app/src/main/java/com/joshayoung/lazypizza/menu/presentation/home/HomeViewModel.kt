@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.home
+package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,8 @@ import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.core.toProductUi
-import com.joshayoung.lazypizza.search.data.models.Products
-import com.joshayoung.lazypizza.search.presentation.models.ProductType
+import com.joshayoung.lazypizza.menu.data.models.Products
+import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn

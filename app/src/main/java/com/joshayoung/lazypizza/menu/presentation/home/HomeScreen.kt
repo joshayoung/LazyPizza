@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.home
+package com.joshayoung.lazypizza.menu.presentation.home
 
 import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.BorderStroke
@@ -47,12 +47,12 @@ import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.search.data.models.Products
-import com.joshayoung.lazypizza.search.presentation.components.SearchField
-import com.joshayoung.lazypizza.search.presentation.home.components.MultipleProductItem
-import com.joshayoung.lazypizza.search.presentation.home.components.ProductItem
-import com.joshayoung.lazypizza.search.presentation.models.ProductType
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.data.models.Products
+import com.joshayoung.lazypizza.menu.presentation.components.SearchField
+import com.joshayoung.lazypizza.menu.presentation.home.components.MultipleProductItem
+import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
+import com.joshayoung.lazypizza.menu.presentation.models.ProductType
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview

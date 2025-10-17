@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.models
+package com.joshayoung.lazypizza.menu.presentation.models
 
 import com.joshayoung.lazypizza.core.domain.serializers.BigDecimalSerializer
 import kotlinx.serialization.Serializable

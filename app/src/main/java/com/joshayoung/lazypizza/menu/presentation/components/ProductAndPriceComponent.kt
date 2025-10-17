@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.components
+package com.joshayoung.lazypizza.menu.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
-import com.joshayoung.lazypizza.search.presentation.details.DetailAction
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 import java.util.Locale

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.details
+package com.joshayoung.lazypizza.menu.presentation.details
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

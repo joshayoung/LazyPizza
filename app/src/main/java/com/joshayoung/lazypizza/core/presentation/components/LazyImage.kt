@@ -14,7 +14,7 @@ import coil3.request.ImageRequest
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.networking.JwtManager
 import com.joshayoung.lazypizza.core.presentation.models.ImageResource
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
 // TODO: Move preview and debug check here:
 @Composable

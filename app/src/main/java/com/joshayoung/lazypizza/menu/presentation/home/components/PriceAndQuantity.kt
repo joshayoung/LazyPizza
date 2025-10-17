@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.home.components
+package com.joshayoung.lazypizza.menu.presentation.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

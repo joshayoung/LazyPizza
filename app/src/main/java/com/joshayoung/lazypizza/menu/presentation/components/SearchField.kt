@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.components
+package com.joshayoung.lazypizza.menu.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

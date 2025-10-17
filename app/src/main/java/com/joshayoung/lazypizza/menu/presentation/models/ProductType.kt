@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.models
+package com.joshayoung.lazypizza.menu.presentation.models
 
 enum class ProductType {
     ENTRE,

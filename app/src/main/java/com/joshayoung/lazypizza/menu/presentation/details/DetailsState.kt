@@ -1,6 +1,6 @@
-package com.joshayoung.lazypizza.search.presentation.details
+package com.joshayoung.lazypizza.menu.presentation.details
 
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
 data class DetailsState(

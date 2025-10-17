@@ -1,7 +1,7 @@
-package com.joshayoung.lazypizza.search.data.mappers
+package com.joshayoung.lazypizza.menu.data.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.serialization.json.Json
 
 fun String.toProduct(): ProductUi = Json.decodeFromString(this)

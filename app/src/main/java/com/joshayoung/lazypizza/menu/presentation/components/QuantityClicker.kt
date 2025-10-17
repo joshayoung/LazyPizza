@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.search.presentation.components
+package com.joshayoung.lazypizza.menu.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.search.presentation.details.DetailAction
-import com.joshayoung.lazypizza.search.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 

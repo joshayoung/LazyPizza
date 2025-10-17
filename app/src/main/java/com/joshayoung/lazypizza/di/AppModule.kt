@@ -5,8 +5,8 @@ import com.joshayoung.lazypizza.MainViewModel
 import com.joshayoung.lazypizza.core.data.AppWriteRepository
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
-import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenViewModel
-import com.joshayoung.lazypizza.search.presentation.home.HomeViewModel
+import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenViewModel
+import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModelOf

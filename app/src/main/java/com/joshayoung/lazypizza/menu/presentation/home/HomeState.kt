@@ -1,7 +1,7 @@
-package com.joshayoung.lazypizza.search.presentation.home
+package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.joshayoung.lazypizza.search.data.models.Products
+import com.joshayoung.lazypizza.menu.data.models.Products
 
 data class HomeState(
     var search: TextFieldState = TextFieldState(),
