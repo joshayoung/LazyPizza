@@ -116,7 +116,12 @@ fun HomeScreen(
             LazyPizzaScaffold(
                 topAppBar = { LazyPizzaAppBar() },
                 bottomBar = {
-                    LazyPizzaBottomBar()
+                    LazyPizzaBottomBar(
+                        menuClick = {
+                        },
+                        cartClick = {},
+                        historyClick = {}
+                    )
                 }
             ) { innerPadding ->
                 Column(

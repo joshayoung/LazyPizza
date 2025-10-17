@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.components
 
 import android.graphics.drawable.Icon
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +19,11 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.MenuIcon
 
 @Composable
-fun LazyPizzaBottomBar() {
+fun LazyPizzaBottomBar(
+    menuClick: () -> Unit,
+    cartClick: () -> Unit,
+    historyClick: () -> Unit
+) {
     BottomAppBar(
         actions = {
             Row(
@@ -28,7 +33,12 @@ fun LazyPizzaBottomBar() {
                         .fillMaxWidth()
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier =
+                        Modifier
+                            .clickable {
+                                menuClick()
+                            }
                 ) {
                     Icon(
                         MenuIcon,
@@ -37,7 +47,12 @@ fun LazyPizzaBottomBar() {
                     Text("Menu")
                 }
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier =
+                        Modifier
+                            .clickable {
+                                cartClick()
+                            }
                 ) {
                     Icon(
                         CartIcon,
@@ -46,7 +61,12 @@ fun LazyPizzaBottomBar() {
                     Text("Cart")
                 }
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier =
+                        Modifier
+                            .clickable {
+                                historyClick()
+                            }
                 ) {
                     Icon(
                         HistoryIcon,
@@ -63,6 +83,6 @@ fun LazyPizzaBottomBar() {
 @Composable
 fun LazyPizzaBottomBarPreview() {
     LazyPizzaTheme {
-        LazyPizzaBottomBar()
+        LazyPizzaBottomBar(menuClick = {}, cartClick = {}, historyClick = {})
     }
 }

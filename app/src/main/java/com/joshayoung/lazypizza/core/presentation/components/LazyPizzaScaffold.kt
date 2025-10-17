@@ -35,7 +35,11 @@ fun LazyPizzaScaffoldPreview() {
         LazyPizzaScaffold(
             topAppBar = { LazyPizzaAppBar() },
             bottomBar = {
-                LazyPizzaBottomBar()
+                LazyPizzaBottomBar(
+                    menuClick = {},
+                    cartClick = {},
+                    historyClick = {}
+                )
             }
         ) {
             Column(

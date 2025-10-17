@@ -6,6 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.joshayoung.lazypizza.cart.CartScreenRoot
+import com.joshayoung.lazypizza.history.HistoryScreenRoot
 import com.joshayoung.lazypizza.search.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.search.presentation.home.HomeScreenRoot
 
@@ -37,9 +39,28 @@ fun NavigationRoot(navController: NavHostController) {
                     }
                 )
         ) {
-            DetailsScreenRoot(navigateBack = {
-                navController.navigateUp()
-            })
+            DetailsScreenRoot(
+                navigateBack = {
+                    navController.navigateUp()
+                },
+                navigateToDetails = {
+                    navController.navigate(Routes.Search)
+                },
+                navigateToCart = {
+                    navController.navigate(Routes.Cart)
+                },
+                navigateToHistory = {
+                    navController.navigate(Routes.History)
+                }
+            )
+        }
+
+        composable<Routes.Cart> {
+            CartScreenRoot()
+        }
+
+        composable<Routes.History> {
+            HistoryScreenRoot()
         }
     }
 }

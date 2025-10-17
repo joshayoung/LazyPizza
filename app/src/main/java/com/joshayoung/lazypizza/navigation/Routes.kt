@@ -8,4 +8,10 @@ sealed interface Routes {
 
     @Serializable
     data object Details : Routes
+
+    @Serializable
+    data object Cart : Routes
+
+    @Serializable
+    data object History : Routes
 }
