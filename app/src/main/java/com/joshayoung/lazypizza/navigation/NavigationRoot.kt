@@ -15,14 +15,35 @@ import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 fun NavigationRoot(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Search
+        startDestination = Routes.Menu
     ) {
-        composable<Routes.Search> {
+        composable<Routes.Menu> {
             HomeScreenRoot(
                 goToDetails = { id ->
                     navController.navigate(
                         Routes.Details.toString() + "?productId=$id"
                     )
+                },
+                navigateToDetails = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(Routes.Menu) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateToCart = {
+                    navController.navigate(Routes.Cart) {
+                        popUpTo(Routes.Cart) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateToHistory = {
+                    navController.navigate(Routes.History) {
+                        popUpTo(Routes.History) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
@@ -42,25 +63,60 @@ fun NavigationRoot(navController: NavHostController) {
             DetailsScreenRoot(
                 navigateBack = {
                     navController.navigateUp()
-                },
-                navigateToDetails = {
-                    navController.navigate(Routes.Search)
-                },
-                navigateToCart = {
-                    navController.navigate(Routes.Cart)
-                },
-                navigateToHistory = {
-                    navController.navigate(Routes.History)
                 }
             )
         }
 
         composable<Routes.Cart> {
-            CartScreenRoot()
+            CartScreenRoot(
+                navigateToDetails = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(Routes.Menu) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateToCart = {
+                    navController.navigate(Routes.Cart) {
+                        popUpTo(Routes.Cart) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateToHistory = {
+                    navController.navigate(Routes.History) {
+                        popUpTo(Routes.History) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
 
         composable<Routes.History> {
-            HistoryScreenRoot()
+            HistoryScreenRoot(
+                navigateToDetails = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(Routes.Menu) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateToCart = {
+                    navController.navigate(Routes.Cart) {
+                        popUpTo(Routes.Cart) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateToHistory = {
+                    navController.navigate(Routes.History) {
+                        popUpTo(Routes.History) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }

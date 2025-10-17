@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 sealed interface Routes {
     @Serializable
-    data object Search : Routes
+    data object Menu : Routes
 
     @Serializable
     data object Details : Routes

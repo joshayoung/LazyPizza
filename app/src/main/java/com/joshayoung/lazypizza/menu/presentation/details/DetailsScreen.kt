@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.ProductAndPriceComponent
@@ -47,20 +46,14 @@ import java.util.Locale
 @Composable
 fun DetailsScreenRoot(
     viewModel: DetailsScreenViewModel = koinViewModel(),
-    navigateBack: () -> Unit,
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit
+    navigateBack: () -> Unit
 ) {
     DetailsScreen(
         state = viewModel.state,
         navigateBack = navigateBack,
         onAction = { action ->
             viewModel.onAction(action)
-        },
-        navigateToDetails = navigateToDetails,
-        navigateToCart = navigateToCart,
-        navigateToHistory = navigateToHistory
+        }
     )
 }
 
@@ -69,9 +62,6 @@ fun DetailsScreenRoot(
 fun DetailsScreen(
     state: DetailsState,
     navigateBack: () -> Unit,
-    navigateToDetails: () -> Unit,
-    navigateToCart: () -> Unit,
-    navigateToHistory: () -> Unit,
     onAction: (DetailAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -86,13 +76,6 @@ fun DetailsScreen(
                         showContact = false,
                         showBackButton = true,
                         onBackClick = navigateBack
-                    )
-                },
-                bottomBar = {
-                    LazyPizzaBottomBar(
-                        menuClick = navigateToDetails,
-                        cartClick = navigateToCart,
-                        historyClick = navigateToHistory
                     )
                 }
             ) { innerPadding ->
@@ -381,10 +364,7 @@ fun DetailsScreenPreview() {
                             )
                         )
                 ),
-            onAction = {},
-            navigateToDetails = {},
-            navigateToCart = {},
-            navigateToHistory = {}
+            onAction = {}
         )
     }
 }

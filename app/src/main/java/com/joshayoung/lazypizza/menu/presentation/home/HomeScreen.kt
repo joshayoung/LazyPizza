@@ -67,7 +67,10 @@ import kotlin.getValue
 @Composable
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel(),
-    goToDetails: (id: String) -> Unit
+    goToDetails: (id: String) -> Unit,
+    navigateToDetails: () -> Unit,
+    navigateToCart: () -> Unit,
+    navigateToHistory: () -> Unit
 ) {
     val applicationContext = LocalContext.current.applicationContext
 
@@ -97,7 +100,10 @@ fun HomeScreenRoot(
     HomeScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToDetails = goToDetails,
-        lazyGridState = listState
+        lazyGridState = listState,
+        navigateToDetails = navigateToDetails,
+        navigateToCart = navigateToCart,
+        navigateToHistory = navigateToHistory
     )
 }
 
@@ -105,7 +111,10 @@ fun HomeScreenRoot(
 fun HomeScreen(
     state: HomeState,
     goToDetails: (id: String) -> Unit,
-    lazyGridState: LazyGridState
+    lazyGridState: LazyGridState,
+    navigateToDetails: () -> Unit,
+    navigateToCart: () -> Unit,
+    navigateToHistory: () -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -117,10 +126,9 @@ fun HomeScreen(
                 topAppBar = { LazyPizzaAppBar() },
                 bottomBar = {
                     LazyPizzaBottomBar(
-                        menuClick = {
-                        },
-                        cartClick = {},
-                        historyClick = {}
+                        menuClick = navigateToDetails,
+                        cartClick = navigateToCart,
+                        historyClick = navigateToHistory
                     )
                 }
             ) { innerPadding ->
@@ -423,7 +431,10 @@ fun SearchItemsScreenPreview() {
                         )
                 ),
             goToDetails = {},
-            lazyGridState = LazyGridState()
+            lazyGridState = LazyGridState(),
+            navigateToDetails = {},
+            navigateToCart = {},
+            navigateToHistory = {}
         )
     }
 }
