@@ -46,6 +46,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.data.models.Products
@@ -450,7 +451,7 @@ fun SearchItemsScreenPreview() {
                 ),
             goToDetails = {},
             lazyGridState = LazyGridState(),
-            bottomNavItems = emptyList(),
+            bottomNavItems = previewBottomNavItems,
             onAction = {}
         )
     }
