@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
@@ -36,7 +37,8 @@ fun LazyPizzaAppBar(
     showLogo: Boolean = true,
     showContact: Boolean = true,
     showBackButton: Boolean = false,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    title: String? = null
 ) {
     TopAppBar(
         modifier = Modifier,
@@ -54,6 +56,17 @@ fun LazyPizzaAppBar(
                 }
                 if (showLogo) {
                     Logo()
+                }
+
+                title?.let { pageTitle ->
+                    Text(
+                        pageTitle,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                    )
                 }
 
                 if (showContact) {
@@ -137,6 +150,11 @@ fun LazyPizzaAppBarPreview() {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             LazyPizzaAppBar()
+            LazyPizzaAppBar(
+                showLogo = false,
+                showContact = false,
+                title = "Cart"
+            )
             LazyPizzaAppBar(
                 showLogo = false,
                 showContact = false,

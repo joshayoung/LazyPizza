@@ -38,7 +38,13 @@ fun CartScreen(bottomNavItems: List<BottomNavItem>) {
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             LazyPizzaScaffold(
-                topAppBar = { LazyPizzaAppBar() },
+                topAppBar = {
+                    LazyPizzaAppBar(
+                        showLogo = false,
+                        showContact = false,
+                        title = "Cart"
+                    )
+                },
                 bottomBar = {
                     LazyPizzaBottomBar(
                         bottomNavItems = bottomNavItems
