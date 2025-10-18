@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -65,9 +67,23 @@ fun LazyPizzaBottomBar(bottomNavItems: List<BottomNavItem>) {
                             shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                         )
             ) {
-                val selected = false
-                bottomNavItems.forEach { item ->
-                    NavItem(item.label, item.clickAction, item.selected, item.imageResource)
+                bottomNavItems.forEachIndexed { index, item ->
+                    if (index == 1) {
+                        BadgedBox(
+                            badge = {
+                                Badge(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = LazyPizzaColors.textOnPrimary
+                                ) {
+                                    Text("2")
+                                }
+                            }
+                        ) {
+                            NavItem(item.label, item.clickAction, item.selected, item.imageResource)
+                        }
+                    } else {
+                        NavItem(item.label, item.clickAction, item.selected, item.imageResource)
+                    }
                 }
             }
         }
