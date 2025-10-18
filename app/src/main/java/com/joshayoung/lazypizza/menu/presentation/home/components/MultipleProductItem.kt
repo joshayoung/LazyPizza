@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.LazyImage
+import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
@@ -33,7 +34,8 @@ import java.math.BigDecimal
 @Composable
 fun MultipleProductItem(
     productUi: ProductUi,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAction: (HomeAction) -> Unit
 ) {
     val itemCount = remember { mutableIntStateOf(0) }
     Row(
@@ -75,7 +77,9 @@ fun MultipleProductItem(
                     ).padding(10.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            ProductHeader(productUi, itemCount)
+            ProductHeader(productUi, itemCount, onAction = {
+                onAction(HomeAction.RemoveItemFromCart(1))
+            })
             Row(
                 modifier =
                     Modifier
@@ -83,9 +87,17 @@ fun MultipleProductItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 if (itemCount.intValue == 0) {
-                    PriceAndAddButton(productUi.price, itemCount = itemCount)
+                    PriceAndAddButton(
+                        productUi.price,
+                        itemCount = itemCount,
+                        onAction = onAction
+                    )
                 } else {
-                    PriceAndQuantity(productUi.price, itemCount)
+                    PriceAndQuantity(
+                        productUi.price,
+                        itemCount,
+                        onAction = onAction
+                    )
                 }
             }
         }
@@ -118,7 +130,8 @@ fun MultipleProductItemPreview() {
                             imageResource = R.drawable.seven_up,
                             name = "7-up",
                             price = BigDecimal("1.23")
-                        )
+                        ),
+                    onAction = {}
                 )
             }
         }

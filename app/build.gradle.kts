@@ -160,4 +160,7 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.sdk.for1.android)
     implementation(libs.material3.adaptive)
+
+    implementation(libs.androidx.datastore.datastore.preferences)
+    implementation(libs.androidx.datastore)
 }

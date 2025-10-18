@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.primary8
 import java.math.BigDecimal
@@ -31,7 +32,8 @@ import java.util.Locale
 @Composable
 fun PriceAndAddButton(
     price: BigDecimal,
-    itemCount: MutableState<Int>
+    itemCount: MutableState<Int>,
+    onAction: (HomeAction) -> Unit
 ) {
     Row(
         modifier =
@@ -45,6 +47,7 @@ fun PriceAndAddButton(
         Button(
             onClick = {
                 itemCount.value += 1
+                onAction(HomeAction.AddItemToCart(1))
             },
             contentPadding = PaddingValues(0.dp),
             colors =
@@ -75,7 +78,7 @@ fun PriceAndButtonPreview() {
     LazyPizzaTheme {
         val itemCount = remember { mutableIntStateOf(0) }
         Box(modifier = Modifier.width(300.dp)) {
-            PriceAndAddButton(BigDecimal("1.20"), itemCount)
+            PriceAndAddButton(BigDecimal("1.20"), itemCount, onAction = {})
         }
     }
 }

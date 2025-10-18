@@ -20,21 +20,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
-fun QuantitySelector(itemCount: MutableState<Int>) {
+fun QuantitySelector(
+    itemCount: MutableState<Int>,
+    onAction: (HomeAction) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier =
         Modifier
     ) {
-        CountButton("-", itemCount, {
-            if (itemCount.value > 0) {
-                itemCount.value -= 1
+        CountButton(
+            "-",
+            itemCount,
+            onAction = { onAction(HomeAction.RemoveItemFromCart(1)) },
+            {
+                if (itemCount.value > 0) {
+                    itemCount.value -= 1
+                }
             }
-        })
+        )
         Text(
             text = itemCount.value.toString(),
             style = MaterialTheme.typography.titleMedium,
@@ -42,7 +51,10 @@ fun QuantitySelector(itemCount: MutableState<Int>) {
                 Modifier
                     .padding(horizontal = 20.dp)
         )
-        CountButton("+", itemCount, { itemCount.value += 1 })
+        CountButton("+", itemCount, onAction = { onAction(HomeAction.AddItemToCart(1)) }, {
+            itemCount.value +=
+                1
+        })
     }
 }
 
@@ -50,6 +62,7 @@ fun QuantitySelector(itemCount: MutableState<Int>) {
 fun CountButton(
     text: String,
     itemCount: MutableState<Int>,
+    onAction: () -> Unit,
     action: () -> Unit
 ) {
     Button(
@@ -60,6 +73,7 @@ fun CountButton(
                 .size(20.dp),
         onClick = {
             action()
+            onAction()
         },
         colors =
             ButtonDefaults.buttonColors(
@@ -80,7 +94,8 @@ fun QuantitySelectorPreview() {
     LazyPizzaTheme {
         val itemCount = remember { mutableIntStateOf(2) }
         QuantitySelector(
-            itemCount = itemCount
+            itemCount = itemCount,
+            onAction = {}
         )
     }
 }

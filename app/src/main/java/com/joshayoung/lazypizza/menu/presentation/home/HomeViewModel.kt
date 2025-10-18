@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
@@ -19,7 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val lazyPizzaRepository: LazyPizzaRepository
+    private val lazyPizzaRepository: LazyPizzaRepository,
+    private val cartRepository: CartRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(HomeState())
     private var pizzas: List<Product> = emptyList()
@@ -38,11 +40,38 @@ class HomeViewModel(
             )
 
     init {
+        viewModelScope.launch {
+            cartRepository.getCartData().collect { data ->
+                val count = (data ?: "0").toInt()
+                _state.update {
+                    it.copy(
+                        cartItems = count
+                    )
+                }
+                println()
+            }
+        }
         _state.value.search
             .textAsFlow()
             .onEach { search ->
                 searchList(search)
             }.launchIn(viewModelScope)
+    }
+
+    fun onAction(action: HomeAction) {
+        when (action) {
+            is HomeAction.AddItemToCart -> {
+                viewModelScope.launch {
+                    cartRepository.addItemToCart(1)
+                }
+            }
+
+            is HomeAction.RemoveItemFromCart -> {
+                viewModelScope.launch {
+                    cartRepository.removeFromCart()
+                }
+            }
+        }
     }
 
     private fun searchList(search: CharSequence) {

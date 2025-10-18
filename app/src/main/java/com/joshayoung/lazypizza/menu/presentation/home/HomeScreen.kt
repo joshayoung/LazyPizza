@@ -71,6 +71,7 @@ fun HomeScreenRoot(
     goToDetails: (id: String) -> Unit,
     bottomNavItems: List<BottomNavItem>
 ) {
+    val state = viewModel.state.collectAsStateWithLifecycle().value
     val applicationContext = LocalContext.current.applicationContext
 
     val prefs by lazy {
@@ -97,10 +98,13 @@ fun HomeScreenRoot(
     val listState = remember { lazyGridState }
 
     HomeScreen(
-        state = viewModel.state.collectAsStateWithLifecycle().value,
         goToDetails = goToDetails,
         lazyGridState = listState,
-        bottomNavItems = bottomNavItems
+        bottomNavItems = bottomNavItems,
+        state = state,
+        onAction = { action ->
+            viewModel.onAction(action)
+        }
     )
 }
 
@@ -109,7 +113,8 @@ fun HomeScreen(
     state: HomeState,
     goToDetails: (id: String) -> Unit,
     lazyGridState: LazyGridState,
-    bottomNavItems: List<BottomNavItem>
+    bottomNavItems: List<BottomNavItem>,
+    onAction: (HomeAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -121,7 +126,8 @@ fun HomeScreen(
                 topAppBar = { LazyPizzaAppBar() },
                 bottomBar = {
                     LazyPizzaBottomBar(
-                        bottomNavItems = bottomNavItems
+                        bottomNavItems = bottomNavItems,
+                        cartItems = state.cartItems
                     )
                 }
             ) { innerPadding ->
@@ -134,7 +140,13 @@ fun HomeScreen(
                 ) {
                     HeaderAndSearch(state, 150.dp)
                     Chips(lazyGridState, coroutineScope, state)
-                    ProductItems(lazyGridState, state, goToDetails = goToDetails, 1)
+                    ProductItems(
+                        lazyGridState,
+                        state,
+                        goToDetails = goToDetails,
+                        1,
+                        onAction = onAction
+                    )
                 }
             }
         }
@@ -155,7 +167,13 @@ fun HomeScreen(
                 ) {
                     HeaderAndSearch(state, 140.dp)
                     Chips(lazyGridState, coroutineScope, state)
-                    ProductItems(lazyGridState, state, goToDetails = goToDetails, 2)
+                    ProductItems(
+                        lazyGridState,
+                        state,
+                        goToDetails = goToDetails,
+                        2,
+                        onAction = onAction
+                    )
                 }
             }
         }
@@ -239,7 +257,8 @@ fun ProductItems(
     lazyGridState: LazyGridState,
     state: HomeState,
     goToDetails: (String) -> Unit,
-    columns: Int
+    columns: Int,
+    onAction: (HomeAction) -> Unit
 ) {
     Column(
         modifier =
@@ -293,7 +312,8 @@ fun ProductItems(
                             ItemAndPrice(
                                 product,
                                 goToDetails = goToDetails,
-                                modifier = Modifier.height(130.dp)
+                                modifier = Modifier.height(130.dp),
+                                onAction = onAction
                             )
                         }
                     }
@@ -307,12 +327,17 @@ fun ProductItems(
 fun ItemAndPrice(
     productUi: ProductUi,
     goToDetails: (id: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAction: (HomeAction) -> Unit
 ) {
     if (productUi.type == ProductType.ENTRE) {
         ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
-        MultipleProductItem(productUi, modifier = modifier)
+        MultipleProductItem(
+            productUi,
+            modifier = modifier,
+            onAction = onAction
+        )
     }
 }
 
@@ -425,7 +450,8 @@ fun SearchItemsScreenPreview() {
                 ),
             goToDetails = {},
             lazyGridState = LazyGridState(),
-            bottomNavItems = emptyList()
+            bottomNavItems = emptyList(),
+            onAction = {}
         )
     }
 }

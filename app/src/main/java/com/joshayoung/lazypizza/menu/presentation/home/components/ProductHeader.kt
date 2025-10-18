@@ -29,7 +29,8 @@ import java.math.BigDecimal
 @Composable
 fun ProductHeader(
     productUi: ProductUi,
-    itemCount: MutableState<Int>
+    itemCount: MutableState<Int>,
+    onAction: () -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -43,6 +44,7 @@ fun ProductHeader(
             IconButton(
                 onClick = {
                     itemCount.value = 0
+                    onAction()
                 },
                 modifier =
                     Modifier
@@ -83,7 +85,8 @@ fun ProductHeaderPreview() {
                     name = "Pepsi",
                     price = BigDecimal("1.12")
                 ),
-            itemCount
+            itemCount,
+            onAction = {}
         )
     }
 }

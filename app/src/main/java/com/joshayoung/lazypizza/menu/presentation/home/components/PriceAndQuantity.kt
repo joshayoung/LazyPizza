@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 import java.util.Locale
@@ -22,7 +23,8 @@ import java.util.Locale
 @Composable
 fun PriceAndQuantity(
     price: BigDecimal,
-    itemCount: MutableState<Int>
+    itemCount: MutableState<Int>,
+    onAction: (HomeAction) -> Unit
 ) {
     val calculatedPrice = itemCount.value * price.toDouble()
     Row(
@@ -32,7 +34,7 @@ fun PriceAndQuantity(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        QuantitySelector(itemCount)
+        QuantitySelector(itemCount, onAction = onAction)
         PriceWithNumber(itemCount, price, calculatedPrice)
     }
 }
@@ -77,7 +79,11 @@ fun PriceAndQuantityPreview() {
                 Modifier
                     .fillMaxWidth()
         ) {
-            PriceAndQuantity(BigDecimal("1.20"), itemCount)
+            PriceAndQuantity(
+                BigDecimal("1.20"),
+                itemCount,
+                onAction = {}
+            )
         }
     }
 }

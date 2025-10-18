@@ -39,7 +39,10 @@ import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.ui.theme.textPrimary
 
 @Composable
-fun LazyPizzaBottomBar(bottomNavItems: List<BottomNavItem>) {
+fun LazyPizzaBottomBar(
+    cartItems: Int = 0,
+    bottomNavItems: List<BottomNavItem>
+) {
     BottomAppBar(
         containerColor = Color.Transparent,
         actions = {
@@ -75,7 +78,7 @@ fun LazyPizzaBottomBar(bottomNavItems: List<BottomNavItem>) {
                                     containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = LazyPizzaColors.textOnPrimary
                                 ) {
-                                    Text("2")
+                                    Text(cartItems.toString())
                                 }
                             }
                         ) {
