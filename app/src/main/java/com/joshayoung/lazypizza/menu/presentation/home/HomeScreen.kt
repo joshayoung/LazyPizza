@@ -157,7 +157,8 @@ fun HomeScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             NavigationRailScaffold(
-                appBarItems = bottomNavItems
+                appBarItems = bottomNavItems,
+                cartItems = state.cartItems
             ) { innerPadding ->
                 Column(
                     modifier =
