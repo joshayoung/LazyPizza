@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza
+package com.joshayoung.lazypizza.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.di
+package com.joshayoung.lazypizza.app.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.joshayoung.lazypizza.LazyPizzaApp
-import com.joshayoung.lazypizza.MainViewModel
+import com.joshayoung.lazypizza.app.LazyPizzaApp
+import com.joshayoung.lazypizza.app.MainViewModel
 import com.joshayoung.lazypizza.cart.data.DataStorageCartRepository
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.data.AppWriteRepository

@@ -1,10 +1,11 @@
-package com.joshayoung.lazypizza
+package com.joshayoung.lazypizza.app
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import kotlinx.coroutines.launch
 

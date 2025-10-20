@@ -1,8 +1,8 @@
-package com.joshayoung.lazypizza
+package com.joshayoung.lazypizza.app
 
 import android.app.Application
+import com.joshayoung.lazypizza.app.di.appModule
 import com.joshayoung.lazypizza.core.networking.JwtManager
-import com.joshayoung.lazypizza.di.appModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
