@@ -23,9 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.primary8
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.primary8
 import java.math.BigDecimal
 import java.util.Locale
 

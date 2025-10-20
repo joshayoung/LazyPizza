@@ -28,9 +28,9 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.SearchIcon
-import com.joshayoung.lazypizza.ui.theme.surfaceHigher
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.SearchIcon
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 
 @Composable
 fun SearchField(

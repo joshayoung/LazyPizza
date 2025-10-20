@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.joshayoung.lazypizza.navigation.NavigationRoot
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.navigation.NavigationRoot
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {

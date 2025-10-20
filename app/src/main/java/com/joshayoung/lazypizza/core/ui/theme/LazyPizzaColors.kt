@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.ui.theme
+package com.joshayoung.lazypizza.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

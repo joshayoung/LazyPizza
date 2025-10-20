@@ -27,9 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.ui.theme.GrayPhone
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.PizzaLogo
+import com.joshayoung.lazypizza.core.ui.theme.GrayPhone
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.PizzaLogo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

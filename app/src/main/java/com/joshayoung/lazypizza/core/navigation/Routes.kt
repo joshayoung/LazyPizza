@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.navigation
+package com.joshayoung.lazypizza.core.navigation
 
 import kotlinx.serialization.Serializable
 

@@ -34,11 +34,11 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.Topping
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
 import java.util.Locale

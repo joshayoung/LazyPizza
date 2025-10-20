@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 
 @Composable

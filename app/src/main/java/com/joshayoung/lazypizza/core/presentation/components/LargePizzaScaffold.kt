@@ -30,10 +30,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaColors
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.primary8
-import com.joshayoung.lazypizza.ui.theme.surfaceHigher
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.primary8
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 
 @Composable
 fun LargePizzaScaffold(

@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import java.math.BigDecimal
 import java.util.Locale
 import kotlin.String

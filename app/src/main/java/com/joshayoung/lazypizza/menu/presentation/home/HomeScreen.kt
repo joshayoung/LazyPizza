@@ -50,13 +50,13 @@ import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.previewProducts
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.SearchField
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
 import com.joshayoung.lazypizza.menu.presentation.home.components.SideItem
 import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest

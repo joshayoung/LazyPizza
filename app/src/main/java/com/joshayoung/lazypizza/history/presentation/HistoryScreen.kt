@@ -19,8 +19,8 @@ import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
 fun HistoryScreenRoot(bottomNavItems: List<BottomNavItem>) {
