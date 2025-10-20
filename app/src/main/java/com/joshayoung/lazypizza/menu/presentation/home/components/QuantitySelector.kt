@@ -12,9 +12,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,8 +22,9 @@ import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 
 @Composable
 fun QuantitySelector(
-    itemCount: MutableState<Int>,
-    onAction: (HomeAction) -> Unit
+    itemCount: Int,
+    onAction: (HomeAction) -> Unit,
+    updateCart: (Int) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -39,21 +37,20 @@ fun QuantitySelector(
             itemCount,
             onAction = { onAction(HomeAction.RemoveItemFromCart(1)) },
             {
-                if (itemCount.value > 0) {
-                    itemCount.value -= 1
+                if (itemCount > 0) {
+                    updateCart(-1)
                 }
             }
         )
         Text(
-            text = itemCount.value.toString(),
+            text = itemCount.toString(),
             style = MaterialTheme.typography.titleMedium,
             modifier =
                 Modifier
                     .padding(horizontal = 20.dp)
         )
         CountButton("+", itemCount, onAction = { onAction(HomeAction.AddItemToCart(1)) }, {
-            itemCount.value +=
-                1
+            updateCart(1)
         })
     }
 }
@@ -61,7 +58,7 @@ fun QuantitySelector(
 @Composable
 fun CountButton(
     text: String,
-    itemCount: MutableState<Int>,
+    itemCount: Int,
     onAction: () -> Unit,
     action: () -> Unit
 ) {
@@ -92,10 +89,10 @@ fun CountButton(
 @Composable
 fun QuantitySelectorPreview() {
     LazyPizzaTheme {
-        val itemCount = remember { mutableIntStateOf(2) }
         QuantitySelector(
-            itemCount = itemCount,
-            onAction = {}
+            itemCount = 1,
+            onAction = {},
+            updateCart = {}
         )
     }
 }

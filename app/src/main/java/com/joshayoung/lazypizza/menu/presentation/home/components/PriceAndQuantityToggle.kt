@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,10 +20,11 @@ import java.util.Locale
 @Composable
 fun PriceAndQuantityToggle(
     price: BigDecimal,
-    itemCount: MutableState<Int>,
-    onAction: (HomeAction) -> Unit
+    itemCount: Int,
+    onAction: (HomeAction) -> Unit,
+    updateCart: (Int) -> Unit
 ) {
-    val calculatedPrice = itemCount.value * price.toDouble()
+    val calculatedPrice = itemCount * price.toDouble()
     Row(
         modifier =
             Modifier
@@ -34,16 +32,17 @@ fun PriceAndQuantityToggle(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        QuantitySelector(itemCount, onAction = onAction)
-        PriceWithNumber(itemCount, price, calculatedPrice)
+        QuantitySelector(itemCount, onAction = onAction, updateCart = updateCart)
+        PriceWithNumber(itemCount, price, calculatedPrice, updateCart = updateCart)
     }
 }
 
 @Composable
 fun PriceWithNumber(
-    itemCount: MutableState<Int>,
+    itemCount: Int,
     price: BigDecimal,
-    calculatedPrice: Double
+    calculatedPrice: Double,
+    updateCart: (Int) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.End,
@@ -56,7 +55,7 @@ fun PriceWithNumber(
             modifier = Modifier
         )
         Row(modifier = Modifier, verticalAlignment = Alignment.Top) {
-            Text(itemCount.value.toString(), fontSize = 10.sp)
+            Text(itemCount.toString(), fontSize = 10.sp)
             Text(
                 "x",
                 fontSize = 10.sp,
@@ -73,7 +72,6 @@ fun PriceWithNumber(
 @Composable
 fun PriceAndQuantityTogglePreview() {
     LazyPizzaTheme {
-        val itemCount = remember { mutableIntStateOf(1) }
         Row(
             modifier =
                 Modifier
@@ -81,8 +79,9 @@ fun PriceAndQuantityTogglePreview() {
         ) {
             PriceAndQuantityToggle(
                 BigDecimal("1.20"),
-                itemCount,
-                onAction = {}
+                1,
+                onAction = {},
+                updateCart = {}
             )
         }
     }

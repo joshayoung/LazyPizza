@@ -15,9 +15,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,8 +29,9 @@ import java.util.Locale
 @Composable
 fun AddButtonWithPrice(
     price: BigDecimal,
-    itemCount: MutableState<Int>,
-    onAction: (HomeAction) -> Unit
+    itemCount: Int,
+    onAction: (HomeAction) -> Unit,
+    updateCart: (Int) -> Unit
 ) {
     Row(
         modifier =
@@ -46,7 +44,7 @@ fun AddButtonWithPrice(
         Text(price, style = MaterialTheme.typography.titleLarge)
         Button(
             onClick = {
-                itemCount.value += 1
+                updateCart(1)
                 onAction(HomeAction.AddItemToCart(1))
             },
             contentPadding = PaddingValues(0.dp),
@@ -76,9 +74,13 @@ fun AddButtonWithPrice(
 @Composable
 fun AddButtonWithPricePreview() {
     LazyPizzaTheme {
-        val itemCount = remember { mutableIntStateOf(0) }
         Box(modifier = Modifier.width(300.dp)) {
-            AddButtonWithPrice(BigDecimal("1.20"), itemCount, onAction = {})
+            AddButtonWithPrice(
+                BigDecimal("1.20"),
+                2,
+                onAction = {},
+                updateCart = {}
+            )
         }
     }
 }

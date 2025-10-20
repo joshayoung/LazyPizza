@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -37,7 +39,7 @@ fun SideItem(
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    val itemCount = remember { mutableIntStateOf(0) }
+    var itemCount by remember { mutableIntStateOf(0) }
     Row(
         modifier =
             modifier
@@ -79,25 +81,31 @@ fun SideItem(
         ) {
             ProductHeader(productUi, itemCount, onAction = {
                 onAction(HomeAction.RemoveItemFromCart(1))
-            })
+            }) {
+                itemCount += it
+            }
             Row(
                 modifier =
                     Modifier
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (itemCount.intValue == 0) {
+                if (itemCount == 0) {
                     AddButtonWithPrice(
                         productUi.price,
                         itemCount = itemCount,
                         onAction = onAction
-                    )
+                    ) {
+                        itemCount += it
+                    }
                 } else {
                     PriceAndQuantityToggle(
                         productUi.price,
                         itemCount,
                         onAction = onAction
-                    )
+                    ) {
+                        itemCount += it
+                    }
                 }
             }
         }

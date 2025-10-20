@@ -344,16 +344,6 @@ fun ItemAndPrice(
 }
 
 @Preview(showBackground = true, showSystemUi = true)
-// @Preview(
-//    showBackground = true,
-//    widthDp = 840,
-//    heightDp = 360,
-// )
-// @Preview(
-//    showBackground = true,
-//    widthDp = 800,
-//    heightDp = 1280
-// )
 @Composable
 fun SearchItemsScreenPreview() {
     LazyPizzaTheme {
