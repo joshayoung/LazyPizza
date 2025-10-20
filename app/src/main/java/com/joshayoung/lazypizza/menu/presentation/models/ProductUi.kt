@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.core.domain.serializers.BigDecimalSerializer
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 

@@ -1,10 +1,9 @@
 package com.joshayoung.lazypizza.core.presentation.utils
 
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
-import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
@@ -95,7 +94,11 @@ val mylist =
         )
     )
 
-val previewProducts: MutableMap<MenuType, List<ProductUi>> =
-    mutableMapOf(
-        Pair(MenuType.Entree, mylist)
+val previewProducts: List<MenuItemUi> =
+    listOf(
+        MenuItemUi(
+            MenuType.Entree,
+            mylist,
+            1
+        )
     )

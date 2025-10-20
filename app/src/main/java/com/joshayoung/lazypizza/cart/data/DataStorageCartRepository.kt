@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 import kotlinx.coroutines.flow.Flow

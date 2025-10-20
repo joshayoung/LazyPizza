@@ -47,7 +47,6 @@ import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.previewProducts
@@ -57,7 +56,6 @@ import com.joshayoung.lazypizza.menu.presentation.components.SearchField
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
 import com.joshayoung.lazypizza.menu.presentation.home.components.SideItem
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
-import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -207,7 +205,7 @@ fun Chips(
     coroutineScope: CoroutineScope,
     state: HomeState
 ) {
-    val options = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
+    val options = state.items
     val selectedIndex by remember { mutableIntStateOf(-1) }
     Row {
         options.forEachIndexed { index, label ->
@@ -219,21 +217,10 @@ fun Chips(
                         .padding(end = 4.dp),
                 onClick = {
                     coroutineScope.launch {
-                        if (index == 0) {
-                            lazyGridState.animateScrollToItem(state.pizzaScrollPosition)
-                        }
-                        if (index == 1) {
-                            lazyGridState.animateScrollToItem(state.drinkScrollPosition)
-                        }
-                        if (index == 2) {
-                            lazyGridState.animateScrollToItem(state.sauceScrollPosition)
-                        }
-                        if (index == 3) {
-                            lazyGridState.animateScrollToItem(state.iceCreamScrollPosition)
-                        }
+                        lazyGridState.animateScrollToItem(label.startingIndex)
                     }
                 },
-                label = { Text(label) },
+                label = { Text(label.menuType.displayValue) },
                 leadingIcon = null,
                 shape = RoundedCornerShape(8.dp),
                 colors =
@@ -304,16 +291,16 @@ fun ProductItems(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     state.items.forEach { groupedItem ->
-                        if (groupedItem.value.count() > 0) {
+                        if (groupedItem.products.count() > 0) {
                             stickyHeader {
                                 Text(
-                                    groupedItem.key?.displayValue ?: "",
+                                    groupedItem.menuType.displayValue,
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
                         }
 
-                        items(groupedItem.value) {
+                        items(groupedItem.products) {
                             ItemAndPrice(
                                 it,
                                 goToDetails = goToDetails,

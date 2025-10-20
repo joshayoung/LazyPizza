@@ -2,13 +2,10 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -22,7 +19,7 @@ class HomeViewModel(
     private val cartRepository: CartRepository,
     private val loadProductsUseCase: LoadProductsUseCase
 ) : ViewModel() {
-    private var orderedMenu: Map<MenuType, List<ProductUi>> = emptyMap()
+    private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
 
     companion object {
@@ -94,7 +91,7 @@ class HomeViewModel(
         if (items.count() < 1) {
             _state.update {
                 it.copy(
-                    items = emptyMap(),
+                    items = emptyList(),
                     noItemsFound = true
                 )
             }

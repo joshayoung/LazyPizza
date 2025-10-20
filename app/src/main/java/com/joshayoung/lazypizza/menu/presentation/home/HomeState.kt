@@ -1,13 +1,11 @@
 package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 
 data class HomeState(
     var search: TextFieldState = TextFieldState(),
-    var items: Map<MenuType, List<ProductUi>> = emptyMap(),
+    var items: List<MenuItemUi> = emptyList(),
     val pizzaScrollPosition: Int = 0,
     val drinkScrollPosition: Int = 0,
     val sauceScrollPosition: Int = 0,
