@@ -7,13 +7,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
+import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class DetailsScreenViewModel(
-    private val lazyPizzaRepository: LazyPizzaRepository,
+    private val cartRepository: CartRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     var state by mutableStateOf(DetailsState())
@@ -28,7 +28,7 @@ class DetailsScreenViewModel(
 
     init {
         viewModelScope.launch {
-            val product = lazyPizzaRepository.getProduct(productId)
+            val product = cartRepository.getProduct(productId)
             if (product != null) {
                 val productUi = product.toProductUi()
                 state =
@@ -36,7 +36,7 @@ class DetailsScreenViewModel(
                         productUi = productUi,
                         totalPrice = productUi.price
                     )
-                var toppings = lazyPizzaRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
+                var toppings = cartRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
                 state =
                     state.copy(
                         toppings = toppings.map { it.toProductUi() }

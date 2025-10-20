@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
+import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val lazyPizzaRepository: LazyPizzaRepository,
+    private val authRepository: AuthRepository,
     private val cartRepository: CartRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(HomeState())
@@ -146,10 +146,10 @@ class HomeViewModel(
             )
         }
         viewModelScope.launch {
-            pizzas = lazyPizzaRepository.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
-            drinks = lazyPizzaRepository.getTableData(BuildConfig.DRINK_COLLECTION_ID)
-            sauces = lazyPizzaRepository.getTableData(BuildConfig.SAUCES_COLLECTION_ID)
-            iceCream = lazyPizzaRepository.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
+            pizzas = cartRepository.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
+            drinks = cartRepository.getTableData(BuildConfig.DRINK_COLLECTION_ID)
+            sauces = cartRepository.getTableData(BuildConfig.SAUCES_COLLECTION_ID)
+            iceCream = cartRepository.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
             val drinkStart = pizzas.count() + 1
             val saucesStart = pizzas.count() + drinks.count() + 1
             val iceCreamStart = pizzas.count() + drinks.count() + sauces.count() + 1

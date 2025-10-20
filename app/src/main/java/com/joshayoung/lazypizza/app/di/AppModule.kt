@@ -11,8 +11,8 @@ import com.joshayoung.lazypizza.app.LazyPizzaApp
 import com.joshayoung.lazypizza.app.MainViewModel
 import com.joshayoung.lazypizza.cart.data.DataStorageCartRepository
 import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.core.data.AppWriteRepository
-import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
+import com.joshayoung.lazypizza.core.data.AppWriteAuthRepository
+import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel
@@ -44,7 +44,7 @@ var appModule =
         single<CoroutineScope> {
             (androidApplication() as LazyPizzaApp).applicationScope
         }
-        single { AppWriteRepository(get()) }.bind<LazyPizzaRepository>()
+        single { AppWriteAuthRepository(get()) }.bind<AuthRepository>()
 
         val cartQualifier = named("cartDataStore")
 
@@ -56,6 +56,7 @@ var appModule =
 
         single {
             DataStorageCartRepository(
+                get(),
                 get<DataStore<Preferences>>(qualifier = cartQualifier)
             )
         }.bind<CartRepository>()
