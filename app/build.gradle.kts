@@ -107,6 +107,11 @@ android {
                 "TOPPINGS_COLLECTION_ID",
                 localProperties.getProperty("TOPPINGS_COLLECTION_ID")
             )
+            buildConfigField(
+                "String",
+                "MENU_ITEMS_COLLECTION_ID",
+                localProperties.getProperty("MENU_ITEMS_COLLECTION_ID")
+            )
         }
 
         release {

@@ -4,12 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.AuthRepository
-import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
-import com.joshayoung.lazypizza.menu.data.models.Products
-import com.joshayoung.lazypizza.menu.presentation.models.ProductType
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -20,14 +18,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val authRepository: AuthRepository,
     private val cartRepository: CartRepository
 ) : ViewModel() {
+    private var orderedMenu: Map<MenuType?, List<ProductUi>> = emptyMap()
     private var _state = MutableStateFlow(HomeState())
-    private var pizzas: List<Product> = emptyList()
-    private var drinks: List<Product> = emptyList()
-    private var sauces: List<Product> = emptyList()
-    private var iceCream: List<Product> = emptyList()
+
+    companion object {
+        const val HEADER_LENGTH = 1
+    }
 
     val state =
         _state
@@ -78,62 +76,32 @@ class HomeViewModel(
         if (search.count() == 0) {
             _state.update {
                 it.copy(
-                    items = allProducts(),
+                    items = orderedMenu,
                     noItemsFound = false
                 )
             }
             return
         }
 
-        val filteredPizzas = pizzas.filter { it.name.contains(search) }
-        val filteredDrinks = drinks.filter { it.name.contains(search) }
-        val filteredIceCream = iceCream.filter { it.name.contains(search) }
+        val items =
+            orderedMenu.filter { (_, values) ->
+                values.any { value -> value.name.contains(search, ignoreCase = true) }
+            }
+//
 
-        val itemsFound = filteredPizzas + filteredDrinks + filteredIceCream
-
-        if (itemsFound.count() < 1) {
+        if (items.count() < 1) {
             _state.update {
                 it.copy(
-                    items = emptyList(),
+                    items = emptyMap(),
                     noItemsFound = true
                 )
             }
             return
         }
-        val all =
-            listOf(
-                Products(
-                    name = "pizzas",
-                    items =
-                        filteredPizzas.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.ENTRE
-                            )
-                        }
-                ),
-                Products(
-                    name = "drinks",
-                    items =
-                        filteredDrinks.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.DRINK
-                            )
-                        }
-                ),
-                Products(
-                    name = "ice cream",
-                    items =
-                        filteredIceCream.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.DESSERT
-                            )
-                        }
-                )
-            )
 
         _state.update {
             it.copy(
-                items = all,
+                items = items,
                 noItemsFound = false
             )
         }
@@ -146,70 +114,50 @@ class HomeViewModel(
             )
         }
         viewModelScope.launch {
-            pizzas = cartRepository.getTableData(BuildConfig.PIZZA_COLLECTION_ID)
-            drinks = cartRepository.getTableData(BuildConfig.DRINK_COLLECTION_ID)
-            sauces = cartRepository.getTableData(BuildConfig.SAUCES_COLLECTION_ID)
-            iceCream = cartRepository.getTableData(BuildConfig.ICE_CREAM_COLLECTION_ID)
-            val drinkStart = pizzas.count() + 1
-            val saucesStart = pizzas.count() + drinks.count() + 1
-            val iceCreamStart = pizzas.count() + drinks.count() + sauces.count() + 1
+            val menuItems = cartRepository.getTableData(BuildConfig.MENU_ITEMS_COLLECTION_ID)
+            val menuItemsGrouped = menuItems.map { it.toProductUi() }.groupBy { it.type }
 
-            val all = allProducts()
+            val entrees =
+                menuItemsGrouped
+                    .flatMap {
+                        it.value
+                    }.filter { it.type == MenuType.Entree }
+            val beverages =
+                menuItemsGrouped.flatMap { it.value }.filter {
+                    it.type ==
+                        MenuType.Beverage
+                }
+            val sauces = menuItemsGrouped.flatMap { it.value }.filter { it.type == MenuType.Sauce }
+            val desserts =
+                menuItemsGrouped
+                    .flatMap {
+                        it.value
+                    }.filter { it.type == MenuType.Dessert }
+
+            val entreeStart = 0
+            val beverageStart = entrees.count() + HEADER_LENGTH
+            val saucesStart = beverageStart + beverages.count() + HEADER_LENGTH
+            val iceCreamStart = saucesStart + sauces.count() + HEADER_LENGTH
+
+            // TODO: It seems to be ordered correctly, but I am adding this just in case.
+            orderedMenu =
+                mapOf(
+                    Pair(MenuType.Entree, entrees),
+                    Pair(MenuType.Beverage, beverages),
+                    Pair(MenuType.Sauce, sauces),
+                    Pair(MenuType.Dessert, desserts)
+                )
 
             _state.update {
                 it.copy(
-                    items = all,
-                    pizzaScrollPosition = 0,
-                    drinkScrollPosition = drinkStart,
+                    items = orderedMenu,
+                    pizzaScrollPosition = entreeStart,
+                    drinkScrollPosition = beverageStart,
                     sauceScrollPosition = saucesStart,
                     iceCreamScrollPosition = iceCreamStart,
                     isLoadingProducts = false
                 )
             }
         }
-    }
-
-    private fun allProducts(): List<Products> {
-        val all =
-            listOf(
-                Products(
-                    name = "pizzas",
-                    items =
-                        pizzas.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.ENTRE
-                            )
-                        }
-                ),
-                Products(
-                    name = "drinks",
-                    items =
-                        drinks.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.DRINK
-                            )
-                        }
-                ),
-                Products(
-                    name = "sauces",
-                    items =
-                        sauces.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.SAUCE
-                            )
-                        }
-                ),
-                Products(
-                    name = "ice cream",
-                    items =
-                        iceCream.map { it.toProductUi() }.map {
-                            it.copy(
-                                type = ProductType.DESSERT
-                            )
-                        }
-                )
-            )
-
-        return all
     }
 }

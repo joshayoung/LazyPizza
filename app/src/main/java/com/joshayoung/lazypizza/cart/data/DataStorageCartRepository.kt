@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 import kotlinx.coroutines.flow.Flow
@@ -64,7 +65,8 @@ class DataStorageCartRepository(
                         name = row.data["name"] as? String ?: "",
                         price = row.data["price"] as? String ?: "0.00",
                         description = row.data["description"] as? String ?: "",
-                        imageUrl = row.data["imageUrl"] as? String
+                        imageUrl = row.data["imageUrl"] as? String,
+                        type = row.data["type"] as? String ?: ""
                     )
                 }
 
@@ -91,7 +93,8 @@ class DataStorageCartRepository(
                     name = response.data["name"] as? String ?: "",
                     price = response.data["price"] as? String ?: "0.00",
                     description = response.data["description"] as? String ?: "",
-                    imageUrl = response.data["imageUrl"] as? String ?: ""
+                    imageUrl = response.data["imageUrl"] as? String ?: "",
+                    type = response.data["type"] as? String ?: ""
                 )
             }
         } catch (e: Exception) {

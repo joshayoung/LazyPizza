@@ -47,6 +47,7 @@ import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.previewProducts
@@ -55,6 +56,7 @@ import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.SearchField
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
 import com.joshayoung.lazypizza.menu.presentation.home.components.SideItem
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.CoroutineScope
@@ -301,18 +303,19 @@ fun ProductItems(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    state.items.forEach { item ->
-                        if (item.items.count() > 0) {
+                    state.items.forEach { groupedItem ->
+                        if (groupedItem.value.count() > 0) {
                             stickyHeader {
                                 Text(
-                                    item.name.uppercase(),
+                                    groupedItem.key?.name ?: "",
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
                         }
-                        items(item.items) { product ->
+
+                        items(groupedItem.value) {
                             ItemAndPrice(
-                                product,
+                                it,
                                 goToDetails = goToDetails,
                                 modifier = Modifier.height(130.dp),
                                 onAction = onAction
@@ -332,7 +335,7 @@ fun ItemAndPrice(
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    if (productUi.type == ProductType.ENTRE) {
+    if (productUi.type == MenuType.Entree) {
         ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
         SideItem(

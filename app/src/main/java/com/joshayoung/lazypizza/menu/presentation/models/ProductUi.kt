@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.core.domain.serializers.BigDecimalSerializer
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
@@ -12,7 +13,7 @@ data class ProductUi(
     val imageResource: Int? = null,
     val name: String,
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,
-    val type: ProductType? = null
+    val type: MenuType? = null
 ) {
     val remoteImageUrl: String
         get() {
