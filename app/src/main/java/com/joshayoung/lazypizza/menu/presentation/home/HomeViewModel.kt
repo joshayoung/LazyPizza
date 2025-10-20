@@ -6,8 +6,8 @@ import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
-import com.joshayoung.lazypizza.core.toProductUi
 import com.joshayoung.lazypizza.menu.data.models.Products
 import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,7 +62,7 @@ class HomeViewModel(
         when (action) {
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    cartRepository.addItemToCart(1)
+                    cartRepository.addToCart(1)
                 }
             }
 

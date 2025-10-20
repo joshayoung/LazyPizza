@@ -33,7 +33,7 @@ import com.joshayoung.lazypizza.ui.theme.PizzaLogo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LazyPizzaAppBar(
+fun PizzaAppBar(
     showLogo: Boolean = true,
     showContact: Boolean = true,
     showBackButton: Boolean = false,
@@ -149,13 +149,13 @@ fun LazyPizzaAppBarPreview() {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            LazyPizzaAppBar()
-            LazyPizzaAppBar(
+            PizzaAppBar()
+            PizzaAppBar(
                 showLogo = false,
                 showContact = false,
                 title = "Cart"
             )
-            LazyPizzaAppBar(
+            PizzaAppBar(
                 showLogo = false,
                 showContact = false,
                 showBackButton = true

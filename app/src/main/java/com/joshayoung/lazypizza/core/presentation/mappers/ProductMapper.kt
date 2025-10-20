@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core
+package com.joshayoung.lazypizza.core.presentation.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi

@@ -43,17 +43,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.NavigationRailScaffold
+import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
+import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
+import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.previewProducts
-import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.SearchField
-import com.joshayoung.lazypizza.menu.presentation.home.components.MultipleProductItem
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
+import com.joshayoung.lazypizza.menu.presentation.home.components.SideItem
 import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -123,10 +123,10 @@ fun HomeScreen(
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
-            LazyPizzaScaffold(
-                topAppBar = { LazyPizzaAppBar() },
+            SmallPizzaScaffold(
+                topAppBar = { PizzaAppBar() },
                 bottomBar = {
-                    LazyPizzaBottomBar(
+                    PizzaBottomBar(
                         bottomNavItems = bottomNavItems,
                         cartItems = state.cartItems
                     )
@@ -156,7 +156,7 @@ fun HomeScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            NavigationRailScaffold(
+            LargePizzaScaffold(
                 appBarItems = bottomNavItems,
                 cartItems = state.cartItems
             ) { innerPadding ->
@@ -335,7 +335,7 @@ fun ItemAndPrice(
     if (productUi.type == ProductType.ENTRE) {
         ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
-        MultipleProductItem(
+        SideItem(
             productUi,
             modifier = modifier,
             onAction = onAction

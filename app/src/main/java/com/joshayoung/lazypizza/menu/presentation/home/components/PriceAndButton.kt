@@ -30,7 +30,7 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun PriceAndAddButton(
+fun AddButtonWithPrice(
     price: BigDecimal,
     itemCount: MutableState<Int>,
     onAction: (HomeAction) -> Unit
@@ -74,11 +74,11 @@ fun PriceAndAddButton(
 
 @Preview(showBackground = true)
 @Composable
-fun PriceAndButtonPreview() {
+fun AddButtonWithPricePreview() {
     LazyPizzaTheme {
         val itemCount = remember { mutableIntStateOf(0) }
         Box(modifier = Modifier.width(300.dp)) {
-            PriceAndAddButton(BigDecimal("1.20"), itemCount, onAction = {})
+            AddButtonWithPrice(BigDecimal("1.20"), itemCount, onAction = {})
         }
     }
 }

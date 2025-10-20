@@ -18,7 +18,7 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
 // TODO: Move preview and debug check here:
 @Composable
-fun LazyImage(
+fun PizzaImage(
     productUi: ProductUi?,
     modifier: Modifier = Modifier
 ) {

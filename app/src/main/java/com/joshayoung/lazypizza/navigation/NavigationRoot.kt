@@ -9,9 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.cart.CartScreenRoot
-import com.joshayoung.lazypizza.core.utils.BottomNavItem
-import com.joshayoung.lazypizza.history.HistoryScreenRoot
+import com.joshayoung.lazypizza.cart.presentation.CartScreenRoot
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.history.presentation.HistoryScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 

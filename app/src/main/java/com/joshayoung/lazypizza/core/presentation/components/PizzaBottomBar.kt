@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.utils.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.primary8
@@ -39,7 +39,7 @@ import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.ui.theme.textPrimary
 
 @Composable
-fun LazyPizzaBottomBar(
+fun PizzaBottomBar(
     cartItems: Int = 0,
     bottomNavItems: List<BottomNavItem>
 ) {
@@ -153,7 +153,7 @@ fun LazyPizzaBottomBarPreview() {
                     .fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            LazyPizzaBottomBar(
+            PizzaBottomBar(
                 bottomNavItems =
                     listOf(
                         BottomNavItem(

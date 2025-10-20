@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
-fun LazyPizzaScaffold(
+fun SmallPizzaScaffold(
     topAppBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
@@ -33,10 +33,10 @@ fun LazyPizzaScaffold(
 @Preview
 fun LazyPizzaScaffoldPreview() {
     LazyPizzaTheme {
-        LazyPizzaScaffold(
-            topAppBar = { LazyPizzaAppBar() },
+        SmallPizzaScaffold(
+            topAppBar = { PizzaAppBar() },
             bottomBar = {
-                LazyPizzaBottomBar(
+                PizzaBottomBar(
                     bottomNavItems = emptyList()
                 )
             }

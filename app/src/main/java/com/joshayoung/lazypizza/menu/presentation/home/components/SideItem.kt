@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.LazyImage
+import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -32,7 +32,7 @@ import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 import java.math.BigDecimal
 
 @Composable
-fun MultipleProductItem(
+fun SideItem(
     productUi: ProductUi,
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
@@ -57,7 +57,7 @@ fun MultipleProductItem(
                 ).fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        LazyImage(
+        PizzaImage(
             productUi,
             modifier =
                 Modifier
@@ -87,13 +87,13 @@ fun MultipleProductItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 if (itemCount.intValue == 0) {
-                    PriceAndAddButton(
+                    AddButtonWithPrice(
                         productUi.price,
                         itemCount = itemCount,
                         onAction = onAction
                     )
                 } else {
-                    PriceAndQuantity(
+                    PriceAndQuantityToggle(
                         productUi.price,
                         itemCount,
                         onAction = onAction
@@ -106,7 +106,7 @@ fun MultipleProductItem(
 
 @Preview()
 @Composable
-fun MultipleProductItemPreview() {
+fun SideItemPreview() {
     LazyPizzaTheme {
         Column(
             modifier =
@@ -121,7 +121,7 @@ fun MultipleProductItemPreview() {
                     Modifier
                         .height(200.dp)
             ) {
-                MultipleProductItem(
+                SideItem(
                     productUi =
                         ProductUi(
                             id = "10",

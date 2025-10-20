@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.LazyPizzaRepository
-import com.joshayoung.lazypizza.core.toProductUi
+import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -28,7 +28,7 @@ class DetailsScreenViewModel(
 
     init {
         viewModelScope.launch {
-            val product = lazyPizzaRepository.getData(productId)
+            val product = lazyPizzaRepository.getProduct(productId)
             if (product != null) {
                 val productUi = product.toProductUi()
                 state =

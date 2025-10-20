@@ -15,7 +15,7 @@ private object CartValues {
 class DataStorageCartRepository(
     private val dataStore: DataStore<Preferences>
 ) : CartRepository {
-    override suspend fun addItemToCart(item: Int) {
+    override suspend fun addToCart(item: Int) {
         dataStore.edit { preferences ->
             val current = preferences[CartValues.CART_ITEMS]
             var count = current?.toInt() ?: 0

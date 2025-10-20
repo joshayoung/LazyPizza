@@ -63,7 +63,7 @@ class AppWriteRepository(
         }
     }
 
-    override suspend fun getData(productId: String?): Product? {
+    override suspend fun getProduct(productId: String?): Product? {
         try {
             val tables = TablesDB(client = appWriteClient)
             productId?.let { id ->

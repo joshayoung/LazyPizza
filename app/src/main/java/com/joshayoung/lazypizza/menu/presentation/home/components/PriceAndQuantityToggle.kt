@@ -21,7 +21,7 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun PriceAndQuantity(
+fun PriceAndQuantityToggle(
     price: BigDecimal,
     itemCount: MutableState<Int>,
     onAction: (HomeAction) -> Unit
@@ -71,7 +71,7 @@ fun PriceWithNumber(
 
 @Preview(showBackground = true)
 @Composable
-fun PriceAndQuantityPreview() {
+fun PriceAndQuantityTogglePreview() {
     LazyPizzaTheme {
         val itemCount = remember { mutableIntStateOf(1) }
         Row(
@@ -79,7 +79,7 @@ fun PriceAndQuantityPreview() {
                 Modifier
                     .fillMaxWidth()
         ) {
-            PriceAndQuantity(
+            PriceAndQuantityToggle(
                 BigDecimal("1.20"),
                 itemCount,
                 onAction = {}

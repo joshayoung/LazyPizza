@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.utils
 
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.utils.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.menu.data.models.Products
 import com.joshayoung.lazypizza.menu.presentation.models.ProductType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi

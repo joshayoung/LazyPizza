@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.cart
+package com.joshayoung.lazypizza.history.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,39 +13,40 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.NavigationRailScaffold
+import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
+import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
+import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
-import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
-fun CartScreenRoot(bottomNavItems: List<BottomNavItem>) {
-    CartScreen(
+fun HistoryScreenRoot(bottomNavItems: List<BottomNavItem>) {
+    HistoryScreen(
         bottomNavItems = bottomNavItems
     )
 }
 
 @Composable
-fun CartScreen(bottomNavItems: List<BottomNavItem>) {
+fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
+    Text(text = "history screen")
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
-            LazyPizzaScaffold(
+            SmallPizzaScaffold(
                 topAppBar = {
-                    LazyPizzaAppBar(
+                    PizzaAppBar(
                         showLogo = false,
                         showContact = false,
-                        title = "Cart"
+                        title = "Order History"
                     )
                 },
                 bottomBar = {
-                    LazyPizzaBottomBar(
+                    PizzaBottomBar(
                         bottomNavItems = bottomNavItems
                     )
                 }
@@ -59,10 +60,10 @@ fun CartScreen(bottomNavItems: List<BottomNavItem>) {
                             .padding(innerPadding)
                             .padding(top = 140.dp)
                 ) {
-                    Text("Your Cart Is Empty", style = MaterialTheme.typography.titleLarge)
-                    Text("Head back to the menu nd grab a pizza you love.")
+                    Text("Not Signed In", style = MaterialTheme.typography.titleLarge)
+                    Text("Please sign in to view your order history")
                     Button(onClick = {}) {
-                        Text("Back to Menu")
+                        Text("Sign In")
                     }
                 }
             }
@@ -72,8 +73,7 @@ fun CartScreen(bottomNavItems: List<BottomNavItem>) {
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            NavigationRailScaffold(
-                title = "Cart",
+            LargePizzaScaffold(
                 appBarItems = bottomNavItems
             ) { innerPadding ->
                 Column(
@@ -85,10 +85,10 @@ fun CartScreen(bottomNavItems: List<BottomNavItem>) {
                             .padding(innerPadding)
                             .padding(top = 140.dp)
                 ) {
-                    Text("Your Cart Is Empty", style = MaterialTheme.typography.titleLarge)
-                    Text("Head back to the menu nd grab a pizza you love.")
+                    Text("Not Signed In", style = MaterialTheme.typography.titleLarge)
+                    Text("Please sign in to view your order history")
                     Button(onClick = {}) {
-                        Text("Back to Menu")
+                        Text("Sign In")
                     }
                 }
             }
@@ -96,16 +96,11 @@ fun CartScreen(bottomNavItems: List<BottomNavItem>) {
     }
 }
 
+@Preview
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
-@Preview(
-    showBackground = true,
-    widthDp = 800,
-    heightDp = 1280
-)
-private fun CartScreenPreview() {
+private fun HistoryScreenPreview() {
     LazyPizzaTheme {
-        CartScreen(
+        HistoryScreen(
             bottomNavItems = previewBottomNavItems
         )
     }

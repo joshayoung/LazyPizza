@@ -21,7 +21,7 @@ import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 
 @Composable
-fun QuantityClicker(
+fun QuantityToggler(
     productUi: ProductUi,
     click: (DetailAction) -> Unit,
     quantity: MutableIntState,
@@ -34,7 +34,7 @@ fun QuantityClicker(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ClickerButton(R.drawable.minus, click = {
+        ToggleButton(R.drawable.minus, click = {
             click(DetailAction.DecrementPrice(price = productUi.price))
             if (quantity.intValue > 0) {
                 quantity.intValue -= 1
@@ -45,7 +45,7 @@ fun QuantityClicker(
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
         )
-        ClickerButton(
+        ToggleButton(
             R.drawable.plus,
             click = {
                 if (!preventMore.value) {
@@ -64,7 +64,7 @@ fun QuantityClickerPreview() {
     val quantity = remember { mutableIntStateOf(0) }
     val preventMore = remember { mutableStateOf(false) }
     LazyPizzaTheme {
-        QuantityClicker(
+        QuantityToggler(
             productUi =
                 ProductUi(
                     name = "name",

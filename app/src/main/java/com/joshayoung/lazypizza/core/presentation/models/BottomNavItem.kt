@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core.utils
+package com.joshayoung.lazypizza.core.presentation.models
 
 data class BottomNavItem(
     val label: String,

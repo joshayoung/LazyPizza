@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.LazyImage
+import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
 import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
@@ -35,7 +35,7 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun ProductAndPriceComponent(
+fun Topping(
     productUi: ProductUi,
     modifier: Modifier,
     click: (DetailAction) -> Unit
@@ -83,7 +83,7 @@ fun ProductAndPriceComponent(
                     .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
                     .padding(4.dp)
         ) {
-            LazyImage(
+            PizzaImage(
                 productUi,
                 modifier =
                     Modifier
@@ -97,7 +97,7 @@ fun ProductAndPriceComponent(
             color = MaterialTheme.colorScheme.onSecondary
         )
         if (incrementMode) {
-            QuantityClicker(productUi, click, quantity, preventMore)
+            QuantityToggler(productUi, click, quantity, preventMore)
         } else {
             val price = String.format(Locale.US, "$%.2f", productUi.price)
             Text(
@@ -111,10 +111,10 @@ fun ProductAndPriceComponent(
 
 @Preview(showBackground = true)
 @Composable
-fun ProductAndPriceComponentPreview() {
+fun ToppingPreview() {
     LazyPizzaTheme {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
-            ProductAndPriceComponent(
+            Topping(
                 productUi =
                     ProductUi(
                         id = "1",
@@ -127,7 +127,7 @@ fun ProductAndPriceComponentPreview() {
                 modifier = Modifier.size(200.dp),
                 click = {}
             )
-            ProductAndPriceComponent(
+            Topping(
                 productUi =
                     ProductUi(
                         id = "2",

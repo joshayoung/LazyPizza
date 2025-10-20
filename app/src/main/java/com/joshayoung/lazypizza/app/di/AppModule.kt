@@ -37,7 +37,6 @@ fun createPreferencesDataStore(context: Context): DataStore<Preferences> =
 
 var appModule =
     module {
-
         viewModelOf(::MainViewModel)
         viewModelOf(::HomeViewModel)
         viewModelOf(::DetailsScreenViewModel)
@@ -54,6 +53,7 @@ var appModule =
                 get()
             )
         }
+
         single {
             DataStorageCartRepository(
                 get<DataStore<Preferences>>(qualifier = cartQualifier)

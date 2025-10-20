@@ -21,7 +21,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 
 @Composable
-fun ClickerButton(
+fun ToggleButton(
     imageResource: Int,
     click: () -> Unit,
     preventMore: MutableState<Boolean>? = null
@@ -61,18 +61,18 @@ fun ClickerButton(
 
 @Preview(showBackground = true)
 @Composable
-fun ClickerButtonPreview() {
+fun ToggleButtonPreview() {
     val preventMoreNo = remember { mutableStateOf(false) }
     val preventMoreYes = remember { mutableStateOf(true) }
 
     LazyPizzaTheme {
         Column {
-            ClickerButton(
+            ToggleButton(
                 R.drawable.plus,
                 click = {},
                 preventMore = preventMoreNo
             )
-            ClickerButton(
+            ToggleButton(
                 R.drawable.plus,
                 click = {},
                 preventMore = preventMoreYes

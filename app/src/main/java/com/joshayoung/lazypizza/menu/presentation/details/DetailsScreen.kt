@@ -31,11 +31,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.LazyImage
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
-import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
+import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
+import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.menu.presentation.components.ProductAndPriceComponent
+import com.joshayoung.lazypizza.menu.presentation.components.Topping
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
@@ -69,9 +69,9 @@ fun DetailsScreen(
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
-            LazyPizzaScaffold(
+            SmallPizzaScaffold(
                 topAppBar = {
-                    LazyPizzaAppBar(
+                    PizzaAppBar(
                         showLogo = false,
                         showContact = false,
                         showBackButton = true,
@@ -104,9 +104,9 @@ fun DetailsScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            LazyPizzaScaffold(
+            SmallPizzaScaffold(
                 topAppBar = {
-                    LazyPizzaAppBar(
+                    PizzaAppBar(
                         showLogo = false,
                         showContact = false,
                         showBackButton = true,
@@ -169,7 +169,7 @@ fun DetailHeader(state: DetailsState) {
                 ),
         contentAlignment = Alignment.Center
     ) {
-        LazyImage(
+        PizzaImage(
             state.productUi,
             modifier =
                 Modifier
@@ -226,7 +226,7 @@ fun Toppings(
                 )
             }
             items(state.toppings) { topping ->
-                ProductAndPriceComponent(
+                Topping(
                     topping,
                     click = onAction,
                     modifier = Modifier
