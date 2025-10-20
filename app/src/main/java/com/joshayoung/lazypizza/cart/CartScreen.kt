@@ -74,7 +74,7 @@ fun CartScreen(bottomNavItems: List<BottomNavItem>) {
         DeviceConfiguration.DESKTOP -> {
             NavigationRailScaffold(
                 title = "Cart",
-                appBarItems = previewBottomNavItems
+                appBarItems = bottomNavItems
             ) { innerPadding ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,

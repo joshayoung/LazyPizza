@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.LazyPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.NavigationRailScaffold
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
@@ -72,15 +73,23 @@ fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            LazyPizzaScaffold(
-                topAppBar = { LazyPizzaAppBar() }
+            NavigationRailScaffold(
+                appBarItems = bottomNavItems
             ) { innerPadding ->
                 Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier =
                         Modifier
+                            .fillMaxWidth()
                             .padding(innerPadding)
+                            .padding(top = 140.dp)
                 ) {
-                    Text("History Screen")
+                    Text("Not Signed In", style = MaterialTheme.typography.titleLarge)
+                    Text("Please sign in to view your order history")
+                    Button(onClick = {}) {
+                        Text("Sign In")
+                    }
                 }
             }
         }

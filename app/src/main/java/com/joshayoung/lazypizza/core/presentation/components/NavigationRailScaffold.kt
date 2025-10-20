@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.utils.BottomNavItem
 import com.joshayoung.lazypizza.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.ui.theme.primary8
 import com.joshayoung.lazypizza.ui.theme.surfaceHigher
 
 @Composable
@@ -64,19 +67,7 @@ fun NavigationRailScaffold(
                     ) {
                         Spacer(Modifier.weight(1f))
                         appBarItems.forEachIndexed { index, item ->
-                            NavigationRailItem(
-                                selected = item.selected,
-                                onClick = {
-                                    item.clickAction()
-                                },
-                                icon = {
-                                    Icon(
-                                        painter = painterResource(item.imageResource),
-                                        contentDescription = null
-                                    )
-                                },
-                                label = { Text(item.label) }
-                            )
+                            CustomNavigationRailItem(item)
                         }
                         Spacer(Modifier.weight(1f))
                     }
@@ -93,6 +84,33 @@ fun NavigationRailScaffold(
             }
         }
     }
+}
+
+@Composable
+fun CustomNavigationRailItem(item: BottomNavItem) {
+    var outlineBackground = Color.Transparent
+    var tint = MaterialTheme.colorScheme.onSecondary
+    if (item.selected) {
+        outlineBackground = MaterialTheme.colorScheme.primary8
+        tint = MaterialTheme.colorScheme.primary
+    }
+    NavigationRailItem(
+        selected = false,
+        onClick = { item.clickAction() },
+        icon = {
+            Icon(
+                tint = tint,
+                painter = painterResource(item.imageResource),
+                contentDescription = null,
+                modifier =
+                    Modifier
+                        .background(outlineBackground, shape = CircleShape)
+                        .padding(10.dp)
+                        .size(28.dp)
+            )
+        },
+        label = { Text(item.label) }
+    )
 }
 
 @Composable

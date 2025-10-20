@@ -32,9 +32,12 @@ Android Application for Pizza Orders
 ### Generate SHA-256 Key
 * `./gradlew signingReport`
 
-## Convert Video Format
+### Convert Video Format
 * https://ffmpeg.org/ffmpeg.html#Video-and-Audio-file-format-conversion
 * `ffmpeg -i milestone_one.webm -c:v libx264 milestone_one.mp4`
+
+### Ktlint Plugin
+* https://plugins.jetbrains.com/plugin/15057-ktlint
 
 ### Resources
 * [Font](https://fonts.google.com/specimen/Instrument+Sans)
