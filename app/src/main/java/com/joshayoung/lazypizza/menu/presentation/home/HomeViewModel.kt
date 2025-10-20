@@ -6,6 +6,7 @@ import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
+import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,9 +19,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val loadProductsUseCase: LoadProductsUseCase
 ) : ViewModel() {
-    private var orderedMenu: Map<MenuType?, List<ProductUi>> = emptyMap()
+    private var orderedMenu: Map<MenuType, List<ProductUi>> = emptyMap()
     private var _state = MutableStateFlow(HomeState())
 
     companion object {
@@ -114,47 +116,15 @@ class HomeViewModel(
             )
         }
         viewModelScope.launch {
-            val menuItems = cartRepository.getTableData(BuildConfig.MENU_ITEMS_COLLECTION_ID)
-            val menuItemsGrouped = menuItems.map { it.toProductUi() }.groupBy { it.type }
-
-            val entrees =
-                menuItemsGrouped
-                    .flatMap {
-                        it.value
-                    }.filter { it.type == MenuType.Entree }
-            val beverages =
-                menuItemsGrouped.flatMap { it.value }.filter {
-                    it.type ==
-                        MenuType.Beverage
-                }
-            val sauces = menuItemsGrouped.flatMap { it.value }.filter { it.type == MenuType.Sauce }
-            val desserts =
-                menuItemsGrouped
-                    .flatMap {
-                        it.value
-                    }.filter { it.type == MenuType.Dessert }
-
-            val entreeStart = 0
-            val beverageStart = entrees.count() + HEADER_LENGTH
-            val saucesStart = beverageStart + beverages.count() + HEADER_LENGTH
-            val iceCreamStart = saucesStart + sauces.count() + HEADER_LENGTH
-
-            // TODO: It seems to be ordered correctly, but I am adding this just in case.
-            orderedMenu =
-                mapOf(
-                    Pair(MenuType.Entree, entrees),
-                    Pair(MenuType.Beverage, beverages),
-                    Pair(MenuType.Sauce, sauces),
-                    Pair(MenuType.Dessert, desserts)
-                )
+            orderedMenu = loadProductsUseCase.execute()
 
             _state.update {
                 it.copy(
                     items = orderedMenu,
-                    pizzaScrollPosition = entreeStart,
-                    drinkScrollPosition = beverageStart,
-                    sauceScrollPosition = saucesStart,
-                    iceCreamScrollPosition = iceCreamStart,
+                    pizzaScrollPosition = 0, // entreeStart,
+                    drinkScrollPosition = 0, // beverageStart,
+                    sauceScrollPosition = 0, // saucesStart,
+                    iceCreamScrollPosition = 0, // iceCreamStart,
                     isLoadingProducts = false
                 )
             }

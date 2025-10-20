@@ -307,7 +307,7 @@ fun ProductItems(
                         if (groupedItem.value.count() > 0) {
                             stickyHeader {
                                 Text(
-                                    groupedItem.key?.name ?: "",
+                                    groupedItem.key?.displayValue ?: "",
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }

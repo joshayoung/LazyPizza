@@ -95,7 +95,7 @@ val mylist =
         )
     )
 
-val previewProducts: MutableMap<MenuType?, List<ProductUi>> =
+val previewProducts: MutableMap<MenuType, List<ProductUi>> =
     mutableMapOf(
         Pair(MenuType.Entree, mylist)
     )

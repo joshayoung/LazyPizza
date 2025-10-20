@@ -14,6 +14,7 @@ import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.data.AppWriteAuthRepository
 import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
+import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenViewModel
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -63,5 +64,9 @@ var appModule =
 
         single {
             AppWriteClientProvider(get()).getInstance()
+        }
+
+        single {
+            LoadProductsUseCase(get())
         }
     }

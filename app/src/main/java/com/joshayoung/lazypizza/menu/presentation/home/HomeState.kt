@@ -7,7 +7,7 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
 data class HomeState(
     var search: TextFieldState = TextFieldState(),
-    var items: Map<MenuType?, List<ProductUi>> = emptyMap(),
+    var items: Map<MenuType, List<ProductUi>> = emptyMap(),
     val pizzaScrollPosition: Int = 0,
     val drinkScrollPosition: Int = 0,
     val sauceScrollPosition: Int = 0,
