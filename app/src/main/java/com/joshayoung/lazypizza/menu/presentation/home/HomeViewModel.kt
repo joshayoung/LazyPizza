@@ -3,11 +3,14 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.cart.domain.CartRepository
+import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -38,14 +41,13 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            cartRepository.getCartData().collect { data ->
-                val count = (data ?: "0").toInt()
+            cartRepository.getCartData().collectLatest { data ->
+                val count = data?.count() ?: 0
                 _state.update {
                     it.copy(
                         cartItems = count
                     )
                 }
-                println()
             }
         }
         _state.value.search
@@ -59,13 +61,14 @@ class HomeViewModel(
         when (action) {
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    cartRepository.addToCart(1)
+                    val product = action.productUi.toProduct()
+                    cartRepository.addToCart(product)
                 }
             }
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeFromCart()
+                    cartRepository.removeFromCart(action.productUi.toProduct())
                 }
             }
         }
@@ -86,7 +89,6 @@ class HomeViewModel(
             orderedMenu.filter { (_, values) ->
                 values.any { value -> value.name.contains(search, ignoreCase = true) }
             }
-//
 
         if (items.count() < 1) {
             _state.update {
@@ -118,10 +120,6 @@ class HomeViewModel(
             _state.update {
                 it.copy(
                     items = orderedMenu,
-                    pizzaScrollPosition = 0, // entreeStart,
-                    drinkScrollPosition = 0, // beverageStart,
-                    sauceScrollPosition = 0, // saucesStart,
-                    iceCreamScrollPosition = 0, // iceCreamStart,
                     isLoadingProducts = false
                 )
             }

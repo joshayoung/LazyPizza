@@ -17,6 +17,19 @@ fun Product.toProductUi(): ProductUi =
         type = getMenuTypeEnum(type)
     )
 
+fun ProductUi.toProduct(): Product =
+    Product(
+        id = id,
+        description = description,
+        imageUrl = imageUrl,
+        imageResource = imageResource,
+        name = name,
+        // TODO: Is this correct?
+        price = price.toString(),
+        // TODO: Is this correct?
+        type = type?.name ?: ""
+    )
+
 private fun getMenuTypeEnum(menuType: String): MenuType {
     when (menuType) {
         "entree" -> {

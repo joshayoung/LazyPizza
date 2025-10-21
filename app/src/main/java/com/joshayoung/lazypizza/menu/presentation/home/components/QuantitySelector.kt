@@ -17,12 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import java.math.BigDecimal
 
 @Composable
 fun QuantitySelector(
     itemCount: Int,
+    productUi: ProductUi,
     onAction: (HomeAction) -> Unit,
     updateCart: (Int) -> Unit
 ) {
@@ -35,7 +39,7 @@ fun QuantitySelector(
         CountButton(
             "-",
             itemCount,
-            onAction = { onAction(HomeAction.RemoveItemFromCart(1)) },
+            onAction = { onAction(HomeAction.RemoveItemFromCart(productUi)) },
             {
                 if (itemCount > 0) {
                     updateCart(-1)
@@ -49,7 +53,7 @@ fun QuantitySelector(
                 Modifier
                     .padding(horizontal = 20.dp)
         )
-        CountButton("+", itemCount, onAction = { onAction(HomeAction.AddItemToCart(1)) }, {
+        CountButton("+", itemCount, onAction = { onAction(HomeAction.AddItemToCart(productUi)) }, {
             updateCart(1)
         })
     }
@@ -91,6 +95,14 @@ fun QuantitySelectorPreview() {
     LazyPizzaTheme {
         QuantitySelector(
             itemCount = 1,
+            ProductUi(
+                id = "1",
+                description = "",
+                imageUrl = "",
+                imageResource = R.drawable.cart,
+                name = "",
+                price = BigDecimal("12")
+            ),
             onAction = {},
             updateCart = {}
         )

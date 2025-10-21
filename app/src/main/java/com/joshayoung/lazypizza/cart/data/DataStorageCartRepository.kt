@@ -10,7 +10,9 @@ import com.joshayoung.lazypizza.core.domain.models.Product
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
 import kotlin.collections.map
 
 private object CartValues {
@@ -21,29 +23,64 @@ class DataStorageCartRepository(
     private var appWriteClient: Client,
     private val dataStore: DataStore<Preferences>
 ) : CartRepository {
-    override suspend fun addToCart(item: Int) {
-        dataStore.edit { preferences ->
-            val current = preferences[CartValues.CART_ITEMS]
-            var count = current?.toInt() ?: 0
-            val newCount = ++count
-            preferences[CartValues.CART_ITEMS] = newCount.toString()
+    override suspend fun addToCart(product: Product) {
+        val productsString =
+            dataStore.data
+                .map { preferences -> preferences[CartValues.CART_ITEMS] }
+                .firstOrNull()
+        if (productsString != null) {
+            val products = Json.decodeFromString<List<Product>>(productsString).toMutableList()
+            products.add(product)
+            val jsonProducts = Json.encodeToString(products)
+
+            dataStore.edit { preferences ->
+                preferences[CartValues.CART_ITEMS] = jsonProducts
+            }
+        } else {
+            val products =
+                listOf(
+                    product
+                )
+            val jsonProducts = Json.encodeToString(products)
+
+            dataStore.edit { preferences ->
+                preferences[CartValues.CART_ITEMS] = jsonProducts
+            }
         }
     }
 
-    override suspend fun removeFromCart() {
-        dataStore.edit { preferences ->
-            val current = preferences[CartValues.CART_ITEMS]
-            var count = current?.toInt() ?: 0
-            val newCount = --count
-            preferences[CartValues.CART_ITEMS] = newCount.toString()
+    override suspend fun removeFromCart(product: Product) {
+        val productsString =
+            dataStore.data
+                .map { preferences -> preferences[CartValues.CART_ITEMS] }
+                .firstOrNull()
+        if (productsString != null) {
+            val products = Json.decodeFromString<List<Product>>(productsString).toMutableList()
+            products.remove(product)
+            val jsonProducts = Json.encodeToString(products)
+
+            dataStore.edit { preferences ->
+                preferences[CartValues.CART_ITEMS] = jsonProducts
+            }
         }
     }
 
-    override fun getCartData(): Flow<String?> =
-        dataStore.data.map { preferences ->
+    override fun getCartData(): Flow<List<Product>?> {
+        val products =
+            dataStore.data
+                .map { preferences ->
+                    preferences[CartValues.CART_ITEMS]
+                }.map {
+                    if (it != null) {
+                        val ii = Json.decodeFromString<List<Product>>(it)
+                        ii
+                    } else {
+                        null
+                    }
+                }
 
-            preferences[CartValues.CART_ITEMS]
-        }
+        return products
+    }
 
     override suspend fun getTableData(table: String): List<Product> {
         try {

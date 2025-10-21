@@ -80,7 +80,7 @@ fun SideItem(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             ProductHeader(productUi, itemCount, onAction = {
-                onAction(HomeAction.RemoveItemFromCart(1))
+                onAction(HomeAction.RemoveItemFromCart(productUi))
             }) {
                 itemCount += it
             }
@@ -92,7 +92,7 @@ fun SideItem(
             ) {
                 if (itemCount == 0) {
                     AddButtonWithPrice(
-                        productUi.price,
+                        productUi,
                         itemCount = itemCount,
                         onAction = onAction
                     ) {
@@ -100,7 +100,7 @@ fun SideItem(
                     }
                 } else {
                     PriceAndQuantityToggle(
-                        productUi.price,
+                        productUi,
                         itemCount,
                         onAction = onAction
                     ) {

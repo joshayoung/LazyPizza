@@ -20,15 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.primary8
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
 fun AddButtonWithPrice(
-    price: BigDecimal,
+    productUi: ProductUi,
     itemCount: Int,
     onAction: (HomeAction) -> Unit,
     updateCart: (Int) -> Unit
@@ -40,12 +42,12 @@ fun AddButtonWithPrice(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val price = String.format(locale = Locale.US, "$%.2f", price)
+        val price = String.format(locale = Locale.US, "$%.2f", productUi.price)
         Text(price, style = MaterialTheme.typography.titleLarge)
         Button(
             onClick = {
                 updateCart(1)
-                onAction(HomeAction.AddItemToCart(1))
+                onAction(HomeAction.AddItemToCart(productUi))
             },
             contentPadding = PaddingValues(0.dp),
             colors =
@@ -76,7 +78,14 @@ fun AddButtonWithPricePreview() {
     LazyPizzaTheme {
         Box(modifier = Modifier.width(300.dp)) {
             AddButtonWithPrice(
-                BigDecimal("1.20"),
+                ProductUi(
+                    id = "1",
+                    description = "description",
+                    imageUrl = "",
+                    imageResource = R.drawable.cart,
+                    name = "prod",
+                    price = BigDecimal("1.22")
+                ),
                 2,
                 onAction = {},
                 updateCart = {}

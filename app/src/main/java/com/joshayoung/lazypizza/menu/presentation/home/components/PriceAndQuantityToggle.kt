@@ -12,19 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
 fun PriceAndQuantityToggle(
-    price: BigDecimal,
+    productUi: ProductUi,
     itemCount: Int,
     onAction: (HomeAction) -> Unit,
     updateCart: (Int) -> Unit
 ) {
-    val calculatedPrice = itemCount * price.toDouble()
+    val calculatedPrice = itemCount * productUi.price.toDouble()
     Row(
         modifier =
             Modifier
@@ -32,15 +34,15 @@ fun PriceAndQuantityToggle(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        QuantitySelector(itemCount, onAction = onAction, updateCart = updateCart)
-        PriceWithNumber(itemCount, price, calculatedPrice, updateCart = updateCart)
+        QuantitySelector(itemCount, productUi, onAction = onAction, updateCart = updateCart)
+        PriceWithNumber(itemCount, productUi, calculatedPrice, updateCart = updateCart)
     }
 }
 
 @Composable
 fun PriceWithNumber(
     itemCount: Int,
-    price: BigDecimal,
+    productUi: ProductUi,
     calculatedPrice: Double,
     updateCart: (Int) -> Unit
 ) {
@@ -78,7 +80,14 @@ fun PriceAndQuantityTogglePreview() {
                     .fillMaxWidth()
         ) {
             PriceAndQuantityToggle(
-                BigDecimal("1.20"),
+                ProductUi(
+                    id = "",
+                    description = "description",
+                    imageUrl = "",
+                    imageResource = R.drawable.cart,
+                    name = "name",
+                    price = BigDecimal("1.22")
+                ),
                 1,
                 onAction = {},
                 updateCart = {}

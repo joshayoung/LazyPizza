@@ -4,11 +4,11 @@ import com.joshayoung.lazypizza.core.domain.models.Product
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    suspend fun addToCart(item: Int)
+    suspend fun addToCart(product: Product)
 
-    fun getCartData(): Flow<String?>
+    fun getCartData(): Flow<List<Product>?>
 
-    suspend fun removeFromCart()
+    suspend fun removeFromCart(product: Product)
 
     suspend fun getTableData(table: String): List<Product>
 
