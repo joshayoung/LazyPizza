@@ -1,8 +1,12 @@
 package com.joshayoung.lazypizza.app
 
 import android.app.Application
-import com.joshayoung.lazypizza.app.di.appModule
+import com.joshayoung.lazypizza.app.data.di.appModule
+import com.joshayoung.lazypizza.cart.data.di.cartModule
+import com.joshayoung.lazypizza.core.data.di.coreModule
 import com.joshayoung.lazypizza.core.networking.JwtManager
+import com.joshayoung.lazypizza.history.data.di.historyModule
+import com.joshayoung.lazypizza.menu.data.di.menuModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
@@ -21,7 +25,11 @@ class LazyPizzaApp : Application() {
             androidContext(this@LazyPizzaApp)
             androidLogger(Level.DEBUG)
             modules(
-                appModule
+                appModule,
+                cartModule,
+                coreModule,
+                historyModule,
+                menuModule
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.app.di
+package com.joshayoung.lazypizza.cart.data.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -7,20 +7,12 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.joshayoung.lazypizza.app.LazyPizzaApp
-import com.joshayoung.lazypizza.app.MainViewModel
 import com.joshayoung.lazypizza.cart.data.DataStorageCartRepository
 import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.core.data.AppWriteAuthRepository
-import com.joshayoung.lazypizza.core.domain.AuthRepository
-import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
-import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
-import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenViewModel
-import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel
+import com.joshayoung.lazypizza.cart.presentation.CartViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
@@ -36,16 +28,9 @@ fun createPreferencesDataStore(context: Context): DataStore<Preferences> =
             )
     )
 
-var appModule =
+var cartModule =
     module {
-        viewModelOf(::MainViewModel)
-        viewModelOf(::HomeViewModel)
-        viewModelOf(::DetailsScreenViewModel)
-
-        single<CoroutineScope> {
-            (androidApplication() as LazyPizzaApp).applicationScope
-        }
-        single { AppWriteAuthRepository(get()) }.bind<AuthRepository>()
+        viewModelOf(::CartViewModel)
 
         val cartQualifier = named("cartDataStore")
 
@@ -61,12 +46,4 @@ var appModule =
                 get<DataStore<Preferences>>(qualifier = cartQualifier)
             )
         }.bind<CartRepository>()
-
-        single {
-            AppWriteClientProvider(get()).getInstance()
-        }
-
-        single {
-            LoadProductsUseCase(get())
-        }
     }
