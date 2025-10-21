@@ -220,7 +220,7 @@ fun Chips(
                         lazyGridState.animateScrollToItem(label.startingIndex)
                     }
                 },
-                label = { Text(label.menuType.displayValue) },
+                label = { Text(label.menuType.chipValue) },
                 leadingIcon = null,
                 shape = RoundedCornerShape(8.dp),
                 colors =

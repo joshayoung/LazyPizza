@@ -1,11 +1,12 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
 enum class MenuType(
-    val displayValue: String
+    val displayValue: String,
+    val chipValue: String
 ) {
-    Entree("PIZZA"),
-    Dessert("ICE CREAM"),
-    Beverage("DRINKS"),
-    Sauce("SAUCES"),
-    Unknown("")
+    Entree("PIZZA", "Pizza"),
+    Beverage("DRINKS", "Drinks"),
+    Sauce("SAUCES", "Sauces"),
+    Dessert("ICE CREAM", "Ice Cream"),
+    Unknown("", "")
 }
