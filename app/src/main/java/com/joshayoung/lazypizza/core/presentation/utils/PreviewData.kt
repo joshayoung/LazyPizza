@@ -32,7 +32,7 @@ val previewBottomNavItems =
         )
     )
 
-val mylist =
+val productUiListForPreview =
     listOf(
         ProductUi(
             id = "1",
@@ -98,7 +98,7 @@ val previewProducts: List<MenuItemUi> =
     listOf(
         MenuItemUi(
             MenuType.Entree,
-            mylist,
+            productUiListForPreview,
             1
         )
     )
