@@ -106,6 +106,7 @@ fun CartScreen(
 fun CartList(state: CartState) {
     if (state.items.count() < 1) {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier =
                 Modifier
                     .padding(top = 140.dp)

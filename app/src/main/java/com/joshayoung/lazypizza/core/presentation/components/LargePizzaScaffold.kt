@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -119,6 +120,11 @@ fun CustomNavigationRailItem(item: BottomNavItem) {
         tint = MaterialTheme.colorScheme.primary
     }
     Column(
+        modifier =
+            Modifier
+                .clickable {
+                    item.clickAction()
+                },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
