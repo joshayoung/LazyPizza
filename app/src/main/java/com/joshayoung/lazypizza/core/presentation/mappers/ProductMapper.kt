@@ -6,7 +6,10 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-fun Product.toProductUi(): ProductUi =
+fun Product.toProductUi(
+    inCart: Boolean = false,
+    numberInCart: Int = 0
+): ProductUi =
     ProductUi(
         id = id,
         description = description,
@@ -14,7 +17,9 @@ fun Product.toProductUi(): ProductUi =
         imageResource = imageResource,
         name = name,
         price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
-        type = getMenuTypeEnum(type)
+        type = getMenuTypeEnum(type),
+        inCart = inCart,
+        numberInCart = numberInCart
     )
 
 fun ProductUi.toProduct(): Product =

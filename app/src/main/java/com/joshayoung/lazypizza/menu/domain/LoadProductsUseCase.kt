@@ -6,19 +6,25 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel.Companion.HEADER_LENGTH
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
+import kotlinx.coroutines.flow.first
 
 class LoadProductsUseCase(
     private val cartRepository: CartRepository
 ) {
     suspend fun execute(): List<MenuItemUi> {
-        val menuItems =
-            cartRepository.getTableData(BuildConfig.MENU_ITEMS_COLLECTION_ID).map {
-                it.toProductUi()
+        val products =
+            cartRepository.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
+        val cart = cartRepository.getCartData().first()
+        val productUiItems =
+            products.map { product ->
+                val inCart = cart?.any { cartItem -> (cartItem.id == product.id) } ?: false
+                val numberInCart = cart?.count { cartItem -> (cartItem.id == product.id) } ?: 0
+                product.toProductUi(inCart = inCart, numberInCart = numberInCart)
             }
-        val entrees = menuItems.filter { it.type == MenuType.Entree }
-        val beverages = menuItems.filter { it.type == MenuType.Beverage }
-        val sauces = menuItems.filter { it.type == MenuType.Sauce }
-        val desserts = menuItems.filter { it.type == MenuType.Dessert }
+        val entrees = productUiItems.filter { it.type == MenuType.Entree }
+        val beverages = productUiItems.filter { it.type == MenuType.Beverage }
+        val sauces = productUiItems.filter { it.type == MenuType.Sauce }
+        val desserts = productUiItems.filter { it.type == MenuType.Dessert }
 
         val entreeStart = 0
         val beverageStart = entrees.count() + HEADER_LENGTH

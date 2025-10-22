@@ -36,7 +36,7 @@ class DetailsScreenViewModel(
                         productUi = productUi,
                         totalPrice = productUi.price
                     )
-                var toppings = cartRepository.getTableData(BuildConfig.TOPPINGS_COLLECTION_ID)
+                var toppings = cartRepository.getProducts(BuildConfig.TOPPINGS_COLLECTION_ID)
                 state =
                     state.copy(
                         toppings = toppings.map { it.toProductUi() }

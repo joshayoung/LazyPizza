@@ -13,7 +13,9 @@ data class ProductUi(
     val imageResource: Int? = null,
     val name: String,
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,
-    val type: MenuType? = null
+    val type: MenuType? = null,
+    val inCart: Boolean = false,
+    val numberInCart: Int = 0
 ) {
     val remoteImageUrl: String
         get() {

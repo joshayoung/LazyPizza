@@ -38,7 +38,7 @@ fun ProductHeader(
                 .fillMaxWidth()
     ) {
         Text(productUi.name, fontWeight = FontWeight.Bold)
-        if (itemCount > 0) {
+        if (productUi.inCart) {
             IconButton(
                 onClick = {
                     updateCart(-1)

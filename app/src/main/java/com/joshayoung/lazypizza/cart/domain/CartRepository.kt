@@ -10,7 +10,7 @@ interface CartRepository {
 
     suspend fun removeFromCart(product: Product)
 
-    suspend fun getTableData(table: String): List<Product>
+    suspend fun getProducts(table: String): List<Product>
 
     suspend fun getProduct(productId: String?): Product?
 }

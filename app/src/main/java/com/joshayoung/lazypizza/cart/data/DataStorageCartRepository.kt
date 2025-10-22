@@ -82,7 +82,7 @@ class DataStorageCartRepository(
         return products
     }
 
-    override suspend fun getTableData(table: String): List<Product> {
+    override suspend fun getProducts(table: String): List<Product> {
         try {
             val tables =
                 TablesDB(

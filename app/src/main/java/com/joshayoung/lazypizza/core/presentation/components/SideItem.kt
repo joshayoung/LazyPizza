@@ -41,7 +41,7 @@ fun SideItem(
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    var itemCount by remember { mutableIntStateOf(0) }
+    var itemCount by remember { mutableIntStateOf(productUi.numberInCart) }
     Row(
         modifier =
             modifier
@@ -92,7 +92,8 @@ fun SideItem(
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (itemCount == 0) {
+//                if (itemCount == 0) {
+                if (!productUi.inCart) {
                     AddButtonWithPrice(
                         productUi,
                         itemCount = itemCount,
