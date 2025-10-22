@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 val localProperties =
@@ -168,4 +169,8 @@ dependencies {
 
     implementation(libs.androidx.datastore.datastore.preferences)
     implementation(libs.androidx.datastore)
+
+    implementation(libs.symbol.processing)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 }

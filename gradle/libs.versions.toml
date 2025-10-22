@@ -16,12 +16,16 @@ koinAndroidxCompose = "4.1.1"
 navigationCompose = "2.9.5"
 kotlinxSerializationJson = "1.9.0"
 ktlint = "13.1.0"
+roomRuntime = "2.8.3"
 sdkForAndroid = "11.0.0"
 adaptive = "1.1.2"
+symbolProcessing = "2.2.20-Beta2-2.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
@@ -47,6 +51,7 @@ sdk-for1-android = { module = "io.appwrite:sdk-for-android", version.ref = "sdkF
 material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+symbol-processing = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "symbolProcessing" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
