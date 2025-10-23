@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.menu.domain
 
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
@@ -14,8 +13,7 @@ class LoadProductsUseCase(
     private val cartRemoteDataSource: CartRemoteDataSource
 ) {
     suspend fun execute(): List<MenuItemUi> {
-        val products =
-            cartRemoteDataSource.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
+        val products = cartRepository.getProducts().first()
         val cart = cartRepository.getProducts().first()
         val productUiItems =
             products.map { product ->

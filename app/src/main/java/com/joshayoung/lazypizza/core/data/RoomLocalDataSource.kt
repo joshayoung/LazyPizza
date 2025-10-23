@@ -15,6 +15,8 @@ class RoomLocalDataSource(
 
     override fun getProducts(): Flow<List<ProductEntity>> = cartDao.getProduct()
 
+    override suspend fun getAllProducts(): List<ProductEntity> = cartDao.getAllProducts()
+
     override suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local> {
         cartDao.upsertCartItem(cartEntity)
 

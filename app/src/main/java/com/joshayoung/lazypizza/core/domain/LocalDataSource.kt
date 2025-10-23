@@ -11,6 +11,8 @@ interface LocalDataSource {
 
     fun getProducts(): Flow<List<ProductEntity>>
 
+    suspend fun getAllProducts(): List<ProductEntity>
+
     suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local>
 
     suspend fun upsertProduct(productEntity: ProductEntity): Result<ProductEntity, DataError.Local>

@@ -64,6 +64,7 @@ var cartModule =
 
         single {
             CartRepositoryImpl(
+                get(),
                 get()
             )
         }.bind<CartRepository>()

@@ -20,4 +20,7 @@ interface CartDao {
 
     @Query("SELECT * FROM product")
     fun getProduct(): Flow<List<ProductEntity>>
+
+    @Query("SELECT * FROM product")
+    suspend fun getAllProducts(): List<ProductEntity>
 }
