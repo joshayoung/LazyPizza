@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.mappers
 
-import com.joshayoung.lazypizza.cart.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal

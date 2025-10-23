@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.cart.domain.models
+package com.joshayoung.lazypizza.core.domain.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

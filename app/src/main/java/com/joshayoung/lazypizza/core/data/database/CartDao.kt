@@ -1,10 +1,10 @@
-package com.joshayoung.lazypizza.cart.data.database
+package com.joshayoung.lazypizza.core.data.database
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.joshayoung.lazypizza.cart.domain.models.CartEntity
-import com.joshayoung.lazypizza.cart.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.domain.models.CartEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

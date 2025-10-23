@@ -2,8 +2,7 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.cart.domain.LocalDataSource
+import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
@@ -11,7 +10,6 @@ import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -21,8 +19,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val loadProductsUseCase: LoadProductsUseCase,
-    private val localDataSource: LocalDataSource
+    private val loadProductsUseCase: LoadProductsUseCase
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())

@@ -1,9 +1,9 @@
-package com.joshayoung.lazypizza.cart.data
+package com.joshayoung.lazypizza.core.data
 
-import com.joshayoung.lazypizza.cart.data.database.CartDao
-import com.joshayoung.lazypizza.cart.domain.LocalDataSource
-import com.joshayoung.lazypizza.cart.domain.models.CartEntity
-import com.joshayoung.lazypizza.cart.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.data.database.CartDao
+import com.joshayoung.lazypizza.core.domain.LocalDataSource
+import com.joshayoung.lazypizza.core.domain.models.CartEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import kotlinx.coroutines.flow.Flow

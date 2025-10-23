@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.cart.domain.network
+package com.joshayoung.lazypizza.core.domain.network
 
 import com.joshayoung.lazypizza.core.domain.models.Product
 

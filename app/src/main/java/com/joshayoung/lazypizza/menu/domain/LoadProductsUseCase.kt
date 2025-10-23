@@ -1,8 +1,8 @@
 package com.joshayoung.lazypizza.menu.domain
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.cart.domain.CartRepository
-import com.joshayoung.lazypizza.cart.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel.Companion.HEADER_LENGTH
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi

@@ -1,6 +1,6 @@
-package com.joshayoung.lazypizza.cart.domain
+package com.joshayoung.lazypizza.core.domain
 
-import com.joshayoung.lazypizza.cart.domain.models.CartEntity
+import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import kotlinx.coroutines.flow.Flow
 

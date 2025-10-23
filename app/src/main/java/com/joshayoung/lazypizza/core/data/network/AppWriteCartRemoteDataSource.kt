@@ -1,8 +1,8 @@
-package com.joshayoung.lazypizza.cart.data.network
+package com.joshayoung.lazypizza.core.data.network
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.cart.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 
