@@ -6,11 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.AuthRepository
+import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private var authRepository: AuthRepository
+    private var authRepository: AuthRepository,
+    private var cartDao: CartDao
 ) : ViewModel() {
     var state by mutableStateOf(MainState())
         private set
@@ -26,6 +29,13 @@ class MainViewModel(
             if (loggedIn) {
                 state = state.copy(isLoading = false)
             }
+            // TODO: Cleanup this:
+            cartDao.addCart(
+                CartEntity(
+                    1,
+                    "Pizza Orders"
+                )
+            )
         }
     }
 }

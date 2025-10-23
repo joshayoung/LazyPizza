@@ -44,6 +44,7 @@ Android Application for Pizza Orders
 * https://firebase.google.com/docs/storage/android/start
 * [Image Caching with Coil Compose - Everything You Need to Know](https://www.youtube.com/watch?v=qQVCtkg-O7w)
 * [Async with Token](https://github.com/coil-kt/coil/discussions/2558#discussioncomment-10963528)
+* [Room Relationship](https://proandroiddev.com/room-database-relationships-explained-729d3c705fd9)
 
 ### Provided Resources
 * [Adding Shadows in Compose](https://developer.android.com/develop/ui/compose/graphics/draw/shadows)

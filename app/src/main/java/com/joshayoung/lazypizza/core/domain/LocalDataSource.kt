@@ -7,11 +7,11 @@ import com.joshayoung.lazypizza.core.networking.Result
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
-    fun getCartItems(): Flow<List<CartEntity>>
-
     fun getProducts(): Flow<List<ProductEntity>>
 
     suspend fun getAllProducts(): List<ProductEntity>
+
+    suspend fun addProductToCart()
 
     suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local>
 

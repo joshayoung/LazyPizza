@@ -10,6 +10,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
+//    id("androidx.room")
 }
 
 val localProperties =
