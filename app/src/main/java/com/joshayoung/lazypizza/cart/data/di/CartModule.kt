@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.joshayoung.lazypizza.cart.data.CartLocalDataSource
-import com.joshayoung.lazypizza.cart.data.DataStorageCartRepository
+import com.joshayoung.lazypizza.cart.data.RoomCartRepository
 import com.joshayoung.lazypizza.cart.data.database.CartDatabase
 import com.joshayoung.lazypizza.cart.data.network.AppWriteCartRemoteDataSource
 import com.joshayoung.lazypizza.cart.domain.CartRepository
@@ -63,8 +63,8 @@ var cartModule =
         singleOf(::AppWriteCartRemoteDataSource).bind<CartRemoteDataSource>()
 
         single {
-            DataStorageCartRepository(
-                get<DataStore<Preferences>>(qualifier = cartQualifier)
+            RoomCartRepository(
+                get()
             )
         }.bind<CartRepository>()
     }

@@ -33,6 +33,17 @@ fun Product.toProductEntity(): ProductEntity =
         type = type
     )
 
+// TODO: Double check these values:
+fun ProductEntity.toProduct(): Product =
+    Product(
+        description = description,
+        imageUrl = imageUrl,
+        name = name,
+        price = price,
+        type = type,
+        id = remoteId
+    )
+
 fun ProductUi.toProduct(): Product =
     Product(
         id = id,

@@ -1,10 +1,8 @@
 package com.joshayoung.lazypizza.cart.data.network
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.cart.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 
@@ -34,10 +32,6 @@ class AppWriteCartRemoteDataSource(
                         type = row.data["type"] as? String ?: ""
                     )
                 }
-
-//            data.forEach { product ->
-//                localDataSource.upsertProduct(product.toProductEntity())
-//            }
 
             return data
         } catch (e: Exception) {

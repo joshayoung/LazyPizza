@@ -26,8 +26,8 @@ class CartViewModel(
 
     private fun loadCart() {
         viewModelScope.launch {
-            cartRepository.getCartData().collectLatest { data ->
-                val all = data?.map { it.toProductUi() } ?: emptyList()
+            cartRepository.getProducts().collectLatest { data ->
+                val all = data.map { it.toProductUi() }
                 _state.update {
                     it.copy(
                         items = all

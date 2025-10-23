@@ -43,8 +43,8 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            cartRepository.getCartData().collectLatest { data ->
-                val count = data?.count() ?: 0
+            cartRepository.getProducts().collectLatest { data ->
+                val count = data.count()
                 _state.update {
                     it.copy(
                         cartItems = count
@@ -64,7 +64,7 @@ class HomeViewModel(
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
-                    cartRepository.addToCart(product)
+                    cartRepository.addProductToCart(product)
                     // TODO: Not sure if this is the best way:
                     reloadData()
                 }
@@ -72,7 +72,7 @@ class HomeViewModel(
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeFromCart(action.productUi.toProduct())
+                    cartRepository.removeProductFromCart(action.productUi.toProduct())
                     // TODO: Not sure if this is the best way:
                     reloadData()
                 }

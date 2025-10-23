@@ -1,12 +1,15 @@
 package com.joshayoung.lazypizza.cart.domain
 
+import com.joshayoung.lazypizza.cart.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    suspend fun addToCart(product: Product)
+    suspend fun addProductToCart(product: Product)
 
-    fun getCartData(): Flow<List<Product>?>
+    fun getCart(): Flow<CartEntity>
 
-    suspend fun removeFromCart(product: Product)
+    suspend fun removeProductFromCart(product: Product)
+
+    fun getProducts(): Flow<List<Product>>
 }
