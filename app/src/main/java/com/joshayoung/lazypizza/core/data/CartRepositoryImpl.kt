@@ -7,8 +7,8 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class RoomCartRepository(
-    private var cartLocalDataSource: CartLocalDataSource
+class CartRepositoryImpl(
+    private var roomLocalDataSource: RoomLocalDataSource
 ) : CartRepository {
     override suspend fun addProductToCart(product: Product) {
         TODO("Not yet implemented")
@@ -23,7 +23,7 @@ class RoomCartRepository(
     }
 
     override fun getProducts(): Flow<List<Product>> =
-        cartLocalDataSource.getProducts().map { productEntityList ->
+        roomLocalDataSource.getProducts().map { productEntityList ->
             productEntityList.map { productEntity ->
                 productEntity.toProduct()
             }

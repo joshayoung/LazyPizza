@@ -6,6 +6,7 @@ import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 
+// TODO: Should this be in a different layer?
 class AppWriteAuthRepository(
     private var appWriteClient: Client
 ) : AuthRepository {

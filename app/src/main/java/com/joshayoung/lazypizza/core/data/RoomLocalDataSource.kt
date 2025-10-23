@@ -8,7 +8,7 @@ import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import kotlinx.coroutines.flow.Flow
 
-class CartLocalDataSource(
+class RoomLocalDataSource(
     private var cartDao: CartDao
 ) : LocalDataSource {
     override fun getCartItems(): Flow<List<CartEntity>> = cartDao.getCartItems()
