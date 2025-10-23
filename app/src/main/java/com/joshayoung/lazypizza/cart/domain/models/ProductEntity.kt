@@ -3,9 +3,9 @@ package com.joshayoung.lazypizza.cart.domain.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "product")
 data class ProductEntity(
-    @PrimaryKey val productId: Long,
+    @PrimaryKey val productId: Long? = null,
     val remoteId: String,
     val name: String,
     val price: String,

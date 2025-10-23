@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +22,8 @@ private object CartValues {
 
 class DataStorageCartRepository(
     private var appWriteClient: Client,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val localDataSource: CartLocalDataSource
 ) : CartRepository {
     override suspend fun addToCart(product: Product) {
         val productsString =
@@ -105,6 +107,10 @@ class DataStorageCartRepository(
                         type = row.data["type"] as? String ?: ""
                     )
                 }
+
+            data.forEach { product ->
+                localDataSource.upsertProduct(product.toProductEntity())
+            }
 
             return data
         } catch (e: Exception) {

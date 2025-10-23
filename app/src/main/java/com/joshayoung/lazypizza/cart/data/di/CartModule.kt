@@ -62,7 +62,8 @@ var cartModule =
         single {
             DataStorageCartRepository(
                 get(),
-                get<DataStore<Preferences>>(qualifier = cartQualifier)
+                get<DataStore<Preferences>>(qualifier = cartQualifier),
+                get()
             )
         }.bind<CartRepository>()
     }

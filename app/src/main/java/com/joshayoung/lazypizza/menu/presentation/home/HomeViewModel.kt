@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.cart.domain.CartRepository
+import com.joshayoung.lazypizza.cart.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val loadProductsUseCase: LoadProductsUseCase
+    private val loadProductsUseCase: LoadProductsUseCase,
+    private val localDataSource: LocalDataSource
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
