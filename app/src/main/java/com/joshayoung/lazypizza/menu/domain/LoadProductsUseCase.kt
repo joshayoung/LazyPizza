@@ -1,7 +1,9 @@
 package com.joshayoung.lazypizza.menu.domain
 
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.cart.data.network.AppWriteCartRemoteDataSource
 import com.joshayoung.lazypizza.cart.domain.CartRepository
+import com.joshayoung.lazypizza.cart.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel.Companion.HEADER_LENGTH
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
@@ -9,11 +11,12 @@ import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import kotlinx.coroutines.flow.first
 
 class LoadProductsUseCase(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val cartRemoteDataSource: CartRemoteDataSource
 ) {
     suspend fun execute(): List<MenuItemUi> {
         val products =
-            cartRepository.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
+            cartRemoteDataSource.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
         val cart = cartRepository.getCartData().first()
         val productUiItems =
             products.map { product ->

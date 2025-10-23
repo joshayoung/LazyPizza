@@ -11,8 +11,10 @@ import androidx.room.Room
 import com.joshayoung.lazypizza.cart.data.CartLocalDataSource
 import com.joshayoung.lazypizza.cart.data.DataStorageCartRepository
 import com.joshayoung.lazypizza.cart.data.database.CartDatabase
+import com.joshayoung.lazypizza.cart.data.network.AppWriteCartRemoteDataSource
 import com.joshayoung.lazypizza.cart.domain.CartRepository
 import com.joshayoung.lazypizza.cart.domain.LocalDataSource
+import com.joshayoung.lazypizza.cart.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.cart.presentation.CartViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,12 +60,11 @@ var cartModule =
         single { get<CartDatabase>().cardDao }
 
         singleOf(::CartLocalDataSource).bind<LocalDataSource>()
+        singleOf(::AppWriteCartRemoteDataSource).bind<CartRemoteDataSource>()
 
         single {
             DataStorageCartRepository(
-                get(),
-                get<DataStore<Preferences>>(qualifier = cartQualifier),
-                get()
+                get<DataStore<Preferences>>(qualifier = cartQualifier)
             )
         }.bind<CartRepository>()
     }

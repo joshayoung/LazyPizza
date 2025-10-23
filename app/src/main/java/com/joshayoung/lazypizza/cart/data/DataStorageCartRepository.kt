@@ -21,9 +21,7 @@ private object CartValues {
 }
 
 class DataStorageCartRepository(
-    private var appWriteClient: Client,
-    private val dataStore: DataStore<Preferences>,
-    private val localDataSource: CartLocalDataSource
+    private val dataStore: DataStore<Preferences>
 ) : CartRepository {
     override suspend fun addToCart(product: Product) {
         val productsString =
@@ -82,67 +80,5 @@ class DataStorageCartRepository(
                 }
 
         return products
-    }
-
-    override suspend fun getProducts(table: String): List<Product> {
-        try {
-            val tables =
-                TablesDB(
-                    client = appWriteClient
-                )
-            val response =
-                tables.listRows(
-                    BuildConfig.DATABASE_ID,
-                    table,
-                    emptyList()
-                )
-            val data =
-                response.rows.map { row ->
-                    Product(
-                        id = row.data["\$id"] as? String ?: "",
-                        name = row.data["name"] as? String ?: "",
-                        price = row.data["price"] as? String ?: "0.00",
-                        description = row.data["description"] as? String ?: "",
-                        imageUrl = row.data["imageUrl"] as? String,
-                        type = row.data["type"] as? String ?: ""
-                    )
-                }
-
-            data.forEach { product ->
-                localDataSource.upsertProduct(product.toProductEntity())
-            }
-
-            return data
-        } catch (e: Exception) {
-            return emptyList()
-        }
-    }
-
-    override suspend fun getProduct(productId: String?): Product? {
-        try {
-            val tables = TablesDB(client = appWriteClient)
-            productId?.let { id ->
-                val response =
-                    tables.getRow(
-                        BuildConfig.DATABASE_ID,
-                        BuildConfig.PIZZA_COLLECTION_ID,
-                        id
-                    )
-                val t = response.data["name"]
-
-                return Product(
-                    id = response.data["\$id"] as? String ?: "",
-                    name = response.data["name"] as? String ?: "",
-                    price = response.data["price"] as? String ?: "0.00",
-                    description = response.data["description"] as? String ?: "",
-                    imageUrl = response.data["imageUrl"] as? String ?: "",
-                    type = response.data["type"] as? String ?: ""
-                )
-            }
-        } catch (e: Exception) {
-            null
-        }
-
-        return null
     }
 }

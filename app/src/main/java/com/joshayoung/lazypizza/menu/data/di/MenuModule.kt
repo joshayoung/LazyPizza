@@ -12,6 +12,6 @@ var menuModule =
         viewModelOf(::DetailsScreenViewModel)
 
         single {
-            LoadProductsUseCase(get())
+            LoadProductsUseCase(get(), get())
         }
     }

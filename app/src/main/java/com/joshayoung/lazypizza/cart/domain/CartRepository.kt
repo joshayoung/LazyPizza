@@ -9,8 +9,4 @@ interface CartRepository {
     fun getCartData(): Flow<List<Product>?>
 
     suspend fun removeFromCart(product: Product)
-
-    suspend fun getProducts(table: String): List<Product>
-
-    suspend fun getProduct(productId: String?): Product?
 }
