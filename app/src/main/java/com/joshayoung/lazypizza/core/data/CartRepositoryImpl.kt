@@ -27,7 +27,9 @@ class CartRepositoryImpl(
     }
 
     override suspend fun removeProductFromCart(product: Product) {
-        TODO("Not yet implemented")
+        localDataSource.removeProductFromCart(
+            product.localId
+        )
     }
 
     // TODO: Add a background sync to update local cache:

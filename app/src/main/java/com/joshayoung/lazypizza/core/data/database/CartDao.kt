@@ -23,6 +23,9 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProductId(entry: CartProductId): Long
 
+    @Query("DELETE FROM cart_product_ids WHERE productId = :productId")
+    suspend fun deleteProductId(productId: Long)
+
     @Query("SELECT * FROM product")
     fun getProduct(): Flow<List<ProductEntity>>
 

@@ -13,6 +13,8 @@ interface LocalDataSource {
 
     suspend fun addProductToCart(productId: Long?)
 
+    suspend fun removeProductFromCart(productId: Long?)
+
     suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local>
 
     suspend fun upsertProduct(productEntity: ProductEntity): Result<ProductEntity, DataError.Local>

@@ -33,6 +33,14 @@ class RoomLocalDataSource(
 //        println()
     }
 
+    override suspend fun removeProductFromCart(productId: Long?) {
+        if (productId == null) {
+            return
+        }
+
+        cartDao.deleteProductId(productId)
+    }
+
     override suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local> {
         cartDao.addCart(cartEntity)
 
