@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.presentation.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
@@ -21,6 +22,20 @@ fun Product.toProductUi(
         price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
         type = getMenuTypeEnum(type),
         inCart = inCart,
+        numberInCart = numberInCart
+    )
+
+fun ProductEntityWithCartStatus.toProductUi(): ProductUi =
+    ProductUi(
+        localId = productId,
+        id = remoteId,
+        description = description,
+        imageUrl = imageUrl,
+        imageResource = imageResource,
+        name = name,
+        price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
+        type = getMenuTypeEnum(type),
+        inCart = numberInCart > 0,
         numberInCart = numberInCart
     )
 

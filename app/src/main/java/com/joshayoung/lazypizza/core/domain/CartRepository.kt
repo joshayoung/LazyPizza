@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
@@ -13,5 +14,9 @@ interface CartRepository {
 
     suspend fun getProducts(): Flow<List<Product>>
 
+    suspend fun getAllProducts(): List<Product>
+
     suspend fun createCartForUser(cartId: Long)
+
+    suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 }

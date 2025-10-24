@@ -10,6 +10,7 @@ import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.CartWithProducts
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -52,4 +53,9 @@ interface CartDao {
 
     @Query("SELECT COUNT(*) FROM cart WHERE cartId = :cartId")
     suspend fun doesCartExist(cartId: Long): Boolean
+
+    @Query(
+        "select p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join cart_product_ids as pivot on pivot.productId == p.productId group by p.productId, pivot.id"
+    )
+    suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 }

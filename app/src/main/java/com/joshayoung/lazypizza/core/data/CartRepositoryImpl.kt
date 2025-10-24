@@ -5,6 +5,7 @@ import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
@@ -52,6 +53,11 @@ class CartRepositoryImpl(
         }
     }
 
+    override suspend fun getAllProducts(): List<Product> =
+        localDataSource.getAllProducts().map {
+            it.toProduct()
+        }
+
     override suspend fun createCartForUser(cartId: Long) {
         if (localDataSource.doesCartExist(cartId)) {
             return
@@ -59,4 +65,7 @@ class CartRepositoryImpl(
 
         localDataSource.createCartForUser(cartId)
     }
+
+    override suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus> =
+        localDataSource.allProductsWithCartItems()
 }

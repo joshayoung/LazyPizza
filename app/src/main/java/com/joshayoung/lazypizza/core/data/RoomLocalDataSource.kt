@@ -5,6 +5,7 @@ import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import kotlinx.coroutines.flow.Flow
@@ -67,4 +68,7 @@ class RoomLocalDataSource(
     }
 
     override suspend fun doesCartExist(cartId: Long): Boolean = cartDao.doesCartExist(cartId)
+
+    override suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus> =
+        cartDao.allProductsWithCartItems()
 }

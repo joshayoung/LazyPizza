@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import kotlinx.coroutines.flow.Flow
@@ -22,4 +23,6 @@ interface LocalDataSource {
     suspend fun createCartForUser(cartId: Long)
 
     suspend fun doesCartExist(cartId: Long): Boolean
+
+    suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 }

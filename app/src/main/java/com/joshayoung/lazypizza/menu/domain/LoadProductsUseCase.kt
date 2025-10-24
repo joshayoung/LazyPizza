@@ -13,13 +13,9 @@ class LoadProductsUseCase(
     private val cartRemoteDataSource: CartRemoteDataSource
 ) {
     suspend fun execute(): List<MenuItemUi> {
-        val products = cartRepository.getProducts().first()
-        val cart = cartRepository.getProducts().first()
         val productUiItems =
-            products.map { product ->
-                val inCart = cart.any { cartItem -> (cartItem.id == product.id) }
-                val numberInCart = cart.count { cartItem -> (cartItem.id == product.id) }
-                product.toProductUi(inCart = inCart, numberInCart = numberInCart)
+            cartRepository.allProductsWithCartItems().map { item ->
+                item.toProductUi()
             }
         val entrees = productUiItems.filter { it.type == MenuType.Entree }
         val beverages = productUiItems.filter { it.type == MenuType.Beverage }
