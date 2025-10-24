@@ -283,6 +283,7 @@ fun DetailsScreenPreview() {
                     productUi =
                         ProductUi(
                             id = "3",
+                            localId = 2,
                             name = "Margherita",
                             description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
                             price = BigDecimal("1.00"),
@@ -292,72 +293,84 @@ fun DetailsScreenPreview() {
                         listOf(
                             ProductUi(
                                 id = "4",
+                                localId = 3,
                                 name = "Bacon",
                                 price = BigDecimal("1.00"),
                                 imageResource = R.drawable.bacon
                             ),
                             ProductUi(
                                 id = "5",
+                                localId = 4,
                                 name = "Extra Cheese",
                                 price = BigDecimal("1.10"),
                                 imageResource = R.drawable.cheese
                             ),
                             ProductUi(
                                 id = "6",
+                                localId = 5,
                                 name = "Corn",
                                 price = BigDecimal("0.10"),
                                 imageResource = R.drawable.corn
                             ),
                             ProductUi(
                                 id = "7",
+                                localId = 6,
                                 name = "Tomato",
                                 price = BigDecimal("0.10"),
                                 imageResource = R.drawable.tomato
                             ),
                             ProductUi(
                                 id = "8",
+                                localId = 7,
                                 name = "Olives",
                                 price = BigDecimal("0.80"),
                                 imageResource = R.drawable.olive
                             ),
                             ProductUi(
                                 id = "9",
+                                localId = 8,
                                 name = "Pepperoni",
                                 price = BigDecimal("1.80"),
                                 imageResource = R.drawable.pepperoni
                             ),
                             ProductUi(
                                 id = "10",
+                                localId = 9,
                                 name = "Mushroom",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.mushroom
                             ),
                             ProductUi(
                                 id = "11",
+                                localId = 10,
                                 name = "Basil",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.basil
                             ),
                             ProductUi(
                                 id = "12",
+                                localId = 11,
                                 name = "Pineapple",
                                 price = BigDecimal("1.00"),
                                 imageResource = R.drawable.pineapple
                             ),
                             ProductUi(
                                 id = "13",
+                                localId = 12,
                                 name = "Onion",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.onion
                             ),
                             ProductUi(
                                 id = "14",
+                                localId = 13,
                                 name = "Chili Peppers",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.chilli
                             ),
                             ProductUi(
                                 id = "15",
+                                localId = 14,
                                 name = "Spinach",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.spinach

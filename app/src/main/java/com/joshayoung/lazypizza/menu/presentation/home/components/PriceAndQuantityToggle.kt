@@ -82,6 +82,7 @@ fun PriceAndQuantityTogglePreview() {
             PriceAndQuantityToggle(
                 ProductUi(
                     id = "",
+                    localId = 2,
                     description = "description",
                     imageUrl = "",
                     imageResource = R.drawable.cart,

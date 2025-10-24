@@ -136,6 +136,7 @@ fun SideItemPreview() {
                     productUi =
                         ProductUi(
                             id = "10",
+                            localId = 1,
                             description = "description",
                             imageUrl = "",
                             imageResource = R.drawable.seven_up,

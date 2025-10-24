@@ -8,6 +8,7 @@ import java.math.BigDecimal
 @Serializable
 data class ProductUi(
     val id: String,
+    val localId: Long?,
     val description: String? = null,
     val imageUrl: String? = null,
     val imageResource: Int? = null,

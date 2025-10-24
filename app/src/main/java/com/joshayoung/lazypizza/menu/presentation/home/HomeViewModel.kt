@@ -139,8 +139,6 @@ class HomeViewModel(
                     isLoadingProducts = false
                 )
             }
-
-            val t = localDataSource.addProductToCart()
         }
     }
 }

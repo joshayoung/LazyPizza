@@ -30,12 +30,13 @@ class MainViewModel(
                 state = state.copy(isLoading = false)
             }
             // TODO: Cleanup this:
-            cartDao.addCart(
-                CartEntity(
-                    1,
-                    "Pizza Orders"
-                )
-            )
+            // this is being recreated every time
+//            cartDao.addCart(
+//                CartEntity(
+//                    1,
+//                    "Pizza Orders"
+//                )
+//            )
         }
     }
 }

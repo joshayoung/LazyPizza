@@ -73,6 +73,7 @@ fun ProductHeaderPreview() {
             productUi =
                 ProductUi(
                     id = "11",
+                    localId = 3,
                     description = "description",
                     imageUrl = "",
                     imageResource = R.drawable.pepsi,

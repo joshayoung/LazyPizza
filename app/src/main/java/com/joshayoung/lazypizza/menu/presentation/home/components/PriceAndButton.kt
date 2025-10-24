@@ -80,6 +80,7 @@ fun AddButtonWithPricePreview() {
             AddButtonWithPrice(
                 ProductUi(
                     id = "1",
+                    localId = 4,
                     description = "description",
                     imageUrl = "",
                     imageResource = R.drawable.cart,

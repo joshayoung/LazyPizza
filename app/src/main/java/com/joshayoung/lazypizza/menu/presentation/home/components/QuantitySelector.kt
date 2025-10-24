@@ -97,6 +97,7 @@ fun QuantitySelectorPreview() {
             itemCount = 1,
             ProductUi(
                 id = "1",
+                localId = 2,
                 description = "",
                 imageUrl = "",
                 imageResource = R.drawable.cart,

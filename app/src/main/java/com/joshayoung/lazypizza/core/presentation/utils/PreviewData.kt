@@ -36,6 +36,7 @@ val productUiListForPreview =
     listOf(
         ProductUi(
             id = "1",
+            localId = 1,
             description = "A delicious food",
             imageResource = R.drawable.hawaiian,
             name = "Hawaiian Pizza",
@@ -43,6 +44,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "2",
+            localId = 2,
             description =
                 "Tomato sauce, mozzarella, " +
                     "mushrooms, olives, bell pepper, onion, corn",
@@ -52,6 +54,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "3",
+            localId = 3,
             description = "A delicious food",
             imageResource = R.drawable.cookies,
             name = "Hawaiian Pizza",
@@ -59,6 +62,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "4",
+            localId = 4,
             description = "Another food",
             imageResource = R.drawable.strawberry,
             name = "Meat Lovers Pizza",
@@ -66,6 +70,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "5",
+            localId = 5,
             description = "A delicious food",
             imageResource = R.drawable.mineral_water,
             name = "Hawaiian Pizza",
@@ -73,6 +78,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "6",
+            localId = 6,
             description = "Another food",
             imageResource = R.drawable.pepsi,
             name = "Meat Lovers Pizza",
@@ -80,6 +86,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "7",
+            localId = 7,
             description = "A delicious food",
             imageResource = R.drawable.spicy_chili_sauce,
             name = "Hawaiian Pizza",
@@ -87,6 +94,7 @@ val productUiListForPreview =
         ),
         ProductUi(
             id = "8",
+            localId = 8,
             description = "Another food",
             imageResource = R.drawable.bbq_sauce,
             name = "Meat Lovers Pizza",

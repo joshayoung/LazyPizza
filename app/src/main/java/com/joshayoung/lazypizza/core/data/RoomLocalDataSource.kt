@@ -16,18 +16,21 @@ class RoomLocalDataSource(
 
     override suspend fun getAllProducts(): List<ProductEntity> = cartDao.getAllProducts()
 
-    override suspend fun addProductToCart() {
-        val ttt =
-            cartDao.insertProductId(
-                CartProductId(
-                    cartPivotId = 1,
-                    productId = 1
-                )
+    override suspend fun addProductToCart(productId: Long?) {
+        if (productId == null) {
+            return
+        }
+
+        cartDao.insertProductId(
+            CartProductId(
+                cartPivotId = 1,
+                productId = productId
             )
-        val tt = cartDao.exists(cartId = 1, productId = 1)
-        val t = cartDao.getCartProducts(cartPivotId = 1).first()
-        val pro = cartDao.getProductById(t)
-        println()
+        )
+//        val tt = cartDao.exists(cartId = 1, productId = 1)
+//        val t = cartDao.getCartProducts(cartPivotId = 1).first()
+//        val pro = cartDao.getProductById(t)
+//        println()
     }
 
     override suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local> {

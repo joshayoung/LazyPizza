@@ -13,6 +13,7 @@ fun Product.toProductUi(
 ): ProductUi =
     ProductUi(
         id = id,
+        localId = localId,
         description = description,
         imageUrl = imageUrl,
         imageResource = imageResource,
@@ -41,12 +42,14 @@ fun ProductEntity.toProduct(): Product =
         name = name,
         price = price,
         type = type,
-        id = remoteId
+        id = remoteId,
+        localId = productId
     )
 
 fun ProductUi.toProduct(): Product =
     Product(
         id = id,
+        localId = localId,
         description = description,
         imageUrl = imageUrl,
         imageResource = imageResource,

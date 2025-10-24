@@ -71,7 +71,8 @@ fun QuantityClickerPreview() {
                     description = "description",
                     price = BigDecimal("1.23"),
                     imageResource = R.drawable.pizza_header,
-                    id = "1"
+                    id = "1",
+                    localId = 2
                 ),
             click = {},
             quantity = quantity,
