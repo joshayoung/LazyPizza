@@ -6,4 +6,6 @@ plugins {
     kotlin("plugin.serialization") version libs.versions.kotlinxSerializationJson.get()
     id("com.google.gms.google-services") version "4.4.4" apply false
     id("com.google.devtools.ksp") version "2.3.0"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
+    id("androidx.room") version "2.8.3" apply false
 }

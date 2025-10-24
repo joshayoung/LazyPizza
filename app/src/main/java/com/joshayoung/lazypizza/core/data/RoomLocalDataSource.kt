@@ -48,4 +48,15 @@ class RoomLocalDataSource(
         // TODO: This return is probably not correct:
         return Result.Success(data = productEntity)
     }
+
+    override suspend fun createCartForUser(cartId: Long) {
+        cartDao.addCart(
+            CartEntity(
+                cartId,
+                "Pizza Orders"
+            )
+        )
+    }
+
+    override suspend fun doesCartExist(cartId: Long): Boolean = cartDao.doesCartExist(cartId)
 }

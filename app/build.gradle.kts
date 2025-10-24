@@ -7,10 +7,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization")
-    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
-//    id("androidx.room")
+    id("androidx.room")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 val localProperties =
@@ -30,6 +30,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     ktlint {

@@ -12,4 +12,6 @@ interface CartRepository {
     suspend fun removeProductFromCart(product: Product)
 
     suspend fun getProducts(): Flow<List<Product>>
+
+    suspend fun createCartForUser(cartId: Long)
 }

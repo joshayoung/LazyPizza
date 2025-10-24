@@ -8,12 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.AuthRepository
-import com.joshayoung.lazypizza.core.domain.models.CartEntity
+import com.joshayoung.lazypizza.core.domain.CartRepository
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private var authRepository: AuthRepository,
-    private var cartDao: CartDao
+    private var cartDao: CartDao,
+    private var cartRepository: CartRepository
 ) : ViewModel() {
     var state by mutableStateOf(MainState())
         private set
@@ -27,16 +28,10 @@ class MainViewModel(
                     BuildConfig.AUTH_PASSWORD
                 )
             if (loggedIn) {
+                // TODO: Pass in something identifying the user and do not hard-code this cartId:
+                cartRepository.createCartForUser(1)
                 state = state.copy(isLoading = false)
             }
-            // TODO: Cleanup this:
-            // this is being recreated every time
-//            cartDao.addCart(
-//                CartEntity(
-//                    1,
-//                    "Pizza Orders"
-//                )
-//            )
         }
     }
 }

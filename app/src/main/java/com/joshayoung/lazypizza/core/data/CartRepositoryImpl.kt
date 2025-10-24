@@ -2,8 +2,8 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
-import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CartRepositoryImpl(
-    private var roomLocalDataSource: RoomLocalDataSource,
+    private var localDataSource: LocalDataSource,
     private var cartRemoteDataSource: CartRemoteDataSource
 ) : CartRepository {
     override suspend fun addProductToCart(product: Product) {
-        roomLocalDataSource.addProductToCart(
+        localDataSource.addProductToCart(
             product.localId
         )
     }
@@ -32,7 +32,7 @@ class CartRepositoryImpl(
 
     // TODO: Add a background sync to update local cache:
     override suspend fun getProducts(): Flow<List<Product>> {
-        val localProducts = roomLocalDataSource.getAllProducts()
+        val localProducts = localDataSource.getAllProducts()
         if (!localProducts.isEmpty()) {
             return localProducts.map { it.toProduct() }.toFlowList()
         } else {
@@ -43,10 +43,18 @@ class CartRepositoryImpl(
                     )
 
             remoteProducts.forEach { product ->
-                roomLocalDataSource.upsertProduct(product.toProductEntity())
+                localDataSource.upsertProduct(product.toProductEntity())
             }
 
             return remoteProducts.toFlowList()
         }
+    }
+
+    override suspend fun createCartForUser(cartId: Long) {
+        if (localDataSource.doesCartExist(cartId)) {
+            return
+        }
+
+        localDataSource.createCartForUser(cartId)
     }
 }

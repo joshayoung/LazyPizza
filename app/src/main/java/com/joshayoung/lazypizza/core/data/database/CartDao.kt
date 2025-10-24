@@ -46,4 +46,7 @@ interface CartDao {
 
     @Query("SELECT productId from cart_product_ids where cartPivotId = :cartPivotId")
     suspend fun getCartProducts(cartPivotId: Long): List<Long>
+
+    @Query("SELECT COUNT(*) FROM cart WHERE cartId = :cartId")
+    suspend fun doesCartExist(cartId: Long): Boolean
 }
