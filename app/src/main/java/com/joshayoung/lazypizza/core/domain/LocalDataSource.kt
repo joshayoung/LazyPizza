@@ -12,9 +12,7 @@ interface LocalDataSource {
 
     suspend fun getAllProducts(): List<ProductEntity>
 
-    suspend fun addProductToCart(productId: Long?): Long?
-
-    suspend fun removeProductFromCart(lineItemId: Long?)
+    suspend fun addProductToCart(productId: Long?)
 
     suspend fun removeAllFromCart(productId: Long?)
 

@@ -40,7 +40,7 @@ fun QuantitySelector(
             "-",
             onAction = { onAction(HomeAction.RemoveItemFromCart(productUi)) },
             {
-                    updateCart(-1)
+                updateCart(-1)
             }
         )
         Text(
@@ -93,7 +93,6 @@ fun QuantitySelectorPreview() {
             itemCount = 1,
             ProductUi(
                 id = "1",
-                lineItemId = 18,
                 localId = 2,
                 description = "",
                 imageUrl = "",

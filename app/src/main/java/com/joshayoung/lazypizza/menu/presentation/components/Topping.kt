@@ -118,7 +118,6 @@ fun ToppingPreview() {
                 productUi =
                     ProductUi(
                         id = "1",
-                        lineItemId = 7,
                         localId = 2,
                         description = "description",
                         imageUrl = "",
@@ -134,7 +133,6 @@ fun ToppingPreview() {
                     ProductUi(
                         id = "2",
                         localId = 3,
-                        lineItemId = 2,
                         description = "description",
                         imageUrl = "",
                         imageResource = R.drawable.bacon,

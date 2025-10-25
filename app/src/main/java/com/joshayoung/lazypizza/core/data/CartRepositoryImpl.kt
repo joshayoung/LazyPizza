@@ -17,20 +17,14 @@ class CartRepositoryImpl(
     private var localDataSource: LocalDataSource,
     private var cartRemoteDataSource: CartRemoteDataSource
 ) : CartRepository {
-    override suspend fun addProductToCart(product: Product): Long? {
-        return localDataSource.addProductToCart(
+    override suspend fun addProductToCart(product: Product) {
+        localDataSource.addProductToCart(
             product.localId
         )
     }
 
     override fun getCart(): Flow<CartEntity> {
         TODO("Not yet implemented")
-    }
-
-    override suspend fun removeProductFromCart(product: Product) {
-        localDataSource.removeProductFromCart(
-            product.lineItemId
-        )
     }
 
     override suspend fun removeAllFromCart(product: Product) {

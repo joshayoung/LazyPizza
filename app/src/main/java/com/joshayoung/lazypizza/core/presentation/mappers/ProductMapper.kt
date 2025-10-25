@@ -14,7 +14,6 @@ fun Product.toProductUi(
 ): ProductUi =
     ProductUi(
         id = id,
-        lineItemId = null,
         localId = localId,
         description = description,
         imageUrl = imageUrl,
@@ -28,7 +27,6 @@ fun Product.toProductUi(
 
 fun ProductEntityWithCartStatus.toProductUi(): ProductUi {
     return ProductUi(
-        lineItemId = lineItemId,
         localId = productId,
         id = remoteId,
         imageUrl = imageUrl,
@@ -67,7 +65,6 @@ fun ProductEntity.toProduct(): Product =
 fun ProductUi.toProduct(): Product =
     Product(
         id = id,
-        lineItemId = lineItemId,
         localId = localId,
         description = description,
         imageUrl = imageUrl,

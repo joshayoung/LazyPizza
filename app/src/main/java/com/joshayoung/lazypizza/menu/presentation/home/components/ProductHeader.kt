@@ -73,7 +73,6 @@ fun ProductHeaderPreview() {
             productUi =
                 ProductUi(
                     id = "11",
-                    lineItemId = 16,
                     localId = 3,
                     description = "description",
                     imageUrl = "",

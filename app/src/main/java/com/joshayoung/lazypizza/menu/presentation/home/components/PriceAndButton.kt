@@ -79,7 +79,6 @@ fun AddButtonWithPricePreview() {
             AddButtonWithPrice(
                 ProductUi(
                     id = "1",
-                    lineItemId = 15,
                     localId = 4,
                     description = "description",
                     imageUrl = "",

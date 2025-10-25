@@ -284,7 +284,6 @@ fun DetailsScreenPreview() {
                         ProductUi(
                             id = "3",
                             localId = 2,
-                            lineItemId = 2,
                             name = "Margherita",
                             description = "Tomato sauce, Mozzarella, Fresh basic, Olive oil",
                             price = BigDecimal("1.00"),
@@ -294,7 +293,6 @@ fun DetailsScreenPreview() {
                         listOf(
                             ProductUi(
                                 id = "4",
-                                lineItemId = 3,
                                 localId = 3,
                                 name = "Bacon",
                                 price = BigDecimal("1.00"),
@@ -303,14 +301,12 @@ fun DetailsScreenPreview() {
                             ProductUi(
                                 id = "5",
                                 localId = 4,
-                                lineItemId = 4,
                                 name = "Extra Cheese",
                                 price = BigDecimal("1.10"),
                                 imageResource = R.drawable.cheese
                             ),
                             ProductUi(
                                 id = "6",
-                                lineItemId = 5,
                                 localId = 5,
                                 name = "Corn",
                                 price = BigDecimal("0.10"),
@@ -318,7 +314,6 @@ fun DetailsScreenPreview() {
                             ),
                             ProductUi(
                                 id = "7",
-                                lineItemId = 6,
                                 localId = 6,
                                 name = "Tomato",
                                 price = BigDecimal("0.10"),
@@ -326,7 +321,6 @@ fun DetailsScreenPreview() {
                             ),
                             ProductUi(
                                 id = "8",
-                                lineItemId = 7,
                                 localId = 7,
                                 name = "Olives",
                                 price = BigDecimal("0.80"),
@@ -335,7 +329,6 @@ fun DetailsScreenPreview() {
                             ProductUi(
                                 id = "9",
                                 localId = 8,
-                                lineItemId = 8,
                                 name = "Pepperoni",
                                 price = BigDecimal("1.80"),
                                 imageResource = R.drawable.pepperoni
@@ -343,14 +336,12 @@ fun DetailsScreenPreview() {
                             ProductUi(
                                 id = "10",
                                 localId = 9,
-                                lineItemId = 9,
                                 name = "Mushroom",
                                 price = BigDecimal("0.50"),
                                 imageResource = R.drawable.mushroom
                             ),
                             ProductUi(
                                 id = "11",
-                                lineItemId = 10,
                                 localId = 10,
                                 name = "Basil",
                                 price = BigDecimal("0.50"),
@@ -358,7 +349,6 @@ fun DetailsScreenPreview() {
                             ),
                             ProductUi(
                                 id = "12",
-                                lineItemId = 11,
                                 localId = 11,
                                 name = "Pineapple",
                                 price = BigDecimal("1.00"),
@@ -366,7 +356,6 @@ fun DetailsScreenPreview() {
                             ),
                             ProductUi(
                                 id = "13",
-                                lineItemId = 12,
                                 localId = 12,
                                 name = "Onion",
                                 price = BigDecimal("0.50"),
@@ -374,7 +363,6 @@ fun DetailsScreenPreview() {
                             ),
                             ProductUi(
                                 id = "14",
-                                lineItemId = 13,
                                 localId = 13,
                                 name = "Chili Peppers",
                                 price = BigDecimal("0.50"),
@@ -382,7 +370,6 @@ fun DetailsScreenPreview() {
                             ),
                             ProductUi(
                                 id = "15",
-                                lineItemId = 14,
                                 localId = 14,
                                 name = "Spinach",
                                 price = BigDecimal("0.50"),

@@ -6,11 +6,9 @@ import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    suspend fun addProductToCart(product: Product): Long?
+    suspend fun addProductToCart(product: Product)
 
     fun getCart(): Flow<CartEntity>
-
-    suspend fun removeProductFromCart(product: Product)
 
     suspend fun removeAllFromCart(product: Product)
 

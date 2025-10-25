@@ -81,7 +81,6 @@ fun PriceAndQuantityTogglePreview() {
             PriceAndQuantityToggle(
                 ProductUi(
                     id = "",
-                    lineItemId = 15,
                     localId = 2,
                     description = "description",
                     imageUrl = "",

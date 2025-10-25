@@ -68,7 +68,6 @@ fun QuantityClickerPreview() {
             productUi =
                 ProductUi(
                     name = "name",
-                    lineItemId = 2,
                     description = "description",
                     price = BigDecimal("1.23"),
                     imageResource = R.drawable.pizza_header,

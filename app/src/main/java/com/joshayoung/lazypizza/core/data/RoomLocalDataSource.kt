@@ -18,33 +18,17 @@ class RoomLocalDataSource(
 
     override suspend fun getAllProducts(): List<ProductEntity> = cartDao.getAllProducts()
 
-    override suspend fun addProductToCart(productId: Long?): Long? {
+    override suspend fun addProductToCart(productId: Long?) {
         if (productId == null) {
-            return null
-        }
-
-        val id =
-            cartDao.insertProductId(
-                CartProductId(
-                    cartPivotId = 1,
-                    productId = productId
-                )
-            )
-        println()
-//        val tt = cartDao.exists(cartId = 1, productId = 1)
-//        val t = cartDao.getCartProducts(cartPivotId = 1).first()
-//        val pro = cartDao.getProductById(t)
-//        println()
-
-        return id
-    }
-
-    override suspend fun removeProductFromCart(lineItemId: Long?) {
-        if (lineItemId == null) {
             return
         }
 
-        cartDao.deleteProductId(lineItemId)
+        cartDao.insertProductId(
+            CartProductId(
+                cartPivotId = 1,
+                productId = productId
+            )
+        )
     }
 
     override suspend fun removeAllFromCart(productId: Long?) {

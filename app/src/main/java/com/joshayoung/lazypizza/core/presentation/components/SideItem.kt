@@ -138,7 +138,6 @@ fun SideItemPreview() {
                     productUi =
                         ProductUi(
                             id = "10",
-                            lineItemId = 2,
                             localId = 1,
                             description = "description",
                             imageUrl = "",

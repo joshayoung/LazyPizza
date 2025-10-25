@@ -25,11 +25,6 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProductId(entry: CartProductId): Long
 
-    @Query(
-        "DELETE FROM cart_product_ids WHERE id = :lineItemId"
-    )
-    suspend fun deleteProductId(lineItemId: Long)
-
     @Query("DELETE FROM cart_product_ids WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)
 

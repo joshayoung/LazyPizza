@@ -65,7 +65,7 @@ class HomeViewModel(
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
-                    val lineItemId = cartRepository.addProductToCart(product)
+                    cartRepository.addProductToCart(product)
 
 //                    val updatedOrderMenu =
 //                        orderedMenu.map { menuItem ->
