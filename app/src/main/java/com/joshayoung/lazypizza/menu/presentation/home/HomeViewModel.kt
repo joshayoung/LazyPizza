@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val loadProductsUseCase: LoadProductsUseCase,
-    private val localDataSource: LocalDataSource
+    private val loadProductsUseCase: LoadProductsUseCase
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
@@ -131,6 +130,7 @@ class HomeViewModel(
             )
         }
         viewModelScope.launch {
+            cartRepository.updateLocalWithRemote()
             orderedMenu = loadProductsUseCase.execute()
 
             _state.update {

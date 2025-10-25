@@ -53,6 +53,18 @@ class CartRepositoryImpl(
         }
     }
 
+    override suspend fun updateLocalWithRemote(reload: Boolean) {
+        val localProducts = localDataSource.getAllProducts()
+        if (!localProducts.isEmpty() && !reload) {
+            return
+        }
+
+        val remoteProducts = cartRemoteDataSource.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
+        remoteProducts.forEach { product ->
+            localDataSource.upsertProduct(product.toProductEntity())
+        }
+    }
+
     override suspend fun getAllProducts(): List<Product> =
         localDataSource.getAllProducts().map {
             it.toProduct()
