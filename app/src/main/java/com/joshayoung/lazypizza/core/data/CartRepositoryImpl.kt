@@ -88,4 +88,8 @@ class CartRepositoryImpl(
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {
         return localDataSource.getNumberProductsInCart(cartId)
     }
+
+    override suspend fun productsInCart(): List<ProductEntityWithCartStatus> {
+        return localDataSource.productsInCart()
+    }
 }

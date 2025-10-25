@@ -28,4 +28,6 @@ interface LocalDataSource {
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
 
     suspend fun removeProductFromCart(product: Product)
+
+    suspend fun productsInCart(): List<ProductEntityWithCartStatus>
 }

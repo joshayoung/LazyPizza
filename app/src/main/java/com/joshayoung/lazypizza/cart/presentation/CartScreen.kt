@@ -135,11 +135,11 @@ fun CartList(state: CartState) {
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
-@Preview(
-    showBackground = true,
-    widthDp = 800,
-    heightDp = 1280
-)
+// @Preview(
+//    showBackground = true,
+//    widthDp = 800,
+//    heightDp = 1280
+// )
 private fun CartScreenPreview() {
     LazyPizzaTheme {
         CartScreen(

@@ -80,4 +80,8 @@ class RoomLocalDataSource(
             cartDao.deleteCartItem(item)
         }
     }
+
+    override suspend fun productsInCart(): List<ProductEntityWithCartStatus> {
+        return cartDao.productsInCart()
+    }
 }

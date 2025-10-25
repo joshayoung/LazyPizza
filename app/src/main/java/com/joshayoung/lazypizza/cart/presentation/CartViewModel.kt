@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.cart.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,14 +26,21 @@ class CartViewModel(
         )
 
     private fun loadCart() {
+        _state.update {
+            it.copy(
+                isLoadingCart = true
+            )
+        }
         viewModelScope.launch {
-            cartRepository.getProducts().collectLatest { data ->
-                val all = data.map { it.toProductUi() }
-                _state.update {
-                    it.copy(
-                        items = all
-                    )
+            val productUiItems =
+                cartRepository.productsInCart().map { item ->
+                    item.toProductUi()
                 }
+            _state.update {
+                it.copy(
+                    items = productUiItems,
+                    isLoadingCart = false
+                )
             }
         }
     }

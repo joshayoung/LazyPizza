@@ -50,4 +50,9 @@ interface CartDao {
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join cart_product_ids as pivot on pivot.productId == p.productId group by p.remoteId"
     )
     suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
+
+    @Query(
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p join cart_product_ids as pivot on pivot.productId == p.productId group by p.remoteId"
+    )
+    suspend fun productsInCart(): List<ProductEntityWithCartStatus>
 }

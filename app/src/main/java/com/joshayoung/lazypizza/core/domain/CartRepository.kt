@@ -25,4 +25,6 @@ interface CartRepository {
     suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
+
+    suspend fun productsInCart(): List<ProductEntityWithCartStatus>
 }
