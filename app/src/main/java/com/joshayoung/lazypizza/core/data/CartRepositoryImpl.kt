@@ -92,4 +92,8 @@ class CartRepositoryImpl(
     override suspend fun productsInCart(): List<ProductEntityWithCartStatus> {
         return localDataSource.productsInCart()
     }
+
+    override suspend fun getProduct(productId: String): Product {
+        return localDataSource.getProduct(productId)
+    }
 }

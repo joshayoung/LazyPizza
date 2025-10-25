@@ -84,4 +84,8 @@ class RoomLocalDataSource(
     override suspend fun productsInCart(): List<ProductEntityWithCartStatus> {
         return cartDao.productsInCart()
     }
+
+    override suspend fun getProduct(productId: String): Product {
+        return cartDao.getProduct(productId).toProduct()
+    }
 }

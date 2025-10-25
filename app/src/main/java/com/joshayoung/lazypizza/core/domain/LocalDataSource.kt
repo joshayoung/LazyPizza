@@ -30,4 +30,6 @@ interface LocalDataSource {
     suspend fun removeProductFromCart(product: Product)
 
     suspend fun productsInCart(): List<ProductEntityWithCartStatus>
+
+    suspend fun getProduct(productId: String): Product
 }

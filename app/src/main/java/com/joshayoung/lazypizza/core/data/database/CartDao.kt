@@ -29,6 +29,9 @@ interface CartDao {
     @Query("SELECT * FROM product")
     suspend fun getAllProducts(): List<ProductEntity>
 
+    @Query("SELECT * FROM product where remoteId = :productId")
+    suspend fun getProduct(productId: String): ProductEntity
+
     @Delete
     suspend fun deleteCartItem(item: CartProductId)
 
