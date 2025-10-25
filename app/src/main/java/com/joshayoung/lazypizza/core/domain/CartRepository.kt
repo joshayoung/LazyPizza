@@ -16,6 +16,8 @@ interface CartRepository {
 
     suspend fun updateLocalWithRemote(reload: Boolean = false)
 
+    suspend fun removeProductFromCart(product: Product)
+
     suspend fun getAllProducts(): List<Product>
 
     suspend fun createCartForUser(cartId: Long)

@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
+import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.networking.DataError
@@ -25,4 +26,6 @@ interface LocalDataSource {
     suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
+
+    suspend fun removeProductFromCart(product: Product)
 }

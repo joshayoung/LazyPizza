@@ -4,10 +4,12 @@ import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
+import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
+import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import kotlinx.coroutines.flow.Flow
 
 class RoomLocalDataSource(
@@ -70,5 +72,12 @@ class RoomLocalDataSource(
 
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {
         return cartDao.getNumberProductsInCart(cartId)
+    }
+
+    override suspend fun removeProductFromCart(product: Product) {
+        val item = cartDao.getProductInCart(product.id)
+        if (item != null) {
+            cartDao.deleteCartItem(item)
+        }
     }
 }

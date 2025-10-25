@@ -65,6 +65,10 @@ class CartRepositoryImpl(
         }
     }
 
+    override suspend fun removeProductFromCart(product: Product) {
+        localDataSource.removeProductFromCart(product)
+    }
+
     override suspend fun getAllProducts(): List<Product> =
         localDataSource.getAllProducts().map {
             it.toProduct()

@@ -63,38 +63,12 @@ class HomeViewModel(
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
                     cartRepository.addProductToCart(product)
-
-//                    val updatedOrderMenu =
-//                        orderedMenu.map { menuItem ->
-//                            menuItem.products.map { localProduct ->
-//                                if (product.id == localProduct.id) {
-//                                    product.copy(
-//                                        lineItemId = lineItemId
-//                                    )
-//                                } else {
-//                                    localProduct
-//                                }
-//                            }
-//                            menuItem
-//                        }
-//
-//                    _state.update {
-//                        it.copy(
-//                            items = updatedOrderMenu,
-//                            noItemsFound = false
-//                        )
-//                    }
                 }
             }
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val item = cartDao.getProductInCart(action.productUi.toProduct().id)
-                    if (item != null) {
-                        cartDao.deleteCartItem(item)
-                    }
-
-//                    cartRepository.removeProductFromCart(action.productUi.toProduct())
+                    cartRepository.removeProductFromCart(action.productUi.toProduct())
                 }
             }
 
