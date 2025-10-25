@@ -3,7 +3,6 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
@@ -41,8 +40,7 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            cartRepository.getProducts().collectLatest { data ->
-                val count = data.count()
+            cartRepository.getNumberProductsInCart(1).collectLatest { count ->
                 _state.update {
                     it.copy(
                         cartItems = count
