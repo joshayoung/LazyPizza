@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +25,18 @@ class CartViewModel(
             SharingStarted.WhileSubscribed(1000L),
             CartState()
         )
+
+    init {
+        viewModelScope.launch {
+            cartRepository.getNumberProductsInCart(1).collectLatest { count ->
+                _state.update {
+                    it.copy(
+                        cartItems = count
+                    )
+                }
+            }
+        }
+    }
 
     private fun loadCart() {
         _state.update {
@@ -46,5 +59,25 @@ class CartViewModel(
     }
 
     fun onAction(action: CartAction) {
+        when (action) {
+            is CartAction.AddItemToCart -> {
+                viewModelScope.launch {
+                    val product = action.productUi.toProduct()
+                    cartRepository.addProductToCart(product)
+                }
+            }
+
+            is CartAction.RemoveItemFromCart -> {
+                viewModelScope.launch {
+                    cartRepository.removeProductFromCart(action.productUi.toProduct())
+                }
+            }
+
+            is CartAction.RemoveAllFromCart -> {
+                viewModelScope.launch {
+                    cartRepository.removeAllFromCart(action.productUi.toProduct())
+                }
+            }
+        }
     }
 }

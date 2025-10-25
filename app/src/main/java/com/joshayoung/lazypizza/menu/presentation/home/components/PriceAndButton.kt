@@ -31,7 +31,7 @@ import java.util.Locale
 @Composable
 fun AddButtonWithPrice(
     productUi: ProductUi,
-    onAction: (HomeAction) -> Unit,
+    onAction: () -> Unit,
     updateCart: (Int) -> Unit
 ) {
     Row(
@@ -46,7 +46,7 @@ fun AddButtonWithPrice(
         Button(
             onClick = {
                 updateCart(1)
-                onAction(HomeAction.AddItemToCart(productUi))
+                onAction()
             },
             contentPadding = PaddingValues(0.dp),
             colors =

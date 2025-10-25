@@ -23,7 +23,8 @@ import java.util.Locale
 fun PriceAndQuantityToggle(
     productUi: ProductUi,
     itemCount: Int,
-    onAction: (HomeAction) -> Unit,
+    increment: () -> Unit,
+    decrement: () -> Unit,
     updateCart: (Int) -> Unit
 ) {
     val calculatedPrice = itemCount * productUi.price.toDouble()
@@ -36,8 +37,8 @@ fun PriceAndQuantityToggle(
     ) {
         QuantitySelector(
             itemCount,
-            onAction = onAction,
-            productUi = productUi,
+            increment = increment,
+            decrement = decrement,
             updateCart = updateCart
         )
         PriceWithNumber(itemCount, calculatedPrice)
@@ -93,7 +94,8 @@ fun PriceAndQuantityTogglePreview() {
                     price = BigDecimal("1.22")
                 ),
                 1,
-                onAction = {},
+                increment = {},
+                decrement = {},
                 updateCart = {}
             )
         }

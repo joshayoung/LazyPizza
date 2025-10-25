@@ -18,17 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
-import com.joshayoung.lazypizza.core.presentation.components.SideItem
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.productUiListForPreview
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import com.joshayoung.lazypizza.menu.presentation.components.SideItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -38,14 +38,18 @@ fun CartScreenRoot(
 ) {
     CartScreen(
         bottomNavItems = bottomNavItems,
-        state = viewModel.state.collectAsStateWithLifecycle().value
+        state = viewModel.state.collectAsStateWithLifecycle().value,
+        onAction = { action ->
+            viewModel.onAction(action)
+        }
     )
 }
 
 @Composable
 fun CartScreen(
     bottomNavItems: List<BottomNavItem>,
-    state: CartState
+    state: CartState,
+    onAction: (CartAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -62,6 +66,7 @@ fun CartScreen(
                 },
                 bottomBar = {
                     PizzaBottomBar(
+                        cartItems = state.cartItems,
                         bottomNavItems = bottomNavItems
                     )
                 }
@@ -73,8 +78,9 @@ fun CartScreen(
                         Modifier
                             .fillMaxWidth()
                             .padding(innerPadding)
+                            .padding(14.dp)
                 ) {
-                    CartList(state)
+                    CartList(state, onAction = onAction)
                 }
             }
         }
@@ -84,6 +90,7 @@ fun CartScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
+                cartItems = state.cartItems,
                 title = "Cart",
                 appBarItems = bottomNavItems
             ) { innerPadding ->
@@ -95,7 +102,7 @@ fun CartScreen(
                             .fillMaxWidth()
                             .padding(innerPadding)
                 ) {
-                    CartList(state)
+                    CartList(state, onAction = onAction)
                 }
             }
         }
@@ -103,7 +110,10 @@ fun CartScreen(
 }
 
 @Composable
-fun CartList(state: CartState) {
+fun CartList(
+    state: CartState,
+    onAction: (CartAction) -> Unit
+) {
     if (state.items.count() < 1) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,12 +132,13 @@ fun CartList(state: CartState) {
             columns = GridCells.Fixed(1)
         ) {
             items(state.items) { productUi ->
-                SideItem(
+                CartItem(
                     productUi,
                     modifier =
                         Modifier
-                            .height(120.dp)
-                ) { }
+                            .height(120.dp),
+                    onAction = onAction
+                )
             }
         }
     }
@@ -147,7 +158,8 @@ private fun CartScreenPreview() {
             state =
                 CartState(
                     items = productUiListForPreview
-                )
+                ),
+            onAction = {}
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core.presentation.components
+package com.joshayoung.lazypizza.cart.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.cart.presentation.CartAction
+import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
@@ -36,10 +38,10 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
 @Composable
-fun SideItem(
+fun CartItem(
     productUi: ProductUi,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit
+    onAction: (CartAction) -> Unit
 ) {
     var itemCount by remember { mutableIntStateOf(productUi.numberInCart) }
     Row(
@@ -82,7 +84,7 @@ fun SideItem(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             ProductHeader(itemCount, productUi, onAction = {
-                onAction(HomeAction.RemoveAllFromCart(productUi))
+                onAction(CartAction.RemoveAllFromCart(productUi))
             }) {
                 if (itemCount > 0) {
                     itemCount = 0
@@ -97,7 +99,10 @@ fun SideItem(
                 if (itemCount <= 0) {
                     AddButtonWithPrice(
                         productUi,
-                        onAction = onAction
+                        onAction =
+                            {
+                                onAction(CartAction.AddItemToCart(productUi))
+                            }
                     ) {
                         itemCount += it
                     }
@@ -105,7 +110,12 @@ fun SideItem(
                     PriceAndQuantityToggle(
                         productUi,
                         itemCount,
-                        onAction = onAction
+                        increment = {
+                            onAction(CartAction.AddItemToCart(productUi))
+                        },
+                        decrement = {
+                            onAction(CartAction.RemoveItemFromCart(productUi))
+                        }
                     ) {
                         if (itemCount > 0) {
                             itemCount += it
@@ -134,7 +144,7 @@ fun SideItemPreview() {
                     Modifier
                         .height(200.dp)
             ) {
-                SideItem(
+                CartItem(
                     productUi =
                         ProductUi(
                             id = "10",

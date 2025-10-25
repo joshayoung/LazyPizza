@@ -26,8 +26,8 @@ import java.math.BigDecimal
 @Composable
 fun QuantitySelector(
     itemCount: Int,
-    productUi: ProductUi,
-    onAction: (HomeAction) -> Unit,
+    increment: () -> Unit,
+    decrement: () -> Unit,
     updateCart: (Int) -> Unit
 ) {
     Row(
@@ -38,7 +38,7 @@ fun QuantitySelector(
     ) {
         CountButton(
             "-",
-            onAction = { onAction(HomeAction.RemoveItemFromCart(productUi)) },
+            onAction = { decrement() },
             {
                 updateCart(-1)
             }
@@ -50,7 +50,7 @@ fun QuantitySelector(
                 Modifier
                     .padding(horizontal = 20.dp)
         )
-        CountButton("+", onAction = { onAction(HomeAction.AddItemToCart(productUi)) }, {
+        CountButton("+", onAction = { increment() }, {
             updateCart(1)
         })
     }
@@ -91,16 +91,8 @@ fun QuantitySelectorPreview() {
     LazyPizzaTheme {
         QuantitySelector(
             itemCount = 1,
-            ProductUi(
-                id = "1",
-                localId = 2,
-                description = "",
-                imageUrl = "",
-                imageResource = R.drawable.cart,
-                name = "",
-                price = BigDecimal("12")
-            ),
-            onAction = {},
+            increment = {},
+            decrement = {},
             updateCart = {}
         )
     }
