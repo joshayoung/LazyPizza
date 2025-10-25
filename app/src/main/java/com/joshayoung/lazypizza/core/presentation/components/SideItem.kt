@@ -85,7 +85,7 @@ fun SideItem(
                 onAction(HomeAction.RemoveAllFromCart(productUi))
             }) {
                 if (itemCount > 0) {
-                    itemCount = itemCount - productUi.numberInCart
+                    itemCount = 0
                 }
             }
             Row(

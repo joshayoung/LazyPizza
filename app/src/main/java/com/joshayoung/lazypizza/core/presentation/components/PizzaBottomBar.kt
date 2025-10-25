@@ -71,7 +71,7 @@ fun PizzaBottomBar(
                         )
             ) {
                 bottomNavItems.forEachIndexed { index, item ->
-                    if (index == 1) {
+                    if (index == 1 && cartItems > 0) {
                         BadgedBox(
                             badge = {
                                 Badge(
@@ -154,6 +154,7 @@ fun LazyPizzaBottomBarPreview() {
             verticalArrangement = Arrangement.Bottom
         ) {
             PizzaBottomBar(
+                cartItems = 103,
                 bottomNavItems =
                     listOf(
                         BottomNavItem(
