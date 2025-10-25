@@ -96,7 +96,6 @@ fun SideItem(
                 if (!productUi.inCart) {
                     AddButtonWithPrice(
                         productUi,
-                        itemCount = itemCount,
                         onAction = onAction
                     ) {
                         itemCount += it
