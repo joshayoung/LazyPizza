@@ -16,6 +16,7 @@ data class ProductEntity(
 )
 
 data class ProductEntityWithCartStatus(
+    val lineItemId: Long,
     val productId: Long,
     val remoteId: String,
     val name: String,

@@ -7,6 +7,7 @@ import java.math.BigDecimal
 
 @Serializable
 data class ProductUi(
+    val lineItemId: Long?,
     val id: String,
     val localId: Long?,
     val description: String? = null,

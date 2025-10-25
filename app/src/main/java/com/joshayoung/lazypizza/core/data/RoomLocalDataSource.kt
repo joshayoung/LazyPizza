@@ -4,6 +4,7 @@ import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
+import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.networking.DataError
@@ -17,29 +18,41 @@ class RoomLocalDataSource(
 
     override suspend fun getAllProducts(): List<ProductEntity> = cartDao.getAllProducts()
 
-    override suspend fun addProductToCart(productId: Long?) {
+    override suspend fun addProductToCart(productId: Long?): Long? {
         if (productId == null) {
-            return
+            return null
         }
 
-        cartDao.insertProductId(
-            CartProductId(
-                cartPivotId = 1,
-                productId = productId
+        val id =
+            cartDao.insertProductId(
+                CartProductId(
+                    cartPivotId = 1,
+                    productId = productId
+                )
             )
-        )
+        println()
 //        val tt = cartDao.exists(cartId = 1, productId = 1)
 //        val t = cartDao.getCartProducts(cartPivotId = 1).first()
 //        val pro = cartDao.getProductById(t)
 //        println()
+
+        return id
     }
 
-    override suspend fun removeProductFromCart(productId: Long?) {
+    override suspend fun removeProductFromCart(lineItemId: Long?) {
+        if (lineItemId == null) {
+            return
+        }
+
+        cartDao.deleteProductId(lineItemId)
+    }
+
+    override suspend fun removeAllFromCart(productId: Long?) {
         if (productId == null) {
             return
         }
 
-        cartDao.deleteProductId(productId)
+        cartDao.deleteAll(productId)
     }
 
     override suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local> {

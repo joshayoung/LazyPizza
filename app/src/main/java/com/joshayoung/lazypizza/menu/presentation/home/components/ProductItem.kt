@@ -134,6 +134,7 @@ private fun ProductItemPreview() {
                     productUi =
                         ProductUi(
                             id = "1",
+                            lineItemId = 17,
                             localId = 3,
                             description = "onion, corn",
                             imageResource = R.drawable.veggie_delight,
@@ -155,6 +156,7 @@ private fun ProductItemPreview() {
                         ProductUi(
                             id = "1",
                             localId = 3,
+                            lineItemId = 18,
                             description =
                                 "Tomato sauce, mozzarella, mushrooms, " +
                                     "olives, bell pepper, onion, corn",

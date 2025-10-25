@@ -82,10 +82,10 @@ fun SideItem(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             ProductHeader(itemCount, productUi, onAction = {
-                onAction(HomeAction.RemoveItemFromCart(productUi))
+                onAction(HomeAction.RemoveAllFromCart(productUi))
             }) {
                 if (itemCount > 0) {
-                    itemCount += it
+                    itemCount = itemCount - productUi.numberInCart
                 }
             }
             Row(
@@ -99,7 +99,7 @@ fun SideItem(
                         productUi,
                         onAction = onAction
                     ) {
-                            itemCount += it
+                        itemCount += it
                     }
                 } else {
                     PriceAndQuantityToggle(
@@ -138,6 +138,7 @@ fun SideItemPreview() {
                     productUi =
                         ProductUi(
                             id = "10",
+                            lineItemId = 2,
                             localId = 1,
                             description = "description",
                             imageUrl = "",

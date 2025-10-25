@@ -2,7 +2,11 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Delete
+import androidx.room.Query
+import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
@@ -19,7 +23,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val loadProductsUseCase: LoadProductsUseCase
+    private val loadProductsUseCase: LoadProductsUseCase,
+    private val cartDao: CartDao
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
@@ -60,13 +65,45 @@ class HomeViewModel(
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
-                    cartRepository.addProductToCart(product)
+                    val lineItemId = cartRepository.addProductToCart(product)
+
+//                    val updatedOrderMenu =
+//                        orderedMenu.map { menuItem ->
+//                            menuItem.products.map { localProduct ->
+//                                if (product.id == localProduct.id) {
+//                                    product.copy(
+//                                        lineItemId = lineItemId
+//                                    )
+//                                } else {
+//                                    localProduct
+//                                }
+//                            }
+//                            menuItem
+//                        }
+//
+//                    _state.update {
+//                        it.copy(
+//                            items = updatedOrderMenu,
+//                            noItemsFound = false
+//                        )
+//                    }
                 }
             }
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeProductFromCart(action.productUi.toProduct())
+                    val item = cartDao.getProductInCart(action.productUi.toProduct().id)
+                    if (item != null) {
+                        cartDao.deleteCartItem(item)
+                    }
+
+//                    cartRepository.removeProductFromCart(action.productUi.toProduct())
+                }
+            }
+
+            is HomeAction.RemoveAllFromCart -> {
+                viewModelScope.launch {
+                    cartRepository.removeAllFromCart(action.productUi.toProduct())
                 }
             }
         }

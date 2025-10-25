@@ -93,6 +93,7 @@ fun QuantitySelectorPreview() {
             itemCount = 1,
             ProductUi(
                 id = "1",
+                lineItemId = 18,
                 localId = 2,
                 description = "",
                 imageUrl = "",

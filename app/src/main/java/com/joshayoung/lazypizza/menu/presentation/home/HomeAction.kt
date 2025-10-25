@@ -10,4 +10,8 @@ sealed interface HomeAction {
     data class RemoveItemFromCart(
         var productUi: ProductUi
     ) : HomeAction
+
+    data class RemoveAllFromCart(
+        var productUi: ProductUi
+    ) : HomeAction
 }
