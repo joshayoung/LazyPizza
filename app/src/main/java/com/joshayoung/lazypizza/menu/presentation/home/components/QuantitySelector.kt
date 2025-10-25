@@ -38,12 +38,9 @@ fun QuantitySelector(
     ) {
         CountButton(
             "-",
-            itemCount,
             onAction = { onAction(HomeAction.RemoveItemFromCart(productUi)) },
             {
-                if (itemCount > 0) {
                     updateCart(-1)
-                }
             }
         )
         Text(
@@ -53,7 +50,7 @@ fun QuantitySelector(
                 Modifier
                     .padding(horizontal = 20.dp)
         )
-        CountButton("+", itemCount, onAction = { onAction(HomeAction.AddItemToCart(productUi)) }, {
+        CountButton("+", onAction = { onAction(HomeAction.AddItemToCart(productUi)) }, {
             updateCart(1)
         })
     }
@@ -62,7 +59,6 @@ fun QuantitySelector(
 @Composable
 fun CountButton(
     text: String,
-    itemCount: Int,
     onAction: () -> Unit,
     action: () -> Unit
 ) {

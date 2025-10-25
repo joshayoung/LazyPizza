@@ -25,8 +25,8 @@ import java.math.BigDecimal
 
 @Composable
 fun ProductHeader(
-    productUi: ProductUi,
     itemCount: Int,
+    productUi: ProductUi,
     onAction: () -> Unit,
     updateCart: (Int) -> Unit
 ) {
@@ -38,7 +38,7 @@ fun ProductHeader(
                 .fillMaxWidth()
     ) {
         Text(productUi.name, fontWeight = FontWeight.Bold)
-        if (productUi.inCart) {
+        if (itemCount > 0) {
             IconButton(
                 onClick = {
                     updateCart(-1)
@@ -80,8 +80,8 @@ fun ProductHeaderPreview() {
                     name = "Pepsi",
                     price = BigDecimal("1.12")
                 ),
-            1,
             onAction = {},
+            itemCount = 1,
             updateCart = {}
         )
     }

@@ -34,17 +34,16 @@ fun PriceAndQuantityToggle(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        QuantitySelector(itemCount, productUi, onAction = onAction, updateCart = updateCart)
-        PriceWithNumber(itemCount, productUi, calculatedPrice, updateCart = updateCart)
+        QuantitySelector(itemCount, onAction = onAction, productUi = productUi,
+            updateCart = updateCart)
+        PriceWithNumber(itemCount, calculatedPrice)
     }
 }
 
 @Composable
 fun PriceWithNumber(
     itemCount: Int,
-    productUi: ProductUi,
     calculatedPrice: Double,
-    updateCart: (Int) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.End,
@@ -65,7 +64,7 @@ fun PriceWithNumber(
                     Modifier
                         .padding(horizontal = 4.dp)
             )
-            Text(price.toString(), fontSize = 10.sp)
+            Text(price, fontSize = 10.sp)
         }
     }
 }

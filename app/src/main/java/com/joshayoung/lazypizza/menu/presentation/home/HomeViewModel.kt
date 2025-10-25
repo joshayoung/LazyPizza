@@ -61,29 +61,14 @@ class HomeViewModel(
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
                     cartRepository.addProductToCart(product)
-                    // TODO: Not sure if this is the best way:
-                    reloadData()
                 }
             }
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
                     cartRepository.removeProductFromCart(action.productUi.toProduct())
-                    // TODO: Not sure if this is the best way:
-                    reloadData()
                 }
             }
-        }
-    }
-
-    private suspend fun reloadData() {
-        orderedMenu = loadProductsUseCase.execute()
-
-        _state.update {
-            it.copy(
-                items = orderedMenu,
-                isLoadingProducts = false
-            )
         }
     }
 

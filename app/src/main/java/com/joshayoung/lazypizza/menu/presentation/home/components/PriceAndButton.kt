@@ -31,7 +31,6 @@ import java.util.Locale
 @Composable
 fun AddButtonWithPrice(
     productUi: ProductUi,
-    itemCount: Int,
     onAction: (HomeAction) -> Unit,
     updateCart: (Int) -> Unit
 ) {
@@ -87,7 +86,6 @@ fun AddButtonWithPricePreview() {
                     name = "prod",
                     price = BigDecimal("1.22")
                 ),
-                2,
                 onAction = {},
                 updateCart = {}
             )
