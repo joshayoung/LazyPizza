@@ -6,7 +6,6 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel.Companion.HEADER_LENGTH
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
-import kotlinx.coroutines.flow.first
 
 class LoadProductsUseCase(
     private val cartRepository: CartRepository,

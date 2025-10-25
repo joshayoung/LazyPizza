@@ -25,12 +25,12 @@ fun Product.toProductUi(
         numberInCart = numberInCart
     )
 
-fun ProductEntityWithCartStatus.toProductUi(): ProductUi =
-    ProductUi(
+fun ProductEntityWithCartStatus.toProductUi(): ProductUi {
+    return ProductUi(
         localId = productId,
         id = remoteId,
-        description = description,
         imageUrl = imageUrl,
+        description = description,
         imageResource = imageResource,
         name = name,
         price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
@@ -38,6 +38,7 @@ fun ProductEntityWithCartStatus.toProductUi(): ProductUi =
         inCart = numberInCart > 0,
         numberInCart = numberInCart
     )
+}
 
 fun Product.toProductEntity(): ProductEntity =
     ProductEntity(

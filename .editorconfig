@@ -113,3 +113,4 @@ ktlint_standard_package-name = disabled
 ktlint_standard_final-newline = disabled
 ktlint_standard_no-wildcard-imports = disabled
 ktlint_standard_function-naming = disabled
+ktlint_standard_function-expression-body = disabled

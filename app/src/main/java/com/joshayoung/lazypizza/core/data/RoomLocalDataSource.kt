@@ -67,7 +67,9 @@ class RoomLocalDataSource(
         )
     }
 
-    override suspend fun doesCartExist(cartId: Long): Boolean = cartDao.doesCartExist(cartId)
+    override suspend fun doesCartExist(cartId: Long): Boolean {
+        return cartDao.doesCartExist(cartId)
+    }
 
     override suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus> =
         cartDao.allProductsWithCartItems()
