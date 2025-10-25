@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0e8e73e95c59bf92664716c7ad4e4b9d",
+    "identityHash": "51c5494649d4ab4e9a4d34c9547693da",
     "entities": [
       {
         "tableName": "cart",
@@ -138,11 +138,52 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "topping",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`toppingId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` TEXT NOT NULL, `name` TEXT NOT NULL, `price` TEXT NOT NULL, `imageUrl` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "toppingId",
+            "columnName": "toppingId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "toppingId"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0e8e73e95c59bf92664716c7ad4e4b9d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '51c5494649d4ab4e9a4d34c9547693da')"
     ]
   }
 }

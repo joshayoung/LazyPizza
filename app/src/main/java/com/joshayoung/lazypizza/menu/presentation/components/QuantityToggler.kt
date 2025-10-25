@@ -22,7 +22,7 @@ import java.math.BigDecimal
 
 @Composable
 fun QuantityToggler(
-    productUi: ProductUi,
+    price: BigDecimal,
     click: (DetailAction) -> Unit,
     quantity: MutableIntState,
     preventMore: MutableState<Boolean>
@@ -35,7 +35,7 @@ fun QuantityToggler(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ToggleButton(R.drawable.minus, click = {
-            click(DetailAction.DecrementPrice(price = productUi.price))
+            click(DetailAction.DecrementPrice(price = price))
             if (quantity.intValue > 0) {
                 quantity.intValue -= 1
             }
@@ -49,7 +49,7 @@ fun QuantityToggler(
             R.drawable.plus,
             click = {
                 if (!preventMore.value) {
-                    click(DetailAction.IncrementPrice(price = productUi.price))
+                    click(DetailAction.IncrementPrice(price = price))
                     quantity.intValue += 1
                 }
             },
@@ -65,15 +65,7 @@ fun QuantityClickerPreview() {
     val preventMore = remember { mutableStateOf(false) }
     LazyPizzaTheme {
         QuantityToggler(
-            productUi =
-                ProductUi(
-                    name = "name",
-                    description = "description",
-                    price = BigDecimal("1.23"),
-                    imageResource = R.drawable.pizza_header,
-                    id = "1",
-                    localId = 2
-                ),
+            BigDecimal("1.22"),
             click = {},
             quantity = quantity,
             preventMore = preventMore

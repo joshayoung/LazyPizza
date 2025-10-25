@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.core.domain
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.domain.models.Topping
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
@@ -14,7 +15,11 @@ interface CartRepository {
 
     suspend fun getProducts(): Flow<List<Product>>
 
+    suspend fun getToppings(): Flow<List<Topping>>
+
     suspend fun updateLocalWithRemote(reload: Boolean = false)
+
+    suspend fun updateLocalToppingsWithRemote(reload: Boolean = false)
 
     suspend fun removeProductFromCart(product: Product)
 

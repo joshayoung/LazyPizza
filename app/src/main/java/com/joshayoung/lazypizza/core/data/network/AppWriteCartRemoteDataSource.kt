@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.data.network
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
@@ -30,6 +31,34 @@ class AppWriteCartRemoteDataSource(
                         description = row.data["description"] as? String ?: "",
                         imageUrl = row.data["imageUrl"] as? String,
                         type = row.data["type"] as? String ?: ""
+                    )
+                }
+
+            return data
+        } catch (e: Exception) {
+            return emptyList()
+        }
+    }
+
+    override suspend fun getToppings(table: String): List<Topping> {
+        try {
+            val tables =
+                TablesDB(
+                    client = appWriteClient
+                )
+            val response =
+                tables.listRows(
+                    BuildConfig.DATABASE_ID,
+                    table,
+                    emptyList()
+                )
+            val data =
+                response.rows.map { row ->
+                    Topping(
+                        remoteId = row.data["\$id"] as? String ?: "",
+                        name = row.data["name"] as? String ?: "",
+                        price = row.data["price"] as? String ?: "0.00",
+                        imageUrl = row.data["imageUrl"] as? String
                     )
                 }
 

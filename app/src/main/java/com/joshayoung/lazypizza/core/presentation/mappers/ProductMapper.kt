@@ -3,8 +3,11 @@ package com.joshayoung.lazypizza.core.presentation.mappers
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.domain.models.Topping
+import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -24,6 +27,16 @@ fun Product.toProductUi(
         inCart = inCart,
         numberInCart = numberInCart
     )
+
+fun Topping.toToppingUi(): ToppingUi {
+    return ToppingUi(
+        localId = localId,
+        remoteId = remoteId,
+        name = name,
+        price = BigDecimal(price),
+        imageUrl = imageUrl
+    )
+}
 
 fun ProductEntityWithCartStatus.toProductUi(): ProductUi {
     return ProductUi(
@@ -46,9 +59,18 @@ fun Product.toProductEntity(): ProductEntity =
         description = description,
         imageUrl = imageUrl,
         name = name,
-        price = price.toString(),
+        price = price,
         type = type
     )
+
+fun Topping.toToppingEntity(): ToppingEntity {
+    return ToppingEntity(
+        remoteId = remoteId,
+        imageUrl = imageUrl,
+        name = name,
+        price = price
+    )
+}
 
 // TODO: Double check these values:
 fun ProductEntity.toProduct(): Product =
@@ -61,6 +83,15 @@ fun ProductEntity.toProduct(): Product =
         id = remoteId,
         localId = productId
     )
+
+fun ToppingEntity.toTopping(): Topping {
+    return Topping(
+        remoteId = remoteId,
+        name = name,
+        price = price,
+        imageUrl = imageUrl
+    )
+}
 
 fun ProductUi.toProduct(): Product =
     Product(

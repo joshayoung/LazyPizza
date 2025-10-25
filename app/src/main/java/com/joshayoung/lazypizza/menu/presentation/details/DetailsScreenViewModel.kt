@@ -11,6 +11,9 @@ import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.core.presentation.mappers.toToppingUi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -31,6 +34,7 @@ class DetailsScreenViewModel(
 
     init {
         viewModelScope.launch {
+            cartRepository.updateLocalToppingsWithRemote()
             productId?.let { id ->
                 val product = cartRepository.getProduct(id)
                 val productUi = product.toProductUi()
@@ -39,11 +43,12 @@ class DetailsScreenViewModel(
                         productUi = productUi,
                         totalPrice = productUi.price
                     )
-//                var toppings = cartRemoteDataSource.getProducts(BuildConfig.TOPPINGS_COLLECTION_ID)
-//                state =
-//                    state.copy(
-//                        toppings = toppings.map { it.toProductUi() }
-//                    )
+                // TODO: Does this need to be a flow?
+                var toppings = cartRepository.getToppings().first()
+                state =
+                    state.copy(
+                        toppings = toppings.map { it.toToppingUi() }
+                    )
             }
         }
     }

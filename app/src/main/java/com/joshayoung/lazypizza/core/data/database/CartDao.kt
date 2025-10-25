@@ -10,6 +10,7 @@ import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,6 +21,9 @@ interface CartDao {
     @Upsert
     suspend fun upsertProduct(productEntity: ProductEntity)
 
+    @Upsert
+    suspend fun upsertTopping(toppingEntity: ToppingEntity)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProductId(entry: CartProductId): Long
 
@@ -28,6 +32,9 @@ interface CartDao {
 
     @Query("SELECT * FROM product")
     suspend fun getAllProducts(): List<ProductEntity>
+
+    @Query("SELECT * FROM topping")
+    suspend fun getAllToppings(): List<ToppingEntity>
 
     @Query("SELECT * FROM product where remoteId = :productId")
     suspend fun getProduct(productId: String): ProductEntity

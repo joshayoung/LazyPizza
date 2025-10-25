@@ -39,6 +39,7 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.Topping
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
 import java.util.Locale
@@ -291,89 +292,29 @@ fun DetailsScreenPreview() {
                         ),
                     toppings =
                         listOf(
-                            ProductUi(
-                                id = "4",
+                            ToppingUi(
                                 localId = 3,
-                                name = "Bacon",
-                                price = BigDecimal("1.00"),
-                                imageResource = R.drawable.bacon
-                            ),
-                            ProductUi(
-                                id = "5",
-                                localId = 4,
-                                name = "Extra Cheese",
-                                price = BigDecimal("1.10"),
-                                imageResource = R.drawable.cheese
-                            ),
-                            ProductUi(
-                                id = "6",
-                                localId = 5,
-                                name = "Corn",
-                                price = BigDecimal("0.10"),
-                                imageResource = R.drawable.corn
-                            ),
-                            ProductUi(
-                                id = "7",
-                                localId = 6,
-                                name = "Tomato",
-                                price = BigDecimal("0.10"),
-                                imageResource = R.drawable.tomato
-                            ),
-                            ProductUi(
-                                id = "8",
-                                localId = 7,
-                                name = "Olives",
-                                price = BigDecimal("0.80"),
-                                imageResource = R.drawable.olive
-                            ),
-                            ProductUi(
-                                id = "9",
-                                localId = 8,
-                                name = "Pepperoni",
-                                price = BigDecimal("1.80"),
-                                imageResource = R.drawable.pepperoni
-                            ),
-                            ProductUi(
-                                id = "10",
-                                localId = 9,
-                                name = "Mushroom",
+                                imageUrl = "",
+                                imageResource = R.drawable.bacon,
+                                name = "basil",
                                 price = BigDecimal("0.50"),
-                                imageResource = R.drawable.mushroom
+                                remoteId = ""
                             ),
-                            ProductUi(
-                                id = "11",
-                                localId = 10,
-                                name = "Basil",
+                            ToppingUi(
+                                localId = 3,
+                                imageUrl = "",
+                                imageResource = R.drawable.bacon,
+                                name = "basil",
                                 price = BigDecimal("0.50"),
-                                imageResource = R.drawable.basil
+                                remoteId = ""
                             ),
-                            ProductUi(
-                                id = "12",
-                                localId = 11,
-                                name = "Pineapple",
-                                price = BigDecimal("1.00"),
-                                imageResource = R.drawable.pineapple
-                            ),
-                            ProductUi(
-                                id = "13",
-                                localId = 12,
-                                name = "Onion",
+                            ToppingUi(
+                                localId = 3,
+                                imageUrl = "",
+                                imageResource = R.drawable.bacon,
+                                name = "basil",
                                 price = BigDecimal("0.50"),
-                                imageResource = R.drawable.onion
-                            ),
-                            ProductUi(
-                                id = "14",
-                                localId = 13,
-                                name = "Chili Peppers",
-                                price = BigDecimal("0.50"),
-                                imageResource = R.drawable.chilli
-                            ),
-                            ProductUi(
-                                id = "15",
-                                localId = 14,
-                                name = "Spinach",
-                                price = BigDecimal("0.50"),
-                                imageResource = R.drawable.spinach
+                                remoteId = ""
                             )
                         )
                 ),

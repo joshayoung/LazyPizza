@@ -7,6 +7,7 @@ import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
@@ -15,7 +16,13 @@ import kotlinx.coroutines.flow.Flow
 class RoomLocalDataSource(
     private var cartDao: CartDao
 ) : LocalDataSource {
-    override suspend fun getAllProducts(): List<ProductEntity> = cartDao.getAllProducts()
+    override suspend fun getAllProducts(): List<ProductEntity> {
+        return cartDao.getAllProducts()
+    }
+
+    override suspend fun getAllToppings(): List<ToppingEntity> {
+        return cartDao.getAllToppings()
+    }
 
     override suspend fun addProductToCart(productId: Long?) {
         if (productId == null) {
@@ -43,6 +50,10 @@ class RoomLocalDataSource(
 
         // TODO: This return is probably not correct:
         return Result.Success(data = cartEntity)
+    }
+
+    override suspend fun upsertTopping(toppingEntity: ToppingEntity) {
+        cartDao.upsertTopping(toppingEntity)
     }
 
     override suspend fun upsertProduct(

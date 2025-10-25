@@ -31,12 +31,13 @@ import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
 fun Topping(
-    productUi: ProductUi,
+    toppingUi: ToppingUi,
     modifier: Modifier,
     click: (DetailAction) -> Unit
 ) {
@@ -67,7 +68,7 @@ fun Topping(
                 .height(150.dp)
                 .clickable {
                     incrementMode = true
-                    click(DetailAction.IncrementPrice(productUi.price))
+                    click(DetailAction.IncrementPrice(toppingUi.price))
                 }.border(
                     1.dp,
                     color = borderColor,
@@ -83,23 +84,23 @@ fun Topping(
                     .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
                     .padding(4.dp)
         ) {
-            PizzaImage(
-                productUi,
-                modifier =
-                    Modifier
-                        .size(60.dp)
-            )
+//            PizzaImage(
+//                toppingUi,
+//                modifier =
+//                    Modifier
+//                        .size(60.dp)
+//            )
         }
         Text(
-            productUi.name,
+            toppingUi.name,
             modifier = Modifier,
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSecondary
         )
         if (incrementMode) {
-            QuantityToggler(productUi, click, quantity, preventMore)
+            QuantityToggler(toppingUi.price, click, quantity, preventMore)
         } else {
-            val price = String.format(Locale.US, "$%.2f", productUi.price)
+            val price = String.format(Locale.US, "$%.2f", toppingUi.price)
             Text(
                 price,
                 style = MaterialTheme.typography.titleMedium,
@@ -115,29 +116,27 @@ fun ToppingPreview() {
     LazyPizzaTheme {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             Topping(
-                productUi =
-                    ProductUi(
-                        id = "1",
+                toppingUi =
+                    ToppingUi(
                         localId = 2,
-                        description = "description",
                         imageUrl = "",
                         imageResource = R.drawable.basil,
                         name = "basil",
-                        price = BigDecimal("1.10")
+                        price = BigDecimal("1.10"),
+                        remoteId = ""
                     ),
                 modifier = Modifier.size(200.dp),
                 click = {}
             )
             Topping(
-                productUi =
-                    ProductUi(
-                        id = "2",
+                toppingUi =
+                    ToppingUi(
                         localId = 3,
-                        description = "description",
                         imageUrl = "",
                         imageResource = R.drawable.bacon,
                         name = "basil",
-                        price = BigDecimal("0.50")
+                        price = BigDecimal("0.50"),
+                        remoteId = ""
                     ),
                 modifier = Modifier.size(200.dp),
                 click = {}

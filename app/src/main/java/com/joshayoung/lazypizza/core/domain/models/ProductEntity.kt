@@ -15,6 +15,7 @@ data class ProductEntity(
     val type: String
 )
 
+// TODO: Move to separate file:
 data class ProductEntityWithCartStatus(
     val lineItemId: Long,
     val productId: Long,
