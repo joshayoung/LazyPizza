@@ -5,11 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Upsert
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
-import com.joshayoung.lazypizza.core.domain.models.CartWithProducts
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import kotlinx.coroutines.flow.Flow
@@ -29,33 +27,15 @@ interface CartDao {
     suspend fun deleteAll(productId: Long)
 
     @Query("SELECT * FROM product")
-    fun getProduct(): Flow<List<ProductEntity>>
-
-    @Query("SELECT * FROM product")
     suspend fun getAllProducts(): List<ProductEntity>
 
     @Delete
     suspend fun deleteCartItem(item: CartProductId)
 
     @Query(
-        "SELECT * FROM cart_product_ids join product on product.productId = cart_product_ids.productId where product.remoteId = :productId LIMIT 1"
+        "SELECT cart_product_ids.id, cart_product_ids.cartPivotId, cart_product_ids.productId FROM cart_product_ids join product on product.productId = cart_product_ids.productId where product.remoteId = :productId LIMIT 1"
     )
     suspend fun getProductInCart(productId: String): CartProductId?
-
-    @Query("SELECT * FROM product WHERE productId = :productId LIMIT 1")
-    suspend fun getProductById(productId: Long): ProductEntity
-
-    @Transaction
-    @Query("SELECT * FROM cart")
-    suspend fun getAllNotesByCategory(): List<CartWithProducts>
-
-    @Query(
-        "SELECT COUNT(*) FROM cart_product_ids WHERE cartPivotId = :cartId AND productId = :productId"
-    )
-    suspend fun exists(
-        cartId: Long,
-        productId: Long
-    ): Int
 
     @Query("SELECT productId from cart_product_ids where cartPivotId = :cartPivotId")
     suspend fun getCartProducts(cartPivotId: Long): List<Long>

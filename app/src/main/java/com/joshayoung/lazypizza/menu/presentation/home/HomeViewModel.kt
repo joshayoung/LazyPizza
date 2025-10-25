@@ -2,11 +2,8 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Delete
-import androidx.room.Query
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase

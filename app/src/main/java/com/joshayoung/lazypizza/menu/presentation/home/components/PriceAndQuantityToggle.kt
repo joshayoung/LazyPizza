@@ -34,8 +34,12 @@ fun PriceAndQuantityToggle(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        QuantitySelector(itemCount, onAction = onAction, productUi = productUi,
-            updateCart = updateCart)
+        QuantitySelector(
+            itemCount,
+            onAction = onAction,
+            productUi = productUi,
+            updateCart = updateCart
+        )
         PriceWithNumber(itemCount, calculatedPrice)
     }
 }
@@ -43,7 +47,7 @@ fun PriceAndQuantityToggle(
 @Composable
 fun PriceWithNumber(
     itemCount: Int,
-    calculatedPrice: Double,
+    calculatedPrice: Double
 ) {
     Column(
         horizontalAlignment = Alignment.End,

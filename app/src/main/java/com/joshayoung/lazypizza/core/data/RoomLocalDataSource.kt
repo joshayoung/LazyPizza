@@ -4,7 +4,6 @@ import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
-import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.networking.DataError
@@ -14,8 +13,6 @@ import kotlinx.coroutines.flow.Flow
 class RoomLocalDataSource(
     private var cartDao: CartDao
 ) : LocalDataSource {
-    override fun getProducts(): Flow<List<ProductEntity>> = cartDao.getProduct()
-
     override suspend fun getAllProducts(): List<ProductEntity> = cartDao.getAllProducts()
 
     override suspend fun addProductToCart(productId: Long?) {
