@@ -95,7 +95,7 @@ fun DetailsScreen(
                     ) {
                         DetailDescription(state)
                         Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
-                        CartButton(state)
+                        CartButton(state, onAction = onAction)
                     }
                 }
             }
@@ -144,7 +144,7 @@ fun DetailsScreen(
                                 Modifier
                                     .padding(bottom = 10.dp)
                         )
-                        CartButton(state)
+                        CartButton(state, onAction = onAction)
                     }
                 }
             }
@@ -239,7 +239,10 @@ fun Toppings(
 }
 
 @Composable
-fun CartButton(state: DetailsState) {
+fun CartButton(
+    state: DetailsState,
+    onAction: (DetailAction) -> Unit
+) {
     Box(
         modifier =
             Modifier
@@ -255,7 +258,9 @@ fun CartButton(state: DetailsState) {
                 )
     ) {
         Button(
-            onClick = { },
+            onClick = {
+                onAction(DetailAction.AddItemToCart(state.productUi))
+            },
             shape = RoundedCornerShape(16.dp)
         ) {
             Text(
@@ -269,13 +274,13 @@ fun CartButton(state: DetailsState) {
     }
 }
 
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-//@Preview(
+// @Preview(
 //    showBackground = true,
 //    widthDp = 800,
 //    heightDp = 1280
-//)
+// )
+@Composable
+@Preview(showBackground = true, showSystemUi = true)
 fun DetailsScreenPreview() {
     LazyPizzaTheme {
         DetailsScreen(

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingUi
 import kotlinx.coroutines.flow.first
@@ -75,6 +76,15 @@ class DetailsScreenViewModel(
                     state.copy(
                         totalPrice = newTotal
                     )
+            }
+
+            is DetailAction.AddItemToCart -> {
+                viewModelScope.launch {
+                    val product = action.productUi?.toProduct()
+                    if (product != null) {
+                        cartRepository.addProductToCart(product)
+                    }
+                }
             }
         }
     }
