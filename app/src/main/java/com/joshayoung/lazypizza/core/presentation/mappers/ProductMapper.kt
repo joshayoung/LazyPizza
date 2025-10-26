@@ -1,10 +1,10 @@
 package com.joshayoung.lazypizza.core.presentation.mappers
 
+import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.core.domain.models.ProductEntity
-import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.domain.models.Topping
-import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi

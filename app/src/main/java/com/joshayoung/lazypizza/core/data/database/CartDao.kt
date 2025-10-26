@@ -6,12 +6,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
-import com.joshayoung.lazypizza.core.domain.models.CartEntity
-import com.joshayoung.lazypizza.core.domain.models.ProductEntity
-import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
-import com.joshayoung.lazypizza.core.domain.models.ProductsInCart
-import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
-import com.joshayoung.lazypizza.core.domain.models.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import kotlinx.coroutines.flow.Flow
 
 @Dao

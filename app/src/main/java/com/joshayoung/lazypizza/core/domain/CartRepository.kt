@@ -1,8 +1,8 @@
 package com.joshayoung.lazypizza.core.domain
 
-import com.joshayoung.lazypizza.core.domain.models.CartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import kotlinx.coroutines.flow.Flow
 

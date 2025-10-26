@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core.domain.models
+package com.joshayoung.lazypizza.core.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
