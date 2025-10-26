@@ -24,7 +24,10 @@ interface LocalDataSource {
 
     suspend fun upsertProduct(productEntity: ProductEntity): Result<ProductEntity, DataError.Local>
 
-    suspend fun createCartForUser(cartId: Long)
+    suspend fun createCartForUser(
+        cartId: Long,
+        theUser: String
+    )
 
     suspend fun doesCartExist(cartId: Long): Boolean
 

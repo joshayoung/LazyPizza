@@ -65,11 +65,14 @@ class RoomLocalDataSource(
         return Result.Success(data = productEntity)
     }
 
-    override suspend fun createCartForUser(cartId: Long) {
+    override suspend fun createCartForUser(
+        cartId: Long,
+        theUser: String
+    ) {
         cartDao.addCart(
             CartEntity(
                 cartId,
-                "Pizza Orders"
+                theUser
             )
         )
     }

@@ -25,7 +25,10 @@ interface CartRepository {
 
     suspend fun getAllProducts(): List<Product>
 
-    suspend fun createCartForUser(cartId: Long)
+    suspend fun createCartForUser(
+        cartId: Long,
+        user: String
+    )
 
     suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 

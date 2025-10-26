@@ -29,7 +29,7 @@ class MainViewModel(
                 )
             if (loggedIn) {
                 // TODO: Pass in something identifying the user and do not hard-code this cartId:
-                cartRepository.createCartForUser(1)
+                cartRepository.createCartForUser(1, "theUser")
                 state = state.copy(isLoading = false)
             }
         }

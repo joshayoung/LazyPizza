@@ -107,12 +107,15 @@ class CartRepositoryImpl(
             it.toProduct()
         }
 
-    override suspend fun createCartForUser(cartId: Long) {
+    override suspend fun createCartForUser(
+        cartId: Long,
+        theUser: String
+    ) {
         if (localDataSource.doesCartExist(cartId)) {
             return
         }
 
-        localDataSource.createCartForUser(cartId)
+        localDataSource.createCartForUser(cartId, theUser)
     }
 
     override suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus> =
