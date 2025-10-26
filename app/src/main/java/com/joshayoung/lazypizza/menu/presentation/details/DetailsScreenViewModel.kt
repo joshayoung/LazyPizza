@@ -99,11 +99,24 @@ class DetailsScreenViewModel(
                     if (productId != null && toppingId != null) {
                         cartDao.insertToppingId(
                             ProductToppings(
-                                productId,
-                                toppingId,
+                                productId = productId,
+                                toppingId = toppingId,
                                 cartId = 1
                             )
                         )
+                    }
+                }
+            }
+
+            is DetailAction.RemoveTopping -> {
+                viewModelScope.launch {
+                    val productId = state.productUi?.localId
+                    val toppingId = action.toppingUi.localId
+
+                    // TODo: If not in cart, do not allow??
+                    if (productId != null && toppingId != null) {
+                        val item = cartDao.getToppingItem(toppingId)
+                        cartDao.deleteToppingFromCart(item)
                     }
                 }
             }

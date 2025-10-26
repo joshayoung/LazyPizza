@@ -28,8 +28,14 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProductId(entry: CartProductId): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insertToppingId(entry: ProductToppings): Long
+
+    @Query("SELECT * from product_toppings where toppingId = :toppingId LIMIT 1")
+    suspend fun getToppingItem(toppingId: Long): ProductToppings
+
+    @Delete
+    suspend fun deleteToppingFromCart(item: ProductToppings)
 
     @Query("DELETE FROM cart_product_ids WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)

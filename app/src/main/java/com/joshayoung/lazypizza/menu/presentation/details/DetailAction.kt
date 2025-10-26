@@ -20,4 +20,8 @@ sealed interface DetailAction {
     data class AddTopping(
         var toppingUi: ToppingUi
     ) : DetailAction
+
+    data class RemoveTopping(
+        var toppingUi: ToppingUi
+    ) : DetailAction
 }

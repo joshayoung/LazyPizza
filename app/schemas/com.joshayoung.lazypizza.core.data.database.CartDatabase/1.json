@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "92dcf6c6ea42ff27488e4b62260ab77c",
+    "identityHash": "599c9a1877a0ce06ba5ed9f2abe5bc47",
     "entities": [
       {
         "tableName": "cart",
@@ -182,8 +182,14 @@
       },
       {
         "tableName": "product_toppings",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER NOT NULL, `toppingId` INTEGER NOT NULL, `cartId` INTEGER NOT NULL, PRIMARY KEY(`productId`, `toppingId`), FOREIGN KEY(`toppingId`) REFERENCES `product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`toppingId`) REFERENCES `topping`(`toppingId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`cartId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productId` INTEGER NOT NULL, `toppingId` INTEGER NOT NULL, `cartId` INTEGER NOT NULL, FOREIGN KEY(`productId`) REFERENCES `product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`toppingId`) REFERENCES `topping`(`toppingId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`cartId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "productId",
             "columnName": "productId",
@@ -204,10 +210,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
-            "productId",
-            "toppingId"
+            "id"
           ]
         },
         "foreignKeys": [
@@ -216,7 +221,7 @@
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "toppingId"
+              "productId"
             ],
             "referencedColumns": [
               "productId"
@@ -249,7 +254,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '92dcf6c6ea42ff27488e4b62260ab77c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '599c9a1877a0ce06ba5ed9f2abe5bc47')"
     ]
   }
 }

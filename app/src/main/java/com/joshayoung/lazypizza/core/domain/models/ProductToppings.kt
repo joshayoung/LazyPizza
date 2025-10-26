@@ -2,15 +2,15 @@ package com.joshayoung.lazypizza.core.domain.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "product_toppings",
-    primaryKeys = ["productId", "toppingId"],
     foreignKeys = [
         ForeignKey(
             entity = ProductEntity::class,
             parentColumns = ["productId"],
-            childColumns = ["toppingId"],
+            childColumns = ["productId"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -28,6 +28,7 @@ import androidx.room.ForeignKey
     ]
 )
 data class ProductToppings(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val productId: Long,
     val toppingId: Long,
     val cartId: Long

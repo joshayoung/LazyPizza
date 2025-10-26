@@ -40,6 +40,7 @@ fun QuantityToggler(
             if (quantity.intValue > 0) {
                 quantity.intValue -= 1
             }
+            click(DetailAction.RemoveTopping(toppingUi))
         })
         Text(
             quantity.intValue.toString(),
