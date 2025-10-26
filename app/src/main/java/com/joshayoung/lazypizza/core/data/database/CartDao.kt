@@ -9,9 +9,9 @@ import androidx.room.Upsert
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
-import com.joshayoung.lazypizza.core.domain.models.ProductToppings
 import com.joshayoung.lazypizza.core.domain.models.ProductsInCart
 import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
+import com.joshayoung.lazypizza.core.domain.models.ToppingsInCart
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,13 +29,13 @@ interface CartDao {
     suspend fun insertProductId(entry: ProductsInCart): Long
 
     @Insert
-    suspend fun insertToppingId(entry: ProductToppings): Long
+    suspend fun insertToppingId(entry: ToppingsInCart): Long
 
-    @Query("SELECT * from product_toppings where toppingId = :toppingId LIMIT 1")
-    suspend fun getToppingItem(toppingId: Long): ProductToppings
+    @Query("SELECT * from toppings_in_cart where toppingId = :toppingId LIMIT 1")
+    suspend fun getToppingItem(toppingId: Long): ToppingsInCart
 
     @Delete
-    suspend fun deleteToppingFromCart(item: ProductToppings)
+    suspend fun deleteToppingFromCart(item: ToppingsInCart)
 
     @Query("DELETE FROM products_in_cart WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)

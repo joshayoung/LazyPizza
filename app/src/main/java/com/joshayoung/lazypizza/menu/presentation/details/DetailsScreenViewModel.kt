@@ -3,20 +3,17 @@ package com.joshayoung.lazypizza.menu.presentation.details
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.models.ProductToppings
+import com.joshayoung.lazypizza.core.domain.models.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingUi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -98,7 +95,7 @@ class DetailsScreenViewModel(
                     // TODo: If not in cart, do not allow??
                     if (productId != null && toppingId != null) {
                         cartDao.insertToppingId(
-                            ProductToppings(
+                            ToppingsInCart(
                                 productId = productId,
                                 toppingId = toppingId,
                                 cartId = 1

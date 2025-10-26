@@ -181,7 +181,7 @@
         }
       },
       {
-        "tableName": "product_toppings",
+        "tableName": "toppings_in_cart",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productId` INTEGER NOT NULL, `toppingId` INTEGER NOT NULL, `cartId` INTEGER NOT NULL, FOREIGN KEY(`productId`) REFERENCES `product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`toppingId`) REFERENCES `topping`(`toppingId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`cartId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {

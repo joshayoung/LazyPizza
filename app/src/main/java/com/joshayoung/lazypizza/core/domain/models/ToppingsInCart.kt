@@ -5,7 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "product_toppings",
+    tableName = "toppings_in_cart",
     foreignKeys = [
         ForeignKey(
             entity = ProductEntity::class,
@@ -27,7 +27,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class ProductToppings(
+data class ToppingsInCart(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val productId: Long,
     val toppingId: Long,

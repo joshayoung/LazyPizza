@@ -9,7 +9,7 @@ data class ProductWithToppings(
     @Relation(
         parentColumn = "productId",
         entityColumn = "toppingId",
-        associateBy = Junction(ProductToppings::class)
+        associateBy = Junction(ToppingsInCart::class)
     )
     val books: List<ToppingEntity>
 )
