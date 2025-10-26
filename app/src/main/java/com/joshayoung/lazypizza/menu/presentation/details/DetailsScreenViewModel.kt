@@ -8,7 +8,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.models.ProductToppings
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
@@ -21,7 +23,8 @@ import java.math.BigDecimal
 class DetailsScreenViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val cartRemoteDataSource: CartRemoteDataSource,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val cartDao: CartDao
 ) : ViewModel() {
     var state by mutableStateOf(DetailsState())
         private set
@@ -83,6 +86,24 @@ class DetailsScreenViewModel(
                     val product = action.productUi?.toProduct()
                     if (product != null) {
                         cartRepository.addProductToCart(product)
+                    }
+                }
+            }
+
+            is DetailAction.AddTopping -> {
+                viewModelScope.launch {
+                    val productId = state.productUi?.localId
+                    val toppingId = action.toppingUi.localId
+
+                    // TODo: If not in cart, do not allow??
+                    if (productId != null && toppingId != null) {
+                        cartDao.insertToppingId(
+                            ProductToppings(
+                                productId,
+                                toppingId,
+                                cartId = 1
+                            )
+                        )
                     }
                 }
             }

@@ -69,6 +69,7 @@ fun Topping(
                 .clickable {
                     incrementMode = true
                     click(DetailAction.IncrementPrice(toppingUi.price))
+                    click(DetailAction.AddTopping(toppingUi))
                 }.border(
                     1.dp,
                     color = borderColor,
@@ -99,7 +100,7 @@ fun Topping(
             color = MaterialTheme.colorScheme.onSecondary
         )
         if (incrementMode) {
-            QuantityToggler(toppingUi.price, click, quantity, preventMore)
+            QuantityToggler(toppingUi, click, quantity, preventMore)
         } else {
             val price = String.format(Locale.US, "$%.2f", toppingUi.price)
             Text(

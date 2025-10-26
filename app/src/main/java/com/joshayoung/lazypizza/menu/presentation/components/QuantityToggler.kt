@@ -18,11 +18,12 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
 
 @Composable
 fun QuantityToggler(
-    price: BigDecimal,
+    toppingUi: ToppingUi,
     click: (DetailAction) -> Unit,
     quantity: MutableIntState,
     preventMore: MutableState<Boolean>
@@ -35,7 +36,7 @@ fun QuantityToggler(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ToggleButton(R.drawable.minus, click = {
-            click(DetailAction.DecrementPrice(price = price))
+            click(DetailAction.DecrementPrice(price = toppingUi.price))
             if (quantity.intValue > 0) {
                 quantity.intValue -= 1
             }
@@ -49,8 +50,9 @@ fun QuantityToggler(
             R.drawable.plus,
             click = {
                 if (!preventMore.value) {
-                    click(DetailAction.IncrementPrice(price = price))
+                    click(DetailAction.IncrementPrice(price = toppingUi.price))
                     quantity.intValue += 1
+                    click(DetailAction.AddTopping(toppingUi))
                 }
             },
             preventMore
@@ -65,7 +67,14 @@ fun QuantityClickerPreview() {
     val preventMore = remember { mutableStateOf(false) }
     LazyPizzaTheme {
         QuantityToggler(
-            BigDecimal("1.22"),
+            ToppingUi(
+                localId = 3,
+                imageUrl = "",
+                imageResource = R.drawable.bacon,
+                name = "basil",
+                price = BigDecimal("0.50"),
+                remoteId = ""
+            ),
             click = {},
             quantity = quantity,
             preventMore = preventMore

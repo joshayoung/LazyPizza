@@ -86,6 +86,7 @@ fun ProductEntity.toProduct(): Product =
 
 fun ToppingEntity.toTopping(): Topping {
     return Topping(
+        localId = toppingId,
         remoteId = remoteId,
         name = name,
         price = price,

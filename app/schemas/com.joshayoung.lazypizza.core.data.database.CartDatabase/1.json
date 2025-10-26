@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "51c5494649d4ab4e9a4d34c9547693da",
+    "identityHash": "92dcf6c6ea42ff27488e4b62260ab77c",
     "entities": [
       {
         "tableName": "cart",
@@ -179,11 +179,77 @@
             "toppingId"
           ]
         }
+      },
+      {
+        "tableName": "product_toppings",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` INTEGER NOT NULL, `toppingId` INTEGER NOT NULL, `cartId` INTEGER NOT NULL, PRIMARY KEY(`productId`, `toppingId`), FOREIGN KEY(`toppingId`) REFERENCES `product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`toppingId`) REFERENCES `topping`(`toppingId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`cartId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "productId",
+            "columnName": "productId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toppingId",
+            "columnName": "toppingId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cartId",
+            "columnName": "cartId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "productId",
+            "toppingId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "product",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "toppingId"
+            ],
+            "referencedColumns": [
+              "productId"
+            ]
+          },
+          {
+            "table": "topping",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "toppingId"
+            ],
+            "referencedColumns": [
+              "toppingId"
+            ]
+          },
+          {
+            "table": "cart",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cartId"
+            ],
+            "referencedColumns": [
+              "cartId"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '51c5494649d4ab4e9a4d34c9547693da')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '92dcf6c6ea42ff27488e4b62260ab77c')"
     ]
   }
 }

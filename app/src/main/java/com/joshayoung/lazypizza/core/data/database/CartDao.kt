@@ -10,6 +10,7 @@ import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.domain.models.ProductToppings
 import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -26,6 +27,9 @@ interface CartDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProductId(entry: CartProductId): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertToppingId(entry: ProductToppings): Long
 
     @Query("DELETE FROM cart_product_ids WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)

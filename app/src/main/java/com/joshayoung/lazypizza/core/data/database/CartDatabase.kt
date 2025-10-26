@@ -5,10 +5,14 @@ import androidx.room.RoomDatabase
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
 import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
+import com.joshayoung.lazypizza.core.domain.models.ProductToppings
 import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 
 @Database(
-    entities = [CartEntity::class, ProductEntity::class, CartProductId::class, ToppingEntity::class],
+    entities = [
+        CartEntity::class, ProductEntity::class, CartProductId::class, ToppingEntity::class,
+        ProductToppings::class
+    ],
     version = 1
 )
 abstract class CartDatabase : RoomDatabase() {

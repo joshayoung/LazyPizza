@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.menu.presentation.details
 
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
 
 sealed interface DetailAction {
@@ -14,5 +15,9 @@ sealed interface DetailAction {
 
     data class AddItemToCart(
         var productUi: ProductUi?
+    ) : DetailAction
+
+    data class AddTopping(
+        var toppingUi: ToppingUi
     ) : DetailAction
 }
