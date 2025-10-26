@@ -64,7 +64,8 @@ fun CartItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         PizzaImage(
-            productUi,
+            productUi.imageResource,
+            productUi.imageUrl,
             modifier =
                 Modifier
                     .fillMaxHeight()

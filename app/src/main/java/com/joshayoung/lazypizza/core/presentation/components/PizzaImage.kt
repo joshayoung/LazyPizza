@@ -19,7 +19,8 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 // TODO: Move preview and debug check here:
 @Composable
 fun PizzaImage(
-    productUi: ProductUi?,
+    imageResource: Int?,
+    remoteImage: String?,
     modifier: Modifier = Modifier
 ) {
     val inPreviewMode = LocalInspectionMode.current
@@ -27,9 +28,9 @@ fun PizzaImage(
 
     val imageResource =
         if (inPreviewMode) {
-            ImageResource.DrawableResource(productUi?.imageResource)
+            ImageResource.DrawableResource(imageResource)
         } else {
-            ImageResource.RemoteFilePath(productUi?.remoteImageUrl)
+            ImageResource.RemoteFilePath(remoteImage)
         }
 
     var token: String? = null

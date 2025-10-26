@@ -64,7 +64,8 @@ fun SideItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         PizzaImage(
-            productUi,
+            imageResource = R.drawable.seven_up,
+            remoteImage = "",
             modifier =
                 Modifier
                     .fillMaxHeight()

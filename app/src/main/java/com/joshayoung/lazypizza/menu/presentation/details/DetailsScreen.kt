@@ -171,7 +171,8 @@ fun DetailHeader(state: DetailsState) {
         contentAlignment = Alignment.Center
     ) {
         PizzaImage(
-            state.productUi,
+            imageResource = state.productUi?.imageResource,
+            remoteImage = "",
             modifier =
                 Modifier
                     .size(300.dp)
@@ -226,9 +227,9 @@ fun Toppings(
                         )
                 )
             }
-            items(state.toppings) { topping ->
+            items(state.toppings) { toppingUi ->
                 Topping(
-                    topping,
+                    toppingUi,
                     click = onAction,
                     modifier = Modifier
                 )
@@ -270,11 +271,11 @@ fun CartButton(state: DetailsState) {
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
-@Preview(
-    showBackground = true,
-    widthDp = 800,
-    heightDp = 1280
-)
+//@Preview(
+//    showBackground = true,
+//    widthDp = 800,
+//    heightDp = 1280
+//)
 fun DetailsScreenPreview() {
     LazyPizzaTheme {
         DetailsScreen(
@@ -296,24 +297,24 @@ fun DetailsScreenPreview() {
                                 localId = 3,
                                 imageUrl = "",
                                 imageResource = R.drawable.bacon,
-                                name = "basil",
+                                name = "bacon",
                                 price = BigDecimal("0.50"),
                                 remoteId = ""
                             ),
                             ToppingUi(
                                 localId = 3,
                                 imageUrl = "",
-                                imageResource = R.drawable.bacon,
+                                imageResource = R.drawable.basil,
                                 name = "basil",
-                                price = BigDecimal("0.50"),
+                                price = BigDecimal("0.20"),
                                 remoteId = ""
                             ),
                             ToppingUi(
                                 localId = 3,
                                 imageUrl = "",
-                                imageResource = R.drawable.bacon,
-                                name = "basil",
-                                price = BigDecimal("0.50"),
+                                imageResource = R.drawable.cheese,
+                                name = "cheese",
+                                price = BigDecimal("0.75"),
                                 remoteId = ""
                             )
                         )

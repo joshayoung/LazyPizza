@@ -84,12 +84,13 @@ fun Topping(
                     .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
                     .padding(4.dp)
         ) {
-//            PizzaImage(
-//                toppingUi,
-//                modifier =
-//                    Modifier
-//                        .size(60.dp)
-//            )
+            PizzaImage(
+                toppingUi.imageResource,
+                toppingUi.imageUrl,
+                modifier =
+                    Modifier
+                        .size(60.dp)
+            )
         }
         Text(
             toppingUi.name,
