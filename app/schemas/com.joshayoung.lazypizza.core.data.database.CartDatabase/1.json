@@ -86,7 +86,7 @@
         }
       },
       {
-        "tableName": "cart_product_ids",
+        "tableName": "products_in_cart",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cartPivotId` INTEGER NOT NULL, `productId` INTEGER NOT NULL, FOREIGN KEY(`cartPivotId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
@@ -116,13 +116,13 @@
         },
         "indices": [
           {
-            "name": "index_cart_product_ids_cartPivotId",
+            "name": "index_products_in_cart_cartPivotId",
             "unique": false,
             "columnNames": [
               "cartPivotId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_cart_product_ids_cartPivotId` ON `${TABLE_NAME}` (`cartPivotId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_products_in_cart_cartPivotId` ON `${TABLE_NAME}` (`cartPivotId`)"
           }
         ],
         "foreignKeys": [

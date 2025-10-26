@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "cart_product_ids",
+    tableName = "products_in_cart",
     foreignKeys = [
         ForeignKey(
             entity = CartEntity::class,
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("cartPivotId")]
 )
-data class CartProductId(
+data class ProductsInCart(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val cartPivotId: Long,
     val productId: Long

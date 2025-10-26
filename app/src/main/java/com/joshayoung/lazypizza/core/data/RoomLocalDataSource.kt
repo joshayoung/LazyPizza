@@ -3,10 +3,10 @@ package com.joshayoung.lazypizza.core.data
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
-import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.domain.models.ProductsInCart
 import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
@@ -30,7 +30,7 @@ class RoomLocalDataSource(
         }
 
         cartDao.insertProductId(
-            CartProductId(
+            ProductsInCart(
                 cartPivotId = 1,
                 productId = productId
             )

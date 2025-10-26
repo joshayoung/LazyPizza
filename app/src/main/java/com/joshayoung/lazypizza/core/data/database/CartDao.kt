@@ -7,10 +7,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.joshayoung.lazypizza.core.domain.models.CartEntity
-import com.joshayoung.lazypizza.core.domain.models.CartProductId
 import com.joshayoung.lazypizza.core.domain.models.ProductEntity
 import com.joshayoung.lazypizza.core.domain.models.ProductEntityWithCartStatus
 import com.joshayoung.lazypizza.core.domain.models.ProductToppings
+import com.joshayoung.lazypizza.core.domain.models.ProductsInCart
 import com.joshayoung.lazypizza.core.domain.models.ToppingEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -26,7 +26,7 @@ interface CartDao {
     suspend fun upsertTopping(toppingEntity: ToppingEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertProductId(entry: CartProductId): Long
+    suspend fun insertProductId(entry: ProductsInCart): Long
 
     @Insert
     suspend fun insertToppingId(entry: ProductToppings): Long
@@ -37,7 +37,7 @@ interface CartDao {
     @Delete
     suspend fun deleteToppingFromCart(item: ProductToppings)
 
-    @Query("DELETE FROM cart_product_ids WHERE productId = :productId")
+    @Query("DELETE FROM products_in_cart WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)
 
     @Query("SELECT * FROM product")
@@ -50,29 +50,29 @@ interface CartDao {
     suspend fun getProduct(productId: String): ProductEntity
 
     @Delete
-    suspend fun deleteCartItem(item: CartProductId)
+    suspend fun deleteCartItem(item: ProductsInCart)
 
     @Query(
-        "SELECT cart_product_ids.id, cart_product_ids.cartPivotId, cart_product_ids.productId FROM cart_product_ids join product on product.productId = cart_product_ids.productId where product.remoteId = :productId LIMIT 1"
+        "SELECT products_in_cart.id, products_in_cart.cartPivotId, products_in_cart.productId FROM products_in_cart join product on product.productId = products_in_cart.productId where product.remoteId = :productId LIMIT 1"
     )
-    suspend fun getProductInCart(productId: String): CartProductId?
+    suspend fun getProductInCart(productId: String): ProductsInCart?
 
-    @Query("SELECT productId from cart_product_ids where cartPivotId = :cartPivotId")
+    @Query("SELECT productId from products_in_cart where cartPivotId = :cartPivotId")
     suspend fun getCartProducts(cartPivotId: Long): List<Long>
 
-    @Query("SELECT COUNT(productId) from cart_product_ids where cartPivotId = :cartPivotId")
+    @Query("SELECT COUNT(productId) from products_in_cart where cartPivotId = :cartPivotId")
     fun getNumberProductsInCart(cartPivotId: Long): Flow<Int>
 
     @Query("SELECT COUNT(*) FROM cart WHERE cartId = :cartId")
     suspend fun doesCartExist(cartId: Long): Boolean
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join cart_product_ids as pivot on pivot.productId == p.productId group by p.remoteId"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
     )
     suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p join cart_product_ids as pivot on pivot.productId == p.productId group by p.remoteId"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
     )
     suspend fun productsInCart(): List<ProductEntityWithCartStatus>
 }
