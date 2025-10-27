@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
-import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
+import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
@@ -178,7 +178,7 @@ fun DetailHeader(state: DetailsState) {
                 ),
         contentAlignment = Alignment.Center
     ) {
-        PizzaImage(
+        ProductOrToppingImage(
             imageResource = state.productUi?.imageResource,
             remoteImage = "",
             modifier =

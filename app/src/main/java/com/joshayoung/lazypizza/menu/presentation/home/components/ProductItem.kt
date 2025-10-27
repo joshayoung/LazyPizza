@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
+import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
@@ -64,10 +64,9 @@ fun ProductItem(
                 },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        PizzaImage(
+        ProductOrToppingImage(
             productUi.imageResource,
             productUi.imageUrl,
-
             modifier =
                 Modifier
                     .fillMaxHeight()

@@ -27,10 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.PizzaImage
+import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
 import java.util.Locale
@@ -85,7 +84,7 @@ fun Topping(
                     .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
                     .padding(4.dp)
         ) {
-            PizzaImage(
+            ProductOrToppingImage(
                 toppingUi.imageResource,
                 toppingUi.imageUrl,
                 modifier =
