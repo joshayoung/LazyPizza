@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.menu.presentation.home.components
+package com.joshayoung.lazypizza.core.presentation.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -17,11 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
-import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import java.math.BigDecimal
 
 @Composable
 fun QuantitySelector(
