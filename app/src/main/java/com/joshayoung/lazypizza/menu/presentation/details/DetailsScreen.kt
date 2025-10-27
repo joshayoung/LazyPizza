@@ -95,7 +95,11 @@ fun DetailsScreen(
                     ) {
                         DetailDescription(state)
                         Toppings(state, onAction = onAction, modifier = Modifier.weight(1f))
-                        CartButton(state, onAction = onAction)
+                        CartButton(
+                            state,
+                            onAction = onAction,
+                            navigateBack = navigateBack
+                        )
                     }
                 }
             }
@@ -144,7 +148,11 @@ fun DetailsScreen(
                                 Modifier
                                     .padding(bottom = 10.dp)
                         )
-                        CartButton(state, onAction = onAction)
+                        CartButton(
+                            state,
+                            onAction = onAction,
+                            navigateBack = navigateBack
+                        )
                     }
                 }
             }
@@ -241,7 +249,8 @@ fun Toppings(
 @Composable
 fun CartButton(
     state: DetailsState,
-    onAction: (DetailAction) -> Unit
+    onAction: (DetailAction) -> Unit,
+    navigateBack: () -> Unit
 ) {
     Box(
         modifier =
@@ -260,6 +269,7 @@ fun CartButton(
         Button(
             onClick = {
                 onAction(DetailAction.AddItemToCart(state.productUi))
+                navigateBack()
             },
             shape = RoundedCornerShape(16.dp)
         ) {
