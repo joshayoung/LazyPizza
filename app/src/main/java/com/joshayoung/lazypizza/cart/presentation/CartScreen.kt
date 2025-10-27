@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.cart.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -77,6 +78,7 @@ fun CartScreen(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.background)
                             .padding(innerPadding)
                             .padding(14.dp)
                 ) {

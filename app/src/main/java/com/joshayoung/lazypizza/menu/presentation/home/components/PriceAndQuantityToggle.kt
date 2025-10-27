@@ -39,7 +39,8 @@ fun PriceAndQuantityToggle(
             itemCount,
             increment = increment,
             decrement = decrement,
-            updateCart = updateCart
+            updateCart = updateCart,
+            inCart = productUi.inCart
         )
         PriceWithNumber(itemCount, calculatedPrice)
     }

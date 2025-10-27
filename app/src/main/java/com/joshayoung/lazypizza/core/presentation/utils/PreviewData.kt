@@ -50,7 +50,8 @@ val productUiListForPreview =
                     "mushrooms, olives, bell pepper, onion, corn",
             imageResource = R.drawable.meat_lovers,
             name = "Veggie Delight",
-            price = BigDecimal("9.79")
+            price = BigDecimal("9.79"),
+            numberInCart = 2
         ),
         ProductUi(
             id = "3",
@@ -66,7 +67,8 @@ val productUiListForPreview =
             description = "Another food",
             imageResource = R.drawable.strawberry,
             name = "Meat Lovers Pizza",
-            price = BigDecimal("13.28")
+            price = BigDecimal("13.28"),
+            numberInCart = 1
         ),
         ProductUi(
             id = "5",
