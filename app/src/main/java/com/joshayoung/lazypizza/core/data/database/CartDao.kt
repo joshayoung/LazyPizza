@@ -8,7 +8,7 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
@@ -69,10 +69,10 @@ interface CartDao {
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
     )
-    suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
+    suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity>
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
     )
-    suspend fun productsInCart(): List<ProductEntityWithCartStatus>
+    suspend fun productsInCart(): List<ProductWithCartStatusEntity>
 }

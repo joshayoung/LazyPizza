@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.mappers
 
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
@@ -38,7 +38,7 @@ fun Topping.toToppingUi(): ToppingUi {
     )
 }
 
-fun ProductEntityWithCartStatus.toProductUi(): ProductUi {
+fun ProductWithCartStatusEntity.toProductUi(): ProductUi {
     return ProductUi(
         localId = productId,
         id = remoteId,

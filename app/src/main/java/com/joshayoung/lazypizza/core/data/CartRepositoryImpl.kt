@@ -2,7 +2,7 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
@@ -118,14 +118,14 @@ class CartRepositoryImpl(
         localDataSource.createCartForUser(cartId, theUser)
     }
 
-    override suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus> =
+    override suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity> =
         localDataSource.allProductsWithCartItems()
 
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {
         return localDataSource.getNumberProductsInCart(cartId)
     }
 
-    override suspend fun productsInCart(): List<ProductEntityWithCartStatus> {
+    override suspend fun productsInCart(): List<ProductWithCartStatusEntity> {
         return localDataSource.productsInCart()
     }
 

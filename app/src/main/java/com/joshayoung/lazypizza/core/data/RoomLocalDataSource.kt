@@ -3,7 +3,7 @@ package com.joshayoung.lazypizza.core.data
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
@@ -81,7 +81,7 @@ class RoomLocalDataSource(
         return cartDao.doesCartExist(cartId)
     }
 
-    override suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus> =
+    override suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity> =
         cartDao.allProductsWithCartItems()
 
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {
@@ -95,7 +95,7 @@ class RoomLocalDataSource(
         }
     }
 
-    override suspend fun productsInCart(): List<ProductEntityWithCartStatus> {
+    override suspend fun productsInCart(): List<ProductWithCartStatusEntity> {
         return cartDao.productsInCart()
     }
 

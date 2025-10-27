@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductEntityWithCartStatus
+import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import kotlinx.coroutines.flow.Flow
@@ -30,11 +30,11 @@ interface CartRepository {
         user: String
     )
 
-    suspend fun allProductsWithCartItems(): List<ProductEntityWithCartStatus>
+    suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
 
-    suspend fun productsInCart(): List<ProductEntityWithCartStatus>
+    suspend fun productsInCart(): List<ProductWithCartStatusEntity>
 
     suspend fun getProduct(productId: String): Product
 }
