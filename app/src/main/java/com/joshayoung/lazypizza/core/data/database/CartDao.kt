@@ -53,14 +53,14 @@ interface CartDao {
     suspend fun deleteCartItem(item: ProductsInCart)
 
     @Query(
-        "SELECT products_in_cart.id, products_in_cart.cartPivotId, products_in_cart.productId FROM products_in_cart join product on product.productId = products_in_cart.productId where product.remoteId = :productId LIMIT 1"
+        "SELECT products_in_cart.id, products_in_cart.cartId, products_in_cart.productId FROM products_in_cart join product on product.productId = products_in_cart.productId where product.remoteId = :productId LIMIT 1"
     )
     suspend fun getProductInCart(productId: String): ProductsInCart?
 
-    @Query("SELECT productId from products_in_cart where cartPivotId = :cartPivotId")
-    suspend fun getCartProducts(cartPivotId: Long): List<Long>
+    @Query("SELECT productId from products_in_cart where cartId = :cartId")
+    suspend fun getCartProducts(cartId: Long): List<Long>
 
-    @Query("SELECT COUNT(productId) from products_in_cart where cartPivotId = :cartPivotId")
+    @Query("SELECT COUNT(productId) from products_in_cart where cartId = :cartPivotId")
     fun getNumberProductsInCart(cartPivotId: Long): Flow<Int>
 
     @Query("SELECT COUNT(*) FROM cart WHERE cartId = :cartId")

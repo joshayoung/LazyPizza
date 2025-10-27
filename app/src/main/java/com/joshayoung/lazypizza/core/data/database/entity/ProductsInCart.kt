@@ -11,14 +11,14 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = CartEntity::class,
             parentColumns = ["cartId"],
-            childColumns = ["cartPivotId"],
+            childColumns = ["cartId"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("cartPivotId")]
+    indices = [Index("cartId")]
 )
 data class ProductsInCart(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val cartPivotId: Long,
+    val cartId: Long,
     val productId: Long
 )

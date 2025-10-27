@@ -31,7 +31,7 @@ class RoomLocalDataSource(
 
         cartDao.insertProductId(
             ProductsInCart(
-                cartPivotId = 1,
+                cartId = 1,
                 productId = productId
             )
         )
