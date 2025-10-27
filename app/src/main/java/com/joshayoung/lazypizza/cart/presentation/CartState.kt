@@ -5,5 +5,6 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 data class CartState(
     val items: List<ProductUi> = emptyList(),
     val isLoadingCart: Boolean = false,
-    val cartItems: Int = 0
+    val cartItems: Int = 0,
+    val recommendedAddOns: List<ProductUi> = emptyList()
 )

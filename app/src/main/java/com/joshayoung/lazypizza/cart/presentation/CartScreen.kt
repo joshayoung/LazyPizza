@@ -3,12 +3,17 @@ package com.joshayoung.lazypizza.cart.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,9 +21,16 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.provider.FontsContractCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.room.util.TableInfo
+import com.joshayoung.lazypizza.cart.presentation.components.AddOn
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
@@ -28,7 +40,9 @@ import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.productUiListForPreview
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -129,18 +143,70 @@ fun CartList(
             }
         }
     } else {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(1)
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+            ,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            items(state.items) { productUi ->
-                CartItem(
-                    productUi,
-                    modifier =
-                        Modifier
-                            .height(120.dp),
-                    onAction = onAction
-                )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(1)
+            ) {
+                items(state.items) { productUi ->
+                    CartItem(
+                        productUi,
+                        modifier =
+                            Modifier
+                                .height(120.dp),
+                        onAction = onAction
+                    )
+                }
             }
+
+            RecommendedAddOns(state.recommendedAddOns)
+
+            Button(
+                onClick = {
+                },
+                shape = RoundedCornerShape(20.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .dropShadow(
+                            shape =
+                                RoundedCornerShape(20.dp),
+                            shadow =
+                                Shadow(
+                                    radius = 6.dp,
+                                    spread = 1.dp,
+                                    color =
+                                        MaterialTheme.colorScheme.primary.copy(
+                                            alpha = 0.25f
+                                        ),
+                                    offset = DpOffset(x = 0.dp, 4.dp)
+                                )
+                        )
+            ) {
+                Text("Proceed to Checkout")
+            }
+        }
+    }
+}
+
+@Composable
+fun RecommendedAddOns(addOns: List<ProductUi>) {
+    LazyRow(
+        modifier = Modifier,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        items(addOns) { productUi ->
+            AddOn(
+                productUi,
+                modifier =
+                    Modifier
+                        .width(140.dp)
+            )
         }
     }
 }
@@ -158,7 +224,8 @@ private fun CartScreenPreview() {
             bottomNavItems = previewBottomNavItems,
             state =
                 CartState(
-                    items = productUiListForPreview
+                    items = productUiListForPreview.take(3),
+                    recommendedAddOns = productUiListForPreview
                 ),
             onAction = {}
         )
