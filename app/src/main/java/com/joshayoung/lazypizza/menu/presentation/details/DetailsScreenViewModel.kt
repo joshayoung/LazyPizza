@@ -26,6 +26,8 @@ class DetailsScreenViewModel(
     var state by mutableStateOf(DetailsState())
         private set
 
+    private var lineItemNumber: Long? = null
+
     val productId: String?
         get() {
             val stringData = savedStateHandle.get<String>("productId")
@@ -82,21 +84,23 @@ class DetailsScreenViewModel(
                 viewModelScope.launch {
                     val product = action.productUi?.toProduct()
                     if (product != null) {
-                        cartRepository.addProductToCart(product)
+                        lineItemNumber = cartRepository.addProductToCart(product)
+                        println()
                     }
                 }
             }
 
             is DetailAction.AddTopping -> {
                 viewModelScope.launch {
-                    val productId = state.productUi?.localId
+                    // next add toppings:
+
                     val toppingId = action.toppingUi.localId
 
                     // TODo: If not in cart, do not allow??
-                    if (productId != null && toppingId != null) {
+                    if (toppingId != null && lineItemNumber != null) {
                         cartDao.insertToppingId(
                             ToppingsInCart(
-                                productId = productId,
+                                lineItemNumber = lineItemNumber!!,
                                 toppingId = toppingId,
                                 cartId = 1
                             )

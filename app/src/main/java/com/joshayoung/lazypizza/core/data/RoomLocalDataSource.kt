@@ -24,17 +24,20 @@ class RoomLocalDataSource(
         return cartDao.getAllToppings()
     }
 
-    override suspend fun addProductToCart(productId: Long?) {
+    override suspend fun addProductToCart(productId: Long?): Long? {
         if (productId == null) {
-            return
+            return null
         }
 
-        cartDao.insertProductId(
-            ProductsInCart(
-                cartId = 1,
-                productId = productId
+        val lineItemNumber =
+            cartDao.insertProductId(
+                ProductsInCart(
+                    cartId = 1,
+                    productId = productId
+                )
             )
-        )
+
+        return lineItemNumber
     }
 
     override suspend fun removeAllFromCart(productId: Long?) {

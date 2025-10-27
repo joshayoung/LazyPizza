@@ -19,8 +19,8 @@ class CartRepositoryImpl(
     private var localDataSource: LocalDataSource,
     private var cartRemoteDataSource: CartRemoteDataSource
 ) : CartRepository {
-    override suspend fun addProductToCart(product: Product) {
-        localDataSource.addProductToCart(
+    override suspend fun addProductToCart(product: Product): Long? {
+        return localDataSource.addProductToCart(
             product.localId
         )
     }

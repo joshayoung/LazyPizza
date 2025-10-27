@@ -7,7 +7,7 @@ import com.joshayoung.lazypizza.core.domain.models.Topping
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    suspend fun addProductToCart(product: Product)
+    suspend fun addProductToCart(product: Product): Long?
 
     fun getCart(): Flow<CartEntity>
 
@@ -27,7 +27,7 @@ interface CartRepository {
 
     suspend fun createCartForUser(
         cartId: Long,
-        user: String
+        theUser: String
     )
 
     suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity>

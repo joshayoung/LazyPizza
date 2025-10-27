@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b17dffd95dbe7808014707cf77e0926e",
+    "identityHash": "c460b2b34af729f6e1c9779ecc2d174d",
     "entities": [
       {
         "tableName": "cart",
@@ -182,7 +182,7 @@
       },
       {
         "tableName": "toppings_in_cart",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productId` INTEGER NOT NULL, `toppingId` INTEGER NOT NULL, `cartId` INTEGER NOT NULL, FOREIGN KEY(`productId`) REFERENCES `product`(`productId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`toppingId`) REFERENCES `topping`(`toppingId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`cartId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `lineItemNumber` INTEGER NOT NULL, `toppingId` INTEGER NOT NULL, `cartId` INTEGER NOT NULL, FOREIGN KEY(`toppingId`) REFERENCES `topping`(`toppingId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`cartId`) REFERENCES `cart`(`cartId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`lineItemNumber`) REFERENCES `products_in_cart`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -191,8 +191,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "productId",
-            "columnName": "productId",
+            "fieldPath": "lineItemNumber",
+            "columnName": "lineItemNumber",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -217,17 +217,6 @@
         },
         "foreignKeys": [
           {
-            "table": "product",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "productId"
-            ],
-            "referencedColumns": [
-              "productId"
-            ]
-          },
-          {
             "table": "topping",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
@@ -248,13 +237,24 @@
             "referencedColumns": [
               "cartId"
             ]
+          },
+          {
+            "table": "products_in_cart",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "lineItemNumber"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
           }
         ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b17dffd95dbe7808014707cf77e0926e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c460b2b34af729f6e1c9779ecc2d174d')"
     ]
   }
 }

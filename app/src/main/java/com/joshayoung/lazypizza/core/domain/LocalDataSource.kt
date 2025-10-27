@@ -14,7 +14,7 @@ interface LocalDataSource {
 
     suspend fun getAllToppings(): List<ToppingEntity>
 
-    suspend fun addProductToCart(productId: Long?)
+    suspend fun addProductToCart(productId: Long?): Long?
 
     suspend fun removeAllFromCart(productId: Long?)
 

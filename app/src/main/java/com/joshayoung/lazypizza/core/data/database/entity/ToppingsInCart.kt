@@ -8,12 +8,6 @@ import androidx.room.PrimaryKey
     tableName = "toppings_in_cart",
     foreignKeys = [
         ForeignKey(
-            entity = ProductEntity::class,
-            parentColumns = ["productId"],
-            childColumns = ["productId"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = ToppingEntity::class,
             parentColumns = ["toppingId"],
             childColumns = ["toppingId"],
@@ -24,12 +18,18 @@ import androidx.room.PrimaryKey
             parentColumns = ["cartId"],
             childColumns = ["cartId"],
             onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = ProductsInCart::class,
+            parentColumns = ["id"],
+            childColumns = ["lineItemNumber"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class ToppingsInCart(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val productId: Long,
+    val lineItemNumber: Long,
     val toppingId: Long,
     val cartId: Long
 )
