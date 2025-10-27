@@ -74,5 +74,5 @@ interface CartDao {
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
     )
-    suspend fun productsInCart(): List<ProductWithCartStatusEntity>
+    fun productsInCart(): Flow<List<ProductWithCartStatusEntity>>
 }

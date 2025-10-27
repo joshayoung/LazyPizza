@@ -98,7 +98,7 @@ class RoomLocalDataSource(
         }
     }
 
-    override suspend fun productsInCart(): List<ProductWithCartStatusEntity> {
+    override fun productsInCart(): Flow<List<ProductWithCartStatusEntity>> {
         return cartDao.productsInCart()
     }
 

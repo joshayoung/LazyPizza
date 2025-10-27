@@ -29,7 +29,6 @@ import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.productUiListForPreview
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.menu.presentation.components.SideItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

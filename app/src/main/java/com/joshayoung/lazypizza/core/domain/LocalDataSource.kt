@@ -37,7 +37,7 @@ interface LocalDataSource {
 
     suspend fun removeProductFromCart(product: Product)
 
-    suspend fun productsInCart(): List<ProductWithCartStatusEntity>
+    fun productsInCart(): Flow<List<ProductWithCartStatusEntity>>
 
     suspend fun getProduct(productId: String): Product
 }
