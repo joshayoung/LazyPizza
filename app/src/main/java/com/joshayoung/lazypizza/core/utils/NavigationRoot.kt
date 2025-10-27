@@ -93,7 +93,11 @@ fun NavigationRoot(navController: NavHostController) {
         ) {
             DetailsScreenRoot(
                 navigateBack = {
-                    navController.navigateUp()
+                    navController.navigate(Routes.Cart) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
