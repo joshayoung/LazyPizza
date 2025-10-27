@@ -17,11 +17,11 @@ sealed interface DetailAction {
         var productUi: ProductUi?
     ) : DetailAction
 
-    data class AddTopping(
+    data class AddToppingToList(
         var toppingUi: ToppingUi
     ) : DetailAction
 
-    data class RemoveTopping(
+    data class RemoveToppingFromList(
         var toppingUi: ToppingUi
     ) : DetailAction
 }

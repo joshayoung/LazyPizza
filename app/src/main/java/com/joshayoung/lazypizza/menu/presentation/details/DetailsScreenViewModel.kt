@@ -13,20 +13,20 @@ import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingUi
+import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class DetailsScreenViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val cartRemoteDataSource: CartRemoteDataSource,
     private val cartRepository: CartRepository,
     private val cartDao: CartDao
 ) : ViewModel() {
     var state by mutableStateOf(DetailsState())
         private set
 
-    private var lineItemNumber: Long? = null
+    private val toppings: MutableList<ToppingUi> = mutableListOf()
 
     val productId: String?
         get() {
@@ -84,43 +84,27 @@ class DetailsScreenViewModel(
                 viewModelScope.launch {
                     val product = action.productUi?.toProduct()
                     if (product != null) {
-                        lineItemNumber = cartRepository.addProductToCart(product)
-                        println()
+                        val lineItemNumber = cartRepository.addProductToCart(product)
+                        if (lineItemNumber == null) {
+                            return@launch
+                        }
+                        toppings.forEach { topping ->
+                            if (topping.localId != null) {
+                                cartDao.insertToppingId(
+                                    ToppingsInCart(
+                                        lineItemNumber = lineItemNumber,
+                                        toppingId = topping.localId,
+                                        cartId = 1
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
             }
 
-            is DetailAction.AddTopping -> {
-                viewModelScope.launch {
-                    // next add toppings:
-
-                    val toppingId = action.toppingUi.localId
-
-                    // TODo: If not in cart, do not allow??
-                    if (toppingId != null && lineItemNumber != null) {
-                        cartDao.insertToppingId(
-                            ToppingsInCart(
-                                lineItemNumber = lineItemNumber!!,
-                                toppingId = toppingId,
-                                cartId = 1
-                            )
-                        )
-                    }
-                }
-            }
-
-            is DetailAction.RemoveTopping -> {
-                viewModelScope.launch {
-                    val productId = state.productUi?.localId
-                    val toppingId = action.toppingUi.localId
-
-                    // TODo: If not in cart, do not allow??
-                    if (productId != null && toppingId != null) {
-                        val item = cartDao.getToppingItem(toppingId)
-                        cartDao.deleteToppingFromCart(item)
-                    }
-                }
-            }
+            is DetailAction.AddToppingToList -> toppings.add(action.toppingUi)
+            is DetailAction.RemoveToppingFromList -> toppings.remove(action.toppingUi)
         }
     }
 }

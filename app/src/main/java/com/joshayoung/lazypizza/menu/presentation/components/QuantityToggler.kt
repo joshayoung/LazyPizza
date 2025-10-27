@@ -40,7 +40,7 @@ fun QuantityToggler(
             if (quantity.intValue > 0) {
                 quantity.intValue -= 1
             }
-            click(DetailAction.RemoveTopping(toppingUi))
+            click(DetailAction.RemoveToppingFromList(toppingUi))
         })
         Text(
             quantity.intValue.toString(),
@@ -53,7 +53,7 @@ fun QuantityToggler(
                 if (!preventMore.value) {
                     click(DetailAction.IncrementPrice(price = toppingUi.price))
                     quantity.intValue += 1
-                    click(DetailAction.AddTopping(toppingUi))
+                    click(DetailAction.AddToppingToList(toppingUi))
                 }
             },
             preventMore

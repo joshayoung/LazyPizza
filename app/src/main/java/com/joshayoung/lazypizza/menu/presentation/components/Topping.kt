@@ -69,7 +69,7 @@ fun Topping(
                 .clickable {
                     incrementMode = true
                     click(DetailAction.IncrementPrice(toppingUi.price))
-                    click(DetailAction.AddTopping(toppingUi))
+                    click(DetailAction.AddToppingToList(toppingUi))
                 }.border(
                     1.dp,
                     color = borderColor,
