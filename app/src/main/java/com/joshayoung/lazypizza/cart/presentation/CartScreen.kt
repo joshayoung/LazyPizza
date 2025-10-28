@@ -253,7 +253,7 @@ fun RecommendedAddOns(
             "Recommended to Add to Your Order".uppercase(),
             modifier =
                 Modifier
-                    .padding(bottom = 10.dp)
+                    .padding(vertical = 10.dp)
         )
         LazyRow(
             modifier = Modifier,
@@ -290,7 +290,7 @@ private fun CartScreenPreview() {
             state =
                 CartState(
                     isLoadingCart = false,
-                    items = productUiListForPreview, // .take(1),
+                    items = productUiListForPreview.take(1),
                     recommendedAddOns = addOnsForPreview
                 ),
             onAction = {},

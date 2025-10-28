@@ -80,6 +80,8 @@ class CartViewModel(
                                 imageResource = cartItem.imageResource,
                                 numberInCart = cartItem.numberInCart ?: 0,
                                 localId = cartItem.productId,
+                                inCart = (cartItem.numberInCart ?: 0) > 0,
+                                toppingTotal = toppings.sumOf { BigDecimal(it.price) },
                                 toppings = toppings
                             )
                         }
@@ -92,7 +94,8 @@ class CartViewModel(
                     _state.update {
                         it.copy(
                             items = cartItems,
-                            checkoutPrice = cartItems.sumOf { it.price },
+                            checkoutPrice =
+                                cartItems.sumOf { it.price } + cartItems.sumOf { it.toppingTotal },
                             recommendedAddOns = addOns,
                             isLoadingCart = false
                         )

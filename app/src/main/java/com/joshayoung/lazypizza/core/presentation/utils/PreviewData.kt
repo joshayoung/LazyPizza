@@ -40,7 +40,9 @@ val productUiListForPreview =
             description = "A delicious food",
             imageResource = R.drawable.cookies,
             name = "Chocolate Ice Cream",
-            price = BigDecimal("10.19")
+            price = BigDecimal("10.19"),
+            inCart = true,
+            numberInCart = 1
         ),
         ProductUi(
             id = "1",

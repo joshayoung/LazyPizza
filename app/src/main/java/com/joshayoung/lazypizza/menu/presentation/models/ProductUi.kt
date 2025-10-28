@@ -18,6 +18,8 @@ data class ProductUi(
     val type: MenuType? = null,
     val inCart: Boolean = false,
     val numberInCart: Int = 0,
+    @Serializable(with = BigDecimalSerializer::class) val toppingTotal: BigDecimal =
+        BigDecimal(0.0),
     val toppings: List<ToppingInCartEntity>? = null
 ) {
     val remoteImageUrl: String
