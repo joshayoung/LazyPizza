@@ -8,9 +8,11 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import kotlinx.coroutines.flow.Flow
 
@@ -80,4 +82,19 @@ interface CartDao {
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
     )
     fun productsInCart(): Flow<List<ProductWithCartStatusEntity>>
+
+    @Query(
+        "select p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.cartId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id NOT IN (select lineItemNumber from toppings_in_cart) group by p.productId order by type desc"
+    )
+    fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>>
+
+    @Query(
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id IN (select lineItemNumber from toppings_in_cart)"
+    )
+    fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>>
+
+    @Query(
+        "select topping.remoteId, topping.name, topping.price, topping.imageUrl, products_in_cart.productId, count(toppings_in_cart.toppingId) as numberOfToppings from toppings_in_cart join topping on topping.toppingId = toppings_in_cart.toppingId join products_in_cart on toppings_in_cart.lineItemNumber = products_in_cart.id where toppings_in_cart.lineItemNumber = :lineItemNumber group by toppings_in_cart.toppingId"
+    )
+    suspend fun getToppingsForProductInCart(lineItemNumber: Long): List<ToppingInCartEntity>
 }

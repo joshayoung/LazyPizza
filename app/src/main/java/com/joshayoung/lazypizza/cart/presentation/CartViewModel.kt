@@ -1,10 +1,15 @@
 package com.joshayoung.lazypizza.cart.presentation
 
+import androidx.core.os.registerForAllProfilingResults
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Query
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.data.database.CartDao
+import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.models.CartItem
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
@@ -13,10 +18,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -52,28 +60,37 @@ class CartViewModel(
     }
 
     private fun loadCart() {
-        val inCart = cartRepository.productsInCart()
-        inCart
-            .map { productsInCartList ->
-                val inCartItems =
-                    productsInCartList.map { productWithCartStatusEntity ->
-                        productWithCartStatusEntity.toProductUi()
-                    }
-                val addOns =
-                    cartDao
-                        .sidesNotInCart()
-                        .map {
-                            it.toProduct()
-                        }.map { it.toProductUi() }
-                _state.update {
-                    it.copy(
-                        items = inCartItems,
-                        checkoutPrice = inCartItems.sumOf { itt -> itt.price },
-                        isLoadingCart = false,
-                        recommendedAddOns = addOns.shuffled()
+        val cartItems: MutableList<ProductUi> = mutableListOf()
+        viewModelScope.launch {
+            val productWithNoToppings = cartDao.productsInCartWithNoToppings()
+            val productWithToppings = cartDao.productsInCartWithToppings()
+
+            merge(productWithToppings, productWithNoToppings).collect {
+                it.forEach { cartItem ->
+                    val toppings = cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
+                    cartItems.add(
+                        ProductUi(
+                            id = cartItem.remoteId,
+                            name = cartItem.name,
+                            price = BigDecimal(cartItem.price),
+                            description = cartItem.description,
+                            imageUrl = cartItem.imageUrl,
+                            imageResource = cartItem.imageResource,
+                            numberInCart = cartItem.numberInCart ?: 0,
+                            localId = cartItem.productId,
+                            toppings = toppings
+                        )
                     )
                 }
-            }.launchIn(viewModelScope)
+                _state.update {
+                    it.copy(
+                        items = cartItems,
+                        checkoutPrice = cartItems.sumOf { it.price },
+                        isLoadingCart = false
+                    )
+                }
+            }
+        }
     }
 
     fun onAction(action: CartAction) {

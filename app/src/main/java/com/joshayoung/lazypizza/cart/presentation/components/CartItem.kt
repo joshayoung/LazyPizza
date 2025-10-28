@@ -5,13 +5,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,6 +32,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.cart.presentation.CartAction
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
@@ -81,7 +87,7 @@ fun CartItem(
                         MaterialTheme.colorScheme.surface,
                         shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)
                     ).padding(10.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Top
         ) {
             ProductHeader(itemCount, productUi, onAction = {
                 onAction(CartAction.RemoveAllFromCart(productUi))
@@ -90,6 +96,20 @@ fun CartItem(
                     itemCount = 0
                 }
             }
+
+            productUi.toppings?.let { toppings ->
+                LazyColumn {
+                    items(toppings) { topping ->
+                        Row( horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Text(topping.numberOfToppings.toString(), color = Color.Gray)
+                            Text("x", color = Color.Gray)
+                            Text(topping.name, color = Color.Gray)
+                        }
+                    }
+                }
+            }
+            Spacer(Modifier.weight(1f))
+
             Row(
                 modifier =
                     Modifier
@@ -151,9 +171,36 @@ fun SideItemPreview() {
                             localId = 1,
                             description = "description",
                             imageUrl = "",
-                            imageResource = R.drawable.seven_up,
-                            name = "7-up",
-                            price = BigDecimal("1.23")
+                            imageResource = R.drawable.meat_lovers,
+                            name = "Meat Lovers Pizza",
+                            price = BigDecimal("12.23"),
+                            toppings =
+                                listOf(
+                                    ToppingInCartEntity(
+                                        name = "Chili Peppers",
+                                        price = "0.43",
+                                        remoteId = 1,
+                                        imageUrl = "",
+                                        productId = 2,
+                                        numberOfToppings = 2
+                                    ),
+                                    ToppingInCartEntity(
+                                        name = "Extra Cheese",
+                                        price = "0.65",
+                                        remoteId = 1,
+                                        imageUrl = "",
+                                        productId = 2,
+                                        numberOfToppings = 3
+                                    ),
+                                    ToppingInCartEntity(
+                                        name = "Olives",
+                                        price = "0.25",
+                                        remoteId = 1,
+                                        imageUrl = "",
+                                        productId = 4,
+                                        numberOfToppings = 1
+                                    )
+                                )
                         ),
                     onAction = {}
                 )
