@@ -209,6 +209,7 @@ private fun CartItems(
             RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
 
             CheckOutButton(
+                state = state,
                 modifier =
                     Modifier
                         .padding(top = 20.dp)
@@ -218,7 +219,7 @@ private fun CartItems(
 }
 
 @Composable
-fun CheckOutButton(modifier: Modifier = Modifier) {
+fun CheckOutButton(modifier: Modifier = Modifier, state: CartState) {
     Button(
         onClick = {
         },
@@ -241,7 +242,7 @@ fun CheckOutButton(modifier: Modifier = Modifier) {
                         )
                 )
     ) {
-        Text("Proceed to Checkout")
+        Text("Proceed to Checkout ($${state.checkoutPrice})")
     }
 }
 

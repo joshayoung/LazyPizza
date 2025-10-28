@@ -68,6 +68,7 @@ class CartViewModel(
                 _state.update {
                     it.copy(
                         items = inCartItems,
+                        checkoutPrice = inCartItems.sumOf { itt -> itt.price },
                         isLoadingCart = false,
                         recommendedAddOns = addOns.shuffled()
                     )
