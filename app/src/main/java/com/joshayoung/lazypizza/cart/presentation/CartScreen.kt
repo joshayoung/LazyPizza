@@ -198,15 +198,10 @@ private fun CartItems(
                     onAction = onAction
                 )
             }
+            item {
+                RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
+            }
         }
-
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            modifier =
-                Modifier
-                    .weight(1f)
-        ) {
-            RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
 
             CheckOutButton(
                 state = state,
@@ -214,7 +209,6 @@ private fun CartItems(
                     Modifier
                         .padding(top = 20.dp)
             )
-        }
     }
 }
 
