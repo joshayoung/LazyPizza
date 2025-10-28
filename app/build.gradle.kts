@@ -90,26 +90,6 @@ android {
             )
             buildConfigField(
                 "String",
-                "PIZZA_COLLECTION_ID",
-                localProperties.getProperty("PIZZA_COLLECTION_ID")
-            )
-            buildConfigField(
-                "String",
-                "DRINK_COLLECTION_ID",
-                localProperties.getProperty("DRINK_COLLECTION_ID")
-            )
-            buildConfigField(
-                "String",
-                "SAUCES_COLLECTION_ID",
-                localProperties.getProperty("SAUCES_COLLECTION_ID")
-            )
-            buildConfigField(
-                "String",
-                "ICE_CREAM_COLLECTION_ID",
-                localProperties.getProperty("ICE_CREAM_COLLECTION_ID")
-            )
-            buildConfigField(
-                "String",
                 "TOPPINGS_COLLECTION_ID",
                 localProperties.getProperty("TOPPINGS_COLLECTION_ID")
             )

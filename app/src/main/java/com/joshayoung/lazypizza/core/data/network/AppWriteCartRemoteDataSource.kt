@@ -75,7 +75,7 @@ class AppWriteCartRemoteDataSource(
                 val response =
                     tables.getRow(
                         BuildConfig.DATABASE_ID,
-                        BuildConfig.PIZZA_COLLECTION_ID,
+                        BuildConfig.MENU_ITEMS_COLLECTION_ID,
                         id
                     )
                 val t = response.data["name"]
