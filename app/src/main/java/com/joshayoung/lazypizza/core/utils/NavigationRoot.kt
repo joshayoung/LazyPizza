@@ -93,6 +93,9 @@ fun NavigationRoot(navController: NavHostController) {
         ) {
             DetailsScreenRoot(
                 navigateBack = {
+                    navController.navigateUp()
+                },
+                navigateToCart = {
                     navController.navigate(Routes.Cart) {
                         popUpTo(0) {
                             inclusive = true
@@ -104,7 +107,14 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable<Routes.Cart> {
             CartScreenRoot(
-                bottomNavItems = bottomNavigationItems
+                bottomNavItems = bottomNavigationItems,
+                backToMenu = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
 

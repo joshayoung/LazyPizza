@@ -47,11 +47,13 @@ import java.util.Locale
 @Composable
 fun DetailsScreenRoot(
     viewModel: DetailsScreenViewModel = koinViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
     DetailsScreen(
         state = viewModel.state,
         navigateBack = navigateBack,
+        navigateToCart = navigateToCart,
         onAction = { action ->
             viewModel.onAction(action)
         }
@@ -63,6 +65,7 @@ fun DetailsScreenRoot(
 fun DetailsScreen(
     state: DetailsState,
     navigateBack: () -> Unit,
+    navigateToCart: () -> Unit,
     onAction: (DetailAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -98,7 +101,8 @@ fun DetailsScreen(
                         CartButton(
                             state,
                             onAction = onAction,
-                            navigateBack = navigateBack
+                            navigateBack = navigateBack,
+                            navigateToCart = navigateToCart
                         )
                     }
                 }
@@ -151,7 +155,8 @@ fun DetailsScreen(
                         CartButton(
                             state,
                             onAction = onAction,
-                            navigateBack = navigateBack
+                            navigateBack = navigateBack,
+                            navigateToCart = navigateToCart
                         )
                     }
                 }
@@ -250,7 +255,8 @@ fun Toppings(
 fun CartButton(
     state: DetailsState,
     onAction: (DetailAction) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
     Box(
         modifier =
@@ -269,7 +275,7 @@ fun CartButton(
         Button(
             onClick = {
                 onAction(DetailAction.AddItemToCart(state.productUi))
-                navigateBack()
+                navigateToCart()
             },
             shape = RoundedCornerShape(16.dp)
         ) {
@@ -334,7 +340,8 @@ fun DetailsScreenPreview() {
                             )
                         )
                 ),
-            onAction = {}
+            onAction = {},
+            navigateToCart = {}
         )
     }
 }

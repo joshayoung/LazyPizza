@@ -48,14 +48,16 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CartScreenRoot(
     viewModel: CartViewModel = koinViewModel(),
-    bottomNavItems: List<BottomNavItem>
+    bottomNavItems: List<BottomNavItem>,
+    backToMenu: () -> Unit
 ) {
     CartScreen(
         bottomNavItems = bottomNavItems,
         state = viewModel.state.collectAsStateWithLifecycle().value,
         onAction = { action ->
             viewModel.onAction(action)
-        }
+        },
+        backToMenu = backToMenu
     )
 }
 
@@ -63,7 +65,8 @@ fun CartScreenRoot(
 fun CartScreen(
     bottomNavItems: List<BottomNavItem>,
     state: CartState,
-    onAction: (CartAction) -> Unit
+    onAction: (CartAction) -> Unit,
+    backToMenu: () -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -95,7 +98,7 @@ fun CartScreen(
                             .padding(innerPadding)
                             .padding(14.dp)
                 ) {
-                    CartList(state, onAction = onAction)
+                    CartList(state, onAction = onAction, backToMenu = backToMenu)
                 }
             }
         }
@@ -117,7 +120,7 @@ fun CartScreen(
                             .fillMaxWidth()
                             .padding(innerPadding)
                 ) {
-                    CartList(state, onAction = onAction)
+                    CartList(state, onAction = onAction, backToMenu = backToMenu)
                 }
             }
         }
@@ -127,7 +130,8 @@ fun CartScreen(
 @Composable
 fun CartList(
     state: CartState,
-    onAction: (CartAction) -> Unit
+    onAction: (CartAction) -> Unit,
+    backToMenu: () -> Unit
 ) {
     if (state.items.count() < 1) {
         Column(
@@ -138,7 +142,9 @@ fun CartList(
         ) {
             Text("Your Cart Is Empty", style = MaterialTheme.typography.titleLarge)
             Text("Head back to the menu nd grab a pizza you love.")
-            Button(onClick = {}) {
+            Button(onClick = {
+                backToMenu()
+            }) {
                 Text("Back to Menu")
             }
         }
@@ -234,7 +240,8 @@ private fun CartScreenPreview() {
                     items = productUiListForPreview.take(3),
                     recommendedAddOns = productUiListForPreview
                 ),
-            onAction = {}
+            onAction = {},
+            backToMenu = {}
         )
     }
 }
