@@ -146,8 +146,7 @@ fun CartList(
         Column(
             modifier =
                 Modifier
-                    .fillMaxSize()
-            ,
+                    .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyVerticalGrid(
@@ -164,7 +163,7 @@ fun CartList(
                 }
             }
 
-            RecommendedAddOns(state.recommendedAddOns)
+            RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
 
             Button(
                 onClick = {
@@ -195,7 +194,10 @@ fun CartList(
 }
 
 @Composable
-fun RecommendedAddOns(addOns: List<ProductUi>) {
+fun RecommendedAddOns(
+    addOns: List<ProductUi>,
+    onAction: (CartAction) -> Unit
+) {
     LazyRow(
         modifier = Modifier,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -203,9 +205,14 @@ fun RecommendedAddOns(addOns: List<ProductUi>) {
         items(addOns) { productUi ->
             AddOn(
                 productUi,
+                addToCart =
+                    {
+                        onAction(CartAction.AddAddOnToCart(productUi))
+                    },
                 modifier =
                     Modifier
                         .width(140.dp)
+                        .height(240.dp)
             )
         }
     }

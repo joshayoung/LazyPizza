@@ -35,6 +35,14 @@ val previewBottomNavItems =
 val productUiListForPreview =
     listOf(
         ProductUi(
+            id = "3",
+            localId = 3,
+            description = "A delicious food",
+            imageResource = R.drawable.cookies,
+            name = "Chocolate Ice Cream",
+            price = BigDecimal("10.19")
+        ),
+        ProductUi(
             id = "1",
             localId = 1,
             description = "A delicious food",
@@ -52,14 +60,6 @@ val productUiListForPreview =
             name = "Veggie Delight",
             price = BigDecimal("9.79"),
             numberInCart = 2
-        ),
-        ProductUi(
-            id = "3",
-            localId = 3,
-            description = "A delicious food",
-            imageResource = R.drawable.cookies,
-            name = "Hawaiian Pizza",
-            price = BigDecimal("10.19")
         ),
         ProductUi(
             id = "4",

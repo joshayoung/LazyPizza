@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.room.util.TableInfo
 import com.google.devtools.ksp.symbol.impl.modifierMap
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.cart.presentation.CartAction
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -49,7 +52,8 @@ import java.math.BigDecimal
 @Composable
 fun AddOn(
     productUi: ProductUi,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    addToCart: () -> Unit
 ) {
     Box(
         modifier =
@@ -60,8 +64,7 @@ fun AddOn(
                     shape =
 
                         RoundedCornerShape(10.dp)
-                )
-                .dropShadow(
+                ).dropShadow(
                     shape =
                         RoundedCornerShape(10.dp),
                     shadow =
@@ -74,69 +77,74 @@ fun AddOn(
                                 ),
                             offset = DpOffset(x = 0.dp, 0.dp)
                         )
-                )
-                .clip(RoundedCornerShape(10.dp))
+                ).clip(RoundedCornerShape(10.dp))
     ) {
         Column(
             modifier =
                 Modifier
+                    .fillMaxHeight()
                     .background(LazyPizzaColors.surfaceHighest),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             ProductOrToppingImage(
                 imageResource = productUi.imageResource,
                 remoteImage = productUi.remoteImageUrl,
-                modifier = Modifier
-                    .size(100.dp)
+                modifier =
+                    Modifier
+                        .size(100.dp)
             )
             Column(
                 modifier =
                     Modifier
                         .background(MaterialTheme.colorScheme.surfaceHigher)
+                        .height(100.dp)
                         .padding(10.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.Bottom
             ) {
-                Text(
-                    productUi.name,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Row(
+                Column(
                     modifier =
                         Modifier
-                            .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                            .fillMaxHeight(),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        "$0.59",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-//                Button(
-//                    onClick = {},
-//                    contentPadding = PaddingValues(0.dp),
-//                    modifier =
-//                        Modifier
-//                            .padding(0.dp)
-//                ) {
-//                    Text("click", modifier = Modifier.padding(0.dp))
-//                }
-                    Box(
+                        productUi.name,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier =
                             Modifier
-                                .clickable {
-                                }.border(
-                                    1.dp,
-                                    color = MaterialTheme.colorScheme.outlineVariant,
-                                    shape = RoundedCornerShape(8.dp)
-                                ).padding(8.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.plus),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier =
+                                .padding(bottom = 10.dp)
+                    )
+                    Row(
+                        modifier =
                             Modifier
+                                .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            "$${productUi.price}",
+                            style = MaterialTheme.typography.titleLarge
                         )
+                        Box(
+                            modifier =
+                                Modifier
+                                    .clickable {
+                                        addToCart()
+                                    }.border(
+                                        1.dp,
+                                        color = MaterialTheme.colorScheme.outlineVariant,
+                                        shape = RoundedCornerShape(8.dp)
+                                    ).padding(8.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.plus),
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier =
+                                Modifier
+                            )
+                        }
                     }
                 }
             }
@@ -159,7 +167,8 @@ fun AddOnPreview() {
             AddOn(
                 modifier =
                     Modifier
-                        .width(150.dp),
+                        .width(150.dp)
+                        .height(340.dp),
                 productUi =
                     ProductUi(
                         id = "2",
@@ -168,7 +177,8 @@ fun AddOnPreview() {
                         name = "Garlic Sauce",
                         price = BigDecimal("0.59"),
                         numberInCart = 2
-                    )
+                    ),
+                addToCart = {}
             )
         }
     }

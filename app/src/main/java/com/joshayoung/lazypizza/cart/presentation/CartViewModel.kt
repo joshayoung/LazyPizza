@@ -3,13 +3,17 @@ package com.joshayoung.lazypizza.cart.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -19,7 +23,8 @@ import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class CartViewModel(
-    private var cartRepository: CartRepository
+    private var cartRepository: CartRepository,
+    private var cartDao: CartDao
 ) : ViewModel() {
     private var _state = MutableStateFlow(CartState())
 
@@ -51,43 +56,24 @@ class CartViewModel(
                 isLoadingCart = true
             )
         }
-        cartRepository
-            .productsInCart()
+        val inCart = cartRepository.productsInCart()
+        inCart
             .map { productsInCartList ->
                 val inCartItems =
                     productsInCartList.map { productWithCartStatusEntity ->
                         productWithCartStatusEntity.toProductUi()
                     }
+                val addOns =
+                    cartDao
+                        .sidesNotInCart()
+                        .map {
+                            it.toProduct()
+                        }.map { it.toProductUi() }
                 _state.update {
                     it.copy(
                         items = inCartItems,
-                        isLoadingCart = false
-                    )
-                }
-                // TODO: Temporary for testing:
-                _state.update {
-                    it.copy(
-                        recommendedAddOns = listOf(
-                            ProductUi(
-                                id = "2",
-                                localId = 2,
-                                description =
-                                    "Tomato sauce, mozzarella, " +
-                                            "mushrooms, olives, bell pepper, onion, corn",
-                                imageResource = R.drawable.meat_lovers,
-                                name = "Veggie Delight",
-                                price = BigDecimal("9.79"),
-                                numberInCart = 2
-                            ),
-                            ProductUi(
-                                id = "3",
-                                localId = 3,
-                                description = "A delicious food",
-                                imageResource = R.drawable.cookies,
-                                name = "Hawaiian Pizza",
-                                price = BigDecimal("10.19")
-                            ),
-                        )
+                        isLoadingCart = false,
+                        recommendedAddOns = addOns
                     )
                 }
             }.launchIn(viewModelScope)
@@ -111,6 +97,13 @@ class CartViewModel(
             is CartAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
                     cartRepository.removeAllFromCart(action.productUi.toProduct())
+                }
+            }
+
+            is CartAction.AddAddOnToCart -> {
+                viewModelScope.launch {
+                    val product = action.productUi.toProduct()
+                    cartRepository.addProductToCart(product)
                 }
             }
         }

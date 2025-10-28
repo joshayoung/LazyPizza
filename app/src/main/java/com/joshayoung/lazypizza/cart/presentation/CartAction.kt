@@ -15,4 +15,8 @@ sealed interface CartAction {
     data class RemoveAllFromCart(
         var productUi: ProductUi
     ) : CartAction
+
+    data class AddAddOnToCart(
+        var productUi: ProductUi
+    ) : CartAction
 }
