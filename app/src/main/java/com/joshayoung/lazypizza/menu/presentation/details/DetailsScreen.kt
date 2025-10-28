@@ -180,7 +180,7 @@ fun DetailHeader(state: DetailsState) {
     ) {
         ProductOrToppingImage(
             imageResource = state.productUi?.imageResource,
-            remoteImage = "",
+            remoteImage = state.productUi?.imageUrl,
             modifier =
                 Modifier
                     .size(300.dp)

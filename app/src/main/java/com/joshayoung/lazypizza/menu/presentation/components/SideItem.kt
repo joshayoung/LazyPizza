@@ -63,8 +63,8 @@ fun SideItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProductOrToppingImage(
-            imageResource = R.drawable.seven_up,
-            remoteImage = "",
+            imageResource = productUi.imageResource,
+            remoteImage = productUi.imageUrl,
             modifier =
                 Modifier
                     .fillMaxHeight()
