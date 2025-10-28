@@ -83,10 +83,17 @@ class CartViewModel(
                                 toppings = toppings
                             )
                         }
+                    val addOns =
+                        cartDao
+                            .sidesNotInCart()
+                            .map {
+                                it.toProduct()
+                            }.map { it.toProductUi() }
                     _state.update {
                         it.copy(
                             items = cartItems,
                             checkoutPrice = cartItems.sumOf { it.price },
+                            recommendedAddOns = addOns,
                             isLoadingCart = false
                         )
                     }

@@ -159,7 +159,7 @@ fun CartList(
                     .padding(top = 140.dp)
         ) {
             Text("Your Cart Is Empty", style = MaterialTheme.typography.titleLarge)
-            Text("Head back to the menu nd grab a pizza you love.")
+            Text("Head back to the menu and grab a pizza you love.")
             Button(onClick = {
                 backToMenu()
             }) {
@@ -219,7 +219,10 @@ private fun CartItems(
 }
 
 @Composable
-fun CheckOutButton(modifier: Modifier = Modifier, state: CartState) {
+fun CheckOutButton(
+    modifier: Modifier = Modifier,
+    state: CartState
+) {
     Button(
         onClick = {
         },
@@ -252,26 +255,30 @@ fun RecommendedAddOns(
     onAction: (CartAction) -> Unit
 ) {
     Column {
-    Text("Recommended to Add to Your Order".uppercase(), modifier = Modifier
-        .padding(bottom = 10.dp))
-    LazyRow(
-        modifier = Modifier,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(addOns) { productUi ->
-            AddOn(
-                productUi,
-                addToCart =
-                    {
-                        onAction(CartAction.AddAddOnToCart(productUi))
-                    },
-                modifier =
-                    Modifier
-                        .width(140.dp)
-                        .height(220.dp)
-            )
+        Text(
+            "Recommended to Add to Your Order".uppercase(),
+            modifier =
+                Modifier
+                    .padding(bottom = 10.dp)
+        )
+        LazyRow(
+            modifier = Modifier,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(addOns) { productUi ->
+                AddOn(
+                    productUi,
+                    addToCart =
+                        {
+                            onAction(CartAction.AddAddOnToCart(productUi))
+                        },
+                    modifier =
+                        Modifier
+                            .width(140.dp)
+                            .height(220.dp)
+                )
+            }
         }
-    }
     }
 }
 
