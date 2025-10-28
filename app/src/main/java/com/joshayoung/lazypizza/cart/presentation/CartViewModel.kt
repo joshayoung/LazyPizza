@@ -9,6 +9,7 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -51,11 +52,6 @@ class CartViewModel(
     }
 
     private fun loadCart() {
-        _state.update {
-            it.copy(
-                isLoadingCart = true
-            )
-        }
         val inCart = cartRepository.productsInCart()
         inCart
             .map { productsInCartList ->

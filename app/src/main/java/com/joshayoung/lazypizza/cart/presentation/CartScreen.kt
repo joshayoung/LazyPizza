@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.cart.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -133,7 +135,19 @@ fun CartList(
     onAction: (CartAction) -> Unit,
     backToMenu: () -> Unit
 ) {
-    if (state.items.count() < 1) {
+    if (state.isLoadingCart) {
+        Box(
+            modifier =
+                Modifier
+                    .padding(top = 40.dp)
+                    .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier
+            )
+        }
+    } else if (state.items.count() < 1) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier =
@@ -149,52 +163,60 @@ fun CartList(
             }
         }
     } else {
-        Column(
+        CartItems(state, onAction)
+    }
+}
+
+@Composable
+private fun CartItems(
+    state: CartState,
+    onAction: (CartAction) -> Unit
+) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(1)
+        ) {
+            items(state.items) { productUi ->
+                CartItem(
+                    productUi,
+                    modifier =
+                        Modifier
+                            .height(120.dp),
+                    onAction = onAction
+                )
+            }
+        }
+
+        RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
+
+        Button(
+            onClick = {
+            },
+            shape = RoundedCornerShape(20.dp),
             modifier =
                 Modifier
-                    .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1)
-            ) {
-                items(state.items) { productUi ->
-                    CartItem(
-                        productUi,
-                        modifier =
-                            Modifier
-                                .height(120.dp),
-                        onAction = onAction
+                    .fillMaxWidth()
+                    .dropShadow(
+                        shape =
+                            RoundedCornerShape(20.dp),
+                        shadow =
+                            Shadow(
+                                radius = 6.dp,
+                                spread = 1.dp,
+                                color =
+                                    MaterialTheme.colorScheme.primary.copy(
+                                        alpha = 0.25f
+                                    ),
+                                offset = DpOffset(x = 0.dp, 4.dp)
+                            )
                     )
-                }
-            }
-
-            RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
-
-            Button(
-                onClick = {
-                },
-                shape = RoundedCornerShape(20.dp),
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .dropShadow(
-                            shape =
-                                RoundedCornerShape(20.dp),
-                            shadow =
-                                Shadow(
-                                    radius = 6.dp,
-                                    spread = 1.dp,
-                                    color =
-                                        MaterialTheme.colorScheme.primary.copy(
-                                            alpha = 0.25f
-                                        ),
-                                    offset = DpOffset(x = 0.dp, 4.dp)
-                                )
-                        )
-            ) {
-                Text("Proceed to Checkout")
-            }
+        ) {
+            Text("Proceed to Checkout")
         }
     }
 }
@@ -237,6 +259,7 @@ private fun CartScreenPreview() {
             bottomNavItems = previewBottomNavItems,
             state =
                 CartState(
+                    isLoadingCart = false,
                     items = productUiListForPreview.take(3),
                     recommendedAddOns = productUiListForPreview
                 ),
