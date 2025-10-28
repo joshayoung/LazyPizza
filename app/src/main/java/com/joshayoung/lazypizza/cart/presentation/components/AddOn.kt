@@ -92,6 +92,7 @@ fun AddOn(
                 remoteImage = productUi.remoteImageUrl,
                 modifier =
                     Modifier
+                        .weight(1f)
                         .size(100.dp)
             )
             Column(

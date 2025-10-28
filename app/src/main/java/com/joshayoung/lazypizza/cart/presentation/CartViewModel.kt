@@ -69,7 +69,7 @@ class CartViewModel(
                     it.copy(
                         items = inCartItems,
                         isLoadingCart = false,
-                        recommendedAddOns = addOns
+                        recommendedAddOns = addOns.shuffled()
                     )
                 }
             }.launchIn(viewModelScope)

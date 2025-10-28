@@ -104,6 +104,51 @@ val productUiListForPreview =
         )
     )
 
+val addOnsForPreview =
+    listOf(
+        ProductUi(
+            id = "3",
+            localId = 3,
+            description = "",
+            imageResource = R.drawable.cookies,
+            name = "Chocolate Ice Cream",
+            price = BigDecimal("10.19")
+        ),
+        ProductUi(
+            id = "4",
+            localId = 4,
+            description = "",
+            imageResource = R.drawable.strawberry,
+            name = "Strawberry Ice Cream",
+            price = BigDecimal("3.28"),
+            numberInCart = 1
+        ),
+        ProductUi(
+            id = "5",
+            localId = 5,
+            description = "A delicious food",
+            imageResource = R.drawable.mineral_water,
+            name = "Mineral Water",
+            price = BigDecimal("1.18")
+        ),
+        ProductUi(
+            id = "6",
+            localId = 6,
+            description = "",
+            imageResource = R.drawable.pepsi,
+            name = "Pepsi",
+            price = BigDecimal("18.88")
+        ),
+        ProductUi(
+            id = "7",
+            localId = 7,
+            description = "",
+            imageResource = R.drawable.spicy_chili_sauce,
+            name = "Spicy Chili Sauce",
+            price = BigDecimal("1.19")
+        )
+    )
+
 val previewProducts: List<MenuItemUi> =
     listOf(
         MenuItemUi(

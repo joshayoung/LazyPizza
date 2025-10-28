@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -39,6 +42,7 @@ import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
 import com.joshayoung.lazypizza.core.presentation.utils.productUiListForPreview
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -179,6 +183,10 @@ private fun CartItems(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         LazyVerticalGrid(
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(bottom = 10.dp),
             columns = GridCells.Fixed(1)
         ) {
             items(state.items) { productUi ->
@@ -192,32 +200,48 @@ private fun CartItems(
             }
         }
 
-        RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
-
-        Button(
-            onClick = {
-            },
-            shape = RoundedCornerShape(20.dp),
+        Column(
+            verticalArrangement = Arrangement.Bottom,
             modifier =
                 Modifier
-                    .fillMaxWidth()
-                    .dropShadow(
-                        shape =
-                            RoundedCornerShape(20.dp),
-                        shadow =
-                            Shadow(
-                                radius = 6.dp,
-                                spread = 1.dp,
-                                color =
-                                    MaterialTheme.colorScheme.primary.copy(
-                                        alpha = 0.25f
-                                    ),
-                                offset = DpOffset(x = 0.dp, 4.dp)
-                            )
-                    )
+                    .weight(1f)
         ) {
-            Text("Proceed to Checkout")
+            RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
+
+            CheckOutButton(
+                modifier =
+                    Modifier
+                        .padding(top = 20.dp)
+            )
         }
+    }
+}
+
+@Composable
+fun CheckOutButton(modifier: Modifier = Modifier) {
+    Button(
+        onClick = {
+        },
+        shape = RoundedCornerShape(20.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .dropShadow(
+                    shape =
+                        RoundedCornerShape(20.dp),
+                    shadow =
+                        Shadow(
+                            radius = 6.dp,
+                            spread = 1.dp,
+                            color =
+                                MaterialTheme.colorScheme.primary.copy(
+                                    alpha = 0.25f
+                                ),
+                            offset = DpOffset(x = 0.dp, 4.dp)
+                        )
+                )
+    ) {
+        Text("Proceed to Checkout")
     }
 }
 
@@ -226,6 +250,9 @@ fun RecommendedAddOns(
     addOns: List<ProductUi>,
     onAction: (CartAction) -> Unit
 ) {
+    Column {
+    Text("Recommended to Add to Your Order".uppercase(), modifier = Modifier
+        .padding(bottom = 10.dp))
     LazyRow(
         modifier = Modifier,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -240,9 +267,10 @@ fun RecommendedAddOns(
                 modifier =
                     Modifier
                         .width(140.dp)
-                        .height(240.dp)
+                        .height(220.dp)
             )
         }
+    }
     }
 }
 
@@ -260,8 +288,8 @@ private fun CartScreenPreview() {
             state =
                 CartState(
                     isLoadingCart = false,
-                    items = productUiListForPreview.take(3),
-                    recommendedAddOns = productUiListForPreview
+                    items = productUiListForPreview, // .take(1),
+                    recommendedAddOns = addOnsForPreview
                 ),
             onAction = {},
             backToMenu = {}
