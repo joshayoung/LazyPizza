@@ -71,10 +71,14 @@ class CartViewModel(
                         both.map { cartItem ->
                             val toppings =
                                 cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
+                            var price = BigDecimal(0.0)
+                            if (cartItem.price != null) {
+                                price = BigDecimal(cartItem.price)
+                            }
                             ProductUi(
-                                id = cartItem.remoteId,
-                                name = cartItem.name,
-                                price = BigDecimal(cartItem.price),
+                                id = cartItem.remoteId ?: "1",
+                                name = cartItem.name ?: "",
+                                price = price,
                                 description = cartItem.description,
                                 imageUrl = cartItem.imageUrl,
                                 imageResource = cartItem.imageResource,

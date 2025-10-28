@@ -203,12 +203,12 @@ private fun CartItems(
             }
         }
 
-            CheckOutButton(
-                state = state,
-                modifier =
-                    Modifier
-                        .padding(top = 20.dp)
-            )
+        CheckOutButton(
+            state = state,
+            modifier =
+                Modifier
+                    .padding(top = 20.dp)
+        )
     }
 }
 
