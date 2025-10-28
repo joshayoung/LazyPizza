@@ -60,36 +60,37 @@ class CartViewModel(
     }
 
     private fun loadCart() {
-        val cartItems: MutableList<ProductUi> = mutableListOf()
-        viewModelScope.launch {
-            val productWithNoToppings = cartDao.productsInCartWithNoToppings()
-            val productWithToppings = cartDao.productsInCartWithToppings()
+        val productWithToppings = cartDao.productsInCartWithToppings()
+        val productWithNoToppings = cartDao.productsInCartWithNoToppings()
 
-            merge(productWithToppings, productWithNoToppings).collect {
-                it.forEach { cartItem ->
-                    val toppings = cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
-                    cartItems.add(
-                        ProductUi(
-                            id = cartItem.remoteId,
-                            name = cartItem.name,
-                            price = BigDecimal(cartItem.price),
-                            description = cartItem.description,
-                            imageUrl = cartItem.imageUrl,
-                            imageResource = cartItem.imageResource,
-                            numberInCart = cartItem.numberInCart ?: 0,
-                            localId = cartItem.productId,
-                            toppings = toppings
+        viewModelScope.launch {
+            productWithToppings
+                .combine(productWithNoToppings) { one, two -> one + two }
+                .collect { both ->
+                    val cartItems =
+                        both.map { cartItem ->
+                            val toppings =
+                                cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
+                            ProductUi(
+                                id = cartItem.remoteId,
+                                name = cartItem.name,
+                                price = BigDecimal(cartItem.price),
+                                description = cartItem.description,
+                                imageUrl = cartItem.imageUrl,
+                                imageResource = cartItem.imageResource,
+                                numberInCart = cartItem.numberInCart ?: 0,
+                                localId = cartItem.productId,
+                                toppings = toppings
+                            )
+                        }
+                    _state.update {
+                        it.copy(
+                            items = cartItems,
+                            checkoutPrice = cartItems.sumOf { it.price },
+                            isLoadingCart = false
                         )
-                    )
+                    }
                 }
-                _state.update {
-                    it.copy(
-                        items = cartItems,
-                        checkoutPrice = cartItems.sumOf { it.price },
-                        isLoadingCart = false
-                    )
-                }
-            }
         }
     }
 
