@@ -65,20 +65,17 @@ class CartViewModel(
 
         viewModelScope.launch {
             productWithToppings
-                .combine(productWithNoToppings) { one, two -> one + two }
-                .collect { both ->
+                .combine(productWithNoToppings) { one, two ->
+                    one + two
+                }.collect { both ->
                     val cartItems =
                         both.map { cartItem ->
                             val toppings =
                                 cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
-                            var price = BigDecimal(0.0)
-                            if (cartItem.price != null) {
-                                price = BigDecimal(cartItem.price)
-                            }
                             ProductUi(
                                 id = cartItem.remoteId ?: "1",
                                 name = cartItem.name ?: "",
-                                price = price,
+                                price = BigDecimal(cartItem.price),
                                 description = cartItem.description,
                                 imageUrl = cartItem.imageUrl,
                                 imageResource = cartItem.imageResource,

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -185,7 +186,6 @@ private fun CartItems(
         LazyVerticalGrid(
             modifier =
                 Modifier
-                    .weight(1f)
                     .padding(bottom = 10.dp),
             columns = GridCells.Fixed(1)
         ) {
@@ -253,6 +253,7 @@ fun RecommendedAddOns(
             "Recommended to Add to Your Order".uppercase(),
             modifier =
                 Modifier
+                    .padding(top = 40.dp)
                     .padding(vertical = 10.dp)
         )
         LazyRow(

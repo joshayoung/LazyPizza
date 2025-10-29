@@ -89,7 +89,7 @@ interface CartDao {
     fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>>
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(p.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id IN (select lineItemNumber from toppings_in_cart)"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(p.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id IN (select lineItemNumber from toppings_in_cart) GROUP BY pivot.id, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type"
     )
     fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>>
 
