@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.menu.presentation.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +29,7 @@ fun PriceAndQuantityToggle(
     decrement: () -> Unit,
     updateCart: (Int) -> Unit
 ) {
-    val calculatedPrice = itemCount * productUi.price.toDouble()
+    val calculatedPrice = productUi.totalPrice
     Row(
         modifier =
             Modifier
@@ -42,13 +44,14 @@ fun PriceAndQuantityToggle(
             updateCart = updateCart,
             inCart = productUi.inCart
         )
-        PriceWithNumber(itemCount, calculatedPrice)
+        PriceWithNumber(itemCount, productUi.price, calculatedPrice.toDouble())
     }
 }
 
 @Composable
 fun PriceWithNumber(
     itemCount: Int,
+    price: BigDecimal,
     calculatedPrice: Double
 ) {
     Column(
@@ -56,13 +59,16 @@ fun PriceWithNumber(
         modifier =
         Modifier
     ) {
-        val price = String.format(locale = Locale.US, "$%.2f", calculatedPrice)
+        val total = String.format(locale = Locale.US, "$%.2f", calculatedPrice)
         Text(
-            price,
+            total,
             modifier = Modifier
         )
-        Row(modifier = Modifier, verticalAlignment = Alignment.Top) {
-            Text(itemCount.toString(), fontSize = 10.sp)
+        Row(modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.End) {
+            Text(itemCount.toString(), fontSize = 10.sp,
+                 )
             Text(
                 "x",
                 fontSize = 10.sp,
@@ -70,7 +76,7 @@ fun PriceWithNumber(
                     Modifier
                         .padding(horizontal = 4.dp)
             )
-            Text(price, fontSize = 10.sp)
+            Text("$${price}", fontSize = 10.sp)
         }
     }
 }

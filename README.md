@@ -6,18 +6,21 @@ Android Application for Pizza Orders
 <p style='padding: 20px;' float="left">
     <img alt="LazyPizza" src="./screenshots/tablet_home.png" width="200" />
     <img alt="LazyPizza" src="./screenshots/tablet_details.png" width="200" />
+    <img alt="LazyPizza" src="./screenshots/tablet_not_signed_in.png" width="200" />
+    <img alt="LazyPizza" src="./screenshots/tablet_cart_item.png" width="200" />
 </p>
 
 ## Walkthroughs
 
 <p style='padding: 20px;' float="left">
-    <img alt="LazyPizza" src="./videos/milestone_one.webm" width="200" />
+    <img alt="LazyPizza Milestone 1" src="./videos/milestone_one.webm" width="200" />
+    <img alt="LazyPizza Milestone 2" src="./videos/milestone_two.mp4" width="200" />
 </p>
 
 ### Notes
 * `io.coil-kt.coil3:coil-network-okhttp` is needed to get `AsyncImage` working with `coil`.
 * **If your preview does not seem to be depicting the correct color for your `MaterialTheme` in the preview window, then make sure you are wrapping your preview in your theme block (i.e. `LazyPizzaTheme { ... }`).**
-* **If a join can returns no results all of the values in the object used for deserialization have to be nullable or it wlll crash the app!**
+* **If a join returns all null results all of the values in the object used for deserialization have to be nullable or it wlll crash the app!**
 
 ### Ktlint
 * `./gradlew ktlintCheck` - generate reports

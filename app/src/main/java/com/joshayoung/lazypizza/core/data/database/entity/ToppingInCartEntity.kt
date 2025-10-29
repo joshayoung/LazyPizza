@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ToppingInCartEntity(
+    val toppingId: Long,
     val remoteId: Long,
     val name: String,
     val price: String,

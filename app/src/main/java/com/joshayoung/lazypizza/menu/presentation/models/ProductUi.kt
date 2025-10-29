@@ -14,10 +14,13 @@ data class ProductUi(
     val imageUrl: String? = null,
     val imageResource: Int? = null,
     val name: String,
+    val lineItemId: Long? = null,
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,
     val type: MenuType? = null,
     val inCart: Boolean = false,
     val numberInCart: Int = 0,
+    @Serializable(with = BigDecimalSerializer::class) val totalPrice: BigDecimal =
+        BigDecimal(0.0),
     @Serializable(with = BigDecimalSerializer::class) val toppingTotal: BigDecimal =
         BigDecimal(0.0),
     val toppings: List<ToppingInCartEntity>? = null

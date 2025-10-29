@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -17,7 +18,8 @@ import kotlinx.coroutines.flow.Flow
 
 class CartRepositoryImpl(
     private var localDataSource: LocalDataSource,
-    private var cartRemoteDataSource: CartRemoteDataSource
+    private var cartRemoteDataSource: CartRemoteDataSource,
+    private var cartDao: CartDao
 ) : CartRepository {
     override suspend fun addProductToCart(product: Product): Long? {
         return localDataSource.addProductToCart(
@@ -99,6 +101,7 @@ class CartRepositoryImpl(
     }
 
     override suspend fun removeProductFromCart(product: Product) {
+//        val lineItems = cartDao.
         localDataSource.removeProductFromCart(product)
     }
 

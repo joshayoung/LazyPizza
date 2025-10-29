@@ -55,9 +55,9 @@ interface CartDao {
     suspend fun deleteCartItem(item: ProductsInCart)
 
     @Query(
-        "SELECT products_in_cart.id, products_in_cart.cartId, products_in_cart.productId FROM products_in_cart join product on product.productId = products_in_cart.productId where product.remoteId = :productId LIMIT 1"
+        "SELECT products_in_cart.id, products_in_cart.cartId, products_in_cart.productId FROM products_in_cart join product on product.productId = products_in_cart.productId where products_in_cart.id = :lineItemId"
     )
-    suspend fun getProductInCart(productId: String): ProductsInCart?
+    suspend fun getProductInCart(lineItemId: Long): ProductsInCart?
 
     @Query("SELECT productId from products_in_cart where cartId = :cartId")
     suspend fun getCartProducts(cartId: Long): List<Long>
@@ -84,17 +84,17 @@ interface CartDao {
     fun productsInCart(): Flow<List<ProductWithCartStatusEntity>>
 
     @Query(
-        "select p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.cartId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id NOT IN (select lineItemNumber from toppings_in_cart) group by p.productId order by type desc"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.cartId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id NOT IN (select lineItemNumber from toppings_in_cart) group by p.productId order by type desc"
     )
     fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>>
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(p.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id IN (select lineItemNumber from toppings_in_cart) GROUP BY pivot.id, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(p.productId) as numberInCart from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id IN (select lineItemNumber from toppings_in_cart) GROUP BY p.productId"
     )
     fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>>
 
     @Query(
-        "select topping.remoteId, topping.name, topping.price, topping.imageUrl, products_in_cart.productId, count(toppings_in_cart.toppingId) as numberOfToppings from toppings_in_cart join topping on topping.toppingId = toppings_in_cart.toppingId join products_in_cart on toppings_in_cart.lineItemNumber = products_in_cart.id where toppings_in_cart.lineItemNumber = :lineItemNumber group by toppings_in_cart.toppingId"
+        "select topping.toppingId, topping.remoteId, topping.name, topping.price, topping.imageUrl, products_in_cart.productId, count(toppings_in_cart.toppingId) as numberOfToppings from toppings_in_cart join topping on topping.toppingId = toppings_in_cart.toppingId join products_in_cart on toppings_in_cart.lineItemNumber = products_in_cart.id where toppings_in_cart.lineItemNumber = :lineItemNumber group by toppings_in_cart.toppingId"
     )
     suspend fun getToppingsForProductInCart(lineItemNumber: Long): List<ToppingInCartEntity>
 }

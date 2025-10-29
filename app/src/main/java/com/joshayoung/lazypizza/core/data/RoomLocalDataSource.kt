@@ -91,8 +91,9 @@ class RoomLocalDataSource(
         return cartDao.getNumberProductsInCart(cartId)
     }
 
+    // Getting a null value when trying to remove from cart and the reduction in quantiy is therfore not changing the price correctly:
     override suspend fun removeProductFromCart(product: Product) {
-        val item = cartDao.getProductInCart(product.id)
+        val item = cartDao.getProductInCart(product.lineItemId ?: 0)
         if (item != null) {
             cartDao.deleteCartItem(item)
         }

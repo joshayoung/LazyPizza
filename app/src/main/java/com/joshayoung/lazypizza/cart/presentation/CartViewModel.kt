@@ -8,6 +8,7 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.CartItem
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import kotlin.collections.sumOf
 
 class CartViewModel(
     private var cartRepository: CartRepository,
@@ -72,9 +74,21 @@ class CartViewModel(
                         both.map { cartItem ->
                             val toppings =
                                 cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
+                            var ttt: Double = 0.0
+
+                            toppings.forEach { tt ->
+                                ttt += tt.price.toDouble() *
+                                    tt.numberOfToppings *
+                                    (cartItem.numberInCart?.toDouble() ?: 0.0)
+                            }
+                            val totalToppings = toppings.sumOf { it.price.toDouble() }
+                            val totalPrice = cartItem.price?.toDouble() ?: 0.0
+                            val t = totalPrice * (cartItem.numberInCart?.toDouble() ?: 0.0)
+                            val total = ttt + t
                             ProductUi(
                                 id = cartItem.remoteId ?: "1",
                                 name = cartItem.name ?: "",
+                                lineItemId = cartItem.lineItemId,
                                 price = BigDecimal(cartItem.price),
                                 description = cartItem.description,
                                 imageUrl = cartItem.imageUrl,
@@ -83,7 +97,8 @@ class CartViewModel(
                                 localId = cartItem.productId,
                                 inCart = (cartItem.numberInCart ?: 0) > 0,
                                 toppingTotal = toppings.sumOf { BigDecimal(it.price) },
-                                toppings = toppings
+                                toppings = toppings,
+                                totalPrice = BigDecimal(total)
                             )
                         }
                     val addOns =
@@ -92,11 +107,11 @@ class CartViewModel(
                             .map {
                                 it.toProduct()
                             }.map { it.toProductUi() }
+                            .shuffled()
                     _state.update {
                         it.copy(
                             items = cartItems,
-                            checkoutPrice =
-                                cartItems.sumOf { it.price } + cartItems.sumOf { it.toppingTotal },
+                            checkoutPrice = cartItems.sumOf { lt -> lt.totalPrice },
                             recommendedAddOns = addOns,
                             isLoadingCart = false
                         )
@@ -105,12 +120,38 @@ class CartViewModel(
         }
     }
 
+    fun addProductWithAddOns(productUi: ProductUi) {
+        val product = productUi.toProduct()
+        val toppings = productUi.toppings
+        viewModelScope.launch {
+            val lineItemNumber = cartRepository.addProductToCart(product)
+            if (lineItemNumber == null) {
+                return@launch
+            }
+            toppings?.forEach { topping ->
+                cartDao.insertToppingId(
+                    ToppingsInCart(
+                        lineItemNumber = lineItemNumber,
+                        toppingId = topping.toppingId,
+                        cartId = 1
+                    )
+                )
+            }
+        }
+    }
+
     fun onAction(action: CartAction) {
         when (action) {
             is CartAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    val product = action.productUi.toProduct()
-                    cartRepository.addProductToCart(product)
+                    action.productUi.toppings?.count()?.let {
+                        if (it > 0) {
+                            addProductWithAddOns(action.productUi)
+                        } else {
+                            val product = action.productUi.toProduct()
+                            cartRepository.addProductToCart(product)
+                        }
+                    }
                 }
             }
 

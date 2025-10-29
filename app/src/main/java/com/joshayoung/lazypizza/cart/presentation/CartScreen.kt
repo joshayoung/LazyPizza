@@ -57,6 +57,7 @@ import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import org.koin.androidx.compose.koinViewModel
+import java.util.Locale
 
 @Composable
 fun CartScreenRoot(
@@ -217,7 +218,7 @@ fun CartItems(
                 modifier =
                     Modifier
                         .padding(bottom = 10.dp)
-                        .height(120.dp),
+                        .height(140.dp),
                 onAction = onAction
             )
         }
@@ -284,7 +285,8 @@ fun CheckOutButton(
                         )
                 )
     ) {
-        Text("Proceed to Checkout ($${state.checkoutPrice})")
+        val formatted = String.format(Locale.US, "%.2f", state.checkoutPrice)
+        Text("Proceed to Checkout ($$formatted)")
     }
 }
 
@@ -298,8 +300,8 @@ fun RecommendedAddOns(
             "Recommended to Add to Your Order".uppercase(),
             fontSize = 14.sp,
             modifier =
-            Modifier
-                .padding(bottom = 10.dp)
+                Modifier
+                    .padding(bottom = 10.dp)
         )
         LazyRow(
             modifier = Modifier,

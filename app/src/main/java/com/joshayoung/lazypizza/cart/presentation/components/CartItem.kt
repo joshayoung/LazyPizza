@@ -162,7 +162,7 @@ fun SideItemPreview() {
             Column(
                 modifier =
                     Modifier
-                        .height(200.dp)
+                        .height(240.dp)
             ) {
                 CartItem(
                     productUi =
@@ -170,6 +170,7 @@ fun SideItemPreview() {
                             id = "10",
                             localId = 1,
                             description = "description",
+                            numberInCart = 10,
                             imageUrl = "",
                             imageResource = R.drawable.meat_lovers,
                             name = "Meat Lovers Pizza",
@@ -180,6 +181,7 @@ fun SideItemPreview() {
                                         name = "Chili Peppers",
                                         price = "0.43",
                                         remoteId = 1,
+                                        toppingId = 1,
                                         imageUrl = "",
                                         productId = 2,
                                         numberOfToppings = 2
@@ -189,11 +191,13 @@ fun SideItemPreview() {
                                         price = "0.65",
                                         remoteId = 1,
                                         imageUrl = "",
+                                        toppingId = 1,
                                         productId = 2,
                                         numberOfToppings = 3
                                     ),
                                     ToppingInCartEntity(
                                         name = "Olives",
+                                        toppingId = 1,
                                         price = "0.25",
                                         remoteId = 1,
                                         imageUrl = "",

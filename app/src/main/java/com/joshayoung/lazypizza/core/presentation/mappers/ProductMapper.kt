@@ -98,6 +98,7 @@ fun ProductUi.toProduct(): Product =
     Product(
         id = id,
         localId = localId,
+        lineItemId = lineItemId,
         description = description,
         imageUrl = imageUrl,
         imageResource = imageResource,
