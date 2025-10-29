@@ -72,7 +72,7 @@ interface CartDao {
     @Query(
         "select * from product where productId not in (select productId from products_in_cart) and type != 'entree'"
     )
-    suspend fun sidesNotInCart(): List<ProductEntity>
+    fun sidesNotInCart(): Flow<List<ProductEntity>>
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"

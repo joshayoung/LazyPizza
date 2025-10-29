@@ -13,6 +13,7 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -37,6 +38,21 @@ class CartViewModel(
 
     init {
         viewModelScope.launch {
+            cartDao
+                .sidesNotInCart()
+                .collect { items ->
+                    _state.update {
+                        it.copy(
+                            recommendedAddOns =
+                                items
+                                    .map { it.toProduct() }
+                                    .map { it.toProductUi() }
+                                    .shuffled()
+                        )
+                    }
+                }
+        }
+        viewModelScope.launch {
             cartRepository.getNumberProductsInCart(1).collectLatest { count ->
                 _state.update {
                     it.copy(
@@ -60,12 +76,7 @@ class CartViewModel(
                         name = productList.first().name ?: "",
                         description = productList.first().description,
                         imageResource = productList.first().imageResource,
-                        toppingsForDisplay =
-                            mapOf(
-                                "Pepperoni" to 2,
-                                "Mushrooms" to 2,
-                                "Olives" to 1
-                            ),
+                        toppingsForDisplay = mapOf(),
                         imageUrl = productList.first().imageUrl,
                         type = productList.first().type ?: "",
                         price = productList.first().price ?: "",
@@ -98,51 +109,23 @@ class CartViewModel(
                         lineNumbers = productList.map { it.lineItemId },
                         toppings = toppings,
                         toppingsForDisplay = toppingsForDisplay,
-                        name = productList.first().name ?: "",
+                        name = productList.first().name,
                         productId = productList.first().productId,
                         description = productList.first().description,
                         imageResource = productList.first().imageResource,
                         imageUrl = productList.first().imageUrl,
-                        type = productList.first().type ?: "",
-                        price = productList.first().price ?: "",
+                        type = productList.first().type,
+                        price = productList.first().price,
                         numberInCart = productList.count()
                     )
                 }
             val allItems = inCartItems + inCartItemsTwo
 
-            val addOns =
-                cartDao
-                    .sidesNotInCart()
-                    .map {
-                        it.toProduct()
-                    }.map { it.toProductUi() }
-                    .shuffled()
             _state.update {
                 it.copy(
                     items = allItems,
-                    recommendedAddOns = addOns,
                     checkoutPrice = BigDecimal(allItems.sumOf { lt -> lt.price.toDouble() }),
                     isLoadingCart = false
-                )
-            }
-        }
-    }
-
-    fun addProductWithAddOns(productUi: ProductUi) {
-        val product = productUi.toProduct()
-        val toppings = productUi.toppings
-        viewModelScope.launch {
-            val lineItemNumber = cartRepository.addProductToCart(product)
-            if (lineItemNumber == null) {
-                return@launch
-            }
-            toppings?.forEach { topping ->
-                cartDao.insertToppingId(
-                    ToppingsInCart(
-                        lineItemNumber = lineItemNumber,
-                        toppingId = topping.toppingId,
-                        cartId = 1
-                    )
                 )
             }
         }
