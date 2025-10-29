@@ -2,16 +2,17 @@ package com.joshayoung.lazypizza.core.domain.models
 
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
 
-data class CartItem(
-//    val id: String,
-//    val lineItemId: Long? = null,
-//    val localId: Long? = null,
+data class InCartItem(
     val name: String,
+    val productId: Long,
     val price: String,
     val description: String? = null,
     val imageUrl: String? = null,
     val imageResource: Int? = null,
+    val toppingsForDisplay: Map<String, Int>,
     val type: String,
-    // TODO: Update to domain model:
-    val numberInCart: Int = 0
+    val numberInCart: Int = 0,
+    val lineNumbers: List<Long>,
+    // TODO: Convert to domain layer model:
+    val toppings: List<ToppingInCartEntity> = emptyList()
 )

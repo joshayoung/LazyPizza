@@ -10,5 +10,6 @@ data class ToppingInCartEntity(
     val price: String,
     val imageUrl: String,
     val productId: Int,
-    val numberOfToppings: Int
+    // TODO: Remove this;
+    val numberOfToppings: Int? = null
 )

@@ -21,11 +21,10 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 
 @Composable
-fun QuantitySelector(
+fun QuantitySelectorTwo(
     itemCount: Int,
     increment: () -> Unit,
     decrement: () -> Unit,
-    updateCart: (Int) -> Unit,
     inCart: Boolean = false
 ) {
     Row(
@@ -35,18 +34,14 @@ fun QuantitySelector(
         Modifier
     ) {
         if (inCart) {
-            DecrementComponent(
+            DecrementComponentTWo(
                 itemCount = itemCount,
-                decrement = decrement,
-                updateCart = updateCart
+                decrement = decrement
             )
         } else {
-            CountButton(
+            CountButtonTwo(
                 "-",
-                onAction = { decrement() },
-                {
-                    updateCart(-1)
-                }
+                onAction = { decrement() }
             )
         }
         Text(
@@ -56,22 +51,18 @@ fun QuantitySelector(
                 Modifier
                     .padding(horizontal = 20.dp)
         )
-        CountButton("+", onAction = { increment() }, {
-            updateCart(1)
-        })
+        CountButtonTwo("+", onAction = { increment() })
     }
 }
 
 @Composable
-fun DecrementComponent(
+fun DecrementComponentTWo(
     itemCount: Int,
     decrement: () -> Unit,
-    updateCart: (Int) -> Unit
 ) {
     if (itemCount < 2) {
-        CountButton(
+        CountButtonTwo(
             "-",
-            onAction = {},
             { },
             modifier =
                 Modifier
@@ -83,21 +74,17 @@ fun DecrementComponent(
             textColor = LazyPizzaColors.textSecondary
         )
     } else {
-        CountButton(
+        CountButtonTwo(
             "-",
-            onAction = { decrement() },
-            {
-                updateCart(-1)
-            }
+            onAction = { decrement() }
         )
     }
 }
 
 @Composable
-fun CountButton(
+fun CountButtonTwo(
     text: String,
     onAction: () -> Unit,
-    action: () -> Unit,
     modifier: Modifier = Modifier,
     textColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -108,7 +95,6 @@ fun CountButton(
                 .border(1.dp, Color.LightGray, shape = RoundedCornerShape(4.dp))
                 .size(20.dp),
         onClick = {
-            action()
             onAction()
         },
         colors =
@@ -126,7 +112,7 @@ fun CountButton(
 
 @Preview(showBackground = true)
 @Composable
-fun QuantitySelectorPreview() {
+fun QuantitySelectorTwoPreview() {
     LazyPizzaTheme {
         QuantitySelector(
             itemCount = 1,

@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
-import com.joshayoung.lazypizza.R
 import java.math.BigDecimal
 
 data class ToppingUi(

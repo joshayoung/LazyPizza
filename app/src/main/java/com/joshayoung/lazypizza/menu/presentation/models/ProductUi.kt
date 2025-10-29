@@ -14,6 +14,7 @@ data class ProductUi(
     val imageUrl: String? = null,
     val imageResource: Int? = null,
     val name: String,
+    val productId: Long? = null,
     val lineItemId: Long? = null,
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,
     val type: MenuType? = null,

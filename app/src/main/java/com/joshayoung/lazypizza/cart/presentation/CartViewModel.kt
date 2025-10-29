@@ -1,37 +1,23 @@
 package com.joshayoung.lazypizza.cart.presentation
 
-import androidx.core.os.registerForAllProfilingResults
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Query
-import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.data.database.CartDao
-import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.models.CartItem
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import kotlin.collections.sumOf
 
 class CartViewModel(
     private var cartRepository: CartRepository,
@@ -62,61 +48,83 @@ class CartViewModel(
     }
 
     private fun loadCart() {
-        val productWithToppings = cartDao.productsInCartWithToppings()
-        val productWithNoToppings = cartDao.productsInCartWithNoToppings()
-
         viewModelScope.launch {
-            productWithToppings
-                .combine(productWithNoToppings) { one, two ->
-                    one + two
-                }.collect { both ->
-                    val cartItems =
-                        both.map { cartItem ->
-                            val toppings =
-                                cartDao.getToppingsForProductInCart(cartItem.lineItemId ?: 0)
-                            var ttt: Double = 0.0
+            val productWithNoToppings = cartDao.productsInCartWithNoToppings()
 
-                            toppings.forEach { tt ->
-                                ttt += tt.price.toDouble() *
-                                    tt.numberOfToppings *
-                                    (cartItem.numberInCart?.toDouble() ?: 0.0)
-                            }
-                            val totalToppings = toppings.sumOf { it.price.toDouble() }
-                            val totalPrice = cartItem.price?.toDouble() ?: 0.0
-                            val t = totalPrice * (cartItem.numberInCart?.toDouble() ?: 0.0)
-                            val total = ttt + t
-                            ProductUi(
-                                id = cartItem.remoteId ?: "1",
-                                name = cartItem.name ?: "",
-                                lineItemId = cartItem.lineItemId,
-                                price = BigDecimal(cartItem.price),
-                                description = cartItem.description,
-                                imageUrl = cartItem.imageUrl,
-                                imageResource = cartItem.imageResource,
-                                numberInCart = cartItem.numberInCart ?: 0,
-                                localId = cartItem.productId,
-                                inCart = (cartItem.numberInCart ?: 0) > 0,
-                                toppingTotal = toppings.sumOf { BigDecimal(it.price) },
-                                toppings = toppings,
-                                totalPrice = BigDecimal(total)
-                            )
-                        }
-                    val addOns =
-                        cartDao
-                            .sidesNotInCart()
-                            .map {
-                                it.toProduct()
-                            }.map { it.toProductUi() }
-                            .shuffled()
-                    _state.update {
-                        it.copy(
-                            items = cartItems,
-                            checkoutPrice = cartItems.sumOf { lt -> lt.totalPrice },
-                            recommendedAddOns = addOns,
-                            isLoadingCart = false
-                        )
-                    }
+            val groupedByProductId = productWithNoToppings.groupBy { it.productId }
+
+            val inCartItems =
+                groupedByProductId.map { (_, productList) ->
+                    InCartItem(
+                        lineNumbers = productList.map { it.lineItemId },
+                        name = productList.first().name ?: "",
+                        description = productList.first().description,
+                        imageResource = productList.first().imageResource,
+                        toppingsForDisplay =
+                            mapOf(
+                                "Pepperoni" to 2,
+                                "Mushrooms" to 2,
+                                "Olives" to 1
+                            ),
+                        imageUrl = productList.first().imageUrl,
+                        type = productList.first().type ?: "",
+                        price = productList.first().price ?: "",
+                        productId = productList.first().productId,
+                        numberInCart = productList.count()
+                    )
                 }
+
+            val productWithToppings = cartDao.productsInCartWithToppings()
+
+            val groupedByToppingList =
+                productWithToppings
+                    .groupBy { it.name }
+            val inCartItemsTwo =
+                groupedByToppingList.map { (id, productList) ->
+                    productList
+                        .map {
+                            cartDao.getToppingForProductInCart(it.lineItemId)
+                        }.flatMap { it }
+                    val toppings =
+                        productList
+                            .map {
+                                cartDao.getToppingForProductInCart(it.lineItemId)
+                            }.flatMap { it }
+                    val toppingsForDisplay =
+                        toppings
+                            .groupBy { it.name }
+                            .mapValues { entry -> entry.value.size }
+                    InCartItem(
+                        lineNumbers = productList.map { it.lineItemId },
+                        toppings = toppings,
+                        toppingsForDisplay = toppingsForDisplay,
+                        name = productList.first().name ?: "",
+                        productId = productList.first().productId,
+                        description = productList.first().description,
+                        imageResource = productList.first().imageResource,
+                        imageUrl = productList.first().imageUrl,
+                        type = productList.first().type ?: "",
+                        price = productList.first().price ?: "",
+                        numberInCart = productList.count()
+                    )
+                }
+            val allItems = inCartItems + inCartItemsTwo
+
+            val addOns =
+                cartDao
+                    .sidesNotInCart()
+                    .map {
+                        it.toProduct()
+                    }.map { it.toProductUi() }
+                    .shuffled()
+            _state.update {
+                it.copy(
+                    items = allItems,
+                    recommendedAddOns = addOns,
+                    checkoutPrice = BigDecimal(allItems.sumOf { lt -> lt.price.toDouble() }),
+                    isLoadingCart = false
+                )
+            }
         }
     }
 
@@ -144,33 +152,56 @@ class CartViewModel(
         when (action) {
             is CartAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    action.productUi.toppings?.count()?.let {
-                        if (it > 0) {
-                            addProductWithAddOns(action.productUi)
-                        } else {
-                            val product = action.productUi.toProduct()
-                            cartRepository.addProductToCart(product)
+                    val lineItem =
+                        cartDao.insertProductId(
+                            ProductsInCart(
+                                cartId = 1,
+                                productId = action.inCartItem.productId
+                            )
+                        )
+                    if (action.inCartItem.toppings.any()) {
+                        action.inCartItem.toppings.forEach { topping ->
+                            cartDao.insertToppingId(
+                                ToppingsInCart(
+                                    lineItemNumber = lineItem,
+                                    toppingId = topping.toppingId,
+                                    cartId = 1
+                                )
+                            )
                         }
                     }
+                    // TODO: Switch to flow, this is temporary:
+                    loadCart()
                 }
             }
 
             is CartAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeProductFromCart(action.productUi.toProduct())
+                    val item = cartDao.getProductInCart(action.inCartItem.lineNumbers.first())
+                    if (item != null) {
+                        cartDao.deleteCartItem(item)
+                    }
+                    // TODO: Switch to flow, this is temporary:
+                    loadCart()
                 }
             }
 
             is CartAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeAllFromCart(action.productUi.toProduct())
+                    action.inCartItem.lineNumbers.forEach { lineNumber ->
+                        cartRepository.removeAllFromCart(lineNumber)
+                    }
                 }
+                // TODO: Switch to flow, this is temporary:
+                loadCart()
             }
 
+            // TODO: The adds on are added a different way:
             is CartAction.AddAddOnToCart -> {
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
                     cartRepository.addProductToCart(product)
+                    loadCart()
                 }
             }
         }

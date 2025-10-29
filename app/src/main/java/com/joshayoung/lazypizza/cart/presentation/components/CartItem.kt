@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -32,23 +31,22 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.cart.presentation.CartAction
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.menu.presentation.home.components.AddButtonWithPrice
 import com.joshayoung.lazypizza.menu.presentation.home.components.PriceAndQuantityToggle
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductHeader
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
 @Composable
 fun CartItem(
-    productUi: ProductUi,
+    inCartItem: InCartItem,
     modifier: Modifier = Modifier,
     onAction: (CartAction) -> Unit
 ) {
-    var itemCount by remember { mutableIntStateOf(productUi.numberInCart) }
+//    var itemCount by remember { mutableIntStateOf(inCartItem.numberInCart) }
     Row(
         modifier =
             modifier
@@ -69,8 +67,8 @@ fun CartItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProductOrToppingImage(
-            productUi.imageResource,
-            productUi.imageUrl,
+            inCartItem.imageResource,
+            inCartItem.imageUrl,
             modifier =
                 Modifier
                     .fillMaxHeight()
@@ -89,21 +87,18 @@ fun CartItem(
                     ).padding(10.dp),
             verticalArrangement = Arrangement.Top
         ) {
-            ProductHeader(itemCount, productUi, onAction = {
-                onAction(CartAction.RemoveAllFromCart(productUi))
-            }) {
-                if (itemCount > 0) {
-                    itemCount = 0
-                }
-            }
+            ProductHeaderInCart(inCartItem.numberInCart, inCartItem.name, onAction = {
+                onAction(CartAction.RemoveAllFromCart(inCartItem))
+            })
 
-            productUi.toppings?.let { toppings ->
+            inCartItem.toppingsForDisplay.let { toppings ->
                 LazyColumn {
-                    items(toppings) { topping ->
-                        Row( horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-                            Text(topping.numberOfToppings.toString(), color = Color.Gray)
+                    items(toppings.entries.toList()) { topping ->
+                        val (name, count) = topping
+                        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Text(name, color = Color.Gray)
                             Text("x", color = Color.Gray)
-                            Text(topping.name, color = Color.Gray)
+                            Text(count.toString(), color = Color.Gray)
                         }
                     }
                 }
@@ -116,31 +111,27 @@ fun CartItem(
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (itemCount <= 0) {
-                    AddButtonWithPrice(
-                        productUi,
+                if (inCartItem.numberInCart <= 0) {
+                    AddButtonWithPriceInCart(
+                        BigDecimal(inCartItem.price),
                         onAction =
                             {
-                                onAction(CartAction.AddItemToCart(productUi))
+                                onAction(CartAction.AddItemToCart(inCartItem))
                             }
-                    ) {
-                        itemCount += it
-                    }
+                    )
                 } else {
-                    PriceAndQuantityToggle(
-                        productUi,
-                        itemCount,
+                    PriceAndQuantityToggleInCart(
+                        totalPrice = BigDecimal(inCartItem.price),
+                        inCart = true,
+                        price = BigDecimal(inCartItem.price),
+                        inCartItem.numberInCart,
                         increment = {
-                            onAction(CartAction.AddItemToCart(productUi))
+                            onAction(CartAction.AddItemToCart(inCartItem))
                         },
                         decrement = {
-                            onAction(CartAction.RemoveItemFromCart(productUi))
+                            onAction(CartAction.RemoveItemFromCart(inCartItem))
                         }
-                    ) {
-                        if (itemCount > 0) {
-                            itemCount += it
-                        }
-                    }
+                    )
                 }
             }
         }
@@ -149,7 +140,7 @@ fun CartItem(
 
 @Preview()
 @Composable
-fun SideItemPreview() {
+fun CartItemPreview() {
     LazyPizzaTheme {
         Column(
             modifier =
@@ -162,49 +153,27 @@ fun SideItemPreview() {
             Column(
                 modifier =
                     Modifier
-                        .height(240.dp)
+                        .height(140.dp)
             ) {
                 CartItem(
-                    productUi =
-                        ProductUi(
-                            id = "10",
-                            localId = 1,
-                            description = "description",
-                            numberInCart = 10,
-                            imageUrl = "",
+                    inCartItem =
+                        InCartItem(
+                            name = "Meat Pizza",
+                            description = "Meat Lovers Pizza",
                             imageResource = R.drawable.meat_lovers,
-                            name = "Meat Lovers Pizza",
-                            price = BigDecimal("12.23"),
-                            toppings =
-                                listOf(
-                                    ToppingInCartEntity(
-                                        name = "Chili Peppers",
-                                        price = "0.43",
-                                        remoteId = 1,
-                                        toppingId = 1,
-                                        imageUrl = "",
-                                        productId = 2,
-                                        numberOfToppings = 2
-                                    ),
-                                    ToppingInCartEntity(
-                                        name = "Extra Cheese",
-                                        price = "0.65",
-                                        remoteId = 1,
-                                        imageUrl = "",
-                                        toppingId = 1,
-                                        productId = 2,
-                                        numberOfToppings = 3
-                                    ),
-                                    ToppingInCartEntity(
-                                        name = "Olives",
-                                        toppingId = 1,
-                                        price = "0.25",
-                                        remoteId = 1,
-                                        imageUrl = "",
-                                        productId = 4,
-                                        numberOfToppings = 1
-                                    )
-                                )
+                            price = "20.19",
+                            numberInCart = 2,
+                            imageUrl = "",
+                            productId = 1,
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Pepperoni" to 2,
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1
+                                ),
+                            type = "entree",
+                            lineNumbers = emptyList(),
+                            toppings = emptyList()
                         ),
                     onAction = {}
                 )

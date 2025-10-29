@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.menu.presentation.home.components
+package com.joshayoung.lazypizza.cart.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,19 +13,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.core.presentation.components.QuantitySelector
+import com.joshayoung.lazypizza.core.presentation.components.QuantitySelectorTwo
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun PriceAndQuantityToggle(
+fun PriceAndQuantityToggleInCart(
     totalPrice: BigDecimal,
     inCart: Boolean,
     price: BigDecimal,
     itemCount: Int,
     increment: () -> Unit,
-    decrement: () -> Unit,
-    updateCart: (Int) -> Unit
+    decrement: () -> Unit
 ) {
     val calculatedPrice = totalPrice
     Row(
@@ -35,11 +35,10 @@ fun PriceAndQuantityToggle(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        QuantitySelector(
+        QuantitySelectorTwo(
             itemCount,
             increment = increment,
             decrement = decrement,
-            updateCart = updateCart,
             inCart = inCart
         )
         PriceWithNumber(itemCount, price, calculatedPrice.toDouble())
@@ -89,14 +88,13 @@ fun PriceAndQuantityTogglePreview() {
                 Modifier
                     .fillMaxWidth()
         ) {
-            PriceAndQuantityToggle(
+            PriceAndQuantityToggleInCart(
                 totalPrice = BigDecimal(2.33),
                 inCart = true,
                 price = BigDecimal(23.33),
                 1,
                 increment = {},
-                decrement = {},
-                updateCart = {}
+                decrement = {}
             )
         }
     }

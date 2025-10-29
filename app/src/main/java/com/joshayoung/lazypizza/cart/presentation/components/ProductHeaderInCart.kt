@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.menu.presentation.home.components
+package com.joshayoung.lazypizza.cart.presentation.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -22,11 +22,10 @@ import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 
 @Composable
-fun ProductHeader(
+fun ProductHeaderInCart(
     itemCount: Int,
     name: String,
-    onAction: () -> Unit,
-    updateCart: (Int) -> Unit
+    onAction: () -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -39,7 +38,6 @@ fun ProductHeader(
         if (itemCount > 0) {
             IconButton(
                 onClick = {
-                    updateCart(-1)
                     onAction()
                 },
                 modifier =
@@ -67,11 +65,10 @@ fun ProductHeader(
 @Composable
 fun ProductHeaderPreview() {
     LazyPizzaTheme {
-        ProductHeader(
+        ProductHeaderInCart(
             name = "test",
             onAction = {},
             itemCount = 1,
-            updateCart = {}
         )
     }
 }

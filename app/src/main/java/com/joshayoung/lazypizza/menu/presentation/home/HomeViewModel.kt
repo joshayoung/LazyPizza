@@ -74,7 +74,12 @@ class HomeViewModel(
 
             is HomeAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeAllFromCart(action.productUi.toProduct())
+                    // TODO: move back to repository:
+                    // TODO: Switch to using lineItemId?:
+                    val id = action.productUi.toProduct().localId
+                    if (id != null) {
+                        cartDao.deleteAll(id)
+                    }
                 }
             }
         }

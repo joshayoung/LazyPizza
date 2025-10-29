@@ -40,12 +40,9 @@ class RoomLocalDataSource(
         return lineItemNumber
     }
 
-    override suspend fun removeAllFromCart(productId: Long?) {
-        if (productId == null) {
-            return
-        }
-
-        cartDao.deleteAll(productId)
+    override suspend fun removeAllFromCart(lineNumber: Long) {
+        cartDao.deleteItemFromCart(lineNumber)
+//        cartDao.deleteAll(productId)
     }
 
     override suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local> {
@@ -97,10 +94,6 @@ class RoomLocalDataSource(
         if (item != null) {
             cartDao.deleteCartItem(item)
         }
-    }
-
-    override fun productsInCart(): Flow<List<ProductWithCartStatusEntity>> {
-        return cartDao.productsInCart()
     }
 
     override suspend fun getProduct(productId: String): Product {

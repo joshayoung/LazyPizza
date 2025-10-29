@@ -1,19 +1,19 @@
 package com.joshayoung.lazypizza.cart.presentation
 
-import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
 sealed interface CartAction {
     data class AddItemToCart(
-        var productUi: ProductUi
+        var inCartItem: InCartItem
     ) : CartAction
 
     data class RemoveItemFromCart(
-        var productUi: ProductUi
+        var inCartItem: InCartItem
     ) : CartAction
 
     data class RemoveAllFromCart(
-        var productUi: ProductUi
+        var inCartItem: InCartItem
     ) : CartAction
 
     data class AddAddOnToCart(

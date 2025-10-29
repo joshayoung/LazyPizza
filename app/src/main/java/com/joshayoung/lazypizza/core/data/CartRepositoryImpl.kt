@@ -31,9 +31,9 @@ class CartRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun removeAllFromCart(product: Product) {
+    override suspend fun removeAllFromCart(lineNumber: Long) {
         localDataSource.removeAllFromCart(
-            product.localId
+            lineNumber
         )
     }
 
@@ -126,10 +126,6 @@ class CartRepositoryImpl(
 
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {
         return localDataSource.getNumberProductsInCart(cartId)
-    }
-
-    override fun productsInCart(): Flow<List<ProductWithCartStatusEntity>> {
-        return localDataSource.productsInCart()
     }
 
     override suspend fun getProduct(productId: String): Product {

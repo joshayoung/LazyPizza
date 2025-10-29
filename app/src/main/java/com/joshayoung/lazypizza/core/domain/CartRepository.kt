@@ -11,7 +11,7 @@ interface CartRepository {
 
     fun getCart(): Flow<CartEntity>
 
-    suspend fun removeAllFromCart(product: Product)
+    suspend fun removeAllFromCart(lineNumber: Long)
 
     suspend fun getProducts(): Flow<List<Product>>
 
@@ -33,8 +33,6 @@ interface CartRepository {
     suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
-
-    fun productsInCart(): Flow<List<ProductWithCartStatusEntity>>
 
     suspend fun getProduct(productId: String): Product
 }

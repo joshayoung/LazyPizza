@@ -83,7 +83,7 @@ fun SideItem(
                     ).padding(10.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            ProductHeader(itemCount, productUi, onAction = {
+            ProductHeader(itemCount, productUi.name, onAction = {
                 onAction(HomeAction.RemoveAllFromCart(productUi))
             }) {
                 if (itemCount > 0) {
@@ -98,7 +98,7 @@ fun SideItem(
             ) {
                 if (itemCount <= 0) {
                     AddButtonWithPrice(
-                        productUi,
+                        productUi.price,
                         onAction = {
                             onAction(HomeAction.AddItemToCart(productUi))
                         }
@@ -107,13 +107,15 @@ fun SideItem(
                     }
                 } else {
                     PriceAndQuantityToggle(
-                        productUi,
+                        totalPrice = productUi.totalPrice,
+                        inCart = productUi.inCart,
+                        price = productUi.price,
                         itemCount,
                         increment = {
                             onAction(HomeAction.AddItemToCart(productUi))
                         },
                         decrement = {
-                            onAction(HomeAction.RemoveItemFromCart(productUi))
+//                            onAction(HomeAction.RemoveItemFromCart(productUi))
                         }
                     ) {
                         if (itemCount > 0) {

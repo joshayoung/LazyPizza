@@ -1,7 +1,5 @@
 package com.joshayoung.lazypizza.core.domain.models
 
-import androidx.room.PrimaryKey
-
 data class Topping(
     val localId: Long? = null,
     val remoteId: String,

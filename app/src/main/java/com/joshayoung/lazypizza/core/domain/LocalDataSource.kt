@@ -16,7 +16,7 @@ interface LocalDataSource {
 
     suspend fun addProductToCart(productId: Long?): Long?
 
-    suspend fun removeAllFromCart(productId: Long?)
+    suspend fun removeAllFromCart(lineNumber: Long)
 
     suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local>
 
@@ -36,8 +36,6 @@ interface LocalDataSource {
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
 
     suspend fun removeProductFromCart(product: Product)
-
-    fun productsInCart(): Flow<List<ProductWithCartStatusEntity>>
 
     suspend fun getProduct(productId: String): Product
 }

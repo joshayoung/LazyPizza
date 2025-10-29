@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.utils
 
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
@@ -157,5 +158,47 @@ val previewProducts: List<MenuItemUi> =
             MenuType.Entree,
             productUiListForPreview,
             1
+        )
+    )
+
+val inCartItemsForPreview =
+    listOf(
+        InCartItem(
+            name = "Chocolate Ice Cream",
+            description = "A delicious food",
+            imageResource = R.drawable.cookies,
+            price = "10.19",
+            numberInCart = 1,
+            imageUrl = "",
+            type = "entree",
+            lineNumbers = emptyList(),
+            productId = 1,
+            toppingsForDisplay =
+
+                mapOf(
+                    "Pepperoni" to 2,
+                    "Mushrooms" to 2,
+                    "Olives" to 1
+                ),
+            toppings = emptyList()
+        ),
+        InCartItem(
+            name = "Meat Pizza",
+            description = "Meat Lovers Pizza",
+            toppingsForDisplay =
+
+                mapOf(
+                    "Pepperoni" to 2,
+                    "Mushrooms" to 2,
+                    "Olives" to 1
+                ),
+            imageResource = R.drawable.meat_lovers,
+            price = "20.19",
+            numberInCart = 2,
+            imageUrl = "",
+            type = "entree",
+            lineNumbers = emptyList(),
+            productId = 1,
+            toppings = emptyList()
         )
     )
