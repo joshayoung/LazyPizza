@@ -31,7 +31,7 @@ interface LocalDataSource {
 
     suspend fun doesCartExist(cartId: Long): Boolean
 
-    suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity>
+    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
 

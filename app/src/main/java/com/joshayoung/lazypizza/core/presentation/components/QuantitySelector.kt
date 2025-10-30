@@ -25,7 +25,6 @@ fun QuantitySelector(
     itemCount: Int,
     increment: () -> Unit,
     decrement: () -> Unit,
-    updateCart: (Int) -> Unit,
     inCart: Boolean = false
 ) {
     Row(
@@ -37,16 +36,12 @@ fun QuantitySelector(
         if (inCart) {
             DecrementComponent(
                 itemCount = itemCount,
-                decrement = decrement,
-                updateCart = updateCart
+                decrement = decrement
             )
         } else {
             CountButton(
                 "-",
-                onAction = { decrement() },
-                {
-                    updateCart(-1)
-                }
+                onAction = { decrement() }
             )
         }
         Text(
@@ -56,23 +51,19 @@ fun QuantitySelector(
                 Modifier
                     .padding(horizontal = 20.dp)
         )
-        CountButton("+", onAction = { increment() }, {
-            updateCart(1)
-        })
+        CountButton("+", onAction = { increment() })
     }
 }
 
 @Composable
 fun DecrementComponent(
     itemCount: Int,
-    decrement: () -> Unit,
-    updateCart: (Int) -> Unit
+    decrement: () -> Unit
 ) {
     if (itemCount < 2) {
         CountButton(
             "-",
             onAction = {},
-            { },
             modifier =
                 Modifier
                     .border(
@@ -85,10 +76,7 @@ fun DecrementComponent(
     } else {
         CountButton(
             "-",
-            onAction = { decrement() },
-            {
-                updateCart(-1)
-            }
+            onAction = { decrement() }
         )
     }
 }
@@ -97,7 +85,6 @@ fun DecrementComponent(
 fun CountButton(
     text: String,
     onAction: () -> Unit,
-    action: () -> Unit,
     modifier: Modifier = Modifier,
     textColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -108,7 +95,6 @@ fun CountButton(
                 .border(1.dp, Color.LightGray, shape = RoundedCornerShape(4.dp))
                 .size(20.dp),
         onClick = {
-            action()
             onAction()
         },
         colors =
@@ -132,7 +118,6 @@ fun QuantitySelectorPreview() {
             itemCount = 1,
             increment = {},
             decrement = {},
-            updateCart = {},
             inCart = true
         )
     }

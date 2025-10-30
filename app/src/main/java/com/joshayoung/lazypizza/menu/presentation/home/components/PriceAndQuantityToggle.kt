@@ -24,8 +24,7 @@ fun PriceAndQuantityToggle(
     price: BigDecimal,
     itemCount: Int,
     increment: () -> Unit,
-    decrement: () -> Unit,
-    updateCart: (Int) -> Unit
+    decrement: () -> Unit
 ) {
     val calculatedPrice = totalPrice
     Row(
@@ -39,7 +38,6 @@ fun PriceAndQuantityToggle(
             itemCount,
             increment = increment,
             decrement = decrement,
-            updateCart = updateCart,
             inCart = inCart
         )
         PriceWithNumber(itemCount, price, calculatedPrice.toDouble())
@@ -95,8 +93,7 @@ fun PriceAndQuantityTogglePreview() {
                 price = BigDecimal(23.33),
                 1,
                 increment = {},
-                decrement = {},
-                updateCart = {}
+                decrement = {}
             )
         }
     }

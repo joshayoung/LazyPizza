@@ -42,7 +42,6 @@ fun SideItem(
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    var itemCount by remember { mutableIntStateOf(productUi.numberInCart) }
     Row(
         modifier =
             modifier
@@ -83,45 +82,35 @@ fun SideItem(
                     ).padding(10.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            ProductHeader(itemCount, productUi.name, onAction = {
+            ProductHeader(productUi.numberInCart, productUi.name, onAction = {
                 onAction(HomeAction.RemoveAllFromCart(productUi))
-            }) {
-                if (itemCount > 0) {
-                    itemCount = 0
-                }
-            }
+            })
             Row(
                 modifier =
                     Modifier
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (itemCount <= 0) {
+                if (productUi.numberInCart <= 0) {
                     AddButtonWithPrice(
                         productUi.price,
                         onAction = {
                             onAction(HomeAction.AddItemToCart(productUi))
                         }
-                    ) {
-                        itemCount += it
-                    }
+                    )
                 } else {
                     PriceAndQuantityToggle(
                         totalPrice = productUi.totalPrice,
                         inCart = productUi.inCart,
                         price = productUi.price,
-                        itemCount,
+                        productUi.numberInCart,
                         increment = {
                             onAction(HomeAction.AddItemToCart(productUi))
                         },
                         decrement = {
-//                            onAction(HomeAction.RemoveItemFromCart(productUi))
+                            onAction(HomeAction.RemoveItemFromCart(productUi))
                         }
-                    ) {
-                        if (itemCount > 0) {
-                            itemCount += it
-                        }
-                    }
+                    )
                 }
             }
         }

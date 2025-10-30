@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private var authRepository: AuthRepository,
-    private var cartDao: CartDao,
     private var cartRepository: CartRepository
 ) : ViewModel() {
     var state by mutableStateOf(MainState())

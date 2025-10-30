@@ -30,7 +30,7 @@ interface CartRepository {
         theUser: String
     )
 
-    suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity>
+    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
 

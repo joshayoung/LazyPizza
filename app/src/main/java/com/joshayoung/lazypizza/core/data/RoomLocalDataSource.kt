@@ -81,7 +81,7 @@ class RoomLocalDataSource(
         return cartDao.doesCartExist(cartId)
     }
 
-    override suspend fun allProductsWithCartItems(): List<ProductWithCartStatusEntity> =
+    override fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>> =
         cartDao.allProductsWithCartItems()
 
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {

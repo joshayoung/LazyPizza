@@ -118,7 +118,6 @@ fun QuantitySelectorTwoPreview() {
             itemCount = 1,
             increment = {},
             decrement = {},
-            updateCart = {},
             inCart = true
         )
     }

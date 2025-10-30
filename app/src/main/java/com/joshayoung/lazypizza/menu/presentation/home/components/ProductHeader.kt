@@ -25,8 +25,7 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 fun ProductHeader(
     itemCount: Int,
     name: String,
-    onAction: () -> Unit,
-    updateCart: (Int) -> Unit
+    onAction: () -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -39,7 +38,6 @@ fun ProductHeader(
         if (itemCount > 0) {
             IconButton(
                 onClick = {
-                    updateCart(-1)
                     onAction()
                 },
                 modifier =
@@ -71,7 +69,6 @@ fun ProductHeaderPreview() {
             name = "test",
             onAction = {},
             itemCount = 1,
-            updateCart = {}
         )
     }
 }

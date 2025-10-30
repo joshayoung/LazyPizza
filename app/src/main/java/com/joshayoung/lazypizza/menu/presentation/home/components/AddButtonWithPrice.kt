@@ -28,8 +28,7 @@ import java.util.Locale
 @Composable
 fun AddButtonWithPrice(
     price: BigDecimal,
-    onAction: () -> Unit,
-    updateCart: (Int) -> Unit
+    onAction: () -> Unit
 ) {
     Row(
         modifier =
@@ -42,7 +41,6 @@ fun AddButtonWithPrice(
         Text(price, style = MaterialTheme.typography.titleLarge)
         Button(
             onClick = {
-                updateCart(1)
                 onAction()
             },
             contentPadding = PaddingValues(0.dp),
@@ -76,7 +74,6 @@ fun AddButtonWithPricePreview() {
             AddButtonWithPrice(
                 price = BigDecimal(2.00),
                 onAction = {},
-                updateCart = {}
             )
         }
     }

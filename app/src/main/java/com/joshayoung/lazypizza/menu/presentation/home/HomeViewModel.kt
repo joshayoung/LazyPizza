@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
+import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
+import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -127,13 +129,55 @@ class HomeViewModel(
         }
         viewModelScope.launch {
             cartRepository.updateLocalWithRemote()
-            orderedMenu = loadProductsUseCase.execute()
+            cartRepository.allProductsWithCartItems().collect { productUiItems ->
+                val entrees =
+                    productUiItems
+                        .filter {
+                            it.toProductUi().type ==
+                                MenuType.Entree
+                        }.map {
+                            it.toProductUi()
+                        }
+                val beverages =
+                    productUiItems
+                        .filter {
+                            it.toProductUi().type ==
+                                MenuType.Beverage
+                        }.map {
+                            it.toProductUi()
+                        }
+                val sauces =
+                    productUiItems.filter { it.toProductUi().type == MenuType.Sauce }.map {
+                        it.toProductUi()
+                    }
+                val desserts =
+                    productUiItems
+                        .filter {
+                            it.toProductUi().type ==
+                                MenuType.Dessert
+                        }.map {
+                            it.toProductUi()
+                        }
 
-            _state.update {
-                it.copy(
-                    items = orderedMenu,
-                    isLoadingProducts = false
-                )
+                val entreeStart = 0
+                val beverageStart = entrees.count() + HEADER_LENGTH
+                val saucesStart = beverageStart + beverages.count() + HEADER_LENGTH
+                val dessertStart = saucesStart + sauces.count() + HEADER_LENGTH
+
+                val orderedMenu =
+                    listOf(
+                        MenuItemUi(MenuType.Entree, entrees, entreeStart),
+                        MenuItemUi(MenuType.Beverage, beverages, beverageStart),
+                        MenuItemUi(MenuType.Sauce, sauces, saucesStart),
+                        MenuItemUi(MenuType.Dessert, desserts, dessertStart)
+                    )
+
+                _state.update {
+                    it.copy(
+                        items = orderedMenu,
+                        isLoadingProducts = false
+                    )
+                }
             }
         }
     }
