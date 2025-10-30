@@ -200,5 +200,24 @@ val inCartItemsForPreview =
             lineNumbers = emptyList(),
             productId = 1,
             toppings = emptyList()
+        ),
+        InCartItem(
+            name = "Meat Pizza",
+            description = "Meat Lovers Pizza",
+            toppingsForDisplay =
+
+                mapOf(
+                    "Pepperoni" to 2,
+                    "Mushrooms" to 2,
+                    "Olives" to 1
+                ),
+            imageResource = R.drawable.meat_lovers,
+            price = "20.19",
+            numberInCart = 2,
+            imageUrl = "",
+            type = "entree",
+            lineNumbers = emptyList(),
+            productId = 1,
+            toppings = emptyList()
         )
     )

@@ -294,7 +294,11 @@ fun ProductItems(
                         if (groupedItem.products.count() > 0) {
                             stickyHeader {
                                 Text(
-                                    groupedItem.menuType.displayValue,
+                                    modifier =
+                                        Modifier.background(
+                                            MaterialTheme.colorScheme.background
+                                        ),
+                                    text = groupedItem.menuType.displayValue,
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }

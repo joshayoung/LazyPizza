@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +16,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -47,6 +50,7 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import org.koin.androidx.compose.koinViewModel
+import java.nio.file.WatchEvent
 import java.util.Locale
 
 @Composable
@@ -113,14 +117,38 @@ fun CartScreen(
                                     .fillMaxSize(),
                             verticalArrangement = Arrangement.SpaceBetween
                         ) {
-                            CartItems(state = state, onAction = onAction)
-                            Column {
-                                RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            ) {
+                                LazyVerticalGrid(
+                                    modifier =
+                                        Modifier
+                                            .weight(1f),
+                                    columns = GridCells.Fixed(1)
+                                ) {
+                                    items(state.items) { inCartItem ->
+                                        CartItem(
+                                            inCartItem,
+                                            modifier =
+                                                Modifier
+                                                    .padding(bottom = 10.dp)
+                                                    .height(140.dp),
+                                            onAction = onAction
+                                        )
+                                    }
+                                    item {
+                                        RecommendedAddOns(
+                                            state.recommendedAddOns,
+                                            onAction =
+                                            onAction
+                                        )
+                                    }
+                                }
                                 CheckOutButton(
                                     state = state,
                                     modifier =
-                                        Modifier
-                                            .padding(top = 20.dp)
+                                    Modifier
                                 )
                             }
                         }
