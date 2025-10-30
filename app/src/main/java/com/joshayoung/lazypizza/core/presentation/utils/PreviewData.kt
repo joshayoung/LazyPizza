@@ -152,15 +152,6 @@ val addOnsForPreview =
         )
     )
 
-val previewProducts: List<MenuItemUi> =
-    listOf(
-        MenuItemUi(
-            MenuType.Entree,
-            productUiListForPreview,
-            1
-        )
-    )
-
 val inCartItemsForPreview =
     listOf(
         InCartItem(
@@ -180,6 +171,7 @@ val inCartItemsForPreview =
                     "Mushrooms" to 2,
                     "Olives" to 1
                 ),
+            remoteId = "123",
             toppings = emptyList()
         ),
         InCartItem(
@@ -195,6 +187,7 @@ val inCartItemsForPreview =
             imageResource = R.drawable.meat_lovers,
             price = "20.19",
             numberInCart = 2,
+            remoteId = "123",
             imageUrl = "",
             type = "entree",
             lineNumbers = emptyList(),
@@ -213,11 +206,21 @@ val inCartItemsForPreview =
                 ),
             imageResource = R.drawable.meat_lovers,
             price = "20.19",
+            remoteId = "123",
             numberInCart = 2,
             imageUrl = "",
             type = "entree",
             lineNumbers = emptyList(),
             productId = 1,
             toppings = emptyList()
+        )
+    )
+
+val previewProducts: List<MenuItemUi> =
+    listOf(
+        MenuItemUi(
+            MenuType.Entree,
+            inCartItemsForPreview,
+            1
         )
     )

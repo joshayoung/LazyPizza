@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.core.data.database.entity
 
 data class ProductWithCartStatusEntity(
-    val lineItemId: Long,
+    val lineItemId: Long?,
     val remoteId: String,
     val productId: Long,
     val name: String,
@@ -10,5 +10,5 @@ data class ProductWithCartStatusEntity(
     val imageUrl: String? = null,
     val imageResource: Int? = null,
     val type: String,
-    val numberInCart: Int
+    val numberInCart: Int? = null
 )

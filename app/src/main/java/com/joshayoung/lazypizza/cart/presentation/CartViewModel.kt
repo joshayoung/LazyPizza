@@ -79,6 +79,7 @@ class CartViewModel(
                         toppingsForDisplay = mapOf(),
                         imageUrl = productList.first().imageUrl,
                         type = productList.first().type ?: "",
+                        remoteId = productList.first().remoteId ?: "",
                         price = productList.first().price ?: "",
                         productId = productList.first().productId,
                         numberInCart = productList.count()
@@ -115,6 +116,7 @@ class CartViewModel(
                         imageResource = productList.first().imageResource,
                         imageUrl = productList.first().imageUrl,
                         type = productList.first().type,
+                        remoteId = productList.first().remoteId ?: "",
                         price = productList.first().price,
                         numberInCart = productList.count()
                     )
@@ -160,19 +162,24 @@ class CartViewModel(
 
             is CartAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val item = cartDao.getProductInCart(action.inCartItem.lineNumbers.first())
-                    if (item != null) {
-                        cartDao.deleteCartItem(item)
+                    val firstLineItemNumber = action.inCartItem.lineNumbers.first()
+                    if (firstLineItemNumber != null) {
+                        val item = cartDao.getProductInCart(firstLineItemNumber)
+                        if (item != null) {
+                            cartDao.deleteCartItem(item)
+                        }
+                        // TODO: Switch to flow, this is temporary:
+                        loadCart()
                     }
-                    // TODO: Switch to flow, this is temporary:
-                    loadCart()
                 }
             }
 
             is CartAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
                     action.inCartItem.lineNumbers.forEach { lineNumber ->
-                        cartRepository.removeAllFromCart(lineNumber)
+                        if (lineNumber != null) {
+                            cartRepository.removeAllFromCart(lineNumber)
+                        }
                     }
                 }
                 // TODO: Switch to flow, this is temporary:

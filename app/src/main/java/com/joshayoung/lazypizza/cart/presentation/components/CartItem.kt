@@ -46,7 +46,6 @@ fun CartItem(
     modifier: Modifier = Modifier,
     onAction: (CartAction) -> Unit
 ) {
-//    var itemCount by remember { mutableIntStateOf(inCartItem.numberInCart) }
     Row(
         modifier =
             modifier
@@ -173,6 +172,7 @@ fun CartItemPreview() {
                                 ),
                             type = "entree",
                             lineNumbers = emptyList(),
+                            remoteId = "",
                             toppings = emptyList()
                         ),
                     onAction = {}

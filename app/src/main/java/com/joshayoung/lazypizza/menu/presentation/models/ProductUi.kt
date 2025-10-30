@@ -19,7 +19,7 @@ data class ProductUi(
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,
     val type: MenuType? = null,
     val inCart: Boolean = false,
-    val numberInCart: Int = 0,
+    val numberInCart: Int? = null,
     @Serializable(with = BigDecimalSerializer::class) val totalPrice: BigDecimal =
         BigDecimal(0.0),
     @Serializable(with = BigDecimalSerializer::class) val toppingTotal: BigDecimal =

@@ -49,8 +49,8 @@ interface CartDao {
     @Query("SELECT * FROM topping")
     suspend fun getAllToppings(): List<ToppingEntity>
 
-    @Query("SELECT * FROM product where remoteId = :productId")
-    suspend fun getProduct(productId: String): ProductEntity
+    @Query("SELECT * FROM product where remoteId = :remoteId")
+    suspend fun getProduct(remoteId: String): ProductEntity
 
     @Delete
     suspend fun deleteCartItem(item: ProductsInCart)
@@ -75,7 +75,7 @@ interface CartDao {
     fun sidesNotInCart(): Flow<List<ProductEntity>>
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type, COUNT(pivot.productId) as numberInCart from product as p   left  join products_in_cart as pivot on pivot.productId == p.productId group by p.remoteId"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p   left  join products_in_cart as pivot on pivot.productId == p.productId "
     )
     fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>>
 
@@ -97,7 +97,7 @@ interface CartDao {
     @Query(
         "select topping.toppingId, topping.remoteId, topping.name, topping.price, topping.imageUrl, products_in_cart.productId from toppings_in_cart join topping on topping.toppingId = toppings_in_cart.toppingId join products_in_cart on toppings_in_cart.lineItemNumber = products_in_cart.id where products_in_cart.id = :lineItemNumber"
     )
-    suspend fun getToppingForProductInCart(lineItemNumber: Long): List<ToppingInCartEntity>
+    suspend fun getToppingForProductInCart(lineItemNumber: Long?): List<ToppingInCartEntity>
 
     @Query("DELETE from products_in_cart where id = :lineNumber")
     suspend fun deleteItemFromCart(lineNumber: Long)

@@ -1,17 +1,18 @@
 package com.joshayoung.lazypizza.menu.presentation.home
 
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
 sealed interface HomeAction {
     data class AddItemToCart(
-        var productUi: ProductUi
+        var inCartItem: InCartItem
     ) : HomeAction
 
     data class RemoveItemFromCart(
-        var productUi: ProductUi
+        var inCartItem: InCartItem
     ) : HomeAction
 
     data class RemoveAllFromCart(
-        var productUi: ProductUi
+        var inCartItem: InCartItem
     ) : HomeAction
 }

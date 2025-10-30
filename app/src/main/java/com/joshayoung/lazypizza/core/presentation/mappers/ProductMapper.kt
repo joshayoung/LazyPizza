@@ -48,7 +48,7 @@ fun ProductWithCartStatusEntity.toProductUi(): ProductUi {
         name = name,
         price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
         type = getMenuTypeEnum(type),
-        inCart = numberInCart > 0,
+        inCart = (numberInCart ?: 0) > 0,
         numberInCart = numberInCart
     )
 }

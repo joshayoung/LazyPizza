@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
@@ -140,7 +141,11 @@ fun HomeScreen(
                             .padding(horizontal = 20.dp)
                 ) {
                     HeaderAndSearch(state, 150.dp)
-                    Chips(lazyGridState, coroutineScope, state)
+                    Chips(
+                        lazyGridState,
+                        coroutineScope,
+                        state
+                    )
                     ProductItems(
                         lazyGridState,
                         state,
@@ -168,7 +173,11 @@ fun HomeScreen(
                             .padding(horizontal = 20.dp)
                 ) {
                     HeaderAndSearch(state, 140.dp)
-                    Chips(lazyGridState, coroutineScope, state)
+                    Chips(
+                        lazyGridState,
+                        coroutineScope,
+                        state
+                    )
                     ProductItems(
                         lazyGridState,
                         state,
@@ -285,8 +294,8 @@ fun ProductItems(
                 }
             } else {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(columns),
                     state = lazyGridState,
+                    columns = GridCells.Fixed(columns),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -304,7 +313,7 @@ fun ProductItems(
                             }
                         }
 
-                        items(groupedItem.products) {
+                        items(groupedItem.products, key = { it.productId }) {
                             ItemAndPrice(
                                 it,
                                 goToDetails = goToDetails,
@@ -321,12 +330,12 @@ fun ProductItems(
 
 @Composable
 fun ItemAndPrice(
-    productUi: ProductUi,
+    productUi: InCartItem,
     goToDetails: (id: String) -> Unit,
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    if (productUi.type == MenuType.Entree) {
+    if (productUi.type == MenuType.Entree.name.lowercase()) {
         ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
         SideItem(

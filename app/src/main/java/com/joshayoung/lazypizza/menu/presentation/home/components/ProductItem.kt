@@ -28,18 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
-import java.math.BigDecimal
 import java.util.Locale
 import kotlin.String
 import kotlin.Unit
 
 @Composable
 fun ProductItem(
-    productUi: ProductUi,
+    inCartItem: InCartItem,
     goToDetails: (id: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -60,13 +59,13 @@ fun ProductItem(
                             offset = DpOffset(x = 2.dp, 2.dp)
                         )
                 ).clickable {
-                    goToDetails(productUi.id)
+                    goToDetails(inCartItem.remoteId)
                 },
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProductOrToppingImage(
-            productUi.imageResource,
-            productUi.imageUrl,
+            inCartItem.imageResource,
+            inCartItem.imageUrl,
             modifier =
                 Modifier
                     .fillMaxHeight()
@@ -91,19 +90,20 @@ fun ProductItem(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                productUi.name,
+                inCartItem.name,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
             )
             Text(
-                productUi.description ?: "",
+                inCartItem.description ?: "",
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.weight(1f))
-            val price = String.format(locale = Locale.US, "$%.2f", productUi.price)
+            // TODO: Causing a crash without toDouble, correct this:
+            val price = String.format(locale = Locale.US, "$%.2f", inCartItem.price.toDouble())
             Text(
                 price,
                 modifier = Modifier,
@@ -132,14 +132,25 @@ private fun ProductItemPreview() {
                         .width(400.dp)
             ) {
                 ProductItem(
-                    productUi =
-                        ProductUi(
-                            id = "1",
-                            localId = 3,
-                            description = "onion, corn",
-                            imageResource = R.drawable.veggie_delight,
-                            name = "Veggie Delight",
-                            price = BigDecimal("9.79")
+                    inCartItem =
+                        InCartItem(
+                            name = "Meat Pizza",
+                            description = "Meat Lovers Pizza",
+                            imageResource = R.drawable.meat_lovers,
+                            price = "20.19",
+                            numberInCart = 2,
+                            imageUrl = "",
+                            remoteId = "",
+                            productId = 1,
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Pepperoni" to 2,
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1
+                                ),
+                            type = "entree",
+                            lineNumbers = emptyList(),
+                            toppings = emptyList()
                         ),
                     goToDetails = {}
                 )
@@ -152,16 +163,25 @@ private fun ProductItemPreview() {
                         .width(400.dp)
             ) {
                 ProductItem(
-                    productUi =
-                        ProductUi(
-                            id = "1",
-                            localId = 3,
-                            description =
-                                "Tomato sauce, mozzarella, mushrooms, " +
-                                    "olives, bell pepper, onion, corn",
-                            imageResource = R.drawable.veggie_delight,
-                            name = "Veggie Delight",
-                            price = BigDecimal("9.79")
+                    inCartItem =
+                        InCartItem(
+                            name = "Meat Pizza",
+                            description = "Meat Lovers Pizza",
+                            imageResource = R.drawable.meat_lovers,
+                            price = "20.19",
+                            numberInCart = 2,
+                            imageUrl = "",
+                            productId = 1,
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Pepperoni" to 2,
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1
+                                ),
+                            type = "entree",
+                            lineNumbers = emptyList(),
+                            remoteId = "",
+                            toppings = emptyList()
                         ),
                     goToDetails = {}
                 )

@@ -26,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.cart.presentation.components.PriceAndQuantityToggleInCart
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
@@ -38,7 +40,7 @@ import java.math.BigDecimal
 
 @Composable
 fun SideItem(
-    productUi: ProductUi,
+    productUi: InCartItem,
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
@@ -93,16 +95,16 @@ fun SideItem(
             ) {
                 if (productUi.numberInCart <= 0) {
                     AddButtonWithPrice(
-                        productUi.price,
+                        BigDecimal(productUi.price),
                         onAction = {
                             onAction(HomeAction.AddItemToCart(productUi))
                         }
                     )
                 } else {
-                    PriceAndQuantityToggle(
-                        totalPrice = productUi.totalPrice,
-                        inCart = productUi.inCart,
-                        price = productUi.price,
+                    PriceAndQuantityToggleInCart(
+                        totalPrice = BigDecimal(productUi.price),
+                        inCart = productUi.numberInCart > 0,
+                        price = BigDecimal(productUi.price),
                         productUi.numberInCart,
                         increment = {
                             onAction(HomeAction.AddItemToCart(productUi))
@@ -136,14 +138,24 @@ fun SideItemPreview() {
             ) {
                 SideItem(
                     productUi =
-                        ProductUi(
-                            id = "10",
-                            localId = 1,
-                            description = "description",
+                        InCartItem(
+                            name = "Meat Pizza",
+                            description = "Meat Lovers Pizza",
+                            imageResource = R.drawable.meat_lovers,
+                            price = "20.19",
+                            numberInCart = 2,
                             imageUrl = "",
-                            imageResource = R.drawable.seven_up,
-                            name = "7-up",
-                            price = BigDecimal("1.23")
+                            productId = 1,
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Pepperoni" to 2,
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1
+                                ),
+                            type = "entree",
+                            lineNumbers = emptyList(),
+                            remoteId = "123",
+                            toppings = emptyList()
                         ),
                     onAction = {}
                 )

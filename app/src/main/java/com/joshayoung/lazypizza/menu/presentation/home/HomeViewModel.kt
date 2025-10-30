@@ -3,9 +3,11 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.CartDao
+import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
-import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
@@ -13,6 +15,7 @@ import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -62,25 +65,51 @@ class HomeViewModel(
     fun onAction(action: HomeAction) {
         when (action) {
             is HomeAction.AddItemToCart -> {
+//                viewModelScope.launch {
+//                    val product = action.productUi.toProduct()
+//                    cartRepository.addProductToCart(product)
+//                }
+//
                 viewModelScope.launch {
-                    val product = action.productUi.toProduct()
-                    cartRepository.addProductToCart(product)
+                    val lineItem =
+                        cartDao.insertProductId(
+                            ProductsInCart(
+                                cartId = 1,
+                                productId = action.inCartItem.productId
+                            )
+                        )
+                    if (action.inCartItem.toppings.any()) {
+                        action.inCartItem.toppings.forEach { topping ->
+                            cartDao.insertToppingId(
+                                ToppingsInCart(
+                                    lineItemNumber = lineItem,
+                                    toppingId = topping.toppingId,
+                                    cartId = 1
+                                )
+                            )
+                        }
+                    }
                 }
             }
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    cartRepository.removeProductFromCart(action.productUi.toProduct())
+                    val firstLineItemNumber = action.inCartItem.lineNumbers.first()
+                    if (firstLineItemNumber != null) {
+                        val item = cartDao.getProductInCart(firstLineItemNumber)
+                        if (item != null) {
+                            cartDao.deleteCartItem(item)
+                        }
+                    }
                 }
             }
 
             is HomeAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    // TODO: move back to repository:
-                    // TODO: Switch to using lineItemId?:
-                    val id = action.productUi.toProduct().localId
-                    if (id != null) {
-                        cartDao.deleteAll(id)
+                    action.inCartItem.lineNumbers.forEach { lineNumber ->
+                        if (lineNumber != null) {
+                            cartRepository.removeAllFromCart(lineNumber)
+                        }
                     }
                 }
             }
@@ -129,56 +158,78 @@ class HomeViewModel(
         }
         viewModelScope.launch {
             cartRepository.updateLocalWithRemote()
-            cartRepository.allProductsWithCartItems().collect { productUiItems ->
-                val entrees =
-                    productUiItems
-                        .filter {
-                            it.toProductUi().type ==
-                                MenuType.Entree
-                        }.map {
-                            it.toProductUi()
+            cartRepository
+                .allProductsWithCartItems()
+                .distinctUntilChanged()
+                .collect { productUiItems ->
+
+                    val groupedByProductId = productUiItems.groupBy { it.productId }
+                    val allProducts =
+                        groupedByProductId
+                            .map { (_, productList) ->
+                                doSomething(productList)
+                            }.map { itm ->
+                                InCartItem(
+                                    lineNumbers = itm.lineNumbers,
+                                    name = itm.name,
+                                    toppingsForDisplay = mapOf(),
+                                    productId = itm.productId,
+                                    description = itm.description,
+                                    numberInCart = itm.numberInCart,
+                                    remoteId = itm.remoteId,
+                                    imageResource = itm.imageResource,
+                                    imageUrl = itm.imageUrl,
+                                    type = itm.type,
+                                    price = itm.price
+                                )
+                            }
+                    val entrees = allProducts.filter { it.type == MenuType.Entree.name.lowercase() }
+                    val beverages =
+                        allProducts.filter {
+                            it.type ==
+                                MenuType.Beverage.name.lowercase()
                         }
-                val beverages =
-                    productUiItems
-                        .filter {
-                            it.toProductUi().type ==
-                                MenuType.Beverage
-                        }.map {
-                            it.toProductUi()
+                    val sauces = allProducts.filter { it.type == MenuType.Sauce.name.lowercase() }
+                    val desserts =
+                        allProducts.filter {
+                            it.type == MenuType.Dessert.name.lowercase()
                         }
-                val sauces =
-                    productUiItems.filter { it.toProductUi().type == MenuType.Sauce }.map {
-                        it.toProductUi()
+
+                    val entreeStart = 0
+                    val beverageStart = entrees.count() + HEADER_LENGTH
+                    val saucesStart = beverageStart + beverages.count() + HEADER_LENGTH
+                    val dessertStart = saucesStart + sauces.count() + HEADER_LENGTH
+                    val menuItems =
+                        listOf(
+                            MenuItemUi(MenuType.Entree, entrees, entreeStart),
+                            MenuItemUi(MenuType.Beverage, beverages, beverageStart),
+                            MenuItemUi(MenuType.Sauce, sauces, saucesStart),
+                            MenuItemUi(MenuType.Dessert, desserts, dessertStart)
+                        )
+                    _state.update {
+                        it.copy(
+                            items = menuItems,
+                            isLoadingProducts = false
+                        )
                     }
-                val desserts =
-                    productUiItems
-                        .filter {
-                            it.toProductUi().type ==
-                                MenuType.Dessert
-                        }.map {
-                            it.toProductUi()
-                        }
-
-                val entreeStart = 0
-                val beverageStart = entrees.count() + HEADER_LENGTH
-                val saucesStart = beverageStart + beverages.count() + HEADER_LENGTH
-                val dessertStart = saucesStart + sauces.count() + HEADER_LENGTH
-
-                val orderedMenu =
-                    listOf(
-                        MenuItemUi(MenuType.Entree, entrees, entreeStart),
-                        MenuItemUi(MenuType.Beverage, beverages, beverageStart),
-                        MenuItemUi(MenuType.Sauce, sauces, saucesStart),
-                        MenuItemUi(MenuType.Dessert, desserts, dessertStart)
-                    )
-
-                _state.update {
-                    it.copy(
-                        items = orderedMenu,
-                        isLoadingProducts = false
-                    )
                 }
-            }
         }
+    }
+
+    private fun doSomething(productList: List<ProductWithCartStatusEntity>): InCartItem {
+        val lineNumbers = productList.mapNotNull { it.lineItemId }
+        return InCartItem(
+            lineNumbers = lineNumbers,
+            name = productList.first().name,
+            description = productList.first().description,
+            imageResource = productList.first().imageResource,
+            toppingsForDisplay = mapOf(),
+            imageUrl = productList.first().imageUrl,
+            type = productList.first().type,
+            price = productList.first().price,
+            remoteId = productList.first().remoteId,
+            productId = productList.first().productId,
+            numberInCart = lineNumbers.count()
+        )
     }
 }
