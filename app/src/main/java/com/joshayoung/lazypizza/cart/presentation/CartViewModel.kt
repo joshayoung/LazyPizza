@@ -11,10 +11,8 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -66,7 +64,7 @@ class CartViewModel(
 
     private fun loadCart() {
         viewModelScope.launch {
-            val both =
+            val productsInCart =
                 cartDao
                     .productsInCartWithNoToppings()
                     .combine(
@@ -94,7 +92,7 @@ class CartViewModel(
                         val groupedByToppingList =
                             productWithToppings
                                 .groupBy { it.name }
-                        val inCartItemsTwo =
+                        val inCartItemsWithToppings =
                             groupedByToppingList.map { (id, productList) ->
                                 productList
                                     .map {
@@ -124,10 +122,10 @@ class CartViewModel(
                                     numberInCart = productList.count()
                                 )
                             }
-                        inCartItems + inCartItemsTwo
+                        inCartItems + inCartItemsWithToppings
                     }
 
-            both.collect { inCartItems ->
+            productsInCart.collect { inCartItems ->
                 _state.update {
                     it.copy(
                         items = inCartItems,
@@ -155,25 +153,23 @@ class CartViewModel(
                                 productId = action.inCartItem.productId
                             )
                         )
-                    if (action.inCartItem.toppings.any()) {
-                        action.inCartItem.toppings.forEach { topping ->
-                            cartDao.insertToppingId(
-                                ToppingsInCart(
-                                    lineItemNumber = lineItem,
-                                    toppingId = topping.toppingId,
-                                    cartId = 1
-                                )
+                    action.inCartItem.toppings.forEach { topping ->
+                        cartDao.insertToppingId(
+                            ToppingsInCart(
+                                lineItemNumber = lineItem,
+                                toppingId = topping.toppingId,
+                                cartId = 1
                             )
-                        }
+                        )
                     }
                 }
             }
 
             is CartAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val firstLineItemNumber = action.inCartItem.lineNumbers.first()
-                    if (firstLineItemNumber != null) {
-                        val item = cartDao.getProductInCart(firstLineItemNumber)
+                    val lastLineNumber = action.inCartItem.lineNumbers.last()
+                    if (lastLineNumber != null) {
+                        val item = cartDao.getProductInCart(lastLineNumber)
                         if (item != null) {
                             cartDao.deleteCartItem(item)
                         }
@@ -191,7 +187,6 @@ class CartViewModel(
                 }
             }
 
-            // TODO: The adds on are added a different way:
             is CartAction.AddAddOnToCart -> {
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()

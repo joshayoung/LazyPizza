@@ -15,7 +15,7 @@ interface CartRepository {
 
     suspend fun getProducts(): Flow<List<Product>>
 
-    suspend fun getToppings(): Flow<List<Topping>>
+    suspend fun getToppings(): List<Topping>
 
     suspend fun updateLocalWithRemote(reload: Boolean = false)
 

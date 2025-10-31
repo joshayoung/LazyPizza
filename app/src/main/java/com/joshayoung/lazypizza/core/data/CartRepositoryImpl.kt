@@ -1,7 +1,6 @@
 package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -18,8 +17,7 @@ import kotlinx.coroutines.flow.Flow
 
 class CartRepositoryImpl(
     private var localDataSource: LocalDataSource,
-    private var cartRemoteDataSource: CartRemoteDataSource,
-    private var cartDao: CartDao
+    private var cartRemoteDataSource: CartRemoteDataSource
 ) : CartRepository {
     override suspend fun addProductToCart(product: Product): Long? {
         return localDataSource.addProductToCart(
@@ -57,10 +55,10 @@ class CartRepositoryImpl(
         }
     }
 
-    override suspend fun getToppings(): Flow<List<Topping>> {
+    override suspend fun getToppings(): List<Topping> {
         val localToppings = localDataSource.getAllToppings()
         if (!localToppings.isEmpty()) {
-            return localToppings.map { it.toTopping() }.toFlowList()
+            return localToppings.map { it.toTopping() }
         } else {
             val remoteToppings =
                 cartRemoteDataSource
@@ -72,7 +70,7 @@ class CartRepositoryImpl(
                 localDataSource.upsertTopping(topping.toToppingEntity())
             }
 
-            return remoteToppings.toFlowList()
+            return remoteToppings
         }
     }
 

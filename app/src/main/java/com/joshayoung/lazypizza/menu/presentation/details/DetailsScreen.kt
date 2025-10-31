@@ -46,7 +46,7 @@ import java.util.Locale
 
 @Composable
 fun DetailsScreenRoot(
-    viewModel: DetailsScreenViewModel = koinViewModel(),
+    viewModel: DetailViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToCart: () -> Unit
 ) {

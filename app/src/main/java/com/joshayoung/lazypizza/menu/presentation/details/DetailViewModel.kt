@@ -13,11 +13,10 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
-class DetailsScreenViewModel(
+class DetailViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val cartRepository: CartRepository,
     private val cartDao: CartDao
@@ -45,8 +44,7 @@ class DetailsScreenViewModel(
                         productUi = productUi,
                         totalPrice = productUi.price
                     )
-                // TODO: Does this need to be a flow?
-                var toppings = cartRepository.getToppings().first()
+                var toppings = cartRepository.getToppings()
                 state =
                     state.copy(
                         toppings = toppings.map { it.toToppingUi() }
@@ -88,11 +86,11 @@ class DetailsScreenViewModel(
                             return@launch
                         }
                         toppings.forEach { topping ->
-                            if (topping.localId != null) {
+                            topping.localId?.let { id ->
                                 cartDao.insertToppingId(
                                     ToppingsInCart(
                                         lineItemNumber = lineItemNumber,
-                                        toppingId = topping.localId,
+                                        toppingId = id,
                                         cartId = 1
                                     )
                                 )

@@ -3,19 +3,16 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.CartDao
-import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
-import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -25,7 +22,6 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val loadProductsUseCase: LoadProductsUseCase,
     private val cartDao: CartDao
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
@@ -65,11 +61,6 @@ class HomeViewModel(
     fun onAction(action: HomeAction) {
         when (action) {
             is HomeAction.AddItemToCart -> {
-//                viewModelScope.launch {
-//                    val product = action.productUi.toProduct()
-//                    cartRepository.addProductToCart(product)
-//                }
-//
                 viewModelScope.launch {
                     val lineItem =
                         cartDao.insertProductId(
@@ -94,12 +85,12 @@ class HomeViewModel(
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val firstLineItemNumber = action.inCartItem.lineNumbers.first()
-                    if (firstLineItemNumber != null) {
-                        val item = cartDao.getProductInCart(firstLineItemNumber)
-                        if (item != null) {
-                            cartDao.deleteCartItem(item)
-                        }
+                    val lastLineNumber = action.inCartItem.lineNumbers.last()
+                    if (lastLineNumber == null) {
+                        return@launch
+                    }
+                    cartDao.getProductInCart(lastLineNumber)?.let { item ->
+                        cartDao.deleteCartItem(item)
                     }
                 }
             }
@@ -160,29 +151,42 @@ class HomeViewModel(
             cartRepository.updateLocalWithRemote()
             cartRepository
                 .allProductsWithCartItems()
-                .distinctUntilChanged()
                 .collect { productUiItems ->
 
                     val groupedByProductId = productUiItems.groupBy { it.productId }
                     val allProducts =
                         groupedByProductId
                             .map { (_, productList) ->
-                                doSomething(productList)
-                            }.map { itm ->
+                                val lineNumbers = productList.mapNotNull { it.lineItemId }
                                 InCartItem(
-                                    lineNumbers = itm.lineNumbers,
-                                    name = itm.name,
+                                    lineNumbers = lineNumbers,
+                                    name = productList.first().name,
+                                    description = productList.first().description,
+                                    imageResource = productList.first().imageResource,
                                     toppingsForDisplay = mapOf(),
-                                    productId = itm.productId,
-                                    description = itm.description,
-                                    numberInCart = itm.numberInCart,
-                                    remoteId = itm.remoteId,
-                                    imageResource = itm.imageResource,
-                                    imageUrl = itm.imageUrl,
-                                    type = itm.type,
-                                    price = itm.price
+                                    imageUrl = productList.first().imageUrl,
+                                    type = productList.first().type,
+                                    price = productList.first().price,
+                                    remoteId = productList.first().remoteId,
+                                    productId = productList.first().productId,
+                                    numberInCart = lineNumbers.count()
                                 )
                             }
+//                            .map { itm ->
+//                                InCartItem(
+//                                    lineNumbers = itm.lineNumbers,
+//                                    name = itm.name,
+//                                    toppingsForDisplay = mapOf(),
+//                                    productId = itm.productId,
+//                                    description = itm.description,
+//                                    numberInCart = itm.numberInCart,
+//                                    remoteId = itm.remoteId,
+//                                    imageResource = itm.imageResource,
+//                                    imageUrl = itm.imageUrl,
+//                                    type = itm.type,
+//                                    price = itm.price
+//                                )
+//                            }
                     val entrees = allProducts.filter { it.type == MenuType.Entree.name.lowercase() }
                     val beverages =
                         allProducts.filter {
@@ -214,22 +218,5 @@ class HomeViewModel(
                     }
                 }
         }
-    }
-
-    private fun doSomething(productList: List<ProductWithCartStatusEntity>): InCartItem {
-        val lineNumbers = productList.mapNotNull { it.lineItemId }
-        return InCartItem(
-            lineNumbers = lineNumbers,
-            name = productList.first().name,
-            description = productList.first().description,
-            imageResource = productList.first().imageResource,
-            toppingsForDisplay = mapOf(),
-            imageUrl = productList.first().imageUrl,
-            type = productList.first().type,
-            price = productList.first().price,
-            remoteId = productList.first().remoteId,
-            productId = productList.first().productId,
-            numberInCart = lineNumbers.count()
-        )
     }
 }
