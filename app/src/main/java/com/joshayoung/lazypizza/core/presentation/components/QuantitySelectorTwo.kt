@@ -58,7 +58,7 @@ fun QuantitySelectorTwo(
 @Composable
 fun DecrementComponentTWo(
     itemCount: Int,
-    decrement: () -> Unit,
+    decrement: () -> Unit
 ) {
     if (itemCount < 2) {
         CountButtonTwo(
@@ -117,8 +117,7 @@ fun QuantitySelectorTwoPreview() {
         QuantitySelector(
             itemCount = 1,
             increment = {},
-            decrement = {},
-            inCart = true
+            decrement = {}
         )
     }
 }

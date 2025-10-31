@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.cart.presentation
 
-import androidx.core.os.registerForAllProfilingResults
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.CartDao
@@ -10,7 +9,6 @@ import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collect

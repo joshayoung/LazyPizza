@@ -18,8 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -121,7 +119,6 @@ fun CartItem(
                 } else {
                     PriceAndQuantityToggle(
                         totalPrice = BigDecimal(inCartItem.price),
-                        inCart = true,
                         price = BigDecimal(inCartItem.price),
                         inCartItem.numberInCart,
                         increment = {

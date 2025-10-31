@@ -73,7 +73,7 @@ fun AddButtonWithPricePreview() {
         Box(modifier = Modifier.width(300.dp)) {
             AddButtonWithPrice(
                 price = BigDecimal(2.00),
-                onAction = {},
+                onAction = {}
             )
         }
     }

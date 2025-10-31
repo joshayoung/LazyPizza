@@ -25,7 +25,7 @@ fun QuantitySelector(
     itemCount: Int,
     increment: () -> Unit,
     decrement: () -> Unit,
-    inCart: Boolean = false
+    onMenuPage: Boolean = false
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -33,17 +33,11 @@ fun QuantitySelector(
         modifier =
         Modifier
     ) {
-        if (inCart) {
-            DecrementComponent(
-                itemCount = itemCount,
-                decrement = decrement
-            )
-        } else {
-            CountButton(
-                "-",
-                onAction = { decrement() }
-            )
-        }
+        DecrementComponent(
+            itemCount = itemCount,
+            decrement = decrement,
+            onMenuPage = onMenuPage
+        )
         Text(
             text = itemCount.toString(),
             style = MaterialTheme.typography.titleMedium,
@@ -58,8 +52,17 @@ fun QuantitySelector(
 @Composable
 fun DecrementComponent(
     itemCount: Int,
-    decrement: () -> Unit
+    decrement: () -> Unit,
+    onMenuPage: Boolean = false
 ) {
+    if (onMenuPage) {
+        CountButton(
+            "-",
+            onAction = { decrement() }
+        )
+        return
+    }
+
     if (itemCount < 2) {
         CountButton(
             "-",
@@ -117,8 +120,7 @@ fun QuantitySelectorPreview() {
         QuantitySelector(
             itemCount = 1,
             increment = {},
-            decrement = {},
-            inCart = true
+            decrement = {}
         )
     }
 }

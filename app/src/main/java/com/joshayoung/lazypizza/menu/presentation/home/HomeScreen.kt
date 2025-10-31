@@ -57,7 +57,6 @@ import com.joshayoung.lazypizza.menu.presentation.components.SearchField
 import com.joshayoung.lazypizza.menu.presentation.components.SideItem
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
@@ -341,7 +340,8 @@ fun ItemAndPrice(
         SideItem(
             productUi,
             modifier = modifier,
-            onAction = onAction
+            onAction = onAction,
+            onMenuPage = true
         )
     }
 }

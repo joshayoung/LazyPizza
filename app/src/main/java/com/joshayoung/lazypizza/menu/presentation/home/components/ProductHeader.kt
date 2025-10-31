@@ -68,7 +68,7 @@ fun ProductHeaderPreview() {
         ProductHeader(
             name = "test",
             onAction = {},
-            itemCount = 1,
+            itemCount = 1
         )
     }
 }

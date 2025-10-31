@@ -14,8 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,14 +32,14 @@ import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.menu.presentation.home.components.AddButtonWithPrice
 import com.joshayoung.lazypizza.menu.presentation.home.components.PriceAndQuantityToggle
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductHeader
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
 @Composable
 fun SideItem(
     productUi: InCartItem,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit
+    onAction: (HomeAction) -> Unit,
+    onMenuPage: Boolean = false
 ) {
     Row(
         modifier =
@@ -101,10 +99,10 @@ fun SideItem(
                     )
                 } else {
                     PriceAndQuantityToggle(
+                        onMenuPage = true,
                         totalPrice = BigDecimal(productUi.price),
-                        inCart = productUi.numberInCart > 0,
                         price = BigDecimal(productUi.price),
-                        productUi.numberInCart,
+                        itemCount = productUi.numberInCart,
                         increment = {
                             onAction(HomeAction.AddItemToCart(productUi))
                         },

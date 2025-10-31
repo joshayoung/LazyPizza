@@ -20,11 +20,11 @@ import java.util.Locale
 @Composable
 fun PriceAndQuantityToggle(
     totalPrice: BigDecimal,
-    inCart: Boolean,
     price: BigDecimal,
     itemCount: Int,
     increment: () -> Unit,
-    decrement: () -> Unit
+    decrement: () -> Unit,
+    onMenuPage: Boolean = false
 ) {
     val calculatedPrice = totalPrice
     Row(
@@ -38,7 +38,7 @@ fun PriceAndQuantityToggle(
             itemCount,
             increment = increment,
             decrement = decrement,
-            inCart = inCart
+            onMenuPage = onMenuPage
         )
         PriceWithNumber(itemCount, price, calculatedPrice.toDouble())
     }
@@ -89,7 +89,6 @@ fun PriceAndQuantityTogglePreview() {
         ) {
             PriceAndQuantityToggle(
                 totalPrice = BigDecimal(2.33),
-                inCart = true,
                 price = BigDecimal(23.33),
                 1,
                 increment = {},
