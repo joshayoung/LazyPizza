@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.cart.presentation.components.PriceAndQuantityToggleInCart
 import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -101,7 +100,7 @@ fun SideItem(
                         }
                     )
                 } else {
-                    PriceAndQuantityToggleInCart(
+                    PriceAndQuantityToggle(
                         totalPrice = BigDecimal(productUi.price),
                         inCart = productUi.numberInCart > 0,
                         price = BigDecimal(productUi.price),

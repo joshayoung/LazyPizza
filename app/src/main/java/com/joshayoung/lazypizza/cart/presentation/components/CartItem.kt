@@ -86,7 +86,7 @@ fun CartItem(
                     ).padding(10.dp),
             verticalArrangement = Arrangement.Top
         ) {
-            ProductHeaderInCart(inCartItem.numberInCart, inCartItem.name, onAction = {
+            ProductHeader(inCartItem.numberInCart, inCartItem.name, onAction = {
                 onAction(CartAction.RemoveAllFromCart(inCartItem))
             })
 
@@ -111,7 +111,7 @@ fun CartItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 if (inCartItem.numberInCart <= 0) {
-                    AddButtonWithPriceInCart(
+                    AddButtonWithPrice(
                         BigDecimal(inCartItem.price),
                         onAction =
                             {
@@ -119,7 +119,7 @@ fun CartItem(
                             }
                     )
                 } else {
-                    PriceAndQuantityToggleInCart(
+                    PriceAndQuantityToggle(
                         totalPrice = BigDecimal(inCartItem.price),
                         inCart = true,
                         price = BigDecimal(inCartItem.price),
