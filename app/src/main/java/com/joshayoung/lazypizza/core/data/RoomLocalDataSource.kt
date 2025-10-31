@@ -3,9 +3,12 @@ package com.joshayoung.lazypizza.core.data
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.networking.DataError
@@ -40,9 +43,34 @@ class RoomLocalDataSource(
         return lineItemNumber
     }
 
+    override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCart? {
+        return cartDao.getProductInCart(lastLineNumber)
+    }
+
+    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>> {
+        return cartDao
+            .productsInCartWithToppings()
+    }
+
+    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartEntity> {
+        return cartDao.getToppingForProductInCart(lineItemId)
+    }
+
+    override suspend fun deleteCartItem(item: ProductsInCart) {
+        cartDao.deleteCartItem(item)
+    }
+
+    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>> {
+        return cartDao
+            .productsInCartWithNoToppings()
+    }
+
+    override suspend fun sidesNotInCart(): Flow<List<ProductEntity>> {
+        return cartDao.sidesNotInCart()
+    }
+
     override suspend fun removeAllFromCart(lineNumber: Long) {
         cartDao.deleteItemFromCart(lineNumber)
-//        cartDao.deleteAll(productId)
     }
 
     override suspend fun upsertCart(cartEntity: CartEntity): Result<CartEntity, DataError.Local> {
@@ -77,6 +105,18 @@ class RoomLocalDataSource(
         )
     }
 
+    override suspend fun insertToppingId(toppingsInCart: ToppingsInCart) {
+        cartDao.insertToppingId(
+            toppingsInCart
+        )
+    }
+
+    override suspend fun insertProductId(productsInCart: ProductsInCart): Long {
+        return cartDao.insertProductId(
+            productsInCart
+        )
+    }
+
     override suspend fun doesCartExist(cartId: Long): Boolean {
         return cartDao.doesCartExist(cartId)
     }
@@ -88,7 +128,7 @@ class RoomLocalDataSource(
         return cartDao.getNumberProductsInCart(cartId)
     }
 
-    // Getting a null value when trying to remove from cart and the reduction in quantiy is therfore not changing the price correctly:
+    // Getting a null value when trying to remove from cart and the reduction in quantity is therefore not changing the price correctly:
     override suspend fun removeProductFromCart(product: Product) {
         val item = cartDao.getProductInCart(product.lineItemId ?: 0)
         if (item != null) {

@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
@@ -18,8 +17,7 @@ import java.math.BigDecimal
 
 class DetailViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val cartRepository: CartRepository,
-    private val cartDao: CartDao
+    private val cartRepository: CartRepository
 ) : ViewModel() {
     var state by mutableStateOf(DetailsState())
         private set
@@ -87,7 +85,7 @@ class DetailViewModel(
                         }
                         toppings.forEach { topping ->
                             topping.localId?.let { id ->
-                                cartDao.insertToppingId(
+                                cartRepository.insertToppingId(
                                     ToppingsInCart(
                                         lineItemNumber = lineItemNumber,
                                         toppingId = id,

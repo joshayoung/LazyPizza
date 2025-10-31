@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.cart.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -20,8 +19,7 @@ import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class CartViewModel(
-    private var cartRepository: CartRepository,
-    private var cartDao: CartDao
+    private var cartRepository: CartRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(CartState())
 
@@ -37,7 +35,7 @@ class CartViewModel(
 
     init {
         viewModelScope.launch {
-            cartDao
+            cartRepository
                 .sidesNotInCart()
                 .collect { items ->
                     _state.update {
@@ -65,10 +63,10 @@ class CartViewModel(
     private fun loadCart() {
         viewModelScope.launch {
             val productsInCart =
-                cartDao
+                cartRepository
                     .productsInCartWithNoToppings()
                     .combine(
-                        cartDao
+                        cartRepository
                             .productsInCartWithToppings()
                     ) { productWithNoToppings, productWithToppings ->
                         val groupedByProductId = productWithNoToppings.groupBy { it.productId }
@@ -96,12 +94,14 @@ class CartViewModel(
                             groupedByToppingList.map { (id, productList) ->
                                 productList
                                     .map {
-                                        cartDao.getToppingForProductInCart(it.lineItemId)
+                                        cartRepository
+                                            .getToppingForProductInCart(it.lineItemId)
                                     }.flatMap { it }
                                 val toppings =
                                     productList
                                         .map {
-                                            cartDao.getToppingForProductInCart(it.lineItemId)
+                                            cartRepository
+                                                .getToppingForProductInCart(it.lineItemId)
                                         }.flatMap { it }
                                 val toppingsForDisplay =
                                     toppings
@@ -147,14 +147,14 @@ class CartViewModel(
             is CartAction.AddItemToCart -> {
                 viewModelScope.launch {
                     val lineItem =
-                        cartDao.insertProductId(
+                        cartRepository.insertProductId(
                             ProductsInCart(
                                 cartId = 1,
                                 productId = action.inCartItem.productId
                             )
                         )
                     action.inCartItem.toppings.forEach { topping ->
-                        cartDao.insertToppingId(
+                        cartRepository.insertToppingId(
                             ToppingsInCart(
                                 lineItemNumber = lineItem,
                                 toppingId = topping.toppingId,
@@ -169,9 +169,9 @@ class CartViewModel(
                 viewModelScope.launch {
                     val lastLineNumber = action.inCartItem.lineNumbers.last()
                     if (lastLineNumber != null) {
-                        val item = cartDao.getProductInCart(lastLineNumber)
+                        val item = cartRepository.getProductInCart(lastLineNumber)
                         if (item != null) {
-                            cartDao.deleteCartItem(item)
+                            cartRepository.deleteCartItem(item)
                         }
                     }
                 }

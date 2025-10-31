@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -21,8 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val cartRepository: CartRepository,
-    private val cartDao: CartDao
+    private val cartRepository: CartRepository
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
@@ -63,7 +61,7 @@ class HomeViewModel(
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
                     val lineItem =
-                        cartDao.insertProductId(
+                        cartRepository.insertProductId(
                             ProductsInCart(
                                 cartId = 1,
                                 productId = action.inCartItem.productId
@@ -71,7 +69,7 @@ class HomeViewModel(
                         )
                     if (action.inCartItem.toppings.any()) {
                         action.inCartItem.toppings.forEach { topping ->
-                            cartDao.insertToppingId(
+                            cartRepository.insertToppingId(
                                 ToppingsInCart(
                                     lineItemNumber = lineItem,
                                     toppingId = topping.toppingId,
@@ -89,8 +87,8 @@ class HomeViewModel(
                     if (lastLineNumber == null) {
                         return@launch
                     }
-                    cartDao.getProductInCart(lastLineNumber)?.let { item ->
-                        cartDao.deleteCartItem(item)
+                    cartRepository.getProductInCart(lastLineNumber)?.let { item ->
+                        cartRepository.deleteCartItem(item)
                     }
                 }
             }
@@ -172,21 +170,6 @@ class HomeViewModel(
                                     numberInCart = lineNumbers.count()
                                 )
                             }
-//                            .map { itm ->
-//                                InCartItem(
-//                                    lineNumbers = itm.lineNumbers,
-//                                    name = itm.name,
-//                                    toppingsForDisplay = mapOf(),
-//                                    productId = itm.productId,
-//                                    description = itm.description,
-//                                    numberInCart = itm.numberInCart,
-//                                    remoteId = itm.remoteId,
-//                                    imageResource = itm.imageResource,
-//                                    imageUrl = itm.imageUrl,
-//                                    type = itm.type,
-//                                    price = itm.price
-//                                )
-//                            }
                     val entrees = allProducts.filter { it.type == MenuType.Entree.name.lowercase() }
                     val beverages =
                         allProducts.filter {
