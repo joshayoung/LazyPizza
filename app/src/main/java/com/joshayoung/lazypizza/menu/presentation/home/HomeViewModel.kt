@@ -6,6 +6,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.utils.productUiListForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
@@ -117,9 +118,14 @@ class HomeViewModel(
         }
 
         val items =
-            orderedMenu.filter { (_, values) ->
-                values.any { value -> value.name.contains(search, ignoreCase = true) }
-            }
+            orderedMenu
+                .map { menuItem ->
+                    val matches =
+                        menuItem.products.filter { product ->
+                            product.name.contains(search, ignoreCase = true)
+                        }
+                    menuItem.copy(products = matches)
+                }
 
         if (items.count() < 1) {
             _state.update {
@@ -186,7 +192,7 @@ class HomeViewModel(
                     val beverageStart = entrees.count() + HEADER_LENGTH
                     val saucesStart = beverageStart + beverages.count() + HEADER_LENGTH
                     val dessertStart = saucesStart + sauces.count() + HEADER_LENGTH
-                    val menuItems =
+                    orderedMenu =
                         listOf(
                             MenuItemUi(MenuType.Entree, entrees, entreeStart),
                             MenuItemUi(MenuType.Beverage, beverages, beverageStart),
@@ -195,7 +201,7 @@ class HomeViewModel(
                         )
                     _state.update {
                         it.copy(
-                            items = menuItems,
+                            items = orderedMenu,
                             isLoadingProducts = false
                         )
                     }
