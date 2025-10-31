@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.cart.presentation
 
+import androidx.core.os.registerForAllProfilingResults
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.CartDao
@@ -12,7 +13,9 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -65,70 +68,80 @@ class CartViewModel(
 
     private fun loadCart() {
         viewModelScope.launch {
-            val productWithNoToppings = cartDao.productsInCartWithNoToppings()
+            val both =
+                cartDao
+                    .productsInCartWithNoToppings()
+                    .combine(
+                        cartDao
+                            .productsInCartWithToppings()
+                    ) { productWithNoToppings, productWithToppings ->
+                        val groupedByProductId = productWithNoToppings.groupBy { it.productId }
+                        val inCartItems =
+                            groupedByProductId.map { (_, productList) ->
+                                InCartItem(
+                                    lineNumbers = productList.map { it.lineItemId },
+                                    name = productList.first().name,
+                                    description = productList.first().description,
+                                    imageResource = productList.first().imageResource,
+                                    toppingsForDisplay = mapOf(),
+                                    imageUrl = productList.first().imageUrl,
+                                    type = productList.first().type ?: "",
+                                    remoteId = productList.first().remoteId,
+                                    price = productList.first().price,
+                                    productId = productList.first().productId,
+                                    numberInCart = productList.count()
+                                )
+                            }
 
-            val groupedByProductId = productWithNoToppings.groupBy { it.productId }
+                        val groupedByToppingList =
+                            productWithToppings
+                                .groupBy { it.name }
+                        val inCartItemsTwo =
+                            groupedByToppingList.map { (id, productList) ->
+                                productList
+                                    .map {
+                                        cartDao.getToppingForProductInCart(it.lineItemId)
+                                    }.flatMap { it }
+                                val toppings =
+                                    productList
+                                        .map {
+                                            cartDao.getToppingForProductInCart(it.lineItemId)
+                                        }.flatMap { it }
+                                val toppingsForDisplay =
+                                    toppings
+                                        .groupBy { it.name }
+                                        .mapValues { entry -> entry.value.size }
+                                InCartItem(
+                                    lineNumbers = productList.map { it.lineItemId },
+                                    toppings = toppings,
+                                    toppingsForDisplay = toppingsForDisplay,
+                                    name = productList.first().name,
+                                    productId = productList.first().productId,
+                                    description = productList.first().description,
+                                    imageResource = productList.first().imageResource,
+                                    imageUrl = productList.first().imageUrl,
+                                    type = productList.first().type ?: "",
+                                    remoteId = productList.first().remoteId,
+                                    price = productList.first().price,
+                                    numberInCart = productList.count()
+                                )
+                            }
+                        inCartItems + inCartItemsTwo
+                    }
 
-            val inCartItems =
-                groupedByProductId.map { (_, productList) ->
-                    InCartItem(
-                        lineNumbers = productList.map { it.lineItemId },
-                        name = productList.first().name ?: "",
-                        description = productList.first().description,
-                        imageResource = productList.first().imageResource,
-                        toppingsForDisplay = mapOf(),
-                        imageUrl = productList.first().imageUrl,
-                        type = productList.first().type ?: "",
-                        remoteId = productList.first().remoteId ?: "",
-                        price = productList.first().price ?: "",
-                        productId = productList.first().productId,
-                        numberInCart = productList.count()
+            both.collect { inCartItems ->
+                _state.update {
+                    it.copy(
+                        items = inCartItems,
+                        checkoutPrice =
+                            BigDecimal(
+                                inCartItems.sumOf { lt ->
+                                    lt.price.toDouble()
+                                }
+                            ),
+                        isLoadingCart = false
                     )
                 }
-
-            val productWithToppings = cartDao.productsInCartWithToppings()
-
-            val groupedByToppingList =
-                productWithToppings
-                    .groupBy { it.name }
-            val inCartItemsTwo =
-                groupedByToppingList.map { (id, productList) ->
-                    productList
-                        .map {
-                            cartDao.getToppingForProductInCart(it.lineItemId)
-                        }.flatMap { it }
-                    val toppings =
-                        productList
-                            .map {
-                                cartDao.getToppingForProductInCart(it.lineItemId)
-                            }.flatMap { it }
-                    val toppingsForDisplay =
-                        toppings
-                            .groupBy { it.name }
-                            .mapValues { entry -> entry.value.size }
-                    InCartItem(
-                        lineNumbers = productList.map { it.lineItemId },
-                        toppings = toppings,
-                        toppingsForDisplay = toppingsForDisplay,
-                        name = productList.first().name,
-                        productId = productList.first().productId,
-                        description = productList.first().description,
-                        imageResource = productList.first().imageResource,
-                        imageUrl = productList.first().imageUrl,
-                        type = productList.first().type,
-                        remoteId = productList.first().remoteId ?: "",
-                        price = productList.first().price,
-                        numberInCart = productList.count()
-                    )
-                }
-            val allItems = inCartItems + inCartItemsTwo
-
-            _state.update {
-                it.copy(
-                    items = allItems,
-                    checkoutPrice = BigDecimal(allItems.sumOf { lt -> lt.price.toDouble() }),
-                    isLoadingCart = false
-                )
             }
         }
     }
@@ -155,8 +168,6 @@ class CartViewModel(
                             )
                         }
                     }
-                    // TODO: Switch to flow, this is temporary:
-                    loadCart()
                 }
             }
 
@@ -168,8 +179,6 @@ class CartViewModel(
                         if (item != null) {
                             cartDao.deleteCartItem(item)
                         }
-                        // TODO: Switch to flow, this is temporary:
-                        loadCart()
                     }
                 }
             }
@@ -182,8 +191,6 @@ class CartViewModel(
                         }
                     }
                 }
-                // TODO: Switch to flow, this is temporary:
-                loadCart()
             }
 
             // TODO: The adds on are added a different way:
@@ -191,7 +198,6 @@ class CartViewModel(
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
                     cartRepository.addProductToCart(product)
-                    loadCart()
                 }
             }
         }

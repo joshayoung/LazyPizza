@@ -9,7 +9,6 @@ import androidx.room.Upsert
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntityNoToppings
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
@@ -75,19 +74,19 @@ interface CartDao {
     fun sidesNotInCart(): Flow<List<ProductEntity>>
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p   left  join products_in_cart as pivot on pivot.productId == p.productId "
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p left join products_in_cart as pivot on pivot.productId == p.productId "
     )
     fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>>
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id NOT IN (select lineItemNumber from toppings_in_cart)"
     )
-    suspend fun productsInCartWithNoToppings(): List<ProductInCartEntityNoToppings>
+    fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>>
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.price, p.description, p.imageUrl, p.imageResource, p.type, p.name, GROUP_CONCAT(t.name, ', ') as toppingList from product as p join products_in_cart as pivot on pivot.productId == p.productId join toppings_in_cart as tic on tic.lineItemNumber = pivot.id join topping as t on t.toppingId = tic.toppingId where pivot.id IN (select lineItemNumber from toppings_in_cart) group by pivot.id"
     )
-    suspend fun productsInCartWithToppings(): List<ProductInCartEntity>
+    fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>>
 
     @Query(
         "select topping.toppingId, topping.remoteId, topping.name, topping.price, topping.imageUrl, products_in_cart.productId, count(toppings_in_cart.toppingId) as numberOfToppings from toppings_in_cart join topping on topping.toppingId = toppings_in_cart.toppingId join products_in_cart on toppings_in_cart.lineItemNumber = products_in_cart.id where toppings_in_cart.lineItemNumber = :lineItemNumber group by toppings_in_cart.toppingId"

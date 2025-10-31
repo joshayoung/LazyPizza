@@ -9,7 +9,5 @@ data class ProductInCartEntity(
     val description: String,
     val imageUrl: String? = null,
     val imageResource: Int? = null,
-    val type: String,
-    val toppingList: String
-//    val numberInCart: Int? = null
+    val type: String? = null
 )
