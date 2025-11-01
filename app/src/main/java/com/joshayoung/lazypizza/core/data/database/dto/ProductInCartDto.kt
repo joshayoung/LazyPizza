@@ -2,12 +2,13 @@ package com.joshayoung.lazypizza.core.data.database.dto
 
 data class ProductInCartDto(
     var lineItemId: Long? = null,
-    val productId: Long,
     val remoteId: String,
+    val productId: Long,
     val name: String,
     val price: String,
     val description: String,
     val imageUrl: String? = null,
     val imageResource: Int? = null,
-    val type: String? = null
+    val type: String? = null,
+    val numberInCart: Int? = null
 )

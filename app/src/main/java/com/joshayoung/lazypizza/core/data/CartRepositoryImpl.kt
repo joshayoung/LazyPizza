@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -119,7 +118,7 @@ class CartRepositoryImpl(
         localDataSource.createCartForUser(cartId, theUser)
     }
 
-    override fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>> {
+    override fun allProductsWithCartItems(): Flow<List<ProductInCartDto>> {
         return localDataSource.allProductsWithCartItems()
     }
 

@@ -1,7 +1,6 @@
 package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -42,7 +41,7 @@ interface CartRepository {
         theUser: String
     )
 
-    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>>
+    fun allProductsWithCartItems(): Flow<List<ProductInCartDto>>
 
     fun getNumberProductsInCart(cartId: Long): Flow<Int>
 

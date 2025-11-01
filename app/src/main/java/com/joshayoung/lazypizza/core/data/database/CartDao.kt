@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -53,7 +52,7 @@ interface CartDao {
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p left join products_in_cart as pivot on pivot.productId == p.productId "
     )
-    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>>
+    fun allProductsWithCartItems(): Flow<List<ProductInCartDto>>
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p join products_in_cart as pivot on pivot.productId == p.productId where pivot.id NOT IN (select lineItemNumber from toppings_in_cart)"

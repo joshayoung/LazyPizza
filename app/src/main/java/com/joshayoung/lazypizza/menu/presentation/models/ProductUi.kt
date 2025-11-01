@@ -1,8 +1,6 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
-import com.joshayoung.lazypizza.core.domain.serializers.BigDecimalSerializer
-import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
 data class ProductUi(

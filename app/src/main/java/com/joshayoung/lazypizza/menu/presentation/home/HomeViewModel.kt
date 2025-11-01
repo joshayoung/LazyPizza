@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
+import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,20 +160,7 @@ class HomeViewModel(
                     val allProducts =
                         groupedByProductId
                             .map { (_, productList) ->
-                                val lineNumbers = productList.mapNotNull { it.lineItemId }
-                                InCartItemUi(
-                                    lineNumbers = lineNumbers,
-                                    name = productList.first().name,
-                                    description = productList.first().description,
-                                    imageResource = productList.first().imageResource,
-                                    toppingsForDisplay = mapOf(),
-                                    imageUrl = productList.first().imageUrl,
-                                    type = productList.first().type,
-                                    price = productList.first().price,
-                                    remoteId = productList.first().remoteId,
-                                    productId = productList.first().productId,
-                                    numberInCart = lineNumbers.count()
-                                )
+                                productList.toInCartItemUi()
                             }
                     val entrees =
                         allProducts.filter {

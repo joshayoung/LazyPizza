@@ -1,7 +1,6 @@
 package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
@@ -51,7 +50,7 @@ interface LocalDataSource {
 
     suspend fun doesCartExist(cartId: Long): Boolean
 
-    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>>
+    fun allProductsWithCartItems(): Flow<List<ProductInCartDto>>
 
     fun getNumberProductsInCart(cartId: Long): Flow<Int>
 

@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.core.presentation.mappers
 
-import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
@@ -35,21 +34,6 @@ fun Topping.toToppingUi(): ToppingUi {
         name = name,
         price = BigDecimal(price),
         imageUrl = imageUrl
-    )
-}
-
-fun ProductWithCartStatusDto.toProductUi(): ProductUi {
-    return ProductUi(
-        localId = productId,
-        id = remoteId,
-        remoteImageUrl = imageUrl,
-        description = description,
-        imageResource = imageResource,
-        name = name,
-        price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
-        type = getMenuTypeEnum(type),
-        inCart = (numberInCart ?: 0) > 0,
-        numberInCart = numberInCart
     )
 }
 

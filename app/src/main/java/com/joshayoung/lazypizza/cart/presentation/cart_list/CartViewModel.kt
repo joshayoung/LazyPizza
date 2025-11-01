@@ -7,7 +7,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
-import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
+import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -72,19 +72,7 @@ class CartViewModel(
                         val groupedByProductId = productWithNoToppings.groupBy { it.productId }
                         val inCartItemUis =
                             groupedByProductId.map { (_, productList) ->
-                                InCartItemUi(
-                                    lineNumbers = productList.map { it.lineItemId },
-                                    name = productList.first().name,
-                                    description = productList.first().description,
-                                    imageResource = productList.first().imageResource,
-                                    toppingsForDisplay = mapOf(),
-                                    imageUrl = productList.first().imageUrl,
-                                    type = productList.first().type ?: "",
-                                    remoteId = productList.first().remoteId,
-                                    price = productList.first().price,
-                                    productId = productList.first().productId,
-                                    numberInCart = productList.count()
-                                )
+                                productList.toInCartItemUi()
                             }
 
                         val groupedByToppingList =
@@ -107,20 +95,7 @@ class CartViewModel(
                                     toppings
                                         .groupBy { it.name }
                                         .mapValues { entry -> entry.value.size }
-                                InCartItemUi(
-                                    lineNumbers = productList.map { it.lineItemId },
-                                    toppings = toppings,
-                                    toppingsForDisplay = toppingsForDisplay,
-                                    name = productList.first().name,
-                                    productId = productList.first().productId,
-                                    description = productList.first().description,
-                                    imageResource = productList.first().imageResource,
-                                    imageUrl = productList.first().imageUrl,
-                                    type = productList.first().type ?: "",
-                                    remoteId = productList.first().remoteId,
-                                    price = productList.first().price,
-                                    numberInCart = productList.count()
-                                )
+                                productList.toInCartItemUi(toppingsForDisplay)
                             }
                         inCartItemUis + inCartItemsWithToppingUis
                     }
