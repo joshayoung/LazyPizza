@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.TrashIcon
 
 @Composable
 fun ProductHeader(
@@ -50,7 +51,7 @@ fun ProductHeader(
                         .size(20.dp)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.trash),
+                    imageVector = TrashIcon,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier =

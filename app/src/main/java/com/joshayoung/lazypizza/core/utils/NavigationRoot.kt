@@ -11,6 +11,9 @@ import androidx.navigation.navArgument
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
+import com.joshayoung.lazypizza.core.ui.theme.CartIcon
+import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
+import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
 import com.joshayoung.lazypizza.history.presentation.HistoryScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
@@ -24,50 +27,50 @@ fun NavigationRoot(navController: NavHostController) {
             ?.route
             ?.substringAfterLast(".")
 
+    val bottomNavigationItems =
+        listOf(
+            BottomNavItemUi(
+                label = "Menu",
+                selected = currentRoute == "Menu",
+                clickAction = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                },
+                imageVector = MenuIcon
+            ),
+            BottomNavItemUi(
+                label = "Cart",
+                selected = currentRoute == "Cart",
+                clickAction = {
+                    navController.navigate(Routes.Cart) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                },
+                imageVector = CartIcon
+            ),
+            BottomNavItemUi(
+                label = "History",
+                selected = currentRoute == "History",
+                clickAction = {
+                    navController.navigate(Routes.History) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                },
+                imageVector = HistoryIcon
+            )
+        )
+
     NavHost(
         navController = navController,
         startDestination = Routes.Menu
     ) {
-        val bottomNavigationItems =
-            listOf(
-                BottomNavItemUi(
-                    label = "Menu",
-                    selected = currentRoute == "Menu",
-                    clickAction = {
-                        navController.navigate(Routes.Menu) {
-                            popUpTo(0) {
-                                inclusive = true
-                            }
-                        }
-                    },
-                    imageResource = R.drawable.book
-                ),
-                BottomNavItemUi(
-                    label = "Cart",
-                    selected = currentRoute == "Cart",
-                    clickAction = {
-                        navController.navigate(Routes.Cart) {
-                            popUpTo(0) {
-                                inclusive = true
-                            }
-                        }
-                    },
-                    imageResource = R.drawable.cart
-                ),
-                BottomNavItemUi(
-                    label = "History",
-                    selected = currentRoute == "History",
-                    clickAction = {
-                        navController.navigate(Routes.History) {
-                            popUpTo(0) {
-                                inclusive = true
-                            }
-                        }
-                    },
-                    imageResource = R.drawable.history
-                )
-            )
-
         composable<Routes.Menu> {
             HomeScreenRoot(
                 bottomNavItemUis = bottomNavigationItems,

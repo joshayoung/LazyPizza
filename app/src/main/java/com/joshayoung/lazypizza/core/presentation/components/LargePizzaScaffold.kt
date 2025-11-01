@@ -129,7 +129,7 @@ fun CustomNavigationRailItem(item: BottomNavItemUi) {
     ) {
         Icon(
             tint = tint,
-            painter = painterResource(item.imageResource),
+            imageVector = item.imageVector,
             contentDescription = null,
             modifier =
                 Modifier

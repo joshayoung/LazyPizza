@@ -14,15 +14,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.PlusIcon
 
 @Composable
 fun ToggleButton(
-    imageResource: Int,
+    imageResource: ImageVector,
     click: () -> Unit,
     preventMore: MutableState<Boolean>? = null
 ) {
@@ -51,7 +53,7 @@ fun ToggleButton(
                     .size(30.dp)
         ) {
             Icon(
-                painter = painterResource(imageResource),
+                imageVector = imageResource,
                 tint = imageColor,
                 contentDescription = null
             )
@@ -68,12 +70,12 @@ fun ToggleButtonPreview() {
     LazyPizzaTheme {
         Column {
             ToggleButton(
-                R.drawable.plus,
+                PlusIcon,
                 click = {},
                 preventMore = preventMoreNo
             )
             ToggleButton(
-                R.drawable.plus,
+                PlusIcon,
                 click = {},
                 preventMore = preventMoreYes
             )

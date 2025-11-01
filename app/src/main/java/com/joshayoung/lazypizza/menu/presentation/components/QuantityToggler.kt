@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.MinusIcon
+import com.joshayoung.lazypizza.core.ui.theme.PlusIcon
 import com.joshayoung.lazypizza.menu.presentation.details.DetailAction
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
@@ -34,7 +36,7 @@ fun QuantityToggler(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ToggleButton(R.drawable.minus, click = {
+        ToggleButton(MinusIcon, click = {
             click(DetailAction.DecrementPrice(price = toppingUi.price))
             if (quantity.intValue > 0) {
                 quantity.intValue -= 1
@@ -47,8 +49,8 @@ fun QuantityToggler(
             modifier = Modifier
         )
         ToggleButton(
-            R.drawable.plus,
-            click = {
+            PlusIcon
+            ,click = {
                 if (!preventMore.value) {
                     click(DetailAction.IncrementPrice(price = toppingUi.price))
                     quantity.intValue += 1

@@ -1,37 +1,44 @@
 package com.joshayoung.lazypizza.core.presentation.utils
 
+import androidx.compose.runtime.Composable
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
+import com.joshayoung.lazypizza.core.ui.theme.CartIcon
+import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
+import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
-val previewBottomNavItemUis =
-    listOf(
-        BottomNavItemUi(
-            label = "Menu",
-            selected = true,
-            clickAction = {
-            },
-            imageResource = R.drawable.book
-        ),
-        BottomNavItemUi(
-            label = "Cart",
-            selected = false,
-            clickAction = {
-            },
-            imageResource = R.drawable.cart
-        ),
-        BottomNavItemUi(
-            label = "History",
-            selected = false,
-            clickAction = {
-            },
-            imageResource = R.drawable.history
+val previewBottomNavItemUis: List<BottomNavItemUi>
+    @Composable
+    get() {
+        return listOf(
+            BottomNavItemUi(
+                label = "Menu",
+                selected = true,
+                clickAction = {
+                },
+                imageVector = MenuIcon
+            ),
+            BottomNavItemUi(
+                label = "Cart",
+                selected = false,
+                clickAction = {
+                },
+                imageVector = CartIcon
+            ),
+            BottomNavItemUi(
+                label = "History",
+                selected = false,
+                clickAction = {
+                },
+                imageVector = HistoryIcon
+            )
         )
-    )
+    }
 
 val productUiListForPreview =
     listOf(

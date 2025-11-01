@@ -52,6 +52,7 @@ import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.presentation.utils.previewProducts
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.PizzaHeader
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.SearchField
 import com.joshayoung.lazypizza.menu.presentation.components.SideItem
@@ -196,7 +197,7 @@ fun HeaderAndSearch(
     height: Dp
 ) {
     Image(
-        painterResource(id = R.drawable.pizza_header),
+        imageVector = PizzaHeader,
         contentDescription = null,
         contentScale = ContentScale.FillWidth,
         modifier =
@@ -340,8 +341,7 @@ fun ItemAndPrice(
         SideItem(
             productUi,
             modifier = modifier,
-            onAction = onAction,
-            onMenuPage = true
+            onAction = onAction
         )
     }
 }

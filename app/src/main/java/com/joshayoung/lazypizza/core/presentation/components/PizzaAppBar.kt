@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.PizzaLogo
@@ -91,7 +92,7 @@ fun BackButton(onBackClick: () -> Unit) {
                 onBackClick()
             }) {
                 Icon(
-                    painter = painterResource(R.drawable.back),
+                    imageVector = BackIcon,
                     tint = MaterialTheme.colorScheme.onSecondary,
                     contentDescription = null
                 )

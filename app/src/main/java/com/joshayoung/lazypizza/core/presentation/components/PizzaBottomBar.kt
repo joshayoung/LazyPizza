@@ -26,14 +26,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
+import com.joshayoung.lazypizza.core.ui.theme.CartIcon
+import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
 import com.joshayoung.lazypizza.core.ui.theme.primary8
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
@@ -82,10 +85,10 @@ fun PizzaBottomBar(
                                 }
                             }
                         ) {
-                            NavItem(item.label, item.clickAction, item.selected, item.imageResource)
+                            NavItem(item.label, item.clickAction, item.selected, item.imageVector)
                         }
                     } else {
-                        NavItem(item.label, item.clickAction, item.selected, item.imageResource)
+                        NavItem(item.label, item.clickAction, item.selected, item.imageVector)
                     }
                 }
             }
@@ -98,7 +101,7 @@ fun NavItem(
     label: String,
     clickAction: () -> Unit,
     selected: Boolean,
-    imageResource: Int
+    imageVector: ImageVector
 ) {
     var outlineBackground = Color.Transparent
     var tint = MaterialTheme.colorScheme.onSecondary
@@ -125,7 +128,7 @@ fun NavItem(
         ) {
             Icon(
                 tint = tint,
-                painter = painterResource(imageResource),
+                imageVector = imageVector,
                 contentDescription = null,
                 modifier =
                     Modifier
@@ -161,19 +164,19 @@ fun LazyPizzaBottomBarPreview() {
                             label = "Menu",
                             selected = true,
                             clickAction = { },
-                            imageResource = R.drawable.book
+                            imageVector = MenuIcon,
                         ),
                         BottomNavItemUi(
                             label = "Cart",
                             selected = false,
                             clickAction = { },
-                            imageResource = R.drawable.cart
+                            imageVector = CartIcon,
                         ),
                         BottomNavItemUi(
                             label = "History",
                             selected = false,
                             clickAction = { },
-                            imageResource = R.drawable.history
+                            imageVector = HistoryIcon,
                         )
                     )
             )
