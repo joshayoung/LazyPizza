@@ -20,14 +20,14 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = ProductsInCart::class,
+            entity = ProductsInCartEntity::class,
             parentColumns = ["id"],
             childColumns = ["lineItemNumber"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class ToppingsInCart(
+data class ToppingsInCartEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val lineItemNumber: Long,
     val toppingId: Long,

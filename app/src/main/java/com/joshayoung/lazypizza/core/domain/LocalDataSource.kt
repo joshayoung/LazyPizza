@@ -1,13 +1,13 @@
 package com.joshayoung.lazypizza.core.domain
 
+import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
+import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
@@ -20,15 +20,15 @@ interface LocalDataSource {
 
     suspend fun addProductToCart(productId: Long?): Long?
 
-    suspend fun getProductInCart(lastLineNumber: Long): ProductsInCart?
+    suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity?
 
-    suspend fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>>
+    suspend fun productsInCartWithToppings(): Flow<List<ProductInCartDto>>
 
-    suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartEntity>
+    suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto>
 
-    suspend fun deleteCartItem(item: ProductsInCart)
+    suspend fun deleteCartItem(item: ProductsInCartEntity)
 
-    suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>>
+    suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>>
 
     suspend fun sidesNotInCart(): Flow<List<ProductEntity>>
 
@@ -45,13 +45,13 @@ interface LocalDataSource {
         theUser: String
     )
 
-    suspend fun insertToppingId(toppingsInCart: ToppingsInCart)
+    suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity)
 
-    suspend fun insertProductId(productsInCart: ProductsInCart): Long
+    suspend fun insertProductId(productsInCartEntity: ProductsInCartEntity): Long
 
     suspend fun doesCartExist(cartId: Long): Boolean
 
-    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>>
+    fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>>
 
     suspend fun getNumberProductsInCart(cartId: Long): Flow<Int>
 

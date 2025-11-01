@@ -1,6 +1,6 @@
-package com.joshayoung.lazypizza.core.data.database.entity
+package com.joshayoung.lazypizza.core.data.database.dto
 
-data class ProductInCartEntity(
+data class ProductInCartDto(
     var lineItemId: Long? = null,
     val productId: Long,
     val remoteId: String,

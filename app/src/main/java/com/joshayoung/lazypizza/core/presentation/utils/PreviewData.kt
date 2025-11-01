@@ -1,8 +1,8 @@
 package com.joshayoung.lazypizza.core.presentation.utils
 
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItem
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi

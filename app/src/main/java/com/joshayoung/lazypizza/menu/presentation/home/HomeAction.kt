@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.menu.presentation.home
 
-import com.joshayoung.lazypizza.core.domain.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItem
 
 sealed interface HomeAction {
     data class AddItemToCart(

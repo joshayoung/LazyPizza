@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
@@ -86,7 +86,7 @@ class DetailViewModel(
                         toppings.forEach { topping ->
                             topping.localId?.let { id ->
                                 cartRepository.insertToppingId(
-                                    ToppingsInCart(
+                                    ToppingsInCartEntity(
                                         lineItemNumber = lineItemNumber,
                                         toppingId = id,
                                         cartId = 1

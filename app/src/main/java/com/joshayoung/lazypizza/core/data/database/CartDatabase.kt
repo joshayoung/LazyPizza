@@ -4,14 +4,14 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 
 @Database(
     entities = [
-        CartEntity::class, ProductEntity::class, ProductsInCart::class, ToppingEntity::class,
-        ToppingsInCart::class
+        CartEntity::class, ProductEntity::class, ProductsInCartEntity::class, ToppingEntity::class,
+        ToppingsInCartEntity::class
     ],
     version = 1
 )

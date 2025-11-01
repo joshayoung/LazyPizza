@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("cartId")]
 )
-data class ProductsInCart(
+data class ProductsInCartEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val cartId: Long,
     val productId: Long

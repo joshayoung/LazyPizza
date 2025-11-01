@@ -1,12 +1,12 @@
 package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
+import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
@@ -52,20 +52,20 @@ class CartRepositoryImpl(
         }
     }
 
-    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartEntity> {
+    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto> {
         return localDataSource.getToppingForProductInCart(lineItemId)
     }
 
-    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>> {
+    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>> {
         return localDataSource.productsInCartWithNoToppings()
     }
 
-    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>> {
+    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCartDto>> {
         return localDataSource.productsInCartWithToppings()
     }
 
-    override suspend fun insertProductId(productsInCart: ProductsInCart): Long {
-        return localDataSource.insertProductId(productsInCart)
+    override suspend fun insertProductId(productsInCartEntity: ProductsInCartEntity): Long {
+        return localDataSource.insertProductId(productsInCartEntity)
     }
 
     override suspend fun updateLocalWithRemote(reload: Boolean) {
@@ -92,15 +92,15 @@ class CartRepositoryImpl(
         }
     }
 
-    override suspend fun insertToppingId(toppingsInCart: ToppingsInCart) {
-        localDataSource.insertToppingId(toppingsInCart)
+    override suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity) {
+        localDataSource.insertToppingId(toppingsInCartEntity)
     }
 
-    override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCart? {
+    override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity? {
         return localDataSource.getProductInCart(lastLineNumber)
     }
 
-    override suspend fun deleteCartItem(item: ProductsInCart) {
+    override suspend fun deleteCartItem(item: ProductsInCartEntity) {
         localDataSource.deleteCartItem(item)
     }
 
@@ -119,7 +119,7 @@ class CartRepositoryImpl(
         localDataSource.createCartForUser(cartId, theUser)
     }
 
-    override fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>> {
+    override fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>> {
         return localDataSource.allProductsWithCartItems()
     }
 

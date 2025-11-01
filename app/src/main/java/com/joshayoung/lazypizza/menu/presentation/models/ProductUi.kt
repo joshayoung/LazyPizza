@@ -1,8 +1,7 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
+import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.serializers.BigDecimalSerializer
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
@@ -24,7 +23,7 @@ data class ProductUi(
         BigDecimal(0.0),
     @Serializable(with = BigDecimalSerializer::class) val toppingTotal: BigDecimal =
         BigDecimal(0.0),
-    val toppings: List<ToppingInCartEntity>? = null
+    val toppings: List<ToppingInCartDto>? = null
 ) {
     val remoteImageUrl: String
         get() {

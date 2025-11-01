@@ -3,14 +3,14 @@ package com.joshayoung.lazypizza.core.data
 import com.joshayoung.lazypizza.core.data.database.CartDao
 import com.joshayoung.lazypizza.core.data.database.ProductDao
 import com.joshayoung.lazypizza.core.data.database.ToppingDao
+import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.database.dto.ProductWithCartStatusDto
+import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.networking.DataError
@@ -38,7 +38,7 @@ class RoomLocalDataSource(
 
         val lineItemNumber =
             cartDao.insertProductId(
-                ProductsInCart(
+                ProductsInCartEntity(
                     cartId = 1,
                     productId = productId
                 )
@@ -47,24 +47,24 @@ class RoomLocalDataSource(
         return lineItemNumber
     }
 
-    override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCart? {
+    override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity? {
         return cartDao.getProductInCart(lastLineNumber)
     }
 
-    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCartEntity>> {
+    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCartDto>> {
         return cartDao
             .productsInCartWithToppings()
     }
 
-    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartEntity> {
+    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto> {
         return cartDao.getToppingForProductInCart(lineItemId)
     }
 
-    override suspend fun deleteCartItem(item: ProductsInCart) {
+    override suspend fun deleteCartItem(item: ProductsInCartEntity) {
         cartDao.deleteCartItem(item)
     }
 
-    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartEntity>> {
+    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>> {
         return cartDao
             .productsInCartWithNoToppings()
     }
@@ -109,15 +109,15 @@ class RoomLocalDataSource(
         )
     }
 
-    override suspend fun insertToppingId(toppingsInCart: ToppingsInCart) {
+    override suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity) {
         cartDao.insertToppingId(
-            toppingsInCart
+            toppingsInCartEntity
         )
     }
 
-    override suspend fun insertProductId(productsInCart: ProductsInCart): Long {
+    override suspend fun insertProductId(productsInCartEntity: ProductsInCartEntity): Long {
         return cartDao.insertProductId(
-            productsInCart
+            productsInCartEntity
         )
     }
 
@@ -125,7 +125,7 @@ class RoomLocalDataSource(
         return cartDao.doesCartExist(cartId)
     }
 
-    override fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusEntity>> =
+    override fun allProductsWithCartItems(): Flow<List<ProductWithCartStatusDto>> =
         cartDao.allProductsWithCartItems()
 
     override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {

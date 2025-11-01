@@ -2,12 +2,12 @@ package com.joshayoung.lazypizza.cart.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.core.presentation.models.InCartItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -148,14 +148,14 @@ class CartViewModel(
                 viewModelScope.launch {
                     val lineItem =
                         cartRepository.insertProductId(
-                            ProductsInCart(
+                            ProductsInCartEntity(
                                 cartId = 1,
                                 productId = action.inCartItem.productId
                             )
                         )
                     action.inCartItem.toppings.forEach { topping ->
                         cartRepository.insertToppingId(
-                            ToppingsInCart(
+                            ToppingsInCartEntity(
                                 lineItemNumber = lineItem,
                                 toppingId = topping.toppingId,
                                 cartId = 1

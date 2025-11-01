@@ -2,10 +2,10 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItem
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType
@@ -62,7 +62,7 @@ class HomeViewModel(
                 viewModelScope.launch {
                     val lineItem =
                         cartRepository.insertProductId(
-                            ProductsInCart(
+                            ProductsInCartEntity(
                                 cartId = 1,
                                 productId = action.inCartItem.productId
                             )
@@ -70,7 +70,7 @@ class HomeViewModel(
                     if (action.inCartItem.toppings.any()) {
                         action.inCartItem.toppings.forEach { topping ->
                             cartRepository.insertToppingId(
-                                ToppingsInCart(
+                                ToppingsInCartEntity(
                                     lineItemNumber = lineItem,
                                     toppingId = topping.toppingId,
                                     cartId = 1
