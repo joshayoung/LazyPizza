@@ -185,7 +185,7 @@ fun DetailHeader(state: DetailsState) {
     ) {
         ProductOrToppingImage(
             imageResource = state.productUi?.imageResource,
-            remoteImage = state.productUi?.imageUrl,
+            remoteImage = state.productUi?.remoteImageUrl,
             modifier =
                 Modifier
                     .size(300.dp)

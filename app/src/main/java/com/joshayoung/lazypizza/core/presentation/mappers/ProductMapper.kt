@@ -19,7 +19,7 @@ fun Product.toProductUi(
         id = id,
         localId = localId,
         description = description,
-        imageUrl = imageUrl,
+        remoteImageUrl = imageUrl,
         imageResource = imageResource,
         name = name,
         price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP),
@@ -42,7 +42,7 @@ fun ProductWithCartStatusDto.toProductUi(): ProductUi {
     return ProductUi(
         localId = productId,
         id = remoteId,
-        imageUrl = imageUrl,
+        remoteImageUrl = imageUrl,
         description = description,
         imageResource = imageResource,
         name = name,
@@ -100,7 +100,7 @@ fun ProductUi.toProduct(): Product =
         localId = localId,
         lineItemId = lineItemId,
         description = description,
-        imageUrl = imageUrl,
+        imageUrl = remoteImageUrl,
         imageResource = imageResource,
         name = name,
         // TODO: Is this correct?

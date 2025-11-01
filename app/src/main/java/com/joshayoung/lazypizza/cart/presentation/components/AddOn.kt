@@ -164,6 +164,7 @@ fun AddOnPreview() {
                         id = "2",
                         localId = 2,
                         imageResource = R.drawable.garlic_sauce,
+                        remoteImageUrl = "",
                         name = "Garlic Sauce",
                         price = BigDecimal("0.59"),
                         productId = 1,
