@@ -49,8 +49,8 @@ fun QuantityToggler(
             modifier = Modifier
         )
         ToggleButton(
-            PlusIcon
-            ,click = {
+            PlusIcon,
+            click = {
                 if (!preventMore.value) {
                     click(DetailAction.IncrementPrice(price = toppingUi.price))
                     quantity.intValue += 1

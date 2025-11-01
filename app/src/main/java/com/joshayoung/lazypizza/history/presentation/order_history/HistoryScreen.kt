@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.joshayoung.lazypizza.cart.presentation.cart_list.CartViewModel
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar

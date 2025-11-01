@@ -1,10 +1,8 @@
 package com.joshayoung.lazypizza.core.ui.theme
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import com.joshayoung.lazypizza.R

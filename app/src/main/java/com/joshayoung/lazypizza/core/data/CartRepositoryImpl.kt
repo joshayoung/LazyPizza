@@ -123,7 +123,7 @@ class CartRepositoryImpl(
         return localDataSource.allProductsWithCartItems()
     }
 
-    override suspend fun getNumberProductsInCart(cartId: Long): Flow<Int> {
+    override fun getNumberProductsInCart(cartId: Long): Flow<Int> {
         return localDataSource.getNumberProductsInCart(cartId)
     }
 
