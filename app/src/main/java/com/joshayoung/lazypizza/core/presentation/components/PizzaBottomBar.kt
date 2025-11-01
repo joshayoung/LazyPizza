@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
+import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
 import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
@@ -40,12 +42,21 @@ import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
 import com.joshayoung.lazypizza.core.ui.theme.primary8
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
+import org.koin.compose.koinInject
 
 @Composable
 fun PizzaBottomBar(
     cartItems: Int = 0,
+    cartRepository: CartRepository = koinInject<CartRepository>(),
     bottomNavItemUis: List<BottomNavItemUi>
 ) {
+    var count = 0
+    LaunchedEffect(Unit) {
+        cartRepository.getNumberProductsInCart(1).collect {
+            count = it
+        }
+    }
+
     BottomAppBar(
         containerColor = Color.Transparent,
         actions = {
@@ -74,18 +85,25 @@ fun PizzaBottomBar(
                         )
             ) {
                 bottomNavItemUis.forEachIndexed { index, item ->
-                    if (index == 1 && cartItems > 0) {
+//                    if (index == 1 && cartItems > 0) {
+                    if (true) {
                         BadgedBox(
                             badge = {
                                 Badge(
                                     containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = LazyPizzaColors.textOnPrimary
                                 ) {
-                                    Text(cartItems.toString())
+//                                    Text(cartItems.toString())
+                                    Text(count.toString())
                                 }
                             }
                         ) {
-                            NavItem(item.label, item.clickAction, item.selected, item.imageVector)
+                            NavItem(
+                                item.label,
+                                item.clickAction,
+                                item.selected,
+                                item.imageVector
+                            )
                         }
                     } else {
                         NavItem(item.label, item.clickAction, item.selected, item.imageVector)
@@ -164,19 +182,19 @@ fun LazyPizzaBottomBarPreview() {
                             label = "Menu",
                             selected = true,
                             clickAction = { },
-                            imageVector = MenuIcon,
+                            imageVector = MenuIcon
                         ),
                         BottomNavItemUi(
                             label = "Cart",
                             selected = false,
                             clickAction = { },
-                            imageVector = CartIcon,
+                            imageVector = CartIcon
                         ),
                         BottomNavItemUi(
                             label = "History",
                             selected = false,
                             clickAction = { },
-                            imageVector = HistoryIcon,
+                            imageVector = HistoryIcon
                         )
                     )
             )
