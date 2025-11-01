@@ -1,6 +1,8 @@
 package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.core.data.database.CartDao
+import com.joshayoung.lazypizza.core.data.database.ProductDao
+import com.joshayoung.lazypizza.core.data.database.ToppingDao
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
@@ -17,14 +19,16 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import kotlinx.coroutines.flow.Flow
 
 class RoomLocalDataSource(
-    private var cartDao: CartDao
+    private var cartDao: CartDao,
+    private var productDao: ProductDao,
+    private var toppingDao: ToppingDao
 ) : LocalDataSource {
     override suspend fun getAllProducts(): List<ProductEntity> {
-        return cartDao.getAllProducts()
+        return productDao.getAllProducts()
     }
 
     override suspend fun getAllToppings(): List<ToppingEntity> {
-        return cartDao.getAllToppings()
+        return toppingDao.getAllToppings()
     }
 
     override suspend fun addProductToCart(productId: Long?): Long? {
@@ -66,7 +70,7 @@ class RoomLocalDataSource(
     }
 
     override suspend fun sidesNotInCart(): Flow<List<ProductEntity>> {
-        return cartDao.sidesNotInCart()
+        return productDao.sidesNotInCart()
     }
 
     override suspend fun removeAllFromCart(lineNumber: Long) {
@@ -81,13 +85,13 @@ class RoomLocalDataSource(
     }
 
     override suspend fun upsertTopping(toppingEntity: ToppingEntity) {
-        cartDao.upsertTopping(toppingEntity)
+        toppingDao.upsertTopping(toppingEntity)
     }
 
     override suspend fun upsertProduct(
         productEntity: ProductEntity
     ): Result<ProductEntity, DataError.Local> {
-        cartDao.upsertProduct(productEntity)
+        productDao.upsertProduct(productEntity)
 
         // TODO: This return is probably not correct:
         return Result.Success(data = productEntity)
@@ -137,6 +141,6 @@ class RoomLocalDataSource(
     }
 
     override suspend fun getProduct(productId: String): Product {
-        return cartDao.getProduct(productId).toProduct()
+        return productDao.getProduct(productId).toProduct()
     }
 }

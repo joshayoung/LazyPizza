@@ -17,8 +17,11 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 )
 abstract class CartDatabase : RoomDatabase() {
     abstract val cardDao: CartDao
+    abstract val productDao: ProductDao
+
+    abstract val toppingDao: ToppingDao
 
     companion object {
-        const val DATABASE_NAME = "cart_db"
+        const val DATABASE_NAME = "lazy_pizza_db"
     }
 }

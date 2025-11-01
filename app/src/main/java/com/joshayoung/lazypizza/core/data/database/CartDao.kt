@@ -11,7 +11,6 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import kotlinx.coroutines.flow.Flow
@@ -20,12 +19,6 @@ import kotlinx.coroutines.flow.Flow
 interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCart(cart: CartEntity)
-
-    @Upsert
-    suspend fun upsertProduct(productEntity: ProductEntity)
-
-    @Upsert
-    suspend fun upsertTopping(toppingEntity: ToppingEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertProductId(entry: ProductsInCart): Long
@@ -41,15 +34,6 @@ interface CartDao {
 
     @Query("DELETE FROM products_in_cart WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)
-
-    @Query("SELECT * FROM product")
-    suspend fun getAllProducts(): List<ProductEntity>
-
-    @Query("SELECT * FROM topping")
-    suspend fun getAllToppings(): List<ToppingEntity>
-
-    @Query("SELECT * FROM product where remoteId = :remoteId")
-    suspend fun getProduct(remoteId: String): ProductEntity
 
     @Delete
     suspend fun deleteCartItem(item: ProductsInCart)
@@ -67,11 +51,6 @@ interface CartDao {
 
     @Query("SELECT COUNT(*) FROM cart WHERE cartId = :cartId")
     suspend fun doesCartExist(cartId: Long): Boolean
-
-    @Query(
-        "select * from product where productId not in (select productId from products_in_cart) and type != 'entree'"
-    )
-    fun sidesNotInCart(): Flow<List<ProductEntity>>
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p left join products_in_cart as pivot on pivot.productId == p.productId "

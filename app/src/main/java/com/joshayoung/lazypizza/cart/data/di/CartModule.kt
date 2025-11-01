@@ -58,6 +58,8 @@ var cartModule =
         }
 
         single { get<CartDatabase>().cardDao }
+        single { get<CartDatabase>().productDao }
+        single { get<CartDatabase>().toppingDao }
 
         singleOf(::RoomLocalDataSource).bind<LocalDataSource>()
         singleOf(::AppWriteCartRemoteDataSource).bind<CartRemoteDataSource>()
