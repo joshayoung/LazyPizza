@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
-import com.joshayoung.lazypizza.cart.presentation.CartViewModel
+import com.joshayoung.lazypizza.cart.presentation.cart_list.CartViewModel
 import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
 import com.joshayoung.lazypizza.core.data.RoomLocalDataSource
 import com.joshayoung.lazypizza.core.data.database.CartDatabase

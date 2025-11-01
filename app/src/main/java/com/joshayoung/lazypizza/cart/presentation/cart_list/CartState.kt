@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.cart.presentation
+package com.joshayoung.lazypizza.cart.presentation.cart_list
 
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi

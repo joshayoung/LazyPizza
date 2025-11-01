@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.cart.presentation
+package com.joshayoung.lazypizza.cart.presentation.cart_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

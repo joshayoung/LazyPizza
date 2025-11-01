@@ -36,8 +36,7 @@ import java.math.BigDecimal
 fun SideItem(
     productUi: InCartItemUi,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit,
-    onMenuPage: Boolean = false
+    onAction: (HomeAction) -> Unit
 ) {
     Row(
         modifier =

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.cart.presentation
+package com.joshayoung.lazypizza.cart.presentation.cart_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
