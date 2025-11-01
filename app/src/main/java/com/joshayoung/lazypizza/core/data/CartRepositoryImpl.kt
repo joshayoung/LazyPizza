@@ -1,7 +1,6 @@
 package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
@@ -13,11 +12,9 @@ import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
-import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import com.joshayoung.lazypizza.core.presentation.mappers.toTopping
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingEntity
-import com.joshayoung.lazypizza.core.utils.toFlowList
 import kotlinx.coroutines.flow.Flow
 
 class CartRepositoryImpl(
@@ -30,34 +27,10 @@ class CartRepositoryImpl(
         )
     }
 
-    override fun getCart(): Flow<CartEntity> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun removeAllFromCart(lineNumber: Long) {
         localDataSource.removeAllFromCart(
             lineNumber
         )
-    }
-
-    // TODO: Add a background sync to update local cache:
-    override suspend fun getProducts(): Flow<List<Product>> {
-        val localProducts = localDataSource.getAllProducts()
-        if (!localProducts.isEmpty()) {
-            return localProducts.map { it.toProduct() }.toFlowList()
-        } else {
-            val remoteProducts =
-                cartRemoteDataSource
-                    .getProducts(
-                        BuildConfig.MENU_ITEMS_COLLECTION_ID
-                    )
-
-            remoteProducts.forEach { product ->
-                localDataSource.upsertProduct(product.toProductEntity())
-            }
-
-            return remoteProducts.toFlowList()
-        }
     }
 
     override suspend fun getToppings(): List<Topping> {
@@ -123,19 +96,9 @@ class CartRepositoryImpl(
         localDataSource.insertToppingId(toppingsInCart)
     }
 
-    override suspend fun removeProductFromCart(product: Product) {
-//        val lineItems = cartDao.
-        localDataSource.removeProductFromCart(product)
-    }
-
     override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCart? {
         return localDataSource.getProductInCart(lastLineNumber)
     }
-
-    override suspend fun getAllProducts(): List<Product> =
-        localDataSource.getAllProducts().map {
-            it.toProduct()
-        }
 
     override suspend fun deleteCartItem(item: ProductsInCart) {
         localDataSource.deleteCartItem(item)

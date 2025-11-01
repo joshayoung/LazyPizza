@@ -6,7 +6,6 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCart
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCart
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.models.InCartItem
-import com.joshayoung.lazypizza.core.presentation.utils.productUiListForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuType

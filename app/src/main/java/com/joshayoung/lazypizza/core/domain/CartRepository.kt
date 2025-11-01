@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.core.domain
 
-import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductWithCartStatusEntity
@@ -14,11 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface CartRepository {
     suspend fun addProductToCart(product: Product): Long?
 
-    fun getCart(): Flow<CartEntity>
-
     suspend fun removeAllFromCart(lineNumber: Long)
-
-    suspend fun getProducts(): Flow<List<Product>>
 
     suspend fun getToppings(): List<Topping>
 
@@ -36,11 +31,7 @@ interface CartRepository {
 
     suspend fun insertToppingId(toppingsInCart: ToppingsInCart)
 
-    suspend fun removeProductFromCart(product: Product)
-
     suspend fun getProductInCart(lastLineNumber: Long): ProductsInCart?
-
-    suspend fun getAllProducts(): List<Product>
 
     suspend fun deleteCartItem(item: ProductsInCart)
 
