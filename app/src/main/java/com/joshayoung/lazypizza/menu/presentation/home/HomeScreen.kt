@@ -197,7 +197,7 @@ fun HeaderAndSearch(
     height: Dp
 ) {
     Image(
-        imageVector = PizzaHeader,
+        painter = PizzaHeader,
         contentDescription = null,
         contentScale = ContentScale.FillWidth,
         modifier =

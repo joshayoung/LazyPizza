@@ -1,7 +1,11 @@
 package com.joshayoung.lazypizza.core.ui.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import com.joshayoung.lazypizza.R
 
@@ -9,9 +13,9 @@ val GrayPhone: ImageVector
     @Composable
     get() = ImageVector.vectorResource(R.drawable.gray_phone)
 
-val PizzaHeader: ImageVector
+val PizzaHeader: Painter
     @Composable
-    get() = ImageVector.vectorResource(R.drawable.pizza_header)
+    get() = painterResource(R.drawable.pizza_header)
 
 val PizzaLogo: ImageVector
     @Composable
