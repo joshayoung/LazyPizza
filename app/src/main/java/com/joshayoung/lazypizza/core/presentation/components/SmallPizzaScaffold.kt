@@ -37,7 +37,7 @@ fun LazyPizzaScaffoldPreview() {
             topAppBar = { PizzaAppBar() },
             bottomBar = {
                 PizzaBottomBar(
-                    bottomNavItems = emptyList()
+                    bottomNavItemUis = emptyList()
                 )
             }
         ) { innerPadding ->

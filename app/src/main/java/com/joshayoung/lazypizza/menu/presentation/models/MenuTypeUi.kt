@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
-enum class MenuType(
+enum class MenuTypeUi(
     val displayValue: String,
     val chipValue: String
 ) {

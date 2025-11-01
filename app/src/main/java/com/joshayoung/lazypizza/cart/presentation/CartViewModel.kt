@@ -7,7 +7,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -70,9 +70,9 @@ class CartViewModel(
                             .productsInCartWithToppings()
                     ) { productWithNoToppings, productWithToppings ->
                         val groupedByProductId = productWithNoToppings.groupBy { it.productId }
-                        val inCartItems =
+                        val inCartItemUis =
                             groupedByProductId.map { (_, productList) ->
-                                InCartItem(
+                                InCartItemUi(
                                     lineNumbers = productList.map { it.lineItemId },
                                     name = productList.first().name,
                                     description = productList.first().description,
@@ -90,7 +90,7 @@ class CartViewModel(
                         val groupedByToppingList =
                             productWithToppings
                                 .groupBy { it.name }
-                        val inCartItemsWithToppings =
+                        val inCartItemsWithToppingUis =
                             groupedByToppingList.map { (id, productList) ->
                                 productList
                                     .map {
@@ -107,7 +107,7 @@ class CartViewModel(
                                     toppings
                                         .groupBy { it.name }
                                         .mapValues { entry -> entry.value.size }
-                                InCartItem(
+                                InCartItemUi(
                                     lineNumbers = productList.map { it.lineItemId },
                                     toppings = toppings,
                                     toppingsForDisplay = toppingsForDisplay,
@@ -122,7 +122,7 @@ class CartViewModel(
                                     numberInCart = productList.count()
                                 )
                             }
-                        inCartItems + inCartItemsWithToppings
+                        inCartItemUis + inCartItemsWithToppingUis
                     }
 
             productsInCart.collect { inCartItems ->
@@ -150,10 +150,10 @@ class CartViewModel(
                         cartRepository.insertProductId(
                             ProductsInCartEntity(
                                 cartId = 1,
-                                productId = action.inCartItem.productId
+                                productId = action.inCartItemUi.productId
                             )
                         )
-                    action.inCartItem.toppings.forEach { topping ->
+                    action.inCartItemUi.toppings.forEach { topping ->
                         cartRepository.insertToppingId(
                             ToppingsInCartEntity(
                                 lineItemNumber = lineItem,
@@ -167,7 +167,7 @@ class CartViewModel(
 
             is CartAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val lastLineNumber = action.inCartItem.lineNumbers.last()
+                    val lastLineNumber = action.inCartItemUi.lineNumbers.last()
                     if (lastLineNumber != null) {
                         val item = cartRepository.getProductInCart(lastLineNumber)
                         if (item != null) {
@@ -179,7 +179,7 @@ class CartViewModel(
 
             is CartAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    action.inCartItem.lineNumbers.forEach { lineNumber ->
+                    action.inCartItemUi.lineNumbers.forEach { lineNumber ->
                         if (lineNumber != null) {
                             cartRepository.removeAllFromCart(lineNumber)
                         }

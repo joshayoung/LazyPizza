@@ -17,20 +17,20 @@ import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
-import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
+import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 
 @Composable
-fun HistoryScreenRoot(bottomNavItems: List<BottomNavItem>) {
+fun HistoryScreenRoot(bottomNavItemUis: List<BottomNavItemUi>) {
     HistoryScreen(
-        bottomNavItems = bottomNavItems
+        bottomNavItemUis = bottomNavItemUis
     )
 }
 
 @Composable
-fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
+fun HistoryScreen(bottomNavItemUis: List<BottomNavItemUi>) {
     Text(text = "history screen")
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -47,7 +47,7 @@ fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
                 },
                 bottomBar = {
                     PizzaBottomBar(
-                        bottomNavItems = bottomNavItems
+                        bottomNavItemUis = bottomNavItemUis
                     )
                 }
             ) { innerPadding ->
@@ -74,7 +74,7 @@ fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
-                appBarItems = bottomNavItems
+                appBarItems = bottomNavItemUis
             ) { innerPadding ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +101,7 @@ fun HistoryScreen(bottomNavItems: List<BottomNavItem>) {
 private fun HistoryScreenPreview() {
     LazyPizzaTheme {
         HistoryScreen(
-            bottomNavItems = previewBottomNavItems
+            bottomNavItemUis = previewBottomNavItemUis
         )
     }
 }

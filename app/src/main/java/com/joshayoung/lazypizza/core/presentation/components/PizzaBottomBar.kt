@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.primary8
@@ -41,7 +41,7 @@ import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 @Composable
 fun PizzaBottomBar(
     cartItems: Int = 0,
-    bottomNavItems: List<BottomNavItem>
+    bottomNavItemUis: List<BottomNavItemUi>
 ) {
     BottomAppBar(
         containerColor = Color.Transparent,
@@ -70,7 +70,7 @@ fun PizzaBottomBar(
                             shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                         )
             ) {
-                bottomNavItems.forEachIndexed { index, item ->
+                bottomNavItemUis.forEachIndexed { index, item ->
                     if (index == 1 && cartItems > 0) {
                         BadgedBox(
                             badge = {
@@ -155,21 +155,21 @@ fun LazyPizzaBottomBarPreview() {
         ) {
             PizzaBottomBar(
                 cartItems = 103,
-                bottomNavItems =
+                bottomNavItemUis =
                     listOf(
-                        BottomNavItem(
+                        BottomNavItemUi(
                             label = "Menu",
                             selected = true,
                             clickAction = { },
                             imageResource = R.drawable.book
                         ),
-                        BottomNavItem(
+                        BottomNavItemUi(
                             label = "Cart",
                             selected = false,
                             clickAction = { },
                             imageResource = R.drawable.cart
                         ),
-                        BottomNavItem(
+                        BottomNavItemUi(
                             label = "History",
                             selected = false,
                             clickAction = { },

@@ -1,11 +1,11 @@
 package com.joshayoung.lazypizza.cart.presentation
 
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
 data class CartState(
-    val items: List<InCartItem> = emptyList(),
+    val items: List<InCartItemUi> = emptyList(),
     val isLoadingCart: Boolean = true,
     val cartItems: Int = 0,
     val recommendedAddOns: List<ProductUi> = emptyList(),

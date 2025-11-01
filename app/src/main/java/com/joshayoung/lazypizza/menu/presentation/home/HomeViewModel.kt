@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -64,11 +64,11 @@ class HomeViewModel(
                         cartRepository.insertProductId(
                             ProductsInCartEntity(
                                 cartId = 1,
-                                productId = action.inCartItem.productId
+                                productId = action.inCartItemUi.productId
                             )
                         )
-                    if (action.inCartItem.toppings.any()) {
-                        action.inCartItem.toppings.forEach { topping ->
+                    if (action.inCartItemUi.toppings.any()) {
+                        action.inCartItemUi.toppings.forEach { topping ->
                             cartRepository.insertToppingId(
                                 ToppingsInCartEntity(
                                     lineItemNumber = lineItem,
@@ -83,7 +83,7 @@ class HomeViewModel(
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val lastLineNumber = action.inCartItem.lineNumbers.last()
+                    val lastLineNumber = action.inCartItemUi.lineNumbers.last()
                     if (lastLineNumber == null) {
                         return@launch
                     }
@@ -95,7 +95,7 @@ class HomeViewModel(
 
             is HomeAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    action.inCartItem.lineNumbers.forEach { lineNumber ->
+                    action.inCartItemUi.lineNumbers.forEach { lineNumber ->
                         if (lineNumber != null) {
                             cartRepository.removeAllFromCart(lineNumber)
                         }
@@ -161,7 +161,7 @@ class HomeViewModel(
                         groupedByProductId
                             .map { (_, productList) ->
                                 val lineNumbers = productList.mapNotNull { it.lineItemId }
-                                InCartItem(
+                                InCartItemUi(
                                     lineNumbers = lineNumbers,
                                     name = productList.first().name,
                                     description = productList.first().description,
@@ -175,16 +175,19 @@ class HomeViewModel(
                                     numberInCart = lineNumbers.count()
                                 )
                             }
-                    val entrees = allProducts.filter { it.type == MenuType.Entree.name.lowercase() }
+                    val entrees =
+                        allProducts.filter {
+                            it.type == MenuTypeUi.Entree.name.lowercase()
+                        }
                     val beverages =
                         allProducts.filter {
                             it.type ==
-                                MenuType.Beverage.name.lowercase()
+                                MenuTypeUi.Beverage.name.lowercase()
                         }
-                    val sauces = allProducts.filter { it.type == MenuType.Sauce.name.lowercase() }
+                    val sauces = allProducts.filter { it.type == MenuTypeUi.Sauce.name.lowercase() }
                     val desserts =
                         allProducts.filter {
-                            it.type == MenuType.Dessert.name.lowercase()
+                            it.type == MenuTypeUi.Dessert.name.lowercase()
                         }
 
                     val entreeStart = 0
@@ -193,10 +196,10 @@ class HomeViewModel(
                     val dessertStart = saucesStart + sauces.count() + HEADER_LENGTH
                     orderedMenu =
                         listOf(
-                            MenuItemUi(MenuType.Entree, entrees, entreeStart),
-                            MenuItemUi(MenuType.Beverage, beverages, beverageStart),
-                            MenuItemUi(MenuType.Sauce, sauces, saucesStart),
-                            MenuItemUi(MenuType.Dessert, desserts, dessertStart)
+                            MenuItemUi(MenuTypeUi.Entree, entrees, entreeStart),
+                            MenuItemUi(MenuTypeUi.Beverage, beverages, beverageStart),
+                            MenuItemUi(MenuTypeUi.Sauce, sauces, saucesStart),
+                            MenuItemUi(MenuTypeUi.Dessert, desserts, dessertStart)
                         )
                     _state.update {
                         it.copy(

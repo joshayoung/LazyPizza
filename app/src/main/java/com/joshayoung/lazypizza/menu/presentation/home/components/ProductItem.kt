@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import java.util.Locale
@@ -38,7 +38,7 @@ import kotlin.Unit
 
 @Composable
 fun ProductItem(
-    inCartItem: InCartItem,
+    inCartItemUi: InCartItemUi,
     goToDetails: (id: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -59,13 +59,13 @@ fun ProductItem(
                             offset = DpOffset(x = 2.dp, 2.dp)
                         )
                 ).clickable {
-                    goToDetails(inCartItem.remoteId)
+                    goToDetails(inCartItemUi.remoteId)
                 },
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProductOrToppingImage(
-            inCartItem.imageResource,
-            inCartItem.imageUrl,
+            inCartItemUi.imageResource,
+            inCartItemUi.imageUrl,
             modifier =
                 Modifier
                     .fillMaxHeight()
@@ -90,12 +90,12 @@ fun ProductItem(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                inCartItem.name,
+                inCartItemUi.name,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
             )
             Text(
-                inCartItem.description ?: "",
+                inCartItemUi.description ?: "",
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
@@ -103,7 +103,7 @@ fun ProductItem(
             )
             Spacer(modifier = Modifier.weight(1f))
             // TODO: Causing a crash without toDouble, correct this:
-            val price = String.format(locale = Locale.US, "$%.2f", inCartItem.price.toDouble())
+            val price = String.format(locale = Locale.US, "$%.2f", inCartItemUi.price.toDouble())
             Text(
                 price,
                 modifier = Modifier,
@@ -132,8 +132,8 @@ private fun ProductItemPreview() {
                         .width(400.dp)
             ) {
                 ProductItem(
-                    inCartItem =
-                        InCartItem(
+                    inCartItemUi =
+                        InCartItemUi(
                             name = "Meat Pizza",
                             description = "Meat Lovers Pizza",
                             imageResource = R.drawable.meat_lovers,
@@ -163,8 +163,8 @@ private fun ProductItemPreview() {
                         .width(400.dp)
             ) {
                 ProductItem(
-                    inCartItem =
-                        InCartItem(
+                    inCartItemUi =
+                        InCartItemUi(
                             name = "Meat Pizza",
                             description = "Meat Lovers Pizza",
                             imageResource = R.drawable.meat_lovers,

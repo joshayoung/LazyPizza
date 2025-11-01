@@ -1,9 +1,9 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 
 data class MenuItemUi(
-    val menuType: MenuType,
-    val products: List<InCartItem>,
+    val menuTypeUi: MenuTypeUi,
+    val products: List<InCartItemUi>,
     val startingIndex: Int
 )

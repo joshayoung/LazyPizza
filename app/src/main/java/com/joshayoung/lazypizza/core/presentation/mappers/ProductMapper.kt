@@ -5,7 +5,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
@@ -109,22 +109,22 @@ fun ProductUi.toProduct(): Product =
         type = type?.name ?: ""
     )
 
-private fun getMenuTypeEnum(menuType: String): MenuType {
+private fun getMenuTypeEnum(menuType: String): MenuTypeUi {
     when (menuType) {
         "entree" -> {
-            return MenuType.Entree
+            return MenuTypeUi.Entree
         }
         "dessert" -> {
-            return MenuType.Dessert
+            return MenuTypeUi.Dessert
         }
         "beverage" -> {
-            return MenuType.Beverage
+            return MenuTypeUi.Beverage
         }
         "sauce" -> {
-            return MenuType.Sauce
+            return MenuTypeUi.Sauce
         }
         else -> {
-            return MenuType.Unknown
+            return MenuTypeUi.Unknown
         }
     }
 }

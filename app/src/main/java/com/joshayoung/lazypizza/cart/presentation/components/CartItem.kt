@@ -17,8 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -30,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.cart.presentation.CartAction
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.menu.presentation.home.components.AddButtonWithPrice
@@ -40,7 +38,7 @@ import java.math.BigDecimal
 
 @Composable
 fun CartItem(
-    inCartItem: InCartItem,
+    inCartItemUi: InCartItemUi,
     modifier: Modifier = Modifier,
     onAction: (CartAction) -> Unit
 ) {
@@ -64,8 +62,8 @@ fun CartItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProductOrToppingImage(
-            inCartItem.imageResource,
-            inCartItem.imageUrl,
+            inCartItemUi.imageResource,
+            inCartItemUi.imageUrl,
             modifier =
                 Modifier
                     .fillMaxHeight()
@@ -84,11 +82,11 @@ fun CartItem(
                     ).padding(10.dp),
             verticalArrangement = Arrangement.Top
         ) {
-            ProductHeader(inCartItem.numberInCart, inCartItem.name, onAction = {
-                onAction(CartAction.RemoveAllFromCart(inCartItem))
+            ProductHeader(inCartItemUi.numberInCart, inCartItemUi.name, onAction = {
+                onAction(CartAction.RemoveAllFromCart(inCartItemUi))
             })
 
-            inCartItem.toppingsForDisplay.let { toppings ->
+            inCartItemUi.toppingsForDisplay.let { toppings ->
                 LazyColumn {
                     items(toppings.entries.toList()) { topping ->
                         val (name, count) = topping
@@ -108,24 +106,24 @@ fun CartItem(
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (inCartItem.numberInCart <= 0) {
+                if (inCartItemUi.numberInCart <= 0) {
                     AddButtonWithPrice(
-                        BigDecimal(inCartItem.price),
+                        BigDecimal(inCartItemUi.price),
                         onAction =
                             {
-                                onAction(CartAction.AddItemToCart(inCartItem))
+                                onAction(CartAction.AddItemToCart(inCartItemUi))
                             }
                     )
                 } else {
                     PriceAndQuantityToggle(
-                        totalPrice = BigDecimal(inCartItem.price),
-                        price = BigDecimal(inCartItem.price),
-                        inCartItem.numberInCart,
+                        totalPrice = BigDecimal(inCartItemUi.price),
+                        price = BigDecimal(inCartItemUi.price),
+                        inCartItemUi.numberInCart,
                         increment = {
-                            onAction(CartAction.AddItemToCart(inCartItem))
+                            onAction(CartAction.AddItemToCart(inCartItemUi))
                         },
                         decrement = {
-                            onAction(CartAction.RemoveItemFromCart(inCartItem))
+                            onAction(CartAction.RemoveItemFromCart(inCartItemUi))
                         }
                     )
                 }
@@ -152,8 +150,8 @@ fun CartItemPreview() {
                         .height(140.dp)
             ) {
                 CartItem(
-                    inCartItem =
-                        InCartItem(
+                    inCartItemUi =
+                        InCartItemUi(
                             name = "Meat Pizza",
                             description = "Meat Lovers Pizza",
                             imageResource = R.drawable.meat_lovers,

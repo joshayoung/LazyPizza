@@ -1,30 +1,30 @@
 package com.joshayoung.lazypizza.core.presentation.utils
 
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import java.math.BigDecimal
 
-val previewBottomNavItems =
+val previewBottomNavItemUis =
     listOf(
-        BottomNavItem(
+        BottomNavItemUi(
             label = "Menu",
             selected = true,
             clickAction = {
             },
             imageResource = R.drawable.book
         ),
-        BottomNavItem(
+        BottomNavItemUi(
             label = "Cart",
             selected = false,
             clickAction = {
             },
             imageResource = R.drawable.cart
         ),
-        BottomNavItem(
+        BottomNavItemUi(
             label = "History",
             selected = false,
             clickAction = {
@@ -152,9 +152,9 @@ val addOnsForPreview =
         )
     )
 
-val inCartItemsForPreview =
+val inCartItemsForPreviewUis =
     listOf(
-        InCartItem(
+        InCartItemUi(
             name = "Chocolate Ice Cream",
             description = "A delicious food",
             imageResource = R.drawable.cookies,
@@ -174,7 +174,7 @@ val inCartItemsForPreview =
             remoteId = "123",
             toppings = emptyList()
         ),
-        InCartItem(
+        InCartItemUi(
             name = "Meat Pizza",
             description = "Meat Lovers Pizza",
             toppingsForDisplay =
@@ -194,7 +194,7 @@ val inCartItemsForPreview =
             productId = 1,
             toppings = emptyList()
         ),
-        InCartItem(
+        InCartItemUi(
             name = "Meat Pizza",
             description = "Meat Lovers Pizza",
             toppingsForDisplay =
@@ -219,8 +219,8 @@ val inCartItemsForPreview =
 val previewProducts: List<MenuItemUi> =
     listOf(
         MenuItemUi(
-            MenuType.Entree,
-            inCartItemsForPreview,
+            MenuTypeUi.Entree,
+            inCartItemsForPreviewUis,
             1
         )
     )

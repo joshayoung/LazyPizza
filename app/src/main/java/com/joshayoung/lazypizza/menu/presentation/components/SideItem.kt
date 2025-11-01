@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -25,7 +23,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
@@ -36,7 +34,7 @@ import java.math.BigDecimal
 
 @Composable
 fun SideItem(
-    productUi: InCartItem,
+    productUi: InCartItemUi,
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit,
     onMenuPage: Boolean = false
@@ -135,7 +133,7 @@ fun SideItemPreview() {
             ) {
                 SideItem(
                     productUi =
-                        InCartItem(
+                        InCartItemUi(
                             name = "Meat Pizza",
                             description = "Meat Lovers Pizza",
                             imageResource = R.drawable.meat_lovers,

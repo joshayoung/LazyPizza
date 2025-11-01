@@ -10,7 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.cart.presentation.CartScreenRoot
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.history.presentation.HistoryScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
@@ -30,7 +30,7 @@ fun NavigationRoot(navController: NavHostController) {
     ) {
         val bottomNavigationItems =
             listOf(
-                BottomNavItem(
+                BottomNavItemUi(
                     label = "Menu",
                     selected = currentRoute == "Menu",
                     clickAction = {
@@ -42,7 +42,7 @@ fun NavigationRoot(navController: NavHostController) {
                     },
                     imageResource = R.drawable.book
                 ),
-                BottomNavItem(
+                BottomNavItemUi(
                     label = "Cart",
                     selected = currentRoute == "Cart",
                     clickAction = {
@@ -54,7 +54,7 @@ fun NavigationRoot(navController: NavHostController) {
                     },
                     imageResource = R.drawable.cart
                 ),
-                BottomNavItem(
+                BottomNavItemUi(
                     label = "History",
                     selected = currentRoute == "History",
                     clickAction = {
@@ -70,7 +70,7 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable<Routes.Menu> {
             HomeScreenRoot(
-                bottomNavItems = bottomNavigationItems,
+                bottomNavItemUis = bottomNavigationItems,
                 goToDetails = { id ->
                     navController.navigate(
                         Routes.Details.toString() + "?productId=$id"
@@ -107,7 +107,7 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable<Routes.Cart> {
             CartScreenRoot(
-                bottomNavItems = bottomNavigationItems,
+                bottomNavItemUis = bottomNavigationItems,
                 backToMenu = {
                     navController.navigate(Routes.Menu) {
                         popUpTo(0) {
@@ -120,7 +120,7 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable<Routes.History> {
             HistoryScreenRoot(
-                bottomNavItems = bottomNavigationItems
+                bottomNavItemUis = bottomNavigationItems
             )
         }
     }

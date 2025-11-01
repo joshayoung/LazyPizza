@@ -1,11 +1,11 @@
 package com.joshayoung.lazypizza.core.presentation.models
 
-sealed class ImageResource {
-    data class DrawableResource(
+sealed class ImageResourceUi {
+    data class DrawableResourceUi(
         val id: Int?
-    ) : ImageResource()
+    ) : ImageResourceUi()
 
     data class RemoteFilePath(
         val path: String?
-    ) : ImageResource()
+    ) : ImageResourceUi()
 }

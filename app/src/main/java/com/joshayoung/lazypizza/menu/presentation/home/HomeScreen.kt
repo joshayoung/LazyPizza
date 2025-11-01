@@ -47,16 +47,16 @@ import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
-import com.joshayoung.lazypizza.core.presentation.models.InCartItem
-import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
+import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.presentation.utils.previewProducts
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.components.SearchField
 import com.joshayoung.lazypizza.menu.presentation.components.SideItem
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductItem
-import com.joshayoung.lazypizza.menu.presentation.models.MenuType
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
@@ -70,7 +70,7 @@ import kotlin.getValue
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (id: String) -> Unit,
-    bottomNavItems: List<BottomNavItem>
+    bottomNavItemUis: List<BottomNavItemUi>
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val applicationContext = LocalContext.current.applicationContext
@@ -101,7 +101,7 @@ fun HomeScreenRoot(
     HomeScreen(
         goToDetails = goToDetails,
         lazyGridState = listState,
-        bottomNavItems = bottomNavItems,
+        bottomNavItemUis = bottomNavItemUis,
         state = state,
         onAction = { action ->
             viewModel.onAction(action)
@@ -114,7 +114,7 @@ fun HomeScreen(
     state: HomeState,
     goToDetails: (id: String) -> Unit,
     lazyGridState: LazyGridState,
-    bottomNavItems: List<BottomNavItem>,
+    bottomNavItemUis: List<BottomNavItemUi>,
     onAction: (HomeAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -127,7 +127,7 @@ fun HomeScreen(
                 topAppBar = { PizzaAppBar() },
                 bottomBar = {
                     PizzaBottomBar(
-                        bottomNavItems = bottomNavItems,
+                        bottomNavItemUis = bottomNavItemUis,
                         cartItems = state.cartItems
                     )
                 }
@@ -161,7 +161,7 @@ fun HomeScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
-                appBarItems = bottomNavItems,
+                appBarItems = bottomNavItemUis,
                 cartItems = state.cartItems
             ) { innerPadding ->
                 Column(
@@ -228,7 +228,7 @@ fun Chips(
                         lazyGridState.animateScrollToItem(label.startingIndex)
                     }
                 },
-                label = { Text(label.menuType.chipValue) },
+                label = { Text(label.menuTypeUi.chipValue) },
                 leadingIcon = null,
                 shape = RoundedCornerShape(8.dp),
                 colors =
@@ -306,7 +306,7 @@ fun ProductItems(
                                         Modifier.background(
                                             MaterialTheme.colorScheme.background
                                         ),
-                                    text = groupedItem.menuType.displayValue,
+                                    text = groupedItem.menuTypeUi.displayValue,
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
@@ -329,12 +329,12 @@ fun ProductItems(
 
 @Composable
 fun ItemAndPrice(
-    productUi: InCartItem,
+    productUi: InCartItemUi,
     goToDetails: (id: String) -> Unit,
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    if (productUi.type == MenuType.Entree.name.lowercase()) {
+    if (productUi.type == MenuTypeUi.Entree.name.lowercase()) {
         ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
         SideItem(
@@ -359,7 +359,7 @@ fun SearchItemsScreenPreview() {
                 ),
             goToDetails = {},
             lazyGridState = LazyGridState(),
-            bottomNavItems = previewBottomNavItems,
+            bottomNavItemUis = previewBottomNavItemUis,
             onAction = {}
         )
     }
@@ -383,7 +383,7 @@ private fun CartScreenPreview() {
                 ),
             goToDetails = {},
             lazyGridState = LazyGridState(),
-            bottomNavItems = previewBottomNavItems,
+            bottomNavItemUis = previewBottomNavItemUis,
             onAction = {}
         )
     }

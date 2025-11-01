@@ -29,8 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
-import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
+import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.primary8
@@ -40,7 +40,7 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 fun LargePizzaScaffold(
     title: String? = null,
     cartItems: Int = 0,
-    appBarItems: List<BottomNavItem>,
+    appBarItems: List<BottomNavItemUi>,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold { innerPadding ->
@@ -112,7 +112,7 @@ fun LargePizzaScaffold(
 }
 
 @Composable
-fun CustomNavigationRailItem(item: BottomNavItem) {
+fun CustomNavigationRailItem(item: BottomNavItemUi) {
     var outlineBackground = Color.Transparent
     var tint = MaterialTheme.colorScheme.onSecondary
     if (item.selected) {
@@ -151,7 +151,7 @@ fun LazyPizzaNavigationRailPreview() {
     LazyPizzaTheme {
         LargePizzaScaffold(
             title = "Cart",
-            appBarItems = previewBottomNavItems
+            appBarItems = previewBottomNavItemUis
         ) { innerPadding ->
             Column(
                 modifier = Modifier.padding(innerPadding).fillMaxSize(),

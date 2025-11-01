@@ -2,7 +2,7 @@ package com.joshayoung.lazypizza.core.presentation.models
 
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 
-data class InCartItem(
+data class InCartItemUi(
     val toppingsForDisplay: Map<String, Int>,
     val lineNumbers: List<Long?>,
     // TODO: Convert to domain layer model:

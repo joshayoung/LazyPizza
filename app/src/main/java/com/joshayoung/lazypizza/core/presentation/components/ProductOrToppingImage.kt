@@ -13,7 +13,7 @@ import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.networking.JwtManager
-import com.joshayoung.lazypizza.core.presentation.models.ImageResource
+import com.joshayoung.lazypizza.core.presentation.models.ImageResourceUi
 
 // TODO: Move preview and debug check here:
 @Composable
@@ -25,11 +25,11 @@ fun ProductOrToppingImage(
     val inPreviewMode = LocalInspectionMode.current
     val context = LocalContext.current
 
-    val imageResource =
+    val imageResourceUi =
         if (inPreviewMode) {
-            ImageResource.DrawableResource(imageResource)
+            ImageResourceUi.DrawableResourceUi(imageResource)
         } else {
-            ImageResource.RemoteFilePath(remoteImage)
+            ImageResourceUi.RemoteFilePath(remoteImage)
         }
 
     var token: String? = null
@@ -37,9 +37,9 @@ fun ProductOrToppingImage(
         token = JwtManager.token
     }
 
-    when (imageResource) {
-        is ImageResource.DrawableResource -> {
-            imageResource.id?.let { id ->
+    when (imageResourceUi) {
+        is ImageResourceUi.DrawableResourceUi -> {
+            imageResourceUi.id?.let { id ->
                 Image(
                     painterResource(id = id),
                     contentDescription = null,
@@ -47,7 +47,7 @@ fun ProductOrToppingImage(
                 )
             }
         }
-        is ImageResource.RemoteFilePath -> {
+        is ImageResourceUi.RemoteFilePath -> {
             if (token != null) {
                 val headers =
                     NetworkHeaders
@@ -57,7 +57,7 @@ fun ProductOrToppingImage(
                 val request =
                     ImageRequest
                         .Builder(context)
-                        .data(imageResource.path)
+                        .data(imageResourceUi.path)
                         .httpHeaders(headers)
                         .build()
                 AsyncImage(
@@ -75,7 +75,7 @@ fun ProductOrToppingImage(
             } else {
                 AsyncImage(
                     modifier = modifier,
-                    model = imageResource.path,
+                    model = imageResourceUi.path,
                     contentDescription = null
                 )
             }

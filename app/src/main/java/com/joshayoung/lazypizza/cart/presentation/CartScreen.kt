@@ -38,10 +38,10 @@ import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItem
+import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
-import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreview
-import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItems
+import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
+import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
@@ -52,11 +52,11 @@ import java.util.Locale
 @Composable
 fun CartScreenRoot(
     viewModel: CartViewModel = koinViewModel(),
-    bottomNavItems: List<BottomNavItem>,
+    bottomNavItemUis: List<BottomNavItemUi>,
     backToMenu: () -> Unit
 ) {
     CartScreen(
-        bottomNavItems = bottomNavItems,
+        bottomNavItemUis = bottomNavItemUis,
         state = viewModel.state.collectAsStateWithLifecycle().value,
         onAction = { action ->
             viewModel.onAction(action)
@@ -67,7 +67,7 @@ fun CartScreenRoot(
 
 @Composable
 fun CartScreen(
-    bottomNavItems: List<BottomNavItem>,
+    bottomNavItemUis: List<BottomNavItemUi>,
     state: CartState,
     onAction: (CartAction) -> Unit,
     backToMenu: () -> Unit
@@ -88,7 +88,7 @@ fun CartScreen(
                 bottomBar = {
                     PizzaBottomBar(
                         cartItems = state.cartItems,
-                        bottomNavItems = bottomNavItems
+                        bottomNavItemUis = bottomNavItemUis
                     )
                 }
             ) { innerPadding ->
@@ -161,7 +161,7 @@ fun CartScreen(
             LargePizzaScaffold(
                 cartItems = state.cartItems,
                 title = "Cart",
-                appBarItems = bottomNavItems
+                appBarItems = bottomNavItemUis
             ) { innerPadding ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -349,11 +349,11 @@ fun RecommendedAddOns(
 private fun CartScreenPreview() {
     LazyPizzaTheme {
         CartScreen(
-            bottomNavItems = previewBottomNavItems,
+            bottomNavItemUis = previewBottomNavItemUis,
             state =
                 CartState(
                     isLoadingCart = false,
-                    items = inCartItemsForPreview,
+                    items = inCartItemsForPreviewUis,
                     recommendedAddOns = addOnsForPreview
                 ),
             onAction = {},
