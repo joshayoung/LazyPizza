@@ -49,6 +49,7 @@ Android Application for Pizza Orders
 * [Image Caching with Coil Compose - Everything You Need to Know](https://www.youtube.com/watch?v=qQVCtkg-O7w)
 * [Async with Token](https://github.com/coil-kt/coil/discussions/2558#discussioncomment-10963528)
 * [Room Relationship](https://proandroiddev.com/room-database-relationships-explained-729d3c705fd9)
+* [Understanding the internal of Flow, StateFlow, and SharedFlow](https://www.revenuecat.com/blog/engineering/flow-internals/)
 
 ### Provided Resources
 * [Adding Shadows in Compose](https://developer.android.com/develop/ui/compose/graphics/draw/shadows)
