@@ -4,6 +4,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
+import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
@@ -92,23 +93,3 @@ fun ProductUi.toProduct(): Product =
         // TODO: Is this correct?
         type = type?.name ?: ""
     )
-
-private fun getMenuTypeEnum(menuType: String): MenuTypeUi {
-    when (menuType) {
-        "entree" -> {
-            return MenuTypeUi.Entree
-        }
-        "dessert" -> {
-            return MenuTypeUi.Dessert
-        }
-        "beverage" -> {
-            return MenuTypeUi.Beverage
-        }
-        "sauce" -> {
-            return MenuTypeUi.Sauce
-        }
-        else -> {
-            return MenuTypeUi.Unknown
-        }
-    }
-}

@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.presentation.models
 
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 
 data class InCartItemUi(
     val toppingsForDisplay: Map<String, Int>,
@@ -14,6 +15,6 @@ data class InCartItemUi(
     val description: String? = null,
     val imageUrl: String? = null,
     val imageResource: Int? = null,
-    val type: String,
+    val type: MenuTypeUi,
     val numberInCart: Int = 0
 )

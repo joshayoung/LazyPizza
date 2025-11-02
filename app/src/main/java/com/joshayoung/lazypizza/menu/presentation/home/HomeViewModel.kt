@@ -164,17 +164,17 @@ class HomeViewModel(
                             }
                     val entrees =
                         allProducts.filter {
-                            it.type == MenuTypeUi.Entree.name.lowercase()
+                            it.type == MenuTypeUi.Entree
                         }
                     val beverages =
                         allProducts.filter {
                             it.type ==
-                                MenuTypeUi.Beverage.name.lowercase()
+                                MenuTypeUi.Beverage
                         }
-                    val sauces = allProducts.filter { it.type == MenuTypeUi.Sauce.name.lowercase() }
+                    val sauces = allProducts.filter { it.type == MenuTypeUi.Sauce }
                     val desserts =
                         allProducts.filter {
-                            it.type == MenuTypeUi.Dessert.name.lowercase()
+                            it.type == MenuTypeUi.Dessert
                         }
 
                     val entreeStart = 0

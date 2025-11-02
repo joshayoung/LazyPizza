@@ -333,7 +333,7 @@ fun ItemAndPrice(
     modifier: Modifier = Modifier,
     onAction: (HomeAction) -> Unit
 ) {
-    if (productUi.type == MenuTypeUi.Entree.name.lowercase()) {
+    if (productUi.type == MenuTypeUi.Entree) {
         ProductItem(productUi, goToDetails = goToDetails, modifier = modifier)
     } else {
         SideItem(

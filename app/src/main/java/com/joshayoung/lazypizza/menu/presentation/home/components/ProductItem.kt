@@ -32,6 +32,7 @@ import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingIma
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import java.util.Locale
 import kotlin.String
 import kotlin.Unit
@@ -148,7 +149,7 @@ private fun ProductItemPreview() {
                                     "Mushrooms" to 2,
                                     "Olives" to 1
                                 ),
-                            type = "entree",
+                            type = MenuTypeUi.Entree,
                             lineNumbers = emptyList(),
                             toppings = emptyList()
                         ),
@@ -178,7 +179,7 @@ private fun ProductItemPreview() {
                                     "Mushrooms" to 2,
                                     "Olives" to 1
                                 ),
-                            type = "entree",
+                            type = MenuTypeUi.Entree,
                             lineNumbers = emptyList(),
                             remoteId = "",
                             toppings = emptyList()

@@ -30,6 +30,7 @@ import com.joshayoung.lazypizza.menu.presentation.home.HomeAction
 import com.joshayoung.lazypizza.menu.presentation.home.components.AddButtonWithPrice
 import com.joshayoung.lazypizza.menu.presentation.home.components.PriceAndQuantityToggle
 import com.joshayoung.lazypizza.menu.presentation.home.components.ProductHeader
+import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import java.math.BigDecimal
 
 @Composable
@@ -146,7 +147,7 @@ fun SideItemPreview() {
                                     "Mushrooms" to 2,
                                     "Olives" to 1
                                 ),
-                            type = "entree",
+                            type = MenuTypeUi.Entree,
                             lineNumbers = emptyList(),
                             remoteId = "123",
                             toppings = emptyList()
