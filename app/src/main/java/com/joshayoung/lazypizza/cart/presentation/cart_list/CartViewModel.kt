@@ -7,6 +7,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -104,17 +105,21 @@ class CartViewModel(
                 _state.update {
                     it.copy(
                         items = inCartItems,
-                        checkoutPrice =
-                            BigDecimal(
-                                inCartItems.sumOf { lt ->
-                                    lt.price.toDouble()
-                                }
-                            ),
+                        checkoutPrice = getTotal(inCartItems),
                         isLoadingCart = false
                     )
                 }
             }
         }
+    }
+
+    private fun getTotal(inCartItems: List<InCartItemUi>): BigDecimal {
+        val total =
+            inCartItems.sumOf { item ->
+                item.price.toDouble() * item.numberInCart
+            }
+
+        return BigDecimal(total)
     }
 
     fun onAction(action: CartAction) {
