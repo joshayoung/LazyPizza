@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
@@ -73,6 +74,9 @@ fun NavigationRoot(navController: NavHostController) {
         composable<Routes.Menu> {
             HomeScreenRoot(
                 bottomNavItemUis = bottomNavigationItems,
+                goToLoginScreen = {
+                    navController.navigate(Routes.Login)
+                },
                 goToDetails = { id ->
                     navController.navigate(
                         Routes.Details.toString() + "?productId=$id"
@@ -124,6 +128,10 @@ fun NavigationRoot(navController: NavHostController) {
             HistoryScreenRoot(
                 bottomNavItemUis = bottomNavigationItems
             )
+        }
+
+        composable<Routes.Login> {
+            LoginScreenRoot()
         }
     }
 }

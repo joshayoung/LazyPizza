@@ -10,6 +10,9 @@ sealed interface Routes {
     data object Details : Routes
 
     @Serializable
+    data object Login : Routes
+
+    @Serializable
     data object Cart : Routes
 
     @Serializable

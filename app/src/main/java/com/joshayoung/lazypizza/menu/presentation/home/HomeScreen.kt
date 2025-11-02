@@ -69,6 +69,7 @@ import kotlin.getValue
 fun HomeScreenRoot(
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (id: String) -> Unit,
+    goToLoginScreen: () -> Unit,
     bottomNavItemUis: List<BottomNavItemUi>
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
@@ -101,6 +102,7 @@ fun HomeScreenRoot(
         goToDetails = goToDetails,
         lazyGridState = listState,
         bottomNavItemUis = bottomNavItemUis,
+        goToLoginScreen = goToLoginScreen,
         state = state,
         onAction = { action ->
             viewModel.onAction(action)
@@ -112,6 +114,7 @@ fun HomeScreenRoot(
 fun HomeScreen(
     state: HomeState,
     goToDetails: (id: String) -> Unit,
+    goToLoginScreen: () -> Unit,
     lazyGridState: LazyGridState,
     bottomNavItemUis: List<BottomNavItemUi>,
     onAction: (HomeAction) -> Unit
@@ -123,7 +126,7 @@ fun HomeScreen(
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             SmallPizzaScaffold(
-                topAppBar = { PizzaAppBar() },
+                topAppBar = { PizzaAppBar(authenticate = goToLoginScreen) },
                 bottomBar = {
                     PizzaBottomBar(
                         bottomNavItemUis = bottomNavItemUis,
@@ -358,6 +361,7 @@ fun SearchItemsScreenPreview() {
             goToDetails = {},
             lazyGridState = LazyGridState(),
             bottomNavItemUis = previewBottomNavItemUis,
+            goToLoginScreen = {},
             onAction = {}
         )
     }
@@ -382,6 +386,7 @@ private fun CartScreenPreview() {
             goToDetails = {},
             lazyGridState = LazyGridState(),
             bottomNavItemUis = previewBottomNavItemUis,
+            goToLoginScreen = {},
             onAction = {}
         )
     }
