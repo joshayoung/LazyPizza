@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.app
 
 import android.app.Application
 import com.joshayoung.lazypizza.app.data.di.appModule
+import com.joshayoung.lazypizza.auth.domain.di.authModule
 import com.joshayoung.lazypizza.cart.data.di.cartModule
 import com.joshayoung.lazypizza.core.data.di.coreModule
 import com.joshayoung.lazypizza.core.networking.JwtManager
@@ -29,7 +30,8 @@ class LazyPizzaApp : Application() {
                 cartModule,
                 coreModule,
                 historyModule,
-                menuModule
+                menuModule,
+                authModule
             )
         }
     }

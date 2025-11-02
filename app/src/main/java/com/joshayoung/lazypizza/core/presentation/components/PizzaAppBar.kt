@@ -87,12 +87,12 @@ fun PizzaAppBar(
                                     .padding(end = 8.dp)
                         )
                     }
-
                 } else {
-                    IconButton(onClick =
-                        {
-                            authenticate()
-                        }
+                    IconButton(
+                        onClick =
+                            {
+                                authenticate()
+                            }
                     ) {
                         Icon(
                             imageVector = UserIcon,

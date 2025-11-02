@@ -131,7 +131,15 @@ fun NavigationRoot(navController: NavHostController) {
         }
 
         composable<Routes.Login> {
-            LoginScreenRoot()
+            LoginScreenRoot(
+                useAsGuest = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
