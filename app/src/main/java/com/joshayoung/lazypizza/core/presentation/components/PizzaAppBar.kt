@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.LogoutIcon
 import com.joshayoung.lazypizza.core.ui.theme.PizzaLogo
+import com.joshayoung.lazypizza.core.ui.theme.UserIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +39,9 @@ fun PizzaAppBar(
     showContact: Boolean = true,
     showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
-    title: String? = null
+    authenticate: () -> Unit = {},
+    title: String? = null,
+    isAuthenticated: Boolean = false
 ) {
     TopAppBar(
         modifier = Modifier,
@@ -45,7 +49,7 @@ fun PizzaAppBar(
             Row(
                 modifier =
                     Modifier
-                        .padding(end = 20.dp)
+                        .padding(end = 10.dp)
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -70,6 +74,34 @@ fun PizzaAppBar(
 
                 if (showContact) {
                     Contact()
+                }
+
+                if (isAuthenticated) {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = LogoutIcon,
+                            tint = MaterialTheme.colorScheme.primary,
+                            contentDescription = null,
+                            modifier =
+                                Modifier
+                                    .padding(end = 8.dp)
+                        )
+                    }
+
+                } else {
+                    IconButton(onClick =
+                        {
+                            authenticate()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = UserIcon,
+                            contentDescription = null,
+                            modifier =
+                                Modifier
+                                    .padding(end = 8.dp)
+                        )
+                    }
                 }
             }
         }
@@ -149,6 +181,7 @@ fun LazyPizzaAppBarPreview() {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             PizzaAppBar()
+            PizzaAppBar(isAuthenticated = true)
             PizzaAppBar(
                 showLogo = false,
                 showContact = false,

@@ -47,6 +47,10 @@ val LogoutIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(R.drawable.logout)
 
+val UserIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.user)
+
 val CartIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(R.drawable.cart)
