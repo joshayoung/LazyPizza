@@ -34,7 +34,7 @@ interface CartRepository {
 
     suspend fun deleteCartItem(item: ProductsInCartEntity)
 
-    suspend fun sidesNotInCart(): Flow<List<ProductEntity>>
+    suspend fun sidesNotInCart(): Flow<List<Product>>
 
     suspend fun createCartForUser(
         cartId: Long,

@@ -11,10 +11,12 @@ import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import com.joshayoung.lazypizza.core.presentation.mappers.toTopping
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class CartRepositoryImpl(
     private var localDataSource: LocalDataSource,
@@ -103,8 +105,12 @@ class CartRepositoryImpl(
         localDataSource.deleteCartItem(item)
     }
 
-    override suspend fun sidesNotInCart(): Flow<List<ProductEntity>> {
-        return localDataSource.sidesNotInCart()
+    override suspend fun sidesNotInCart(): Flow<List<Product>> {
+        return localDataSource.sidesNotInCart().map {
+            it.map { item ->
+                item.toProduct()
+            }
+        }
     }
 
     override suspend fun createCartForUser(
