@@ -124,7 +124,7 @@ fun CartScreen(
                                             .weight(1f),
                                     columns = GridCells.Fixed(1)
                                 ) {
-                                    items(state.items) { inCartItem ->
+                                    items(state.items, key = { it.key }) { inCartItem ->
                                         CartItem(
                                             inCartItem,
                                             modifier =

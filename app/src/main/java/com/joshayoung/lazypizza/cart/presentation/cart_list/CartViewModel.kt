@@ -7,7 +7,9 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
+import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,6 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import kotlin.collections.first
 
 class CartViewModel(
     private var cartRepository: CartRepository
@@ -64,6 +67,7 @@ class CartViewModel(
 
     private fun loadCart() {
         viewModelScope.launch {
+            var count = 0
             val productsInCart =
                 cartRepository
                     .productsInCartWithNoToppings()
@@ -74,31 +78,64 @@ class CartViewModel(
                         val groupedByProductId = productWithNoToppings.groupBy { it.productId }
                         val inCartItemUis =
                             groupedByProductId.map { (_, productList) ->
-                                productList.toInCartItemUi()
+                                productList.toInCartItemUi(key = ++count)
                             }
 
-                        val groupedByToppingList =
-                            productWithToppings
-                                .groupBy { it.name }
-                        val inCartItemsWithToppingUis =
-                            groupedByToppingList.map { (id, productList) ->
-                                productList
-                                    .map {
-                                        cartRepository
-                                            .getToppingForProductInCart(it.lineItemId)
-                                    }.flatMap { it }
+                        val withToppings =
+                            productWithToppings.map { iic ->
                                 val toppings =
-                                    productList
-                                        .map {
-                                            cartRepository
-                                                .getToppingForProductInCart(it.lineItemId)
-                                        }.flatMap { it }
+                                    cartRepository.getToppingForProductInCart(
+                                        iic.lineItemId
+                                    )
                                 val toppingsForDisplay =
                                     toppings
                                         .groupBy { it.name }
                                         .mapValues { entry -> entry.value.size }
-                                productList.toInCartItemUi(toppingsForDisplay)
+                                // could this be generic object?
+                                InCartItemSingleUi(
+                                    name = iic.name,
+                                    description = iic.description,
+                                    imageResource = iic.imageResource,
+                                    toppingsForDisplay = toppingsForDisplay,
+                                    toppings = toppings,
+                                    lineItemId = iic.lineItemId,
+                                    imageUrl = iic.imageUrl,
+                                    nameWithToppingIds = iic.nameWithToppingIds,
+                                    type = getMenuTypeEnum(iic.type),
+                                    price = iic.price,
+                                    remoteId = iic.remoteId,
+                                    productId = iic.productId
+                                )
                             }
+
+                        // group by something more unique:
+                        val grp = withToppings.groupBy { it.nameWithToppingIds }
+
+                        val inCartItemsWithToppingUis =
+                            grp.map { item ->
+                                val lineNumbers = item.value.map { it.lineItemId }
+                                InCartItemUi(
+                                    key = ++count,
+                                    lineNumbers = lineNumbers,
+                                    name = item.value.first().name,
+                                    description = item.value.first().description,
+                                    imageResource = item.value.first().imageResource,
+                                    toppingsForDisplay = item.value.first().toppingsForDisplay,
+                                    toppings = item.value.first().toppings,
+                                    imageUrl = item.value.first().imageUrl,
+                                    type =
+                                        getMenuTypeEnum(
+                                            item.value
+                                                .first()
+                                                .type.name
+                                        ),
+                                    price = item.value.first().price,
+                                    remoteId = item.value.first().remoteId,
+                                    productId = item.value.first().productId,
+                                    numberInCart = lineNumbers.count()
+                                )
+                            }
+
                         inCartItemUis + inCartItemsWithToppingUis
                     }
 
@@ -115,12 +152,17 @@ class CartViewModel(
     }
 
     private fun getTotal(inCartItems: List<InCartItemUi>): BigDecimal {
-        val total =
+        val base =
             inCartItems.sumOf { item ->
                 item.price.toDouble() * item.numberInCart
             }
+        val toppingsInCart = inCartItems.map { it.toppings }.flatMap { it }
+        val toppings =
+            toppingsInCart.sumOf { item ->
+                item.price.toDouble()
+            }
 
-        return BigDecimal(total)
+        return BigDecimal(base + toppings)
     }
 
     fun onAction(action: CartAction) {

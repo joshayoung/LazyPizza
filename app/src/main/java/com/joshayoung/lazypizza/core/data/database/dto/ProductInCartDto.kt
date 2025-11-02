@@ -4,6 +4,7 @@ data class ProductInCartDto(
     var lineItemId: Long? = null,
     val remoteId: String,
     val productId: Long,
+    val nameWithToppingIds: String? = null,
     val name: String,
     val price: String,
     val description: String,

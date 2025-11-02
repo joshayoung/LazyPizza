@@ -9,7 +9,6 @@ data class ToppingInCartDto(
     val name: String,
     val price: String,
     val imageUrl: String,
-    val productId: Int,
-    // TODO: Remove this;
-    val numberOfToppings: Int? = null
+    val productId: Int
+//    val numberOfToppings: Int = 0
 )

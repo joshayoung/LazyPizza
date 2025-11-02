@@ -60,7 +60,7 @@ interface CartDao {
     fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>>
 
     @Query(
-        "select pivot.id as lineItemId, p.productId, p.remoteId, p.price, p.description, p.imageUrl, p.imageResource, p.type, p.name, GROUP_CONCAT(t.name, ', ') as toppingList from product as p join products_in_cart as pivot on pivot.productId == p.productId join toppings_in_cart as tic on tic.lineItemNumber = pivot.id join topping as t on t.toppingId = tic.toppingId where pivot.id IN (select lineItemNumber from toppings_in_cart) group by pivot.id"
+        "select pivot.id as lineItemId, p.productId, p.remoteId, p.price, p.description, p.imageUrl, p.imageResource, p.type, p.name, GROUP_CONCAT(t.toppingId ||  p.name) as nameWithToppingIds from product as p join products_in_cart as pivot on pivot.productId == p.productId join toppings_in_cart as tic on tic.lineItemNumber = pivot.id join topping as t on t.toppingId = tic.toppingId where pivot.id IN (select lineItemNumber from toppings_in_cart) group by pivot.id"
     )
     fun productsInCartWithToppings(): Flow<List<ProductInCartDto>>
 

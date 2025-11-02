@@ -5,7 +5,6 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
-import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import java.math.BigDecimal
