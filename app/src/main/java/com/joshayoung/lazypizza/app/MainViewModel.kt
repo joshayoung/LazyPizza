@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -29,6 +31,9 @@ class MainViewModel(
                 // TODO: Pass in something identifying the user and do not hard-code this cartId:
                 cartRepository.createCartForUser(1, "theUser")
                 state = state.copy(isLoading = false)
+            }
+            cartRepository.getNumberProductsInCart(1).collectLatest { count ->
+                state = state.copy(cartItems = count)
             }
         }
     }

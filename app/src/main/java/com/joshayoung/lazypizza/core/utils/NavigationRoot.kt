@@ -19,7 +19,7 @@ import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 
 @Composable
-fun NavigationRoot(navController: NavHostController) {
+fun NavigationRoot(navController: NavHostController, cartItems: Int) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute =
         backStackEntry
@@ -77,6 +77,7 @@ fun NavigationRoot(navController: NavHostController) {
                 goToLoginScreen = {
                     navController.navigate(Routes.Login)
                 },
+                cartItems = cartItems,
                 goToDetails = { id ->
                     navController.navigate(
                         Routes.Details.toString() + "?productId=$id"
@@ -114,6 +115,7 @@ fun NavigationRoot(navController: NavHostController) {
         composable<Routes.Cart> {
             CartScreenRoot(
                 bottomNavItemUis = bottomNavigationItems,
+                cartItems = cartItems,
                 backToMenu = {
                     navController.navigate(Routes.Menu) {
                         popUpTo(0) {
@@ -126,6 +128,7 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable<Routes.History> {
             HistoryScreenRoot(
+                cartItems = cartItems,
                 bottomNavItemUis = bottomNavigationItems,
                 goToLogin = {
                     navController.navigate(Routes.Login) {

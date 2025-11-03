@@ -54,15 +54,6 @@ class CartViewModel(
                     }
                 }
         }
-        viewModelScope.launch {
-            cartRepository.getNumberProductsInCart(1).collectLatest { count ->
-                _state.update {
-                    it.copy(
-                        cartItems = count
-                    )
-                }
-            }
-        }
     }
 
     private fun loadCart() {

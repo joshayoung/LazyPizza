@@ -79,15 +79,14 @@ fun PizzaBottomBar(
                         )
             ) {
                 bottomNavItemUis.forEachIndexed { index, item ->
-                    if (index == 1 && count > 0) {
+                    if (index == 1 && cartItems > 0) {
                         BadgedBox(
                             badge = {
                                 Badge(
                                     containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = LazyPizzaColors.textOnPrimary
                                 ) {
-//                                    Text(cartItems.toString())
-                                    Text(count.toString())
+                                    Text(cartItems.toString())
                                 }
                             }
                         ) {

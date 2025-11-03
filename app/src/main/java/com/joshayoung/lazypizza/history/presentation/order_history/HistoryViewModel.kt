@@ -13,12 +13,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class HistoryViewModel(
-    cartRepository: CartRepository,
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(HistoryState())
-
-    val cartCount: Flow<Int> = cartRepository.getNumberProductsInCart(1)
 
     init {
         // TODO: Use correct user here:

@@ -1,8 +1,11 @@
 package com.joshayoung.lazypizza.cart.presentation.cart_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,6 +24,7 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +43,7 @@ import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import org.koin.androidx.compose.koinViewModel
@@ -46,11 +51,13 @@ import java.util.Locale
 
 @Composable
 fun CartScreenRoot(
+    cartItems: Int,
     viewModel: CartViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     backToMenu: () -> Unit
 ) {
     CartScreen(
+        cartItems = cartItems,
         bottomNavItemUis = bottomNavItemUis,
         state = viewModel.state.collectAsStateWithLifecycle().value,
         onAction = { action ->
@@ -62,6 +69,7 @@ fun CartScreenRoot(
 
 @Composable
 fun CartScreen(
+    cartItems: Int,
     bottomNavItemUis: List<BottomNavItemUi>,
     state: CartState,
     onAction: (CartAction) -> Unit,
@@ -82,11 +90,70 @@ fun CartScreen(
                 },
                 bottomBar = {
                     PizzaBottomBar(
-                        cartItems = state.cartItems,
+                        cartItems = cartItems,
                         bottomNavItemUis = bottomNavItemUis
                     )
                 }
             ) { innerPadding ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(innerPadding)
+                            .padding(14.dp)
+                ) {
+                    if (state.isLoadingCart) {
+                        LoadingBox()
+                    } else if (state.items.count() < 1) {
+                        EmptyCart(backToMenu = backToMenu)
+                    } else {
+                        Column(
+                            modifier =
+                                Modifier
+                                    .fillMaxSize(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column(
+                                modifier =
+                                    Modifier
+                                        .fillMaxSize()
+                            ) {
+                                LazyVerticalGrid(
+                                    modifier =
+                                        Modifier
+                                            .weight(1f),
+                                    columns = GridCells.Fixed(1)
+                                ) {
+                                    items(state.items, key = { it.key }) { inCartItem ->
+                                        CartItem(
+                                            inCartItem,
+                                            modifier =
+                                                Modifier
+                                                    .padding(bottom = 10.dp)
+                                                    .height(140.dp),
+                                            onAction = onAction
+                                        )
+                                    }
+                                    item {
+                                        RecommendedAddOns(
+                                            state.recommendedAddOns,
+                                            onAction =
+                                            onAction
+                                        )
+                                    }
+                                }
+                                CheckOutButton(
+                                    state = state,
+                                    modifier =
+                                    Modifier
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
@@ -95,10 +162,57 @@ fun CartScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
-                cartItems = state.cartItems,
+                cartItems = cartItems,
                 title = "Cart",
                 appBarItems = bottomNavItemUis
             ) { innerPadding ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(innerPadding)
+                ) {
+                    if (state.isLoadingCart) {
+                        LoadingBox()
+                    } else if (state.items.count() < 1) {
+                        EmptyCart(backToMenu = backToMenu)
+                    } else {
+                        Row(
+                            modifier =
+                                Modifier
+                                    .padding(20.dp)
+                                    .fillMaxSize()
+                        ) {
+                            CartItems(
+                                state = state,
+                                onAction = onAction,
+                                modifier =
+                                    Modifier
+                                        .padding(end = 20.dp)
+                                        .weight(1f)
+                            )
+
+                            Column(
+                                modifier =
+                                    Modifier
+                                        .clip(shape = RoundedCornerShape(10.dp))
+                                        .background(MaterialTheme.colorScheme.surfaceHigher)
+                                        .padding(20.dp)
+                                        .weight(1f)
+                            ) {
+                                RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
+                                CheckOutButton(
+                                    state = state,
+                                    modifier =
+                                        Modifier
+                                            .padding(top = 20.dp)
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -246,7 +360,8 @@ private fun CartScreenPreview() {
                     recommendedAddOns = addOnsForPreview
                 ),
             onAction = {},
-            backToMenu = {}
+            backToMenu = {},
+            cartItems = 2
         )
     }
 }

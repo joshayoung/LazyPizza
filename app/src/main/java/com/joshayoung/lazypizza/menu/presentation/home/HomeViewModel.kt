@@ -40,15 +40,6 @@ class HomeViewModel(
             )
 
     init {
-        viewModelScope.launch {
-            cartRepository.getNumberProductsInCart(1).collectLatest { count ->
-                _state.update {
-                    it.copy(
-                        cartItems = count
-                    )
-                }
-            }
-        }
         _state.value.search
             .textAsFlow()
             .onEach { search ->

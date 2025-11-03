@@ -36,12 +36,14 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HistoryScreenRoot(
+    cartItems: Int,
     viewModel: HistoryViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     goToLogin: () -> Unit
 ) {
     HistoryScreen(
         bottomNavItemUis = bottomNavItemUis,
+        cartItems = cartItems,
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToLogin = goToLogin,
         onAction = { action ->
@@ -53,6 +55,7 @@ fun HistoryScreenRoot(
 @Composable
 fun HistoryScreen(
     bottomNavItemUis: List<BottomNavItemUi>,
+    cartItems: Int,
     state: HistoryState,
     goToLogin: () -> Unit,
     onAction: (HistoryAction) -> Unit
@@ -72,7 +75,7 @@ fun HistoryScreen(
                 },
                 bottomBar = {
                     PizzaBottomBar(
-                        cartItems = state.cartItems,
+                        cartItems = cartItems,
                         bottomNavItemUis = bottomNavItemUis
                     )
                 }
@@ -104,7 +107,7 @@ fun HistoryScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
-                cartItems = state.cartItems,
+                cartItems = cartItems,
                 title = "Order History",
                 appBarItems = bottomNavItemUis
             ) { innerPadding ->
@@ -190,6 +193,7 @@ fun HistoryScreenPreview() {
                 ),
             onAction = {},
             goToLogin = {},
+            cartItems = 2,
             bottomNavItemUis = previewBottomNavItemUis
         )
     }

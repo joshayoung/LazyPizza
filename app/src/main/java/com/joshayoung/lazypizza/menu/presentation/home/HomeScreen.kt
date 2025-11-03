@@ -67,6 +67,7 @@ import kotlin.getValue
 @OptIn(FlowPreview::class)
 @Composable
 fun HomeScreenRoot(
+    cartItems: Int,
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (id: String) -> Unit,
     goToLoginScreen: () -> Unit,
@@ -99,6 +100,7 @@ fun HomeScreenRoot(
     val listState = remember { lazyGridState }
 
     HomeScreen(
+        cartItems = cartItems,
         goToDetails = goToDetails,
         lazyGridState = listState,
         bottomNavItemUis = bottomNavItemUis,
@@ -113,6 +115,7 @@ fun HomeScreenRoot(
 @Composable
 fun HomeScreen(
     state: HomeState,
+    cartItems: Int,
     goToDetails: (id: String) -> Unit,
     goToLoginScreen: () -> Unit,
     lazyGridState: LazyGridState,
@@ -130,7 +133,7 @@ fun HomeScreen(
                 bottomBar = {
                     PizzaBottomBar(
                         bottomNavItemUis = bottomNavItemUis,
-                        cartItems = state.cartItems
+                        cartItems = cartItems
                     )
                 }
             ) { innerPadding ->
@@ -164,7 +167,7 @@ fun HomeScreen(
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
                 appBarItems = bottomNavItemUis,
-                cartItems = state.cartItems
+                cartItems = cartItems
             ) { innerPadding ->
                 Column(
                     modifier =
@@ -362,6 +365,7 @@ fun SearchItemsScreenPreview() {
             lazyGridState = LazyGridState(),
             bottomNavItemUis = previewBottomNavItemUis,
             goToLoginScreen = {},
+            cartItems = 2,
             onAction = {}
         )
     }
@@ -387,6 +391,7 @@ private fun CartScreenPreview() {
             lazyGridState = LazyGridState(),
             bottomNavItemUis = previewBottomNavItemUis,
             goToLoginScreen = {},
+            cartItems = 2,
             onAction = {}
         )
     }
