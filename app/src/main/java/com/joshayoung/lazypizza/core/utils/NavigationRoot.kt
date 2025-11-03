@@ -126,7 +126,14 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable<Routes.History> {
             HistoryScreenRoot(
-                bottomNavItemUis = bottomNavigationItems
+                bottomNavItemUis = bottomNavigationItems,
+                goToLogin = {
+                    navController.navigate(Routes.Login) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
 

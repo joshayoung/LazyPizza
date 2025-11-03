@@ -1,9 +1,15 @@
 package com.joshayoung.lazypizza.history.presentation.order_history
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,18 +26,24 @@ import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
+import com.joshayoung.lazypizza.core.presentation.utils.previewOrders
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import com.joshayoung.lazypizza.history.domain.models.Order
+import com.joshayoung.lazypizza.history.presentation.components.HistoryCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HistoryScreenRoot(
     viewModel: HistoryViewModel = koinViewModel(),
-    bottomNavItemUis: List<BottomNavItemUi>
+    bottomNavItemUis: List<BottomNavItemUi>,
+    goToLogin: () -> Unit
 ) {
     HistoryScreen(
         bottomNavItemUis = bottomNavItemUis,
         state = viewModel.state.collectAsStateWithLifecycle().value,
+        goToLogin = goToLogin,
         onAction = { action ->
             viewModel.onAction(action)
         }
@@ -42,6 +54,7 @@ fun HistoryScreenRoot(
 fun HistoryScreen(
     bottomNavItemUis: List<BottomNavItemUi>,
     state: HistoryState,
+    goToLogin: () -> Unit,
     onAction: (HistoryAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -69,14 +82,18 @@ fun HistoryScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier =
                         Modifier
-                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
                             .padding(innerPadding)
-                            .padding(top = 140.dp)
+                            .padding(top = 20.dp)
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp)
                 ) {
-                    Text("Not Signed In", style = MaterialTheme.typography.titleLarge)
-                    Text("Please sign in to view your order history")
-                    Button(onClick = {}) {
-                        Text("Sign In")
+                    if (state.isSignedIn) {
+                        OrderHistory(orders = state.orders)
+                    } else {
+                        SignedOut(
+                            goToLogin = goToLogin
+                        )
                     }
                 }
             }
@@ -88,6 +105,7 @@ fun HistoryScreen(
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
                 cartItems = state.cartItems,
+                title = "Order History",
                 appBarItems = bottomNavItemUis
             ) { innerPadding ->
                 Column(
@@ -95,14 +113,24 @@ fun HistoryScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier =
                         Modifier
-                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
                             .padding(innerPadding)
-                            .padding(top = 140.dp)
+                            .padding(top = 20.dp)
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp)
                 ) {
-                    Text("Not Signed In", style = MaterialTheme.typography.titleLarge)
-                    Text("Please sign in to view your order history")
-                    Button(onClick = {}) {
-                        Text("Sign In")
+                    Text(
+                        "Order History",
+                        modifier =
+                            Modifier
+                                .padding(bottom = 20.dp)
+                    )
+                    if (state.isSignedIn) {
+                        OrderHistory(orders = state.orders)
+                    } else {
+                        SignedOut(
+                            goToLogin = goToLogin
+                        )
                     }
                 }
             }
@@ -110,13 +138,58 @@ fun HistoryScreen(
     }
 }
 
-@Preview
 @Composable
-private fun HistoryScreenPreview() {
+fun OrderHistory(orders: List<Order>) {
+    LazyVerticalGrid(
+        state = rememberLazyGridState(),
+        columns = GridCells.Fixed(1)
+    ) {
+        items(orders) { order ->
+            HistoryCard(
+                order,
+                modifier =
+                    Modifier
+                        .padding(bottom = 10.dp)
+                        .height(100.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun SignedOut(goToLogin: () -> Unit) {
+    Text(
+        "Not Signed In",
+        style = MaterialTheme.typography.titleLarge,
+        modifier =
+            Modifier
+                .padding(top = 140.dp)
+    )
+    Text("Please sign in to view your order history")
+    Button(onClick = {
+        goToLogin()
+    }) {
+        Text("Sign In")
+    }
+}
+
+@Preview
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 1280
+)
+@Composable
+fun HistoryScreenPreview() {
     LazyPizzaTheme {
         HistoryScreen(
-            state = HistoryState(),
+            state =
+                HistoryState(
+                    isSignedIn = true,
+                    orders = previewOrders
+                ),
             onAction = {},
+            goToLogin = {},
             bottomNavItemUis = previewBottomNavItemUis
         )
     }

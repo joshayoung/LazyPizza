@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +34,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
 import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
@@ -45,21 +43,13 @@ import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
 import com.joshayoung.lazypizza.core.ui.theme.primary8
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
-import org.koin.compose.koinInject
 
 @Composable
 fun PizzaBottomBar(
     cartItems: Int = 0,
-    cartRepository: CartRepository = koinInject<CartRepository>(),
     bottomNavItemUis: List<BottomNavItemUi>
 ) {
     var count by remember { mutableIntStateOf(0) }
-
-    LaunchedEffect(Unit) {
-        cartRepository.getNumberProductsInCart(1).collect {
-            count = it
-        }
-    }
 
     BottomAppBar(
         containerColor = Color.Transparent,
