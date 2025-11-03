@@ -158,4 +158,8 @@ dependencies {
     implementation(libs.symbol.processing)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+
+    // Firebase Auth:
+    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
+    implementation("com.google.firebase:firebase-auth")
 }
