@@ -1,7 +1,5 @@
 package com.joshayoung.lazypizza.auth.presentation
 
-import android.app.Activity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -34,21 +32,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun LoginScreenRoot(
-    activity: Activity = LocalActivity.current as Activity,
-    // TODO: Correct this, it will cause a memory leak:
-    viewModel: LoginViewModel = koinViewModel { parametersOf(activity) },
-    useAsGuest: () -> Unit
+    viewModel: LoginViewModel = koinViewModel(),
+    useAsGuest: () -> Unit,
+    submitPhoneNumber: (number: String) -> Unit,
+    verifyCode: (code: String) -> Unit
 ) {
     LoginScreen(
         state = viewModel.state,
         useAsGuest = useAsGuest,
         onAction = { action ->
             viewModel.onAction(action)
-        }
+        },
+        submitPhoneNumber = submitPhoneNumber,
+        verifyCode = verifyCode
     )
 }
 
@@ -56,7 +55,9 @@ fun LoginScreenRoot(
 fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit,
-    useAsGuest: () -> Unit
+    useAsGuest: () -> Unit,
+    submitPhoneNumber: (number: String) -> Unit,
+    verifyCode: (code: String) -> Unit
 ) {
     var sent by remember { mutableStateOf(false) }
     var number by remember { mutableStateOf("") }
@@ -121,11 +122,9 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    onAction(
-                        LoginAction.VerifyCode(
-                            code1.value + code2.value + code3.value +
-                                code4.value + code5.value + code6.value
-                        )
+                    verifyCode(
+                        code1.value + code2.value + code3.value +
+                            code4.value + code5.value + code6.value
                     )
                     sent = true
                 },
@@ -139,7 +138,7 @@ fun LoginScreen(
         } else {
             Button(
                 onClick = {
-                    onAction(LoginAction.SendVerificationCode(number))
+                    submitPhoneNumber(number)
                     sent = true
                 },
                 modifier =
@@ -200,7 +199,9 @@ fun LoginScreenPreview() {
         LoginScreen(
             useAsGuest = {},
             state = LoginState(),
-            onAction = {}
+            onAction = {},
+            verifyCode = {},
+            submitPhoneNumber = {}
         )
     }
 }

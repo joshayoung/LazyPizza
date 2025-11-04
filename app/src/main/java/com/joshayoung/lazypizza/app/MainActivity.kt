@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.joshayoung.lazypizza.app.presentation.FirebaseAuthenticatorUiClient
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.NavigationRoot
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -15,6 +16,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val firebaseAuthenticatorUiClient = FirebaseAuthenticatorUiClient(this)
 
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition { viewModel.state.isLoading }
@@ -26,7 +29,8 @@ class MainActivity : ComponentActivity() {
                 if (!viewModel.state.isLoading) {
                     NavigationRoot(
                         navController = navController,
-                        cartItems = viewModel.state.cartItems
+                        cartItems = viewModel.state.cartItems,
+                        firebaseAuthenticatorUiClient = firebaseAuthenticatorUiClient
                     )
                 }
             }

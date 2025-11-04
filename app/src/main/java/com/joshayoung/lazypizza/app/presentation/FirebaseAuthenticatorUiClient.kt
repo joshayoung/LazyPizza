@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.auth.presentation
+package com.joshayoung.lazypizza.app.presentation
 
 import android.app.Activity
 import android.content.ContentValues.TAG
@@ -13,7 +13,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
 
-class FirebaseAuthenticator(
+class FirebaseAuthenticatorUiClient(
     private val activity: Activity
 ) {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()

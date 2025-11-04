@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.joshayoung.lazypizza.app.presentation.FirebaseAuthenticatorUiClient
 import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
@@ -21,7 +22,8 @@ import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
-    cartItems: Int
+    cartItems: Int,
+    firebaseAuthenticatorUiClient: FirebaseAuthenticatorUiClient
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute =
@@ -145,6 +147,12 @@ fun NavigationRoot(
 
         composable<Routes.Login> {
             LoginScreenRoot(
+                submitPhoneNumber = { number ->
+                    firebaseAuthenticatorUiClient.sendCode(number)
+                },
+                verifyCode = { code ->
+                    firebaseAuthenticatorUiClient.verifyCode(code)
+                },
                 useAsGuest = {
                     navController.navigate(Routes.Menu) {
                         popUpTo(0) {
