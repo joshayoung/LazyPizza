@@ -10,13 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.auth.ObserveAsEvents
 import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -40,9 +48,34 @@ fun PizzaAppBar(
     showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
     authenticate: () -> Unit = {},
+    logOut: () -> Unit = {},
     title: String? = null,
     isAuthenticated: Boolean = false
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {},
+            title = { Text("Are you sure you want to log out?") },
+            confirmButton = {
+                Button(onClick = {
+                    logOut()
+                    showDialog = false
+                }) {
+                    Text("Log Out")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showDialog = false
+                }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
     TopAppBar(
         modifier = Modifier,
         title = {
@@ -72,35 +105,41 @@ fun PizzaAppBar(
                     )
                 }
 
-                if (showContact) {
-                    Contact()
-                }
-
-                if (isAuthenticated) {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = LogoutIcon,
-                            tint = MaterialTheme.colorScheme.primary,
-                            contentDescription = null,
-                            modifier =
-                                Modifier
-                                    .padding(end = 8.dp)
-                        )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (showContact) {
+                        Contact()
                     }
-                } else {
-                    IconButton(
-                        onClick =
-                            {
-                                authenticate()
-                            }
-                    ) {
-                        Icon(
-                            imageVector = UserIcon,
-                            contentDescription = null,
-                            modifier =
-                                Modifier
-                                    .padding(end = 8.dp)
-                        )
+
+                    if (isAuthenticated) {
+                        IconButton(onClick = {
+                            showDialog = true
+                        }) {
+                            Icon(
+                                imageVector = LogoutIcon,
+                                tint = MaterialTheme.colorScheme.primary,
+                                contentDescription = null,
+                                modifier =
+                                    Modifier
+                                        .padding(end = 8.dp)
+                            )
+                        }
+                    } else {
+                        IconButton(
+                            onClick =
+                                {
+                                    authenticate()
+                                }
+                        ) {
+                            Icon(
+                                imageVector = UserIcon,
+                                contentDescription = null,
+                                modifier =
+                                    Modifier
+                                        .padding(end = 8.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -134,7 +173,8 @@ fun BackButton(onBackClick: () -> Unit) {
 @Composable
 fun Contact() {
     Row(
-        modifier = Modifier,
+        modifier =
+        Modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

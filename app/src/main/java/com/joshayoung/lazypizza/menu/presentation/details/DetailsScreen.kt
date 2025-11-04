@@ -43,14 +43,19 @@ import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
 import java.util.Locale
+import kotlin.math.log
 
 @Composable
 fun DetailsScreenRoot(
+    logOut: () -> Unit,
+    isLoggedIn: Boolean,
     viewModel: DetailViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToCart: () -> Unit
 ) {
     DetailsScreen(
+        isLoggedIn = isLoggedIn,
+        logOut = logOut,
         state = viewModel.state,
         navigateBack = navigateBack,
         navigateToCart = navigateToCart,
@@ -63,6 +68,8 @@ fun DetailsScreenRoot(
 @SuppressLint("DefaultLocale")
 @Composable
 fun DetailsScreen(
+    logOut: () -> Unit,
+    isLoggedIn: Boolean,
     state: DetailsState,
     navigateBack: () -> Unit,
     navigateToCart: () -> Unit,
@@ -77,7 +84,9 @@ fun DetailsScreen(
                 topAppBar = {
                     PizzaAppBar(
                         showLogo = false,
+                        logOut = logOut,
                         showContact = false,
+                        isAuthenticated = isLoggedIn,
                         showBackButton = true,
                         onBackClick = navigateBack
                     )
@@ -341,6 +350,8 @@ fun DetailsScreenPreview() {
                         )
                 ),
             onAction = {},
+            isLoggedIn = false,
+            logOut = {},
             navigateToCart = {}
         )
     }

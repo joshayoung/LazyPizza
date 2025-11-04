@@ -36,12 +36,16 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HistoryScreenRoot(
+    logOut: () -> Unit,
+    isLoggedIn: Boolean,
     cartItems: Int,
     viewModel: HistoryViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     goToLogin: () -> Unit
 ) {
     HistoryScreen(
+        isLoggedIn = isLoggedIn,
+        logOut = logOut,
         bottomNavItemUis = bottomNavItemUis,
         cartItems = cartItems,
         state = viewModel.state.collectAsStateWithLifecycle().value,
@@ -54,6 +58,8 @@ fun HistoryScreenRoot(
 
 @Composable
 fun HistoryScreen(
+    logOut: () -> Unit,
+    isLoggedIn: Boolean,
     bottomNavItemUis: List<BottomNavItemUi>,
     cartItems: Int,
     state: HistoryState,
@@ -68,6 +74,8 @@ fun HistoryScreen(
             SmallPizzaScaffold(
                 topAppBar = {
                     PizzaAppBar(
+                        isAuthenticated = isLoggedIn,
+                        logOut = logOut,
                         showLogo = false,
                         showContact = false,
                         title = "Order History"
@@ -194,6 +202,8 @@ fun HistoryScreenPreview() {
             onAction = {},
             goToLogin = {},
             cartItems = 2,
+            isLoggedIn = false,
+            logOut = {},
             bottomNavItemUis = previewBottomNavItemUis
         )
     }

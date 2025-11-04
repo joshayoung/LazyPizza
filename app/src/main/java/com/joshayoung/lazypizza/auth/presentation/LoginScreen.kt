@@ -30,6 +30,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.auth.ObserveAsEvents
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
 

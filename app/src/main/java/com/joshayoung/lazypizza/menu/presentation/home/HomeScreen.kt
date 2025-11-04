@@ -28,8 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +43,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.joshayoung.lazypizza.app.presentation.FirebaseAuthenticatorUiClient
+import com.joshayoung.lazypizza.auth.ObserveAsEvents
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
@@ -67,6 +71,9 @@ import kotlin.getValue
 @OptIn(FlowPreview::class)
 @Composable
 fun HomeScreenRoot(
+    isLoggedIn: Boolean,
+    firebaseAuthenticatorUiClient: FirebaseAuthenticatorUiClient,
+    logOut: () -> Unit,
     cartItems: Int,
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (id: String) -> Unit,
@@ -100,6 +107,8 @@ fun HomeScreenRoot(
     val listState = remember { lazyGridState }
 
     HomeScreen(
+        logOut = logOut,
+        isLoggedIn = isLoggedIn,
         cartItems = cartItems,
         goToDetails = goToDetails,
         lazyGridState = listState,
@@ -114,6 +123,8 @@ fun HomeScreenRoot(
 
 @Composable
 fun HomeScreen(
+    logOut: () -> Unit,
+    isLoggedIn: Boolean,
     state: HomeState,
     cartItems: Int,
     goToDetails: (id: String) -> Unit,
@@ -129,7 +140,13 @@ fun HomeScreen(
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             SmallPizzaScaffold(
-                topAppBar = { PizzaAppBar(authenticate = goToLoginScreen) },
+                topAppBar = {
+                    PizzaAppBar(
+                        logOut = logOut,
+                        authenticate = goToLoginScreen,
+                        isAuthenticated = isLoggedIn
+                    )
+                },
                 bottomBar = {
                     PizzaBottomBar(
                         bottomNavItemUis = bottomNavItemUis,
@@ -366,6 +383,8 @@ fun SearchItemsScreenPreview() {
             bottomNavItemUis = previewBottomNavItemUis,
             goToLoginScreen = {},
             cartItems = 2,
+            isLoggedIn = false,
+            logOut = {},
             onAction = {}
         )
     }
@@ -392,6 +411,8 @@ private fun CartScreenPreview() {
             bottomNavItemUis = previewBottomNavItemUis,
             goToLoginScreen = {},
             cartItems = 2,
+            isLoggedIn = false,
+            logOut = {},
             onAction = {}
         )
     }

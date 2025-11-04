@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.app.presentation
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.navigation.NavController
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -11,10 +12,16 @@ import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.joshayoung.lazypizza.auth.domain.AuthState
+import com.joshayoung.lazypizza.core.utils.Routes
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import java.util.concurrent.TimeUnit
 
 class FirebaseAuthenticatorUiClient(
-    private val activity: Activity
+    private val activity: Activity,
+    private val navController: NavController
 ) {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     var storedVerificationId: String? = null
@@ -38,6 +45,27 @@ class FirebaseAuthenticatorUiClient(
         signInWithPhoneAuthCredential(credential)
     }
 
+    val authState: Flow<AuthState> =
+        callbackFlow {
+            val listener =
+                FirebaseAuth.AuthStateListener { firebaseAuth ->
+                    val user = firebaseAuth.currentUser
+                    trySend(AuthState(user != null, user?.uid))
+                }
+
+            auth.addAuthStateListener(listener)
+
+            awaitClose { auth.removeAuthStateListener(listener) }
+        }
+
+    fun isLoggedIn(): Boolean {
+        return auth.currentUser != null
+    }
+
+    fun signOut() {
+        auth.signOut()
+    }
+
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth
             .signInWithCredential(credential)
@@ -47,6 +75,12 @@ class FirebaseAuthenticatorUiClient(
                     Log.d(TAG, "signInWithCredential:success")
 
                     val user = task.result?.user
+
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

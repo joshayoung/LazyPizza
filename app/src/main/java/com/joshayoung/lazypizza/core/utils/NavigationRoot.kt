@@ -23,7 +23,8 @@ import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 fun NavigationRoot(
     navController: NavHostController,
     cartItems: Int,
-    firebaseAuthenticatorUiClient: FirebaseAuthenticatorUiClient
+    firebaseAuthenticatorUiClient: FirebaseAuthenticatorUiClient,
+    isLoggedIn: Boolean
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute =
@@ -78,6 +79,11 @@ fun NavigationRoot(
     ) {
         composable<Routes.Menu> {
             HomeScreenRoot(
+                isLoggedIn = isLoggedIn,
+                firebaseAuthenticatorUiClient = firebaseAuthenticatorUiClient,
+                logOut = {
+                    firebaseAuthenticatorUiClient.signOut()
+                },
                 bottomNavItemUis = bottomNavigationItems,
                 goToLoginScreen = {
                     navController.navigate(Routes.Login)
@@ -104,6 +110,10 @@ fun NavigationRoot(
                 )
         ) {
             DetailsScreenRoot(
+                logOut = {
+                    firebaseAuthenticatorUiClient.signOut()
+                },
+                isLoggedIn = isLoggedIn,
                 navigateBack = {
                     navController.navigateUp()
                 },
@@ -119,6 +129,10 @@ fun NavigationRoot(
 
         composable<Routes.Cart> {
             CartScreenRoot(
+                logOut = {
+                    firebaseAuthenticatorUiClient.signOut()
+                },
+                isLoggedIn = isLoggedIn,
                 bottomNavItemUis = bottomNavigationItems,
                 cartItems = cartItems,
                 backToMenu = {
@@ -133,6 +147,10 @@ fun NavigationRoot(
 
         composable<Routes.History> {
             HistoryScreenRoot(
+                logOut = {
+                    firebaseAuthenticatorUiClient.signOut()
+                },
+                isLoggedIn = isLoggedIn,
                 cartItems = cartItems,
                 bottomNavItemUis = bottomNavigationItems,
                 goToLogin = {
