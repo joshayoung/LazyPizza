@@ -19,7 +19,10 @@ import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 
 @Composable
-fun NavigationRoot(navController: NavHostController, cartItems: Int) {
+fun NavigationRoot(
+    navController: NavHostController,
+    cartItems: Int
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute =
         backStackEntry

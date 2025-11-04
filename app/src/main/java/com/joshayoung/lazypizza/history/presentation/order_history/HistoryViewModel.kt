@@ -2,9 +2,7 @@ package com.joshayoung.lazypizza.history.presentation.order_history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.history.domain.HistoryRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.WhileSubscribed

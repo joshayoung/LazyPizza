@@ -13,7 +13,6 @@ import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onStart

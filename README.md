@@ -64,3 +64,4 @@ Android Application for Pizza Orders
 * [Create a Splash Screen in Compose Multiplatform for iOS & Android - KMP for Beginners](https://www.youtube.com/watch?v=q_JM6C_kFuY)
 * [Connect your App to Firebase](https://firebase.google.com/docs/database/android/start)
 * [Add Firebase to your Android project](https://firebase.google.com/docs/android/setup)
+* [Visual Go](https://visualgo.net/en)
