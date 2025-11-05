@@ -3,7 +3,7 @@ package com.joshayoung.lazypizza.app.presentation
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.navigation.NavController
+import androidx.compose.runtime.Stable
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -13,15 +13,14 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.joshayoung.lazypizza.auth.domain.AuthState
-import com.joshayoung.lazypizza.core.utils.Routes
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import java.util.concurrent.TimeUnit
 
+@Stable
 class FirebaseAuthenticatorUiClient(
-    private val activity: Activity,
-    private val navController: NavController
+    private val activity: Activity
 ) {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     var storedVerificationId: String? = null
@@ -75,12 +74,6 @@ class FirebaseAuthenticatorUiClient(
                     Log.d(TAG, "signInWithCredential:success")
 
                     val user = task.result?.user
-
-                    navController.navigate(Routes.Menu) {
-                        popUpTo(0) {
-                            inclusive = true
-                        }
-                    }
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
