@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -47,7 +48,6 @@ fun PizzaAppBar(
     showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
     authenticate: () -> Unit = {},
-    logOut: () -> Unit = {},
     title: String? = null,
     isAuthenticated: Boolean = false
 ) {
@@ -59,7 +59,8 @@ fun PizzaAppBar(
             title = { Text("Are you sure you want to log out?") },
             confirmButton = {
                 Button(onClick = {
-                    logOut()
+                    // TODO: This should not be called directly from composable:
+                    FirebaseAuth.getInstance().signOut()
                     showDialog = false
                 }) {
                     Text("Log Out")

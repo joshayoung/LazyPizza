@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.auth.presentation
 
-import android.R.attr.text
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,6 +36,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.PhoneAuthCredential
+import com.joshayoung.lazypizza.core.data.database.entity.FirebaseAuthenticatorUiClient
+import com.joshayoung.lazypizza.core.data.database.entity.FirebaseAuthenticatorUiClientCallback
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import org.koin.androidx.compose.koinViewModel
@@ -42,18 +46,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun LoginScreenRoot(
     viewModel: LoginViewModel = koinViewModel(),
-    useAsGuest: () -> Unit,
-    submitPhoneNumber: (number: String) -> Unit,
-    verifyCode: (code: String) -> Unit
+    useAsGuest: () -> Unit
 ) {
     LoginScreen(
         state = viewModel.state,
         useAsGuest = useAsGuest,
         onAction = { action ->
             viewModel.onAction(action)
-        },
-        submitPhoneNumber = submitPhoneNumber,
-        verifyCode = verifyCode
+        }
     )
 }
 
@@ -61,12 +61,31 @@ fun LoginScreenRoot(
 fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit,
-    useAsGuest: () -> Unit,
-    submitPhoneNumber: (number: String) -> Unit,
-    verifyCode: (code: String) -> Unit
+    useAsGuest: () -> Unit
 ) {
     var sent by remember { mutableStateOf(false) }
     var number by remember { mutableStateOf("") }
+
+    val id = remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+
+    val firebaseAuthenticatorUiClient =
+        FirebaseAuthenticatorUiClient(
+            object : FirebaseAuthenticatorUiClientCallback {
+                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                    // TODO: Update state on success.
+                }
+
+                override fun onVerificationFailed(message: String) {
+                    // TODO: Update state on failure.
+                }
+
+                override fun onCodeSent(verificationId: String) {
+                    id.value = verificationId
+                }
+            }
+        )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -263,62 +282,19 @@ fun LoginScreen(
                                 }
                             }
                 )
-//                SmsField(
-//                    null,
-//                    null,
-//                    code1,
-//                    nextFocus,
-//                    nextFocus1,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                SmsField(
-//                    code1,
-//                    nextFocus,
-//                    code2,
-//                    nextFocus1,
-//                    nextFocus2,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                SmsField(
-//                    code2,
-//                    nextFocus1,
-//                    code3,
-//                    nextFocus2,
-//                    nextFocus3,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                SmsField(
-//                    code3,
-//                    nextFocus2,
-//                    code4,
-//                    nextFocus3,
-//                    nextFocus4,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                SmsField(
-//                    code4,
-//                    nextFocus3,
-//                    code5,
-//                    nextFocus4,
-//                    nextFocus5,
-//                    modifier = Modifier.weight(1f)
-//                )
-//                SmsField(
-//                    code5,
-//                    nextFocus4,
-//                    code6,
-//                    nextFocus5,
-//                    nextFocus,
-//                    modifier = Modifier.weight(1f)
-//                )
             }
 
             Button(
                 onClick = {
-                    verifyCode(
-                        "${code1}${code2}${code3}${code4}${code5}$code6"
-                    )
-                    sent = true
+                    try {
+                        firebaseAuthenticatorUiClient.verifyCode(
+                            "${code1}${code2}${code3}${code4}${code5}$code6",
+                            id.value
+                        )
+                        sent = true
+                    } catch (e: Exception) {
+                        println()
+                    }
                 },
                 modifier =
                     Modifier
@@ -330,7 +306,11 @@ fun LoginScreen(
         } else {
             Button(
                 onClick = {
-                    submitPhoneNumber(number)
+                    val activity = context as? Activity
+                    if (activity != null) {
+                        firebaseAuthenticatorUiClient.startPhoneVerification(number, activity)
+                    }
+
                     sent = true
                 },
                 enabled = state.phoneNumberValid,
@@ -435,9 +415,7 @@ fun LoginScreenPreview() {
         LoginScreen(
             useAsGuest = {},
             state = LoginState(),
-            onAction = {},
-            verifyCode = {},
-            submitPhoneNumber = {}
+            onAction = {}
         )
     }
 }

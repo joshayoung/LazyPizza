@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.joshayoung.lazypizza.app.presentation.FirebaseAuthenticatorUiClient
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
@@ -70,8 +69,6 @@ import kotlin.getValue
 @Composable
 fun HomeScreenRoot(
     isLoggedIn: Boolean,
-    firebaseAuthenticatorUiClient: FirebaseAuthenticatorUiClient,
-    logOut: () -> Unit,
     cartItems: Int,
     viewModel: HomeViewModel = koinViewModel(),
     goToDetails: (id: String) -> Unit,
@@ -105,7 +102,6 @@ fun HomeScreenRoot(
     val listState = remember { lazyGridState }
 
     HomeScreen(
-        logOut = logOut,
         isLoggedIn = isLoggedIn,
         cartItems = cartItems,
         goToDetails = goToDetails,
@@ -121,7 +117,6 @@ fun HomeScreenRoot(
 
 @Composable
 fun HomeScreen(
-    logOut: () -> Unit,
     isLoggedIn: Boolean,
     state: HomeState,
     cartItems: Int,
@@ -140,7 +135,6 @@ fun HomeScreen(
             SmallPizzaScaffold(
                 topAppBar = {
                     PizzaAppBar(
-                        logOut = logOut,
                         authenticate = goToLoginScreen,
                         isAuthenticated = isLoggedIn
                     )
@@ -382,7 +376,6 @@ fun SearchItemsScreenPreview() {
             goToLoginScreen = {},
             cartItems = 2,
             isLoggedIn = false,
-            logOut = {},
             onAction = {}
         )
     }
@@ -410,7 +403,6 @@ private fun CartScreenPreview() {
             goToLoginScreen = {},
             cartItems = 2,
             isLoggedIn = false,
-            logOut = {},
             onAction = {}
         )
     }
