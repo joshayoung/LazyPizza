@@ -1,3 +1,7 @@
 package com.joshayoung.lazypizza.auth.presentation
 
-sealed interface LoginAction
+sealed interface LoginAction {
+    data class SetPhoneNumber(
+        val number: String
+    ) : LoginAction
+}

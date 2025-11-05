@@ -10,5 +10,15 @@ class LoginViewModel : ViewModel() {
         private set
 
     fun onAction(action: LoginAction) {
+        when (action) {
+            is LoginAction.SetPhoneNumber -> {
+                val regex = Regex("^\\+\\d \\d{3} \\d{3} \\d{4}$")
+                val isMatch = regex.matches(action.number)
+                state =
+                    state.copy(
+                        phoneNumberValid = isMatch
+                    )
+            }
+        }
     }
 }

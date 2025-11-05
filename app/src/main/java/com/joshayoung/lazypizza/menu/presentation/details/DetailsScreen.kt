@@ -43,7 +43,6 @@ import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
 import java.util.Locale
-import kotlin.math.log
 
 @Composable
 fun DetailsScreenRoot(

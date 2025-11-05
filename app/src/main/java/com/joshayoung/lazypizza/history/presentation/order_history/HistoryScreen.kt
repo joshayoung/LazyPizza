@@ -99,7 +99,7 @@ fun HistoryScreen(
                             .fillMaxSize()
                             .padding(horizontal = 20.dp)
                 ) {
-                    if (state.isSignedIn) {
+                    if (isLoggedIn) {
                         OrderHistory(orders = state.orders)
                     } else {
                         SignedOut(
@@ -136,7 +136,7 @@ fun HistoryScreen(
                             Modifier
                                 .padding(bottom = 20.dp)
                     )
-                    if (state.isSignedIn) {
+                    if (isLoggedIn) {
                         OrderHistory(orders = state.orders)
                     } else {
                         SignedOut(
