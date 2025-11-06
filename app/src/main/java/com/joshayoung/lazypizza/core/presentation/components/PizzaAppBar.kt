@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,11 +50,12 @@ fun PizzaAppBar(
     onBackClick: () -> Unit = {},
     authenticate: () -> Unit = {},
     title: String? = null,
-    isAuthenticated: Boolean = false
+    isAuthenticated: Boolean = false,
+    showUserIcon: Boolean = false
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog = remember { mutableStateOf(false) }
 
-    if (showDialog) {
+    if (showDialog.value) {
         AlertDialog(
             onDismissRequest = {},
             title = { Text("Are you sure you want to log out?") },
@@ -61,14 +63,14 @@ fun PizzaAppBar(
                 Button(onClick = {
                     // TODO: This should not be called directly from composable:
                     FirebaseAuth.getInstance().signOut()
-                    showDialog = false
+                    showDialog.value = false
                 }) {
                     Text("Log Out")
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
-                    showDialog = false
+                    showDialog.value = false
                 }) {
                     Text("Cancel")
                 }
@@ -111,40 +113,54 @@ fun PizzaAppBar(
                     if (showContact) {
                         Contact()
                     }
-
-                    if (isAuthenticated) {
-                        IconButton(onClick = {
-                            showDialog = true
-                        }) {
-                            Icon(
-                                imageVector = LogoutIcon,
-                                tint = MaterialTheme.colorScheme.primary,
-                                contentDescription = null,
-                                modifier =
-                                    Modifier
-                                        .padding(end = 8.dp)
-                            )
-                        }
-                    } else {
-                        IconButton(
-                            onClick =
-                                {
-                                    authenticate()
-                                }
-                        ) {
-                            Icon(
-                                imageVector = UserIcon,
-                                contentDescription = null,
-                                modifier =
-                                    Modifier
-                                        .padding(end = 8.dp)
-                            )
-                        }
+                    if (showUserIcon) {
+                        LoginStatusIcons(
+                            isAuthenticated = isAuthenticated,
+                            showDialog = showDialog,
+                            authenticate = authenticate
+                        )
                     }
                 }
             }
         }
     )
+}
+
+@Composable
+fun LoginStatusIcons(
+    isAuthenticated: Boolean,
+    showDialog: MutableState<Boolean>,
+    authenticate: () -> Unit
+) {
+    if (isAuthenticated) {
+        IconButton(onClick = {
+            showDialog.value = true
+        }) {
+            Icon(
+                imageVector = LogoutIcon,
+                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = null,
+                modifier =
+                    Modifier
+                        .padding(end = 8.dp)
+            )
+        }
+    } else {
+        IconButton(
+            onClick =
+                {
+                    authenticate()
+                }
+        ) {
+            Icon(
+                imageVector = UserIcon,
+                contentDescription = null,
+                modifier =
+                    Modifier
+                        .padding(end = 8.dp)
+            )
+        }
+    }
 }
 
 @Composable

@@ -135,6 +135,7 @@ fun HomeScreen(
             SmallPizzaScaffold(
                 topAppBar = {
                     PizzaAppBar(
+                        showUserIcon = true,
                         authenticate = goToLoginScreen,
                         isAuthenticated = isLoggedIn
                     )

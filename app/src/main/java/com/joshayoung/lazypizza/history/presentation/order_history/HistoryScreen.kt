@@ -89,7 +89,6 @@ fun HistoryScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier =
                         Modifier
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
                             .padding(innerPadding)
                             .padding(top = 20.dp)
                             .fillMaxSize()
