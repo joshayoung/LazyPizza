@@ -34,7 +34,7 @@ fun SmallPizzaScaffold(
 fun LazyPizzaScaffoldPreview() {
     LazyPizzaTheme {
         SmallPizzaScaffold(
-            topAppBar = { PizzaAppBar() },
+            topAppBar = { TopBar() },
             bottomBar = {
                 PizzaBottomBar(
                     bottomNavItemUis = emptyList()

@@ -31,9 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.R
-import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.ProductOrToppingImage
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
@@ -78,7 +78,7 @@ fun DetailsScreen(
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             SmallPizzaScaffold(
                 topAppBar = {
-                    PizzaAppBar(
+                    TopBar(
                         showLogo = false,
                         showContact = false,
                         isAuthenticated = isLoggedIn,
@@ -119,7 +119,7 @@ fun DetailsScreen(
         DeviceConfiguration.DESKTOP -> {
             SmallPizzaScaffold(
                 topAppBar = {
-                    PizzaAppBar(
+                    TopBar(
                         showLogo = false,
                         showContact = false,
                         showBackButton = true,

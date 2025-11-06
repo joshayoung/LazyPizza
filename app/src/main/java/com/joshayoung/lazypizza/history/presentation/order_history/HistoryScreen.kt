@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.presentation.utils.previewOrders
@@ -70,7 +70,7 @@ fun HistoryScreen(
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             SmallPizzaScaffold(
                 topAppBar = {
-                    PizzaAppBar(
+                    TopBar(
                         isAuthenticated = isLoggedIn,
                         showLogo = false,
                         showContact = false,

@@ -30,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,9 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
@@ -134,7 +133,7 @@ fun HomeScreen(
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             SmallPizzaScaffold(
                 topAppBar = {
-                    PizzaAppBar(
+                    TopBar(
                         showUserIcon = true,
                         authenticate = goToLoginScreen,
                         isAuthenticated = isLoggedIn

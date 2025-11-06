@@ -21,10 +21,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +41,7 @@ import com.joshayoung.lazypizza.core.ui.theme.UserIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PizzaAppBar(
+fun TopBar(
     showLogo: Boolean = true,
     showContact: Boolean = true,
     showBackButton: Boolean = false,
@@ -53,7 +51,7 @@ fun PizzaAppBar(
     isAuthenticated: Boolean = false,
     showUserIcon: Boolean = false
 ) {
-    var showDialog = remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
 
     if (showDialog.value) {
         AlertDialog(
@@ -231,19 +229,19 @@ fun Logo() {
 
 @Preview
 @Composable
-fun LazyPizzaAppBarPreview() {
+fun TopBarPreview() {
     LazyPizzaTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            PizzaAppBar()
-            PizzaAppBar(isAuthenticated = true)
-            PizzaAppBar(
+            TopBar()
+            TopBar(isAuthenticated = true)
+            TopBar(
                 showLogo = false,
                 showContact = false,
                 title = "Cart"
             )
-            PizzaAppBar(
+            TopBar(
                 showLogo = false,
                 showContact = false,
                 showBackButton = true

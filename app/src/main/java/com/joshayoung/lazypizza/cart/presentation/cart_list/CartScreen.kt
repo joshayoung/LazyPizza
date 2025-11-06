@@ -35,9 +35,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.cart.presentation.components.AddOn
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.PizzaAppBar
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
@@ -85,7 +85,7 @@ fun CartScreen(
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             SmallPizzaScaffold(
                 topAppBar = {
-                    PizzaAppBar(
+                    TopBar(
                         isAuthenticated = isLoggedIn,
                         showLogo = false,
                         showContact = false,
