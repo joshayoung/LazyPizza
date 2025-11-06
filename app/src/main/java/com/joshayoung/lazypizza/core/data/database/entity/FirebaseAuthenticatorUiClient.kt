@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.core.data.database.entity
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.runtime.Stable
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -13,11 +14,11 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
 
+@Stable
 class FirebaseAuthenticatorUiClient(
     private val callback: FirebaseAuthenticatorUiClientCallback
 ) {
     private val auth = FirebaseAuth.getInstance()
-    private var storedVerificationId: String? = null
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 
     fun startPhoneVerification(
@@ -67,9 +68,6 @@ class FirebaseAuthenticatorUiClient(
                                 }
                         }
 
-//                        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-//                        }
-
                         override fun onVerificationFailed(e: FirebaseException) {
                             callback.onVerificationFailed(e.message ?: "Verification Failed")
                             // This callback is invoked in an invalid request for verification is made,
@@ -100,8 +98,6 @@ class FirebaseAuthenticatorUiClient(
                             // by combining the code with a verification ID.
                             Log.d(TAG, "onCodeSent:$verificationId")
 
-                            // Save verification ID and resending token so we can use them later
-                            storedVerificationId = verificationId
                             resendToken = token
                         }
                     }

@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.auth.presentation
 
 import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -68,7 +69,7 @@ fun LoginScreen(
 
     val id = remember { mutableStateOf("") }
 
-    val context = LocalContext.current
+    val activity = LocalActivity.current
 
     val firebaseAuthenticatorUiClient =
         FirebaseAuthenticatorUiClient(
@@ -306,7 +307,6 @@ fun LoginScreen(
         } else {
             Button(
                 onClick = {
-                    val activity = context as? Activity
                     if (activity != null) {
                         firebaseAuthenticatorUiClient.startPhoneVerification(number, activity)
                     }
