@@ -2,7 +2,9 @@ package com.joshayoung.lazypizza.auth.presentation
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +15,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,13 +28,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import org.koin.androidx.compose.koinViewModel
@@ -92,15 +89,15 @@ fun LoginScreen(
                     keyboardType = KeyboardType.Phone
                 ),
             onValueChange = {
-                val allowedValue =
+                val filteredPhoneNumber =
                     it.filter { char ->
                         char.isDigit() || char == '+' || char.isWhitespace()
                     }
-                if (allowedValue.length > 15) {
+                if (filteredPhoneNumber.length > 15) {
                     return@OutlinedTextField
                 }
+                number = filteredPhoneNumber
 
-                number = allowedValue
                 onAction(LoginAction.SetPhoneNumber(number))
             },
             singleLine = true,
@@ -126,17 +123,17 @@ fun LoginScreen(
             val focus5 = remember { FocusRequester() }
             val focus6 = remember { FocusRequester() }
 
-            var background = Color.Transparent
+            var smsBorder = Color.Transparent
             if (state.verificationFailed) {
-                background = Color.Red
+                smsBorder = MaterialTheme.colorScheme.primary
             }
 
             Row(
                 modifier =
                     Modifier
                         .padding(top = 14.dp)
-                        .background(background)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 OutlinedTextField(
                     value = code1,
@@ -153,7 +150,13 @@ fun LoginScreen(
                     modifier =
                         Modifier
                             .weight(1f)
-                            .focusRequester(focus1)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .border(
+                                width = 1.dp,
+                                color = smsBorder,
+                                shape = RoundedCornerShape(20.dp)
+                            ).focusRequester(focus1)
                 )
                 OutlinedTextField(
                     value = code2,
@@ -170,7 +173,13 @@ fun LoginScreen(
                     modifier =
                         Modifier
                             .weight(1f)
-                            .focusRequester(focus2)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .border(
+                                width = 1.dp,
+                                color = smsBorder,
+                                shape = RoundedCornerShape(20.dp)
+                            ).focusRequester(focus2)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused && code1.isEmpty()) {
                                     focus1.requestFocus()
@@ -192,7 +201,13 @@ fun LoginScreen(
                     modifier =
                         Modifier
                             .weight(1f)
-                            .focusRequester(focus3)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .border(
+                                width = 1.dp,
+                                color = smsBorder,
+                                shape = RoundedCornerShape(20.dp)
+                            ).focusRequester(focus3)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused && code2.isEmpty()) {
                                     focus2.requestFocus()
@@ -214,7 +229,13 @@ fun LoginScreen(
                     modifier =
                         Modifier
                             .weight(1f)
-                            .focusRequester(focus4)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .border(
+                                width = 1.dp,
+                                color = smsBorder,
+                                shape = RoundedCornerShape(20.dp)
+                            ).focusRequester(focus4)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused && code3.isEmpty()) {
                                     focus3.requestFocus()
@@ -236,7 +257,13 @@ fun LoginScreen(
                     modifier =
                         Modifier
                             .weight(1f)
-                            .focusRequester(focus5)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .border(
+                                width = 1.dp,
+                                color = smsBorder,
+                                shape = RoundedCornerShape(20.dp)
+                            ).focusRequester(focus5)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused && code4.isEmpty()) {
                                     focus4.requestFocus()
@@ -257,7 +284,13 @@ fun LoginScreen(
                     modifier =
                         Modifier
                             .weight(1f)
-                            .focusRequester(focus6)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .border(
+                                width = 1.dp,
+                                color = smsBorder,
+                                shape = RoundedCornerShape(20.dp)
+                            ).focusRequester(focus6)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused && code5.isEmpty()) {
                                     focus5.requestFocus()
@@ -268,7 +301,7 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    val verificationCode = "${code1}${code2}${code3}${code4}${code5}$code6"
+                    val verificationCode = "$code1$code2$code3$code4$code5$code6"
                     onAction(LoginAction.VerifySms(verificationCode))
                 },
                 modifier =
@@ -304,79 +337,6 @@ fun LoginScreen(
             style = MaterialTheme.typography.titleSmall
         )
     }
-}
-
-@Composable
-fun SmsField(
-    previousCode: MutableState<String>?,
-    previousFocusRequester: FocusRequester?,
-    code: MutableState<String>,
-    focusRequester: FocusRequester,
-    focusRequesterNext: FocusRequester,
-    modifier: Modifier = Modifier
-) {
-    var isFocused by remember { mutableStateOf(false) }
-    OutlinedTextField(
-        colors =
-            OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Transparent,
-                focusedContainerColor = Color.Transparent
-            ),
-        value = code.value,
-        onValueChange = {
-            if (code.value.isNotEmpty()) {
-                return@OutlinedTextField
-            }
-            code.value = it.replace("\t", "")
-        },
-        textStyle =
-            TextStyle(
-                textAlign = TextAlign.Center
-            ),
-        placeholder = {
-            if (!isFocused) {
-                Text(
-                    "0",
-                    modifier =
-                        Modifier
-                            .fillMaxWidth(),
-                    style =
-                        TextStyle(
-                            textAlign = TextAlign.Center,
-                            fontSize = 18.sp
-                        )
-                )
-            }
-        },
-        modifier =
-            modifier
-                .padding(horizontal = 2.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.surfaceHighest)
-                .onFocusChanged { focused ->
-                    isFocused = focused.isFocused
-                    if (previousCode != null && previousFocusRequester != null) {
-                        if (previousCode.value.isEmpty()) {
-                            focusRequester.freeFocus()
-                            previousFocusRequester.requestFocus()
-                        }
-                    }
-
-//                    if (focused.isFocused && code.value.isEmpty()) {
-//                        focusRequester.requestFocus()
-//                    }
-                }
-//                .focusOrder(focusRequester) {
-//                    next = focusRequesterNext
-//                }.onKeyEvent { event ->
-//                    if (event.key == Key.Tab) {
-//                        focusRequesterNext.requestFocus()
-//                        true
-//                    } else {
-//                        false
-//                    }
-//                }
-    )
 }
 
 @Preview(showBackground = true)

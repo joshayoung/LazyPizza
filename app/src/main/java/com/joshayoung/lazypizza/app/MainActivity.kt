@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             LazyPizzaTheme {
                 if (!viewModel.state.isLoading) {
                     NavigationRoot(
-                        viewModel = viewModel,
+                        authFlow = viewModel.authFlow,
                         navController = navController,
                         cartItems = viewModel.state.cartItems
                     )

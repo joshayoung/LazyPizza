@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.joshayoung.lazypizza.app.MainViewModel
 import com.joshayoung.lazypizza.auth.ObserveAsEvents
+import com.joshayoung.lazypizza.auth.domain.AuthState
 import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
@@ -22,10 +22,11 @@ import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
 import com.joshayoung.lazypizza.history.presentation.order_history.HistoryScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun NavigationRoot(
-    viewModel: MainViewModel,
+    authFlow: Flow<AuthState>,
     navController: NavHostController,
     cartItems: Int
 ) {
@@ -37,7 +38,7 @@ fun NavigationRoot(
             ?.route
             ?.substringAfterLast(".")
 
-    ObserveAsEvents(viewModel.authState) { authState ->
+    ObserveAsEvents(authFlow) { authState ->
         isLoggedIn = authState.isLoggedIn
 
         if (isLoggedIn && currentRoute != Routes.Login.toString()) {
@@ -53,7 +54,7 @@ fun NavigationRoot(
         listOf(
             BottomNavItemUi(
                 label = "Menu",
-                selected = currentRoute == "Menu",
+                selected = currentRoute == Routes.Menu.toString(),
                 clickAction = {
                     navController.navigate(Routes.Menu) {
                         popUpTo(0) {
@@ -65,7 +66,7 @@ fun NavigationRoot(
             ),
             BottomNavItemUi(
                 label = "Cart",
-                selected = currentRoute == "Cart",
+                selected = currentRoute == Routes.Cart.toString(),
                 clickAction = {
                     navController.navigate(Routes.Cart) {
                         popUpTo(0) {
@@ -77,7 +78,7 @@ fun NavigationRoot(
             ),
             BottomNavItemUi(
                 label = "History",
-                selected = currentRoute == "History",
+                selected = currentRoute == Routes.History.toString(),
                 clickAction = {
                     navController.navigate(Routes.History) {
                         popUpTo(0) {
