@@ -65,3 +65,4 @@ Android Application for Pizza Orders
 * [Connect your App to Firebase](https://firebase.google.com/docs/database/android/start)
 * [Add Firebase to your Android project](https://firebase.google.com/docs/android/setup)
 * [Visual Go](https://visualgo.net/en)
+* [Stateful vs. Stateless Composables In Jetpack Compose? - Everything You Need to Know](https://www.youtube.com/watch?v=C8IfGDrmwiE)

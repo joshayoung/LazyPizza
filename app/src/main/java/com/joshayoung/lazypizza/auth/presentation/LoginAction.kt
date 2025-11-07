@@ -8,7 +8,6 @@ sealed interface LoginAction {
     ) : LoginAction
 
     data class SendPhoneNumber(
-        val number: String,
         val activity: Activity?
     ) : LoginAction
 

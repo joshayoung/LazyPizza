@@ -20,7 +20,8 @@ class LoginViewModel : ViewModel() {
                 val isMatch = regex.matches(action.number)
                 state =
                     state.copy(
-                        phoneNumberValid = isMatch
+                        phoneNumberValid = isMatch,
+                        phoneNumber = action.number
                     )
             }
 
@@ -31,11 +32,12 @@ class LoginViewModel : ViewModel() {
                             firebaseAuthUiClient
                                 .verifyPhoneNumber(
                                     activity,
-                                    action.number
+                                    state.phoneNumber
                                 )
                         state =
                             state.copy(
-                                verificationId = verification
+                                verificationId = verification,
+                                codeSent = true
                             )
                     }
                 }

@@ -56,8 +56,6 @@ fun LoginScreen(
     onAction: (LoginAction) -> Unit,
     useAsGuest: () -> Unit
 ) {
-    var sent by remember { mutableStateOf(false) }
-    var number by remember { mutableStateOf("") }
     val activity = LocalActivity.current
 
     Column(
@@ -76,14 +74,14 @@ fun LoginScreen(
                     .padding(bottom = 6.dp)
         )
         Text(
-            text = if (sent) "Enter Code" else "Enter your phone number",
+            text = if (state.codeSent) "Enter Code" else "Enter your phone number",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(bottom = 10.dp)
         )
 
         OutlinedTextField(
             placeholder = { Text("+1 000 000 0000") },
-            value = number,
+            value = state.phoneNumber,
             keyboardOptions =
                 KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Phone
@@ -96,9 +94,8 @@ fun LoginScreen(
                 if (filteredPhoneNumber.length > 15) {
                     return@OutlinedTextField
                 }
-                number = filteredPhoneNumber
 
-                onAction(LoginAction.SetPhoneNumber(number))
+                onAction(LoginAction.SetPhoneNumber(filteredPhoneNumber))
             },
             singleLine = true,
             modifier =
@@ -108,7 +105,7 @@ fun LoginScreen(
                     .background(MaterialTheme.colorScheme.surfaceHighest)
         )
 
-        if (sent) {
+        if (state.codeSent) {
             var code1 by remember { mutableStateOf("") }
             var code2 by remember { mutableStateOf("") }
             var code3 by remember { mutableStateOf("") }
@@ -314,8 +311,7 @@ fun LoginScreen(
         } else {
             Button(
                 onClick = {
-                    onAction(LoginAction.SendPhoneNumber(number, activity))
-                    sent = true
+                    onAction(LoginAction.SendPhoneNumber(activity))
                 },
                 enabled = state.phoneNumberValid,
                 modifier =
