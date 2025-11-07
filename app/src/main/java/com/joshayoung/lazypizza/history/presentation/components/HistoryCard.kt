@@ -26,13 +26,11 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.room.util.copy
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
-import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.domain.models.OrderStatus
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
@@ -54,9 +52,7 @@ fun HistoryCard(
                             radius = 6.dp,
                             spread = 1.dp,
                             color =
-                                MaterialTheme.colorScheme.surfaceHighest.copy(
-                                    alpha = 0.25f
-                                ),
+                                MaterialTheme.colorScheme.surfaceHigher,
                             offset = DpOffset(x = 0.dp, 4.dp)
                         )
                 ).clip(RoundedCornerShape(10.dp))

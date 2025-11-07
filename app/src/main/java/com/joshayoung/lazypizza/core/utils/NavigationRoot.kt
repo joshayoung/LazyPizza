@@ -122,7 +122,6 @@ fun NavigationRoot(
                 )
         ) {
             DetailsScreenRoot(
-                isLoggedIn = isLoggedIn,
                 navigateBack = {
                     navController.navigateUp()
                 },
@@ -138,7 +137,6 @@ fun NavigationRoot(
 
         composable<Routes.Cart> {
             CartScreenRoot(
-                isLoggedIn = isLoggedIn,
                 bottomNavItemUis = bottomNavigationItems,
                 cartItems = cartItems,
                 backToMenu = {

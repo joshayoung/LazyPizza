@@ -51,14 +51,12 @@ import java.util.Locale
 
 @Composable
 fun CartScreenRoot(
-    isLoggedIn: Boolean,
     cartItems: Int,
     viewModel: CartViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     backToMenu: () -> Unit
 ) {
     CartScreen(
-        isLoggedIn = isLoggedIn,
         cartItems = cartItems,
         bottomNavItemUis = bottomNavItemUis,
         state = viewModel.state.collectAsStateWithLifecycle().value,
@@ -71,7 +69,6 @@ fun CartScreenRoot(
 
 @Composable
 fun CartScreen(
-    isLoggedIn: Boolean,
     cartItems: Int,
     bottomNavItemUis: List<BottomNavItemUi>,
     state: CartState,
@@ -86,7 +83,6 @@ fun CartScreen(
             SmallPizzaScaffold(
                 topAppBar = {
                     TopBar(
-                        isAuthenticated = isLoggedIn,
                         showLogo = false,
                         showContact = false,
                         title = "Cart"
@@ -365,7 +361,6 @@ private fun CartScreenPreview() {
                 ),
             onAction = {},
             backToMenu = {},
-            isLoggedIn = false,
             cartItems = 2
         )
     }

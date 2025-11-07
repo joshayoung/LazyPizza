@@ -27,12 +27,10 @@ class MainViewModel(
     val authState: Flow<AuthState> =
         callbackFlow {
             val listener =
-                // TODO: Should this be injected?
-                FirebaseAuth.AuthStateListener { firebaseAuth ->
+                FirebaseAuth.AuthStateListener {
                     val user = firebaseAuth.currentUser
                     trySend(AuthState(user != null, user?.uid))
                 }
-
             firebaseAuth.addAuthStateListener(listener)
 
             awaitClose { firebaseAuth.removeAuthStateListener(listener) }

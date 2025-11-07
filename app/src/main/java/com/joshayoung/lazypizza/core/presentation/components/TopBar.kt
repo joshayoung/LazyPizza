@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.GrayPhone
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -47,6 +46,7 @@ fun TopBar(
     showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
     authenticate: () -> Unit = {},
+    logOut: () -> Unit = {},
     title: String? = null,
     isAuthenticated: Boolean = false,
     showUserIcon: Boolean = false
@@ -59,8 +59,7 @@ fun TopBar(
             title = { Text("Are you sure you want to log out?") },
             confirmButton = {
                 Button(onClick = {
-                    // TODO: This should not be called directly from composable:
-                    FirebaseAuth.getInstance().signOut()
+                    logOut()
                     showDialog.value = false
                 }) {
                     Text("Log Out")

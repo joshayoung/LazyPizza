@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
@@ -62,6 +63,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 import kotlin.getValue
 
 @OptIn(FlowPreview::class)
@@ -70,6 +72,7 @@ fun HomeScreenRoot(
     isLoggedIn: Boolean,
     cartItems: Int,
     viewModel: HomeViewModel = koinViewModel(),
+    firebaseAuth: FirebaseAuth = koinInject(),
     goToDetails: (id: String) -> Unit,
     goToLoginScreen: () -> Unit,
     bottomNavItemUis: List<BottomNavItemUi>
@@ -101,6 +104,9 @@ fun HomeScreenRoot(
     val listState = remember { lazyGridState }
 
     HomeScreen(
+        logOut = {
+            firebaseAuth.signOut()
+        },
         isLoggedIn = isLoggedIn,
         cartItems = cartItems,
         goToDetails = goToDetails,
@@ -117,6 +123,7 @@ fun HomeScreenRoot(
 @Composable
 fun HomeScreen(
     isLoggedIn: Boolean,
+    logOut: () -> Unit,
     state: HomeState,
     cartItems: Int,
     goToDetails: (id: String) -> Unit,
@@ -134,6 +141,9 @@ fun HomeScreen(
             SmallPizzaScaffold(
                 topAppBar = {
                     TopBar(
+                        logOut = {
+                            logOut()
+                        },
                         showUserIcon = true,
                         authenticate = goToLoginScreen,
                         isAuthenticated = isLoggedIn
@@ -376,6 +386,7 @@ fun SearchItemsScreenPreview() {
             goToLoginScreen = {},
             cartItems = 2,
             isLoggedIn = false,
+            logOut = {},
             onAction = {}
         )
     }
@@ -403,6 +414,7 @@ private fun CartScreenPreview() {
             goToLoginScreen = {},
             cartItems = 2,
             isLoggedIn = false,
+            logOut = {},
             onAction = {}
         )
     }

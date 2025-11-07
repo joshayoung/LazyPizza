@@ -46,13 +46,11 @@ import java.util.Locale
 
 @Composable
 fun DetailsScreenRoot(
-    isLoggedIn: Boolean,
     viewModel: DetailViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToCart: () -> Unit
 ) {
     DetailsScreen(
-        isLoggedIn = isLoggedIn,
         state = viewModel.state,
         navigateBack = navigateBack,
         navigateToCart = navigateToCart,
@@ -65,7 +63,6 @@ fun DetailsScreenRoot(
 @SuppressLint("DefaultLocale")
 @Composable
 fun DetailsScreen(
-    isLoggedIn: Boolean,
     state: DetailsState,
     navigateBack: () -> Unit,
     navigateToCart: () -> Unit,
@@ -81,7 +78,6 @@ fun DetailsScreen(
                     TopBar(
                         showLogo = false,
                         showContact = false,
-                        isAuthenticated = isLoggedIn,
                         showBackButton = true,
                         onBackClick = navigateBack
                     )
@@ -345,7 +341,6 @@ fun DetailsScreenPreview() {
                         )
                 ),
             onAction = {},
-            isLoggedIn = false,
             navigateToCart = {}
         )
     }

@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.auth.presentation
 
-import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,7 +28,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,9 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.firebase.auth.PhoneAuthCredential
-import com.joshayoung.lazypizza.core.data.database.entity.FirebaseAuthenticatorUiClient
-import com.joshayoung.lazypizza.core.data.database.entity.FirebaseAuthenticatorUiClientCallback
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import org.koin.androidx.compose.koinViewModel
@@ -66,27 +61,7 @@ fun LoginScreen(
 ) {
     var sent by remember { mutableStateOf(false) }
     var number by remember { mutableStateOf("") }
-
-    val id = remember { mutableStateOf("") }
-
     val activity = LocalActivity.current
-
-    val firebaseAuthenticatorUiClient =
-        FirebaseAuthenticatorUiClient(
-            object : FirebaseAuthenticatorUiClientCallback {
-                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    // TODO: Update state on success.
-                }
-
-                override fun onVerificationFailed(message: String) {
-                    // TODO: Update state on failure.
-                }
-
-                override fun onCodeSent(verificationId: String) {
-                    id.value = verificationId
-                }
-            }
-        )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -151,10 +126,16 @@ fun LoginScreen(
             val focus5 = remember { FocusRequester() }
             val focus6 = remember { FocusRequester() }
 
+            var background = Color.Transparent
+            if (state.verificationFailed) {
+                background = Color.Red
+            }
+
             Row(
                 modifier =
                     Modifier
                         .padding(top = 14.dp)
+                        .background(background)
                         .fillMaxWidth()
             ) {
                 OutlinedTextField(
@@ -287,15 +268,8 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    try {
-                        firebaseAuthenticatorUiClient.verifyCode(
-                            "${code1}${code2}${code3}${code4}${code5}$code6",
-                            id.value
-                        )
-                        sent = true
-                    } catch (e: Exception) {
-                        println()
-                    }
+                    val verificationCode = "${code1}${code2}${code3}${code4}${code5}$code6"
+                    onAction(LoginAction.VerifySms(verificationCode))
                 },
                 modifier =
                     Modifier
@@ -307,10 +281,7 @@ fun LoginScreen(
         } else {
             Button(
                 onClick = {
-                    if (activity != null) {
-                        firebaseAuthenticatorUiClient.startPhoneVerification(number, activity)
-                    }
-
+                    onAction(LoginAction.SendPhoneNumber(number, activity))
                     sent = true
                 },
                 enabled = state.phoneNumberValid,

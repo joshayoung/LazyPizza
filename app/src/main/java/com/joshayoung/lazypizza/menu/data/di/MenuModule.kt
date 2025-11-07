@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.menu.data.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.menu.domain.LoadProductsUseCase
 import com.joshayoung.lazypizza.menu.presentation.details.DetailViewModel
 import com.joshayoung.lazypizza.menu.presentation.home.HomeViewModel
@@ -13,5 +14,9 @@ var menuModule =
 
         single {
             LoadProductsUseCase(get(), get())
+        }
+
+        single {
+            FirebaseAuth.getInstance()
         }
     }
