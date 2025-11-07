@@ -27,31 +27,31 @@ class LoginViewModel : ViewModel() {
             is LoginAction.SendPhoneNumber -> {
                 action.activity?.let { activity ->
                     viewModelScope.launch {
-                        firebaseAuthUiClient
-                            .verifyPhoneNumber(
-                                activity,
-                                action.number
-                            ).collectLatest { verification ->
-                                state =
-                                    state.copy(
-                                        verificationId = verification
-                                    )
-                            }
+                        val verification =
+                            firebaseAuthUiClient
+                                .verifyPhoneNumber(
+                                    activity,
+                                    action.number
+                                )
+                        state =
+                            state.copy(
+                                verificationId = verification
+                            )
                     }
                 }
             }
             is LoginAction.VerifySms -> {
                 viewModelScope.launch {
-                    firebaseAuthUiClient
-                        .sendCode(
-                            state.verificationId,
-                            action.code
-                        ).collectLatest { result ->
-                            state =
-                                state.copy(
-                                    verificationFailed = !result
-                                )
-                        }
+                    val result =
+                        firebaseAuthUiClient
+                            .sendCode(
+                                state.verificationId,
+                                action.code
+                            )
+                    state =
+                        state.copy(
+                            verificationFailed = !result
+                        )
                 }
             }
         }

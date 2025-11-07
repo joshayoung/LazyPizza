@@ -10,7 +10,9 @@ import com.joshayoung.lazypizza.auth.domain.AuthState
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
 
 class FirebaseAuthUiClient {
     val firebaseAuth = FirebaseAuth.getInstance()
@@ -27,11 +29,11 @@ class FirebaseAuthUiClient {
             awaitClose { firebaseAuth.removeAuthStateListener(listener) }
         }
 
-    fun verifyPhoneNumber(
+    suspend fun verifyPhoneNumber(
         activity: Activity,
         phoneNumber: String
-    ): Flow<String> =
-        callbackFlow {
+    ): String =
+        suspendCancellableCoroutine {
             val options =
                 PhoneAuthOptions
                     .newBuilder()
@@ -41,11 +43,11 @@ class FirebaseAuthUiClient {
                     .setCallbacks(
                         object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                                trySend(credential.smsCode ?: "Completed Automatically")
+                                it.resume(credential.smsCode ?: "Completed Automatically")
                             }
 
                             override fun onVerificationFailed(e: FirebaseException) {
-                                close(e)
+                                it.cancel(e)
                             }
 
                             override fun onCodeSent(
@@ -53,22 +55,20 @@ class FirebaseAuthUiClient {
                                 token: PhoneAuthProvider
                                     .ForceResendingToken
                             ) {
-                                trySend(verificationId)
+                                it.resume(verificationId)
                             }
                         }
                     ).build()
             PhoneAuthProvider.verifyPhoneNumber(options)
-            awaitClose {
-            }
         }
 
-    fun sendCode(
+    suspend fun sendCode(
         verificationId: String?,
         smsCode: String
-    ): Flow<Boolean> =
-        callbackFlow {
+    ): Boolean =
+        suspendCancellableCoroutine {
             if (verificationId == null) {
-                return@callbackFlow
+                return@suspendCancellableCoroutine
             }
 
             val credential = PhoneAuthProvider.getCredential(verificationId, smsCode)
@@ -76,11 +76,10 @@ class FirebaseAuthUiClient {
                 .signInWithCredential(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        trySend(true).isSuccess
+                        it.resume(true)
                     } else {
-                        trySend(false).isSuccess
+                        it.resume(false)
                     }
                 }
-            awaitClose {}
         }
 }
