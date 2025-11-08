@@ -67,7 +67,7 @@ class FirebaseAuthUiClient {
         smsCode: String
     ): Boolean =
         suspendCancellableCoroutine {
-            if (verificationId == null) {
+            if (smsCode == "" || verificationId == null) {
                 return@suspendCancellableCoroutine
             }
 

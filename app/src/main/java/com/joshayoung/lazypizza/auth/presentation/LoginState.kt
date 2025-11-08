@@ -6,6 +6,6 @@ data class LoginState(
     val phoneNumberValid: Boolean = false,
     val verificationId: String? = null,
     val verificationFailed: Boolean = false,
-    val codeSent: Boolean = false,
+    val codeSent: Boolean = true,
     val phoneNumber: String = ""
 )

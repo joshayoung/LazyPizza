@@ -28,8 +28,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -106,7 +108,7 @@ fun LoginScreen(
         )
 
         if (state.codeSent) {
-            var code1 by remember { mutableStateOf("") }
+            var code1 by remember { mutableStateOf(TextFieldValue("")) }
             var code2 by remember { mutableStateOf("") }
             var code3 by remember { mutableStateOf("") }
             var code4 by remember { mutableStateOf("") }
@@ -136,7 +138,7 @@ fun LoginScreen(
                     value = code1,
                     onValueChange = {
                         code1 = it
-                        if (it.isNotEmpty()) {
+                        if (it.text.isNotEmpty()) {
                             focus2.requestFocus()
                         }
                     },
@@ -144,16 +146,29 @@ fun LoginScreen(
                         KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Next
                         ),
+                    shape = RoundedCornerShape(20.dp),
                     modifier =
                         Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceHighest,
+                                shape = RoundedCornerShape(20.dp)
+                            )
                             .border(
                                 width = 1.dp,
                                 color = smsBorder,
                                 shape = RoundedCornerShape(20.dp)
-                            ).focusRequester(focus1)
+                            )
+                            .focusRequester(focus1)
+                            .onFocusChanged { focusState ->
+                                if (focusState.isFocused) {
+                                    code1 =
+                                        TextFieldValue(
+                                            code1.text,
+                                            selection = TextRange(0, code1.text.length)
+                                        )
+                                }
+                            }
                 )
                 OutlinedTextField(
                     value = code2,
@@ -178,7 +193,7 @@ fun LoginScreen(
                                 shape = RoundedCornerShape(20.dp)
                             ).focusRequester(focus2)
                             .onFocusChanged { focusState ->
-                                if (focusState.isFocused && code1.isEmpty()) {
+                                if (focusState.isFocused && code1.text.isEmpty()) {
                                     focus1.requestFocus()
                                 }
                             }
