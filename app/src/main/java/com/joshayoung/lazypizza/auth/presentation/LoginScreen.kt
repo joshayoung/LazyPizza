@@ -16,12 +16,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,9 +28,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,6 +62,7 @@ fun LoginScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier =
             Modifier
                 .fillMaxSize()
@@ -80,7 +77,7 @@ fun LoginScreen(
                     .padding(bottom = 6.dp)
         )
         Text(
-            text = if (state.codeSent) "Enter Code" else "Enter your phone number",
+            text = if (state.numberSent) "Enter Code" else "Enter your phone number",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(bottom = 10.dp)
         )
@@ -111,7 +108,7 @@ fun LoginScreen(
                     .background(MaterialTheme.colorScheme.surfaceHighest)
         )
 
-        if (state.codeSent) {
+        if (state.numberSent) {
             val code1 = remember { mutableStateOf(TextFieldValue("")) }
             val code2 = remember { mutableStateOf(TextFieldValue("")) }
             val code3 = remember { mutableStateOf(TextFieldValue("")) }
@@ -134,7 +131,6 @@ fun LoginScreen(
             Row(
                 modifier =
                     Modifier
-                        .padding(top = 14.dp)
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
@@ -211,7 +207,6 @@ fun LoginScreen(
                 },
                 modifier =
                     Modifier
-                        .padding(top = 14.dp)
                         .fillMaxWidth()
             ) {
                 Text(text = "Confirm")
@@ -240,6 +235,16 @@ fun LoginScreen(
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleSmall
         )
+
+        if (state.smsSent) {
+            if (state.resend) {
+                TextButton(onClick = {}) {
+                    Text("Resend")
+                }
+            } else {
+                Text(text = "You can request a new code in: ${state.countDown}")
+            }
+        }
     }
 }
 
@@ -299,7 +304,12 @@ fun LoginScreenPreview() {
     LazyPizzaTheme {
         LoginScreen(
             useAsGuest = {},
-            state = LoginState(),
+            state =
+                LoginState(
+                    numberSent = true,
+                    smsSent = true,
+                    countDown = "00:55"
+                ),
             onAction = {}
         )
     }
