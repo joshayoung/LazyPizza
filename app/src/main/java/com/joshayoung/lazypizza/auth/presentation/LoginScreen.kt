@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -108,12 +112,12 @@ fun LoginScreen(
         )
 
         if (state.codeSent) {
-            var code1 by remember { mutableStateOf(TextFieldValue("")) }
-            var code2 by remember { mutableStateOf("") }
-            var code3 by remember { mutableStateOf("") }
-            var code4 by remember { mutableStateOf("") }
-            var code5 by remember { mutableStateOf("") }
-            var code6 by remember { mutableStateOf("") }
+            val code1 = remember { mutableStateOf(TextFieldValue("")) }
+            val code2 = remember { mutableStateOf(TextFieldValue("")) }
+            val code3 = remember { mutableStateOf(TextFieldValue("")) }
+            val code4 = remember { mutableStateOf(TextFieldValue("")) }
+            val code5 = remember { mutableStateOf(TextFieldValue("")) }
+            val code6 = remember { mutableStateOf(TextFieldValue("")) }
 
             val focus1 = remember { FocusRequester() }
             val focus2 = remember { FocusRequester() }
@@ -134,180 +138,69 @@ fun LoginScreen(
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                OutlinedTextField(
-                    value = code1,
-                    onValueChange = {
-                        code1 = it
-                        if (it.text.isNotEmpty()) {
-                            focus2.requestFocus()
-                        }
-                    },
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
-                    shape = RoundedCornerShape(20.dp),
+                SmsTextField(
+                    code1,
+                    borderColor = smsBorder,
+                    codeFocus = focus1,
+                    nextFocus = focus2,
                     modifier =
                         Modifier
                             .weight(1f)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceHighest,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = smsBorder,
-                                shape = RoundedCornerShape(20.dp)
-                            )
-                            .focusRequester(focus1)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused) {
-                                    code1 =
-                                        TextFieldValue(
-                                            code1.text,
-                                            selection = TextRange(0, code1.text.length)
-                                        )
-                                }
-                            }
                 )
-                OutlinedTextField(
-                    value = code2,
-                    onValueChange = {
-                        code2 = it
-                        if (it.isNotEmpty()) {
-                            focus3.requestFocus()
-                        }
-                    },
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
+                SmsTextField(
+                    code2,
+                    borderColor = smsBorder,
+                    codeFocus = focus2,
+                    nextFocus = focus3,
+                    previousCode = code1,
+                    previousFocus = focus1,
                     modifier =
                         Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
-                            .border(
-                                width = 1.dp,
-                                color = smsBorder,
-                                shape = RoundedCornerShape(20.dp)
-                            ).focusRequester(focus2)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused && code1.text.isEmpty()) {
-                                    focus1.requestFocus()
-                                }
-                            }
                 )
-                OutlinedTextField(
-                    value = code3,
-                    onValueChange = {
-                        code3 = it
-                        if (it.isNotEmpty()) {
-                            focus4.requestFocus()
-                        }
-                    },
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
+                SmsTextField(
+                    code3,
+                    borderColor = smsBorder,
+                    codeFocus = focus3,
+                    nextFocus = focus4,
+                    previousCode = code2,
+                    previousFocus = focus2,
                     modifier =
                         Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
-                            .border(
-                                width = 1.dp,
-                                color = smsBorder,
-                                shape = RoundedCornerShape(20.dp)
-                            ).focusRequester(focus3)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused && code2.isEmpty()) {
-                                    focus2.requestFocus()
-                                }
-                            }
                 )
-                OutlinedTextField(
-                    value = code4,
-                    onValueChange = {
-                        code4 = it
-                        if (it.isNotEmpty()) {
-                            focus5.requestFocus()
-                        }
-                    },
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
+                SmsTextField(
+                    code4,
+                    borderColor = smsBorder,
+                    codeFocus = focus4,
+                    nextFocus = focus5,
+                    previousCode = code3,
+                    previousFocus = focus3,
                     modifier =
                         Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
-                            .border(
-                                width = 1.dp,
-                                color = smsBorder,
-                                shape = RoundedCornerShape(20.dp)
-                            ).focusRequester(focus4)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused && code3.isEmpty()) {
-                                    focus3.requestFocus()
-                                }
-                            }
                 )
-                OutlinedTextField(
-                    value = code5,
-                    onValueChange = {
-                        code5 = it
-                        if (it.isNotEmpty()) {
-                            focus6.requestFocus()
-                        }
-                    },
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
+                SmsTextField(
+                    code5,
+                    borderColor = smsBorder,
+                    codeFocus = focus5,
+                    nextFocus = focus6,
+                    previousCode = code4,
+                    previousFocus = focus4,
                     modifier =
                         Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
-                            .border(
-                                width = 1.dp,
-                                color = smsBorder,
-                                shape = RoundedCornerShape(20.dp)
-                            ).focusRequester(focus5)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused && code4.isEmpty()) {
-                                    focus4.requestFocus()
-                                }
-                            }
                 )
-                OutlinedTextField(
-                    value = code6,
-                    onValueChange = {
-                        if (code6.isEmpty()) {
-                            code6 = it
-                        }
-                    },
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
+                SmsTextField(
+                    code6,
+                    borderColor = smsBorder,
+                    codeFocus = focus6,
+                    nextFocus = focus1,
+                    previousCode = code5,
+                    previousFocus = focus5,
                     modifier =
                         Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(MaterialTheme.colorScheme.surfaceHighest)
-                            .border(
-                                width = 1.dp,
-                                color = smsBorder,
-                                shape = RoundedCornerShape(20.dp)
-                            ).focusRequester(focus6)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused && code5.isEmpty()) {
-                                    focus5.requestFocus()
-                                }
-                            }
                 )
             }
 
@@ -348,6 +241,56 @@ fun LoginScreen(
             style = MaterialTheme.typography.titleSmall
         )
     }
+}
+
+@Composable
+fun SmsTextField(
+    code: MutableState<TextFieldValue>,
+    modifier: Modifier = Modifier,
+    borderColor: Color,
+    codeFocus: FocusRequester,
+    nextFocus: FocusRequester,
+    previousCode: MutableState<TextFieldValue>? = null,
+    previousFocus: FocusRequester? = null
+) {
+    OutlinedTextField(
+        value = code.value,
+        onValueChange = {
+            if (it.text.length <= 1) {
+                code.value = it
+            }
+            if (it.text.length == 1) {
+                nextFocus.requestFocus()
+            }
+        },
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
+        shape = RoundedCornerShape(20.dp),
+        modifier =
+            modifier
+                .background(
+                    MaterialTheme.colorScheme.surfaceHighest,
+                    shape = RoundedCornerShape(20.dp)
+                ).border(
+                    width = 1.dp,
+                    color = borderColor,
+                    shape = RoundedCornerShape(20.dp)
+                ).focusRequester(codeFocus)
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused && previousCode?.value?.text?.isEmpty() ?: false) {
+                        previousFocus?.requestFocus()
+                    }
+                    if (focusState.isFocused) {
+                        code.value =
+                            TextFieldValue(
+                                code.value.text,
+                                selection = TextRange(0, code.value.text.length)
+                            )
+                    }
+                }
+    )
 }
 
 @Preview(showBackground = true)
