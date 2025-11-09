@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.auth.presentation
 
+import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -59,6 +60,12 @@ fun LoginScreen(
     useAsGuest: () -> Unit
 ) {
     val activity = LocalActivity.current
+    val code1 = remember { mutableStateOf(TextFieldValue("")) }
+    val code2 = remember { mutableStateOf(TextFieldValue("")) }
+    val code3 = remember { mutableStateOf(TextFieldValue("")) }
+    val code4 = remember { mutableStateOf(TextFieldValue("")) }
+    val code5 = remember { mutableStateOf(TextFieldValue("")) }
+    val code6 = remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,174 +84,247 @@ fun LoginScreen(
                     .padding(bottom = 6.dp)
         )
         Text(
-            text = if (state.numberSent) "Enter Code" else "Enter your phone number",
+            text = if (state.numberSentSuccessfully) "Enter Code" else "Enter your phone number",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(bottom = 10.dp)
         )
 
-        OutlinedTextField(
-            placeholder = { Text("+1 000 000 0000") },
-            value = state.phoneNumber,
-            keyboardOptions =
-                KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Phone
-                ),
-            onValueChange = {
-                val filteredPhoneNumber =
-                    it.filter { char ->
-                        char.isDigit() || char == '+' || char.isWhitespace()
-                    }
-                if (filteredPhoneNumber.length > 15) {
-                    return@OutlinedTextField
-                }
+        PhoneTextField(state = state, onAction = onAction)
 
-                onAction(LoginAction.SetPhoneNumber(filteredPhoneNumber))
-            },
-            singleLine = true,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colorScheme.surfaceHighest)
-        )
-
-        if (state.numberSent) {
-            val code1 = remember { mutableStateOf(TextFieldValue("")) }
-            val code2 = remember { mutableStateOf(TextFieldValue("")) }
-            val code3 = remember { mutableStateOf(TextFieldValue("")) }
-            val code4 = remember { mutableStateOf(TextFieldValue("")) }
-            val code5 = remember { mutableStateOf(TextFieldValue("")) }
-            val code6 = remember { mutableStateOf(TextFieldValue("")) }
-
-            val focus1 = remember { FocusRequester() }
-            val focus2 = remember { FocusRequester() }
-            val focus3 = remember { FocusRequester() }
-            val focus4 = remember { FocusRequester() }
-            val focus5 = remember { FocusRequester() }
-            val focus6 = remember { FocusRequester() }
-
-            var smsBorder = Color.Transparent
-            if (state.verificationFailed) {
-                smsBorder = MaterialTheme.colorScheme.primary
-            }
-
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                SmsTextField(
-                    code1,
-                    borderColor = smsBorder,
-                    codeFocus = focus1,
-                    nextFocus = focus2,
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                )
-                SmsTextField(
-                    code2,
-                    borderColor = smsBorder,
-                    codeFocus = focus2,
-                    nextFocus = focus3,
-                    previousCode = code1,
-                    previousFocus = focus1,
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                )
-                SmsTextField(
-                    code3,
-                    borderColor = smsBorder,
-                    codeFocus = focus3,
-                    nextFocus = focus4,
-                    previousCode = code2,
-                    previousFocus = focus2,
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                )
-                SmsTextField(
-                    code4,
-                    borderColor = smsBorder,
-                    codeFocus = focus4,
-                    nextFocus = focus5,
-                    previousCode = code3,
-                    previousFocus = focus3,
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                )
-                SmsTextField(
-                    code5,
-                    borderColor = smsBorder,
-                    codeFocus = focus5,
-                    nextFocus = focus6,
-                    previousCode = code4,
-                    previousFocus = focus4,
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                )
-                SmsTextField(
-                    code6,
-                    borderColor = smsBorder,
-                    codeFocus = focus6,
-                    nextFocus = focus1,
-                    previousCode = code5,
-                    previousFocus = focus5,
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                )
-            }
-
-            Button(
-                onClick = {
-                    val verificationCode = "$code1$code2$code3$code4$code5$code6"
-                    onAction(LoginAction.VerifySms(verificationCode))
-                },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-            ) {
-                Text(text = "Confirm")
-            }
+        if (state.numberSentSuccessfully && !state.resend) {
+            VerificationFields(
+                code1,
+                code2,
+                code3,
+                code4,
+                code5,
+                code6,
+                state,
+                onAction = onAction
+            )
+        }
+        if (!state.numberSentSuccessfully || state.resend) {
+            SubmitPhoneNumberButton(onAction = onAction, state = state, activity = activity)
         } else {
-            Button(
-                onClick = {
-                    onAction(LoginAction.SendPhoneNumber(activity))
-                },
-                enabled = state.phoneNumberValid,
-                modifier =
-                    Modifier
-                        .padding(top = 6.dp)
-                        .fillMaxWidth()
-            ) {
-                Text(text = "Continue")
+            SubmitVerificationCodeButton(
+                code1,
+                code2,
+                code3,
+                code4,
+                code5,
+                code6,
+                onAction = onAction
+            )
+        }
+
+        ContinueWithoutSigningIn(useAsGuest = useAsGuest)
+
+        if (state.numberSentSuccessfully && !state.resend) {
+            CountDownText(state = state)
+        }
+
+        if (state.resend) {
+            TextButton(onClick = {
+                onAction(LoginAction.SendPhoneNumber(activity))
+            }) {
+                Text("Resend Code")
             }
         }
-        Text(
+    }
+}
+
+@Composable
+fun CountDownText(state: LoginState) {
+    Text(
+        text = "You can request a new code in: ${state.countDown}",
+        modifier =
+        Modifier,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+fun ContinueWithoutSigningIn(useAsGuest: () -> Unit) {
+    Text(
+        modifier =
+            Modifier
+                .clickable {
+                    useAsGuest()
+                },
+        text = "Continue without signing in",
+        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+@Composable
+fun PhoneTextField(
+    state: LoginState,
+    onAction: (LoginAction) -> Unit
+) {
+    OutlinedTextField(
+        placeholder = { Text("+1 000 000 0000") },
+        value = state.phoneNumber,
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Phone
+            ),
+        onValueChange = {
+            val filteredPhoneNumber =
+                it.filter { char ->
+                    char.isDigit() || char == '+' || char.isWhitespace()
+                }
+            if (filteredPhoneNumber.length > 15) {
+                return@OutlinedTextField
+            }
+
+            onAction(LoginAction.SetPhoneNumber(filteredPhoneNumber))
+        },
+        singleLine = true,
+        shape = RoundedCornerShape(20.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surfaceHighest)
+    )
+}
+
+@Composable
+fun SubmitPhoneNumberButton(
+    onAction: (LoginAction) -> Unit,
+    state: LoginState,
+    activity: Activity?
+) {
+    Button(
+        onClick = {
+            onAction(LoginAction.SendPhoneNumber(activity))
+        },
+        enabled = state.phoneNumberValid,
+        modifier =
+            Modifier
+                .padding(top = 6.dp)
+                .fillMaxWidth()
+    ) {
+        Text(text = "Continue")
+    }
+}
+
+@Composable
+fun SubmitVerificationCodeButton(
+    code1: MutableState<TextFieldValue>,
+    code2: MutableState<TextFieldValue>,
+    code3: MutableState<TextFieldValue>,
+    code4: MutableState<TextFieldValue>,
+    code5: MutableState<TextFieldValue>,
+    code6: MutableState<TextFieldValue>,
+    onAction: (LoginAction) -> Unit
+) {
+    Button(
+        onClick = {
+            val verificationCode = "$code1$code2$code3$code4$code5$code6"
+            onAction(LoginAction.VerifySms(verificationCode))
+        },
+        modifier =
+            Modifier
+                .fillMaxWidth()
+    ) {
+        Text(text = "Confirm")
+    }
+}
+
+@Composable
+fun VerificationFields(
+    code1: MutableState<TextFieldValue>,
+    code2: MutableState<TextFieldValue>,
+    code3: MutableState<TextFieldValue>,
+    code4: MutableState<TextFieldValue>,
+    code5: MutableState<TextFieldValue>,
+    code6: MutableState<TextFieldValue>,
+    state: LoginState,
+    onAction: (LoginAction) -> Unit
+) {
+    val focus1 = remember { FocusRequester() }
+    val focus2 = remember { FocusRequester() }
+    val focus3 = remember { FocusRequester() }
+    val focus4 = remember { FocusRequester() }
+    val focus5 = remember { FocusRequester() }
+    val focus6 = remember { FocusRequester() }
+
+    var smsBorder = Color.Transparent
+    if (state.verificationFailed) {
+        smsBorder = MaterialTheme.colorScheme.primary
+    }
+
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        SmsTextField(
+            code1,
+            borderColor = smsBorder,
+            codeFocus = focus1,
+            nextFocus = focus2,
             modifier =
                 Modifier
-                    .clickable {
-                        useAsGuest()
-                    },
-            text = "Continue without signing in",
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.titleSmall
+                    .weight(1f)
         )
-
-        if (state.smsSent) {
-            if (state.resend) {
-                TextButton(onClick = {}) {
-                    Text("Resend")
-                }
-            } else {
-                Text(text = "You can request a new code in: ${state.countDown}")
-            }
-        }
+        SmsTextField(
+            code2,
+            borderColor = smsBorder,
+            codeFocus = focus2,
+            nextFocus = focus3,
+            previousCode = code1,
+            previousFocus = focus1,
+            modifier =
+                Modifier
+                    .weight(1f)
+        )
+        SmsTextField(
+            code3,
+            borderColor = smsBorder,
+            codeFocus = focus3,
+            nextFocus = focus4,
+            previousCode = code2,
+            previousFocus = focus2,
+            modifier =
+                Modifier
+                    .weight(1f)
+        )
+        SmsTextField(
+            code4,
+            borderColor = smsBorder,
+            codeFocus = focus4,
+            nextFocus = focus5,
+            previousCode = code3,
+            previousFocus = focus3,
+            modifier =
+                Modifier
+                    .weight(1f)
+        )
+        SmsTextField(
+            code5,
+            borderColor = smsBorder,
+            codeFocus = focus5,
+            nextFocus = focus6,
+            previousCode = code4,
+            previousFocus = focus4,
+            modifier =
+                Modifier
+                    .weight(1f)
+        )
+        SmsTextField(
+            code6,
+            borderColor = smsBorder,
+            codeFocus = focus6,
+            nextFocus = focus1,
+            previousCode = code5,
+            previousFocus = focus5,
+            modifier =
+                Modifier
+                    .weight(1f)
+        )
     }
 }
 
@@ -306,8 +386,8 @@ fun LoginScreenPreview() {
             useAsGuest = {},
             state =
                 LoginState(
-                    numberSent = true,
-                    smsSent = true,
+                    numberSentSuccessfully = true,
+                    resend = false,
                     countDown = "00:55"
                 ),
             onAction = {}
