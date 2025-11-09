@@ -58,6 +58,7 @@ class LoginViewModel : ViewModel() {
                                 state =
                                     state.copy(
                                         numberSentSuccessfully = false,
+                                        verificationFailed = false,
                                         resend = true
                                     )
                             }
@@ -88,7 +89,7 @@ class LoginViewModel : ViewModel() {
             var counter = 60
 
             if (inDebug()) {
-                counter = 10
+                counter = 20
             }
 
             while (counter >= 0) {

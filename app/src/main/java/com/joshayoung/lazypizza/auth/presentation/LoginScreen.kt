@@ -103,6 +103,13 @@ fun LoginScreen(
                 onAction = onAction
             )
         }
+        if (state.verificationFailed) {
+            Text(
+                "Incorrect code. Please try again.",
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.align(Alignment.Start)
+            )
+        }
         if (!state.numberSentSuccessfully || state.resend) {
             SubmitPhoneNumberButton(onAction = onAction, state = state, activity = activity)
         } else {
@@ -221,7 +228,9 @@ fun SubmitVerificationCodeButton(
 ) {
     Button(
         onClick = {
-            val verificationCode = "$code1$code2$code3$code4$code5$code6"
+            val verificationCode =
+                "${code1.value.text}${code2.value.text}${code3.value.text}" +
+                    "${code4.value.text}${code5.value.text}${code6.value.text}"
             onAction(LoginAction.VerifySms(verificationCode))
         },
         modifier =
@@ -387,6 +396,7 @@ fun LoginScreenPreview() {
             state =
                 LoginState(
                     numberSentSuccessfully = true,
+                    verificationFailed = true,
                     resend = false,
                     countDown = "00:55"
                 ),
