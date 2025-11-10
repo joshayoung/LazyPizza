@@ -197,7 +197,7 @@ fun HistoryScreenPreview() {
             onAction = {},
             goToLogin = {},
             cartItems = 2,
-            isLoggedIn = false,
+            isLoggedIn = true,
             bottomNavItemUis = previewBottomNavItemUis
         )
     }

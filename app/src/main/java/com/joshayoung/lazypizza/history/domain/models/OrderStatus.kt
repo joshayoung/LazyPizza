@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.history.domain.models
 
-enum class OrderStatus {
-    InProgress,
-    Completed
+enum class OrderStatus(val displayValue: String) {
+    InProgress("In Progress"),
+    Completed("Completed")
 }

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
@@ -264,7 +265,7 @@ fun VerificationFields(
 
     var smsBorder = Color.Transparent
     if (state.verificationFailed) {
-        smsBorder = MaterialTheme.colorScheme.primary
+        smsBorder = LazyPizzaColors.inProgress
     }
 
     Row(
@@ -439,7 +440,7 @@ fun LoginScreenPreview() {
                 LoginState(
                     numberSentSuccessfully = true,
                     isSendingPhoneNumber = false,
-                    verificationFailed = false,
+                    verificationFailed = true,
                     resend = false,
                     isLoggingIn = false,
                     codeEntered = false,

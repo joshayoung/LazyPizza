@@ -95,7 +95,7 @@ fun HistoryCard(
                         .fillMaxHeight()
             ) {
                 Text(
-                    order.status.name,
+                    order.status.displayValue,
                     modifier =
                         Modifier
                             .clip(
