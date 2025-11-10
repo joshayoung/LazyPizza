@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,12 +61,6 @@ fun LoginScreen(
     useAsGuest: () -> Unit
 ) {
     val activity = LocalActivity.current
-    val code1 = remember { mutableStateOf(TextFieldValue("")) }
-    val code2 = remember { mutableStateOf(TextFieldValue("")) }
-    val code3 = remember { mutableStateOf(TextFieldValue("")) }
-    val code4 = remember { mutableStateOf(TextFieldValue("")) }
-    val code5 = remember { mutableStateOf(TextFieldValue("")) }
-    val code6 = remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,13 +88,7 @@ fun LoginScreen(
 
         if (state.numberSentSuccessfully && !state.resend) {
             VerificationFields(
-                code1,
-                code2,
-                code3,
-                code4,
-                code5,
-                code6,
-                state,
+                state = state,
                 onAction = onAction
             )
         }
@@ -114,12 +103,6 @@ fun LoginScreen(
             SubmitPhoneNumberButton(onAction = onAction, state = state, activity = activity)
         } else {
             SubmitVerificationCodeButton(
-                code1,
-                code2,
-                code3,
-                code4,
-                code5,
-                code6,
                 onAction = onAction
             )
         }
@@ -217,21 +200,10 @@ fun SubmitPhoneNumberButton(
 }
 
 @Composable
-fun SubmitVerificationCodeButton(
-    code1: MutableState<TextFieldValue>,
-    code2: MutableState<TextFieldValue>,
-    code3: MutableState<TextFieldValue>,
-    code4: MutableState<TextFieldValue>,
-    code5: MutableState<TextFieldValue>,
-    code6: MutableState<TextFieldValue>,
-    onAction: (LoginAction) -> Unit
-) {
+fun SubmitVerificationCodeButton(onAction: (LoginAction) -> Unit) {
     Button(
         onClick = {
-            val verificationCode =
-                "${code1.value.text}${code2.value.text}${code3.value.text}" +
-                    "${code4.value.text}${code5.value.text}${code6.value.text}"
-            onAction(LoginAction.VerifySms(verificationCode))
+            onAction(LoginAction.VerifySms)
         },
         modifier =
             Modifier
@@ -243,15 +215,15 @@ fun SubmitVerificationCodeButton(
 
 @Composable
 fun VerificationFields(
-    code1: MutableState<TextFieldValue>,
-    code2: MutableState<TextFieldValue>,
-    code3: MutableState<TextFieldValue>,
-    code4: MutableState<TextFieldValue>,
-    code5: MutableState<TextFieldValue>,
-    code6: MutableState<TextFieldValue>,
     state: LoginState,
     onAction: (LoginAction) -> Unit
 ) {
+    val code1 = remember { mutableStateOf(TextFieldValue("")) }
+    val code2 = remember { mutableStateOf(TextFieldValue("")) }
+    val code3 = remember { mutableStateOf(TextFieldValue("")) }
+    val code4 = remember { mutableStateOf(TextFieldValue("")) }
+    val code5 = remember { mutableStateOf(TextFieldValue("")) }
+    val code6 = remember { mutableStateOf(TextFieldValue("")) }
     val focus1 = remember { FocusRequester() }
     val focus2 = remember { FocusRequester() }
     val focus3 = remember { FocusRequester() }
@@ -272,6 +244,9 @@ fun VerificationFields(
     ) {
         SmsTextField(
             code1,
+            onTextChange = {
+                onAction(LoginAction.SetCode1(it))
+            },
             borderColor = smsBorder,
             codeFocus = focus1,
             nextFocus = focus2,
@@ -281,6 +256,9 @@ fun VerificationFields(
         )
         SmsTextField(
             code2,
+            onTextChange = {
+                onAction(LoginAction.SetCode2(it))
+            },
             borderColor = smsBorder,
             codeFocus = focus2,
             nextFocus = focus3,
@@ -292,6 +270,9 @@ fun VerificationFields(
         )
         SmsTextField(
             code3,
+            onTextChange = {
+                onAction(LoginAction.SetCode3(it))
+            },
             borderColor = smsBorder,
             codeFocus = focus3,
             nextFocus = focus4,
@@ -303,6 +284,9 @@ fun VerificationFields(
         )
         SmsTextField(
             code4,
+            onTextChange = {
+                onAction(LoginAction.SetCode4(it))
+            },
             borderColor = smsBorder,
             codeFocus = focus4,
             nextFocus = focus5,
@@ -314,6 +298,9 @@ fun VerificationFields(
         )
         SmsTextField(
             code5,
+            onTextChange = {
+                onAction(LoginAction.SetCode5(it))
+            },
             borderColor = smsBorder,
             codeFocus = focus5,
             nextFocus = focus6,
@@ -325,9 +312,12 @@ fun VerificationFields(
         )
         SmsTextField(
             code6,
+            onTextChange = {
+                onAction(LoginAction.SetCode6(it))
+            },
             borderColor = smsBorder,
             codeFocus = focus6,
-            nextFocus = focus1,
+            nextFocus = null,
             previousCode = code5,
             previousFocus = focus5,
             modifier =
@@ -342,8 +332,9 @@ fun SmsTextField(
     code: MutableState<TextFieldValue>,
     modifier: Modifier = Modifier,
     borderColor: Color,
+    onTextChange: (String) -> Unit = {},
     codeFocus: FocusRequester,
-    nextFocus: FocusRequester,
+    nextFocus: FocusRequester? = null,
     previousCode: MutableState<TextFieldValue>? = null,
     previousFocus: FocusRequester? = null
 ) {
@@ -352,16 +343,15 @@ fun SmsTextField(
         onValueChange = {
             if (it.text.length <= 1) {
                 code.value = it
-            }
-            if (it.text.length == 1) {
-                nextFocus.requestFocus()
+                onTextChange(it.text)
+                nextFocus?.requestFocus()
             }
         },
+        shape = RoundedCornerShape(20.dp),
         keyboardOptions =
             KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
-        shape = RoundedCornerShape(20.dp),
         modifier =
             modifier
                 .background(
@@ -376,13 +366,16 @@ fun SmsTextField(
                     if (focusState.isFocused && previousCode?.value?.text?.isEmpty() ?: false) {
                         previousFocus?.requestFocus()
                     }
-                    if (focusState.isFocused) {
-                        code.value =
-                            TextFieldValue(
-                                code.value.text,
-                                selection = TextRange(0, code.value.text.length)
-                            )
-                    }
+//                    if (focusState.isFocused) {
+//                        code.value =
+//                            code.value.copy(
+//                                selection =
+//                                    TextRange(
+//                                        0,
+//                                        code.value.text.length
+//                                    )
+//                            )
+//                    }
                 }
     )
 }

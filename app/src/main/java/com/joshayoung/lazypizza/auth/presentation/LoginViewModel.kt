@@ -72,7 +72,7 @@ class LoginViewModel : ViewModel() {
                         firebaseAuthUiClient
                             .sendCode(
                                 state.verificationId,
-                                action.code
+                                state.verificationCode
                             )
                     state =
                         state.copy(
@@ -80,6 +80,44 @@ class LoginViewModel : ViewModel() {
                             verificationFailed = !result
                         )
                 }
+            }
+
+            is LoginAction.SetCode1 -> {
+                state =
+                    state.copy(
+                        code1 = action.code
+                    )
+            }
+
+            is LoginAction.SetCode2 -> {
+                state =
+                    state.copy(
+                        code2 = action.code
+                    )
+            }
+            is LoginAction.SetCode3 -> {
+                state =
+                    state.copy(
+                        code3 = action.code
+                    )
+            }
+            is LoginAction.SetCode4 -> {
+                state =
+                    state.copy(
+                        code4 = action.code
+                    )
+            }
+            is LoginAction.SetCode5 -> {
+                state =
+                    state.copy(
+                        code5 = action.code
+                    )
+            }
+            is LoginAction.SetCode6 -> {
+                state =
+                    state.copy(
+                        code6 = action.code
+                    )
             }
         }
     }
