@@ -26,6 +26,13 @@ class RoomLocalDataSource(
         return productDao.getAllProducts()
     }
 
+    override suspend fun clearCartForUser(user: String?) {
+        if (user != null) {
+            val cartId = cartDao.getCartIdForUser(user)
+            cartDao.deleteAllItemsFor(cartId.cartId)
+        }
+    }
+
     override suspend fun getAllToppings(): List<ToppingEntity> {
         return toppingDao.getAllToppings()
     }

@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
     suspend fun getAllProducts(): List<ProductEntity>
 
+    suspend fun clearCartForUser(user: String?)
+
     suspend fun getAllToppings(): List<ToppingEntity>
 
     suspend fun addProductToCart(productId: Long?): Long?

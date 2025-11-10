@@ -30,8 +30,14 @@ interface CartDao {
     @Delete
     suspend fun deleteToppingFromCart(item: ToppingsInCartEntity)
 
+    @Query("DELETE FROM products_in_cart WHERE cartId = :cartId")
+    suspend fun deleteAllItemsFor(cartId: Long)
+
     @Query("DELETE FROM products_in_cart WHERE productId = :productId")
     suspend fun deleteAll(productId: Long)
+
+    @Query("SELECT * from cart where user = :user")
+    suspend fun getCartIdForUser(user: String): CartEntity
 
     @Delete
     suspend fun deleteCartItem(item: ProductsInCartEntity)

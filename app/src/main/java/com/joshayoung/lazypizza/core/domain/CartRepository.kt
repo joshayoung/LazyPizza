@@ -40,6 +40,8 @@ interface CartRepository {
         user: String?
     )
 
+    suspend fun clearCartForUser(user: String?)
+
     suspend fun createCartForUser(
         cartId: Long,
         theUser: String

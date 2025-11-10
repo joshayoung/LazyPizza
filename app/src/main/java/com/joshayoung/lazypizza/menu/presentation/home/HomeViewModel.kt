@@ -96,10 +96,12 @@ class HomeViewModel(
             }
 
             HomeAction.SignOut -> {
-                // Move to Repository:
+                // TODO: Move to Repository:
+                // TODO: Make a Use-Case?
                 val user = FirebaseAuth.getInstance().uid
                 firebaseAuth.signOut()
                 viewModelScope.launch {
+                    cartRepository.clearCartForUser(user)
                     cartRepository.transferCartTo(user, "guest-user")
                 }
             }
