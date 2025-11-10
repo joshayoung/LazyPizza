@@ -72,7 +72,7 @@ fun LargePizzaScaffold(
                         Spacer(Modifier.weight(1f))
                         appBarItems.forEachIndexed { index, item ->
 
-                            if (index == 1) {
+                            if (index == 1 && cartItems > 0) {
                                 BadgedBox(
                                     badge = {
                                         Badge(

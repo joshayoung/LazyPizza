@@ -63,7 +63,7 @@ class HistoryRepositoryImpl : HistoryRepository {
                             toppings = emptyList()
                         )
                     ),
-                status = OrderStatus.InProgress,
+                status = OrderStatus.Completed,
                 total = "13.21"
             ),
             Order(

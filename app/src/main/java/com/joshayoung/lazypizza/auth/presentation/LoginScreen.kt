@@ -43,11 +43,9 @@ import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
-import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.core.ui.theme.textSecondary8
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
-import java.time.format.TextStyle
 
 @Composable
 fun LoginScreenRoot(
