@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.auth.presentation
 
-import android.R
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -33,18 +34,18 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.ui.theme.textSecondary8
-import kotlinx.coroutines.delay
+import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -69,63 +70,116 @@ fun LoginScreen(
 ) {
     val activity = LocalActivity.current
 
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
+
+    when (deviceConfiguration) {
+        DeviceConfiguration.MOBILE_PORTRAIT -> {
+            MainScreenForLogion(
+                activity = activity,
+                state = state,
+                onAction = onAction,
+                useAsGuest = useAsGuest,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+            )
+        }
+        DeviceConfiguration.MOBILE_LANDSCAPE -> {
+        }
+        DeviceConfiguration.TABLET_PORTRAIT,
+        DeviceConfiguration.TABLET_LANDSCAPE,
+        DeviceConfiguration.DESKTOP -> {
+            MainScreenForLogion(
+                activity = activity,
+                state = state,
+                onAction = onAction,
+                useAsGuest = useAsGuest,
+                modifier = Modifier,
+                width = 500.dp
+            )
+        }
+    }
+}
+
+@Composable
+fun MainScreenForLogion(
+    activity: Activity?,
+    state: LoginState,
+    onAction: (LoginAction) -> Unit,
+    useAsGuest: () -> Unit,
+    modifier: Modifier = Modifier,
+    width: Dp? = null
+) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier =
-            Modifier
+            modifier
                 .fillMaxSize()
                 .padding(top = 200.dp)
                 .padding(horizontal = 10.dp)
     ) {
-        Text(
-            text = "Welcome to LazyPizza",
-            style = MaterialTheme.typography.titleLarge,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier =
                 Modifier
-                    .padding(bottom = 6.dp)
-        )
-        Text(
-            text = if (state.numberSentSuccessfully) "Enter Code" else "Enter your phone number",
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 10.dp)
-        )
-
-        PhoneTextField(state = state, onAction = onAction)
-
-        if (state.numberSentSuccessfully && !state.resend) {
-            VerificationFields(
-                state = state,
-                onAction = onAction
-            )
-        }
-        if (state.verificationFailed) {
+                    .widthIn(max = width ?: Dp.Unspecified)
+                    .align(Alignment.CenterHorizontally)
+        ) {
             Text(
-                "Incorrect code. Please try again.",
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.align(Alignment.Start)
+                text = "Welcome to LazyPizza",
+                style = MaterialTheme.typography.titleLarge,
+                modifier =
+                    Modifier
+                        .padding(bottom = 6.dp)
             )
-        }
-        if (!state.numberSentSuccessfully || state.resend) {
-            SubmitPhoneNumberButton(onAction = onAction, state = state, activity = activity)
-        } else {
-            SubmitVerificationCodeButton(
-                state = state,
-                onAction = onAction
+            Text(
+                text =
+                    if (state.numberSentSuccessfully) {
+                        "Enter Code"
+                    } else {
+                        "Enter your phone number"
+                    },
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(bottom = 10.dp)
             )
-        }
 
-        ContinueWithoutSigningIn(useAsGuest = useAsGuest)
+            PhoneTextField(state = state, onAction = onAction)
 
-        if (state.numberSentSuccessfully && !state.resend) {
-            CountDownText(state = state)
-        }
+            if (state.numberSentSuccessfully && !state.resend) {
+                VerificationFields(
+                    state = state,
+                    onAction = onAction
+                )
+            }
+            if (state.verificationFailed) {
+                Text(
+                    "Incorrect code. Please try again.",
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.align(Alignment.Start)
+                )
+            }
+            if (!state.numberSentSuccessfully || state.resend) {
+                SubmitPhoneNumberButton(onAction = onAction, state = state, activity = activity)
+            } else {
+                SubmitVerificationCodeButton(
+                    state = state,
+                    onAction = onAction
+                )
+            }
 
-        if (state.resend) {
-            TextButton(onClick = {
-                onAction(LoginAction.SendPhoneNumber(activity))
-            }) {
-                Text("Resend Code")
+            ContinueWithoutSigningIn(useAsGuest = useAsGuest)
+
+            if (state.numberSentSuccessfully && !state.resend) {
+                CountDownText(state = state)
+            }
+
+            if (state.resend) {
+                TextButton(onClick = {
+                    onAction(LoginAction.SendPhoneNumber(activity))
+                }) {
+                    Text("Resend Code")
+                }
             }
         }
     }
@@ -429,6 +483,11 @@ fun SmsTextField(
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 1280
+)
 @Composable
 fun LoginScreenPreview() {
     LazyPizzaTheme {
