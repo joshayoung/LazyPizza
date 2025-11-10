@@ -29,6 +29,10 @@ class LoginViewModel : ViewModel() {
             }
 
             is LoginAction.SendPhoneNumber -> {
+                state =
+                    state.copy(
+                        isSendingPhoneNumber = true
+                    )
                 action.activity?.let { activity ->
                     viewModelScope.launch {
                         // TODO: Add Error Handling:
@@ -65,8 +69,16 @@ class LoginViewModel : ViewModel() {
                         }
                     }
                 }
+                state =
+                    state.copy(
+                        isSendingPhoneNumber = true
+                    )
             }
             is LoginAction.VerifySms -> {
+                state =
+                    state.copy(
+                        isLoggingIn = true
+                    )
                 viewModelScope.launch {
                     val result =
                         firebaseAuthUiClient
@@ -78,6 +90,10 @@ class LoginViewModel : ViewModel() {
                         state.copy(
                             // TODO: Do I need both of these?
                             verificationFailed = !result
+                        )
+                    state =
+                        state.copy(
+                            isLoggingIn = false
                         )
                 }
             }

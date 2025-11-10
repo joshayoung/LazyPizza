@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.auth.presentation
 
+import android.R
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
@@ -11,17 +12,21 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -37,8 +42,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
+import com.joshayoung.lazypizza.core.ui.theme.textPrimary
+import com.joshayoung.lazypizza.core.ui.theme.textSecondary8
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
+import java.time.format.TextStyle
 
 @Composable
 fun LoginScreenRoot(
@@ -103,6 +111,7 @@ fun LoginScreen(
             SubmitPhoneNumberButton(onAction = onAction, state = state, activity = activity)
         } else {
             SubmitVerificationCodeButton(
+                state = state,
                 onAction = onAction
             )
         }
@@ -189,19 +198,31 @@ fun SubmitPhoneNumberButton(
         onClick = {
             onAction(LoginAction.SendPhoneNumber(activity))
         },
-        enabled = state.phoneNumberValid,
+        enabled = !state.isSendingPhoneNumber,
         modifier =
             Modifier
                 .padding(top = 6.dp)
                 .fillMaxWidth()
     ) {
-        Text(text = "Continue")
+        if (state.isSendingPhoneNumber){
+            CircularProgressIndicator(
+                modifier =
+                    Modifier
+                        .size(20.dp),
+                color = MaterialTheme.colorScheme.onPrimary)
+        } else {
+            Text(text = "Continue")
+        }
     }
 }
 
 @Composable
-fun SubmitVerificationCodeButton(onAction: (LoginAction) -> Unit) {
+fun SubmitVerificationCodeButton(
+    state: LoginState,
+    onAction: (LoginAction) -> Unit
+) {
     Button(
+        enabled = !state.isLoggingIn,
         onClick = {
             onAction(LoginAction.VerifySms)
         },
@@ -209,7 +230,15 @@ fun SubmitVerificationCodeButton(onAction: (LoginAction) -> Unit) {
             Modifier
                 .fillMaxWidth()
     ) {
-        Text(text = "Confirm")
+        if (state.isLoggingIn) {
+                CircularProgressIndicator(
+                    modifier =
+                        Modifier
+                            .size(20.dp),
+                    color = MaterialTheme.colorScheme.onPrimary)
+        } else {
+            Text(text = "Confirm")
+        }
     }
 }
 
@@ -338,8 +367,24 @@ fun SmsTextField(
     previousCode: MutableState<TextFieldValue>? = null,
     previousFocus: FocusRequester? = null
 ) {
+    var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = code.value,
+        textStyle =
+            MaterialTheme.typography.titleSmall.copy(
+                textAlign = TextAlign.Center,
+            ),
+        placeholder = {
+            if (!isFocused) {
+                Text(
+                    "0",
+                    color = MaterialTheme.colorScheme.textSecondary8,
+                    style = MaterialTheme.typography.titleSmall,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
         onValueChange = {
             if (it.text.length <= 1) {
                 code.value = it
@@ -354,6 +399,7 @@ fun SmsTextField(
             ),
         modifier =
             modifier
+                .fillMaxWidth()
                 .background(
                     MaterialTheme.colorScheme.surfaceHighest,
                     shape = RoundedCornerShape(20.dp)
@@ -363,6 +409,7 @@ fun SmsTextField(
                     shape = RoundedCornerShape(20.dp)
                 ).focusRequester(codeFocus)
                 .onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
                     if (focusState.isFocused && previousCode?.value?.text?.isEmpty() ?: false) {
                         previousFocus?.requestFocus()
                     }
@@ -388,9 +435,11 @@ fun LoginScreenPreview() {
             useAsGuest = {},
             state =
                 LoginState(
-                    numberSentSuccessfully = true,
-                    verificationFailed = true,
+                    numberSentSuccessfully = false,
+                    isSendingPhoneNumber = true,
+                    verificationFailed = false,
                     resend = false,
+                    isLoggingIn = false,
                     countDown = "00:55"
                 ),
             onAction = {}
