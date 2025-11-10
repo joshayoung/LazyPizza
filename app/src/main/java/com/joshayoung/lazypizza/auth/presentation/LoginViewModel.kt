@@ -134,8 +134,37 @@ class LoginViewModel : ViewModel() {
                     state.copy(
                         code6 = action.code
                     )
+
+                enableButtonOnceAllCodesAreEntered()
             }
         }
+    }
+
+    fun enableButtonOnceAllCodesAreEntered() {
+        var entered = false
+
+        val codeFields =
+            listOf(
+                state.code1,
+                state.code2,
+                state.code3,
+                state.code4,
+                state.code5,
+                state.code6
+            )
+
+        codeFields.forEach { field ->
+            if (field.isEmpty()) {
+                entered = false
+                return@forEach
+            }
+            entered = true
+        }
+
+        state =
+            state.copy(
+                codeEntered =  entered
+            )
     }
 
     fun countDownFlow(): Flow<Int> =

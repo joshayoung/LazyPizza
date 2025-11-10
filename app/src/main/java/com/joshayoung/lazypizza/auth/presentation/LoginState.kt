@@ -7,6 +7,7 @@ data class LoginState(
     val numberSentSuccessfully: Boolean = false,
     val phoneNumber: String = "",
     val countDown: String = "",
+    val codeEntered: Boolean = false,
     val resend: Boolean = false,
     val code1: String = "",
     val code2: String = "",

@@ -204,12 +204,13 @@ fun SubmitPhoneNumberButton(
                 .padding(top = 6.dp)
                 .fillMaxWidth()
     ) {
-        if (state.isSendingPhoneNumber){
+        if (state.isSendingPhoneNumber) {
             CircularProgressIndicator(
                 modifier =
                     Modifier
                         .size(20.dp),
-                color = MaterialTheme.colorScheme.onPrimary)
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         } else {
             Text(text = "Continue")
         }
@@ -222,7 +223,7 @@ fun SubmitVerificationCodeButton(
     onAction: (LoginAction) -> Unit
 ) {
     Button(
-        enabled = !state.isLoggingIn,
+        enabled = !state.isLoggingIn && state.codeEntered,
         onClick = {
             onAction(LoginAction.VerifySms)
         },
@@ -231,11 +232,12 @@ fun SubmitVerificationCodeButton(
                 .fillMaxWidth()
     ) {
         if (state.isLoggingIn) {
-                CircularProgressIndicator(
-                    modifier =
-                        Modifier
-                            .size(20.dp),
-                    color = MaterialTheme.colorScheme.onPrimary)
+            CircularProgressIndicator(
+                modifier =
+                    Modifier
+                        .size(20.dp),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         } else {
             Text(text = "Confirm")
         }
@@ -372,7 +374,7 @@ fun SmsTextField(
         value = code.value,
         textStyle =
             MaterialTheme.typography.titleSmall.copy(
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             ),
         placeholder = {
             if (!isFocused) {
@@ -435,11 +437,12 @@ fun LoginScreenPreview() {
             useAsGuest = {},
             state =
                 LoginState(
-                    numberSentSuccessfully = false,
-                    isSendingPhoneNumber = true,
+                    numberSentSuccessfully = true,
+                    isSendingPhoneNumber = false,
                     verificationFailed = false,
                     resend = false,
                     isLoggingIn = false,
+                    codeEntered = false,
                     countDown = "00:55"
                 ),
             onAction = {}
