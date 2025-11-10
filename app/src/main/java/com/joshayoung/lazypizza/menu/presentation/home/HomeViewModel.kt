@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.menu.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -19,7 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
@@ -90,6 +92,15 @@ class HomeViewModel(
                             cartRepository.removeAllFromCart(lineNumber)
                         }
                     }
+                }
+            }
+
+            HomeAction.SignOut -> {
+                // Move to Repository:
+                val user = FirebaseAuth.getInstance().uid
+                firebaseAuth.signOut()
+                viewModelScope.launch {
+                    cartRepository.transferCartTo(user, "guest-user")
                 }
             }
         }

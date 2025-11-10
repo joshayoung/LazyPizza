@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
@@ -48,6 +49,12 @@ interface CartDao {
 
     @Query("SELECT COUNT(*) FROM cart WHERE cartId = :cartId")
     suspend fun doesCartExist(cartId: Long): Boolean
+
+    @Query("SELECT * FROM cart WHERE user = :user")
+    suspend fun getCart(user: String): CartEntity
+
+    @Update
+    suspend fun updateCart(cartEntity: CartEntity)
 
     @Query(
         "select pivot.id as lineItemId, p.productId, p.remoteId, p.name, p.price, p.description, p.imageUrl, p.imageResource, p.type from product as p left join products_in_cart as pivot on pivot.productId == p.productId "

@@ -5,13 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.core.domain.CartRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val cartRepository: CartRepository
+) : ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
     private val firebaseAuthUiClient: FirebaseAuthUiClient = FirebaseAuthUiClient()
@@ -80,7 +84,7 @@ class LoginViewModel : ViewModel() {
                         isLoggingIn = true
                     )
                 viewModelScope.launch {
-                    val result =
+                    val loggedIn =
                         firebaseAuthUiClient
                             .sendCode(
                                 state.verificationId,
@@ -89,8 +93,13 @@ class LoginViewModel : ViewModel() {
                     state =
                         state.copy(
                             // TODO: Do I need both of these?
-                            verificationFailed = !result
+                            verificationFailed = !loggedIn
                         )
+
+                    if (loggedIn) {
+                        cartRepository.transferCartTo("guest-user", FirebaseAuth.getInstance().uid)
+                    }
+
                     state =
                         state.copy(
                             isLoggingIn = false
@@ -163,7 +172,7 @@ class LoginViewModel : ViewModel() {
 
         state =
             state.copy(
-                codeEntered =  entered
+                codeEntered = entered
             )
     }
 

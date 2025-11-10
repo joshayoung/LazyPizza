@@ -72,7 +72,6 @@ fun HomeScreenRoot(
     isLoggedIn: Boolean,
     cartItems: Int,
     viewModel: HomeViewModel = koinViewModel(),
-    firebaseAuth: FirebaseAuth = koinInject(),
     goToDetails: (id: String) -> Unit,
     goToLoginScreen: () -> Unit,
     bottomNavItemUis: List<BottomNavItemUi>
@@ -105,7 +104,7 @@ fun HomeScreenRoot(
 
     HomeScreen(
         logOut = {
-            firebaseAuth.signOut()
+            viewModel.onAction(HomeAction.SignOut)
         },
         isLoggedIn = isLoggedIn,
         cartItems = cartItems,

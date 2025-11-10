@@ -112,6 +112,13 @@ class CartRepositoryImpl(
         }
     }
 
+    override suspend fun transferCartTo(
+        owner: String?,
+        user: String?
+    ) {
+        localDataSource.transferCart(owner, user)
+    }
+
     override suspend fun createCartForUser(
         cartId: Long,
         theUser: String

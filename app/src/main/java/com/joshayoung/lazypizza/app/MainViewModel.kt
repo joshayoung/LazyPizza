@@ -24,14 +24,19 @@ class MainViewModel(
     init {
         viewModelScope.launch {
             state = state.copy(isLoading = true)
+
+            // NOTE: This login if for creating a authenticated session for AppWrite.
+            // This is separate from the actual firebase SMS login and not visible to the user.
+            // Because this requires internet to login, the app will not navigate past the splash
+            // page without a internet connection.
             var loggedIn =
                 authRepository.login(
                     BuildConfig.AUTH_EMAIL,
                     BuildConfig.AUTH_PASSWORD
                 )
+
             if (loggedIn) {
-                // TODO: Pass in something identifying the user and do not hard-code this cartId:
-                cartRepository.createCartForUser(1, "theUser")
+                cartRepository.createCartForUser(1, "guest-user")
                 state = state.copy(isLoading = false)
             }
             cartRepository.getNumberProductsInCart(1).collectLatest { count ->

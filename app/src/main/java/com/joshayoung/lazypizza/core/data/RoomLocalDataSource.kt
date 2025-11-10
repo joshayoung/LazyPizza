@@ -142,4 +142,22 @@ class RoomLocalDataSource(
     override suspend fun getProduct(productId: String): Product {
         return productDao.getProduct(productId).toProduct()
     }
+
+    override suspend fun transferCart(
+        owner: String?,
+        user: String?
+    ) {
+        // TODO: Pass this ID In:
+        if (owner == null || user == null) {
+            return
+        }
+
+        val getOwnerCart = cartDao.getCart(owner)
+        cartDao.updateCart(
+            CartEntity(
+                getOwnerCart.cartId,
+                user
+            )
+        )
+    }
 }

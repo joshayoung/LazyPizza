@@ -57,4 +57,9 @@ interface LocalDataSource {
     suspend fun removeProductFromCart(product: Product)
 
     suspend fun getProduct(productId: String): Product
+
+    suspend fun transferCart(
+        owner: String?,
+        user: String?
+    )
 }

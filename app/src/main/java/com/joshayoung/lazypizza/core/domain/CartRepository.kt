@@ -35,6 +35,11 @@ interface CartRepository {
 
     suspend fun sidesNotInCart(): Flow<List<Product>>
 
+    suspend fun transferCartTo(
+        owner: String?,
+        user: String?
+    )
+
     suspend fun createCartForUser(
         cartId: Long,
         theUser: String
