@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -46,6 +51,7 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.ui.theme.textSecondary8
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -401,7 +407,7 @@ fun VerificationFields(
             },
             borderColor = smsBorder,
             codeFocus = focus6,
-            nextFocus = null,
+            nextFocus = focus1,
             previousCode = code5,
             previousFocus = focus5,
             modifier =
@@ -423,6 +429,13 @@ fun SmsTextField(
     previousFocus: FocusRequester? = null
 ) {
     var isFocused by remember { mutableStateOf(false) }
+    LaunchedEffect(code.value) {
+        code.value = code.value.copy(selection = TextRange(0, code.value.text.length))
+        if (code.value.text.isNotEmpty()) {
+            delay(100)
+            nextFocus?.requestFocus()
+        }
+    }
     OutlinedTextField(
         value = code.value,
         textStyle =
@@ -441,11 +454,8 @@ fun SmsTextField(
             }
         },
         onValueChange = {
-            if (it.text.length <= 1) {
-                code.value = it
-                onTextChange(it.text)
-                nextFocus?.requestFocus()
-            }
+            code.value = it
+            onTextChange(it.text)
         },
         shape = RoundedCornerShape(20.dp),
         keyboardOptions =
@@ -465,29 +475,16 @@ fun SmsTextField(
                 ).focusRequester(codeFocus)
                 .onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
-                    if (focusState.isFocused && previousCode?.value?.text?.isEmpty() ?: false) {
-                        previousFocus?.requestFocus()
-                    }
-//                    if (focusState.isFocused) {
-//                        code.value =
-//                            code.value.copy(
-//                                selection =
-//                                    TextRange(
-//                                        0,
-//                                        code.value.text.length
-//                                    )
-//                            )
-//                    }
                 }
     )
 }
 
 @Preview(showBackground = true)
-@Preview(
-    showBackground = true,
-    widthDp = 800,
-    heightDp = 1280
-)
+// @Preview(
+//    showBackground = true,
+//    widthDp = 800,
+//    heightDp = 1280
+// )
 @Composable
 fun LoginScreenPreview() {
     LazyPizzaTheme {
