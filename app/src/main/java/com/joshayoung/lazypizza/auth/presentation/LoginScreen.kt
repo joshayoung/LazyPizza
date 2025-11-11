@@ -475,6 +475,9 @@ fun SmsTextField(
                 ).focusRequester(codeFocus)
                 .onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
+                    if (focusState.isFocused && previousCode?.value?.text?.isEmpty() ?: false) {
+                        previousFocus?.requestFocus()
+                    }
                 }
     )
 }
