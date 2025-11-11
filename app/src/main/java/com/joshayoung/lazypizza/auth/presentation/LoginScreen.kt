@@ -430,7 +430,8 @@ fun SmsTextField(
 ) {
     var isFocused by remember { mutableStateOf(false) }
     LaunchedEffect(code.value) {
-        code.value = code.value.copy(selection = TextRange(0, code.value.text.length))
+        // TODO: Disable this for now:
+        // code.value = code.value.copy(selection = TextRange(0, code.value.text.length))
         if (code.value.text.isNotEmpty()) {
             delay(100)
             nextFocus?.requestFocus()
