@@ -164,6 +164,7 @@ val addOnsForPreview =
 val inCartItemsForPreviewUis =
     listOf(
         InCartItemUi(
+            key = 1,
             name = "Chocolate Ice Cream",
             description = "A delicious food",
             imageResource = R.drawable.cookies,
@@ -184,6 +185,7 @@ val inCartItemsForPreviewUis =
             toppings = emptyList()
         ),
         InCartItemUi(
+            key = 2,
             name = "Meat Pizza",
             description = "Meat Lovers Pizza",
             toppingsForDisplay =
@@ -200,10 +202,11 @@ val inCartItemsForPreviewUis =
             imageUrl = "",
             type = MenuTypeUi.Entree,
             lineNumbers = emptyList(),
-            productId = 1,
+            productId = 2,
             toppings = emptyList()
         ),
         InCartItemUi(
+            key = 3,
             name = "Meat Pizza",
             description = "Meat Lovers Pizza",
             toppingsForDisplay =
@@ -220,7 +223,7 @@ val inCartItemsForPreviewUis =
             imageUrl = "",
             type = MenuTypeUi.Entree,
             lineNumbers = emptyList(),
-            productId = 1,
+            productId = 3,
             toppings = emptyList()
         )
     )

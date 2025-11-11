@@ -21,6 +21,8 @@ Android Application for Pizza Orders
 * `io.coil-kt.coil3:coil-network-okhttp` is needed to get `AsyncImage` working with `coil`.
 * **If your preview does not seem to be depicting the correct color for your `MaterialTheme` in the preview window, then make sure you are wrapping your preview in your theme block (i.e. `LazyPizzaTheme { ... }`).**
 * **If a join returns all null results all of the values in the object used for deserialization have to be nullable or it wlll crash the app!**
+* If you use a key for something like `LazyVerticalGrid`, make sure your keys are all unique for the preview.
+  * Otherwise the preview will not work.
 
 ### Ktlint
 * `./gradlew ktlintCheck` - generate reports

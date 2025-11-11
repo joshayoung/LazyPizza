@@ -396,7 +396,7 @@ fun SearchItemsScreenPreview() {
     widthDp = 800,
     heightDp = 1280
 )
-private fun CartScreenPreview() {
+private fun HomeScreenPreview() {
     LazyPizzaTheme {
         HomeScreen(
             state =
