@@ -37,28 +37,51 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 
 @Composable
 fun LargePizzaScaffold(
-    title: String? = null,
     cartItems: Int = 0,
     appBarItems: List<BottomNavItemUi>,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    Scaffold { innerPadding ->
+    Row() {
+        NavigationRail(
+            containerColor = MaterialTheme.colorScheme.surfaceHigher
+        ) {
+            Spacer(Modifier.weight(1f))
+            appBarItems.forEachIndexed { index, item ->
+
+                if (index == 1 && cartItems > 0) {
+                    BadgedBox(
+                        badge = {
+                            Badge(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = LazyPizzaColors.textOnPrimary,
+                                modifier =
+                                    Modifier
+                                        .size(20.dp)
+                            ) {
+                                Text(cartItems.toString())
+                            }
+                        }
+                    ) {
+                        CustomNavigationRailItem(item)
+                    }
+                } else {
+                    CustomNavigationRailItem(item)
+                }
+                Spacer(Modifier.height(14.dp))
+            }
+            Spacer(Modifier.weight(1f))
+        }
+    Scaffold(
+        topBar = {
+            TopBar(title = "Cart")
+        }
+    ) { innerPadding ->
         Box(
             modifier =
                 Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
         ) {
-            title?.let { pageTitle ->
-                Text(
-                    pageTitle,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier =
-                        Modifier
-                            .align(Alignment.TopCenter)
-                )
-            }
-
             Row(
                 modifier =
                     Modifier
@@ -66,35 +89,6 @@ fun LargePizzaScaffold(
                         .padding(innerPadding)
             ) {
                 Box {
-                    NavigationRail(
-                        containerColor = MaterialTheme.colorScheme.surfaceHigher
-                    ) {
-                        Spacer(Modifier.weight(1f))
-                        appBarItems.forEachIndexed { index, item ->
-
-                            if (index == 1 && cartItems > 0) {
-                                BadgedBox(
-                                    badge = {
-                                        Badge(
-                                            containerColor = MaterialTheme.colorScheme.primary,
-                                            contentColor = LazyPizzaColors.textOnPrimary,
-                                            modifier =
-                                                Modifier
-                                                    .size(20.dp)
-                                        ) {
-                                            Text(cartItems.toString())
-                                        }
-                                    }
-                                ) {
-                                    CustomNavigationRailItem(item)
-                                }
-                            } else {
-                                CustomNavigationRailItem(item)
-                            }
-                            Spacer(Modifier.height(14.dp))
-                        }
-                        Spacer(Modifier.weight(1f))
-                    }
                     Box(
                         modifier =
                             Modifier
@@ -108,6 +102,7 @@ fun LargePizzaScaffold(
             }
         }
     }
+}
 }
 
 @Composable
@@ -149,7 +144,6 @@ fun CustomNavigationRailItem(item: BottomNavItemUi) {
 fun LazyPizzaNavigationRailPreview() {
     LazyPizzaTheme {
         LargePizzaScaffold(
-            title = "Cart",
             appBarItems = previewBottomNavItemUis
         ) { innerPadding ->
             Column(

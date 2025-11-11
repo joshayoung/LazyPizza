@@ -114,7 +114,6 @@ fun HistoryScreen(
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
                 cartItems = cartItems,
-                title = "Order History",
                 appBarItems = bottomNavItemUis
             ) { innerPadding ->
                 Column(

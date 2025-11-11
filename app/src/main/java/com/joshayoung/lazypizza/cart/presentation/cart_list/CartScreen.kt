@@ -163,7 +163,6 @@ fun CartScreen(
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
                 cartItems = cartItems,
-                title = "Cart",
                 appBarItems = bottomNavItemUis
             ) { innerPadding ->
                 Column(
