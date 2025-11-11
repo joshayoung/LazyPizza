@@ -164,14 +164,13 @@ fun CartScreen(
             LargePizzaScaffold(
                 cartItems = cartItems,
                 appBarItems = bottomNavItemUis
-            ) { innerPadding ->
+            ) { ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(innerPadding)
                 ) {
                     if (state.isLoadingCart) {
                         LoadingBox()

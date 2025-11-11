@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -39,9 +38,9 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 fun LargePizzaScaffold(
     cartItems: Int = 0,
     appBarItems: List<BottomNavItemUi>,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable () -> Unit
 ) {
-    Row() {
+    Row(modifier = Modifier.background(Color.Blue)) {
         NavigationRail(
             containerColor = MaterialTheme.colorScheme.surfaceHigher
         ) {
@@ -71,38 +70,34 @@ fun LargePizzaScaffold(
             }
             Spacer(Modifier.weight(1f))
         }
-    Scaffold(
-        topBar = {
-            TopBar(title = "Cart")
-        }
-    ) { innerPadding ->
-        Box(
-            modifier =
-                Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
-        ) {
-            Row(
+        Scaffold(
+            topBar = {
+                TopBar(title = "Cart")
+            }
+        ) { innerPadding ->
+            Box(
                 modifier =
                     Modifier
-                        .fillMaxSize()
                         .padding(innerPadding)
+                        .fillMaxSize()
             ) {
-                Box {
+                Row(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                ) {
                     Box(
                         modifier =
                             Modifier
                                 .fillMaxHeight()
                                 .width(1.dp)
                                 .background(MaterialTheme.colorScheme.outline)
-                                .align(Alignment.CenterEnd)
                     )
+                    content()
                 }
-                content(innerPadding)
             }
         }
     }
-}
 }
 
 @Composable
@@ -145,9 +140,9 @@ fun LazyPizzaNavigationRailPreview() {
     LazyPizzaTheme {
         LargePizzaScaffold(
             appBarItems = previewBottomNavItemUis
-        ) { innerPadding ->
+        ) {
             Column(
-                modifier = Modifier.padding(innerPadding).fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

@@ -20,14 +20,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.room.util.TableInfo
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
-import com.joshayoung.lazypizza.core.presentation.utils.previewOrders
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.history.domain.models.Order
@@ -115,13 +113,12 @@ fun HistoryScreen(
             LargePizzaScaffold(
                 cartItems = cartItems,
                 appBarItems = bottomNavItemUis
-            ) { innerPadding ->
+            ) { ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier =
                         Modifier
-                            .padding(innerPadding)
                             .padding(top = 20.dp)
                             .fillMaxSize()
                             .padding(horizontal = 20.dp)

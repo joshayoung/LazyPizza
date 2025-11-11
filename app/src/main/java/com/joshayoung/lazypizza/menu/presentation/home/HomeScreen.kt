@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -185,11 +184,12 @@ fun HomeScreen(
             LargePizzaScaffold(
                 appBarItems = bottomNavItemUis,
                 cartItems = cartItems
-            ) { innerPadding ->
+            ) {
                 Column(
+                    verticalArrangement = Arrangement.Top,
                     modifier =
                         Modifier
-                            .padding(innerPadding)
+                            .background(Color.Red)
                             .background(Color(0xFFFAFBFC))
                             .padding(horizontal = 20.dp)
                 ) {
@@ -367,7 +367,7 @@ fun ItemAndPrice(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+// @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SearchItemsScreenPreview() {
     LazyPizzaTheme {
@@ -391,7 +391,7 @@ fun SearchItemsScreenPreview() {
 }
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
+// @Preview(showBackground = true, showSystemUi = true)
 @Preview(
     showBackground = true,
     showSystemUi = true,
