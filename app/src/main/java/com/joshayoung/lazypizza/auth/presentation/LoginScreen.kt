@@ -257,7 +257,7 @@ fun SubmitPhoneNumberButton(
         onClick = {
             onAction(LoginAction.SendPhoneNumber(activity))
         },
-        enabled = !state.isSendingPhoneNumber,
+        enabled = state.phoneNumberValid,
         modifier =
             Modifier
                 .padding(top = 6.dp)

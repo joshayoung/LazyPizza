@@ -75,7 +75,7 @@ class LoginViewModel(
                 }
                 state =
                     state.copy(
-                        isSendingPhoneNumber = true
+                        isSendingPhoneNumber = false
                     )
             }
             is LoginAction.VerifySms -> {

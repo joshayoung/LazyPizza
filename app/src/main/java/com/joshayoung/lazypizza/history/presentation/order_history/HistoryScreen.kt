@@ -16,9 +16,11 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.room.util.TableInfo
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
@@ -38,7 +40,8 @@ fun HistoryScreenRoot(
     cartItems: Int,
     viewModel: HistoryViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
-    goToMenu: () -> Unit
+    goToMenu: () -> Unit,
+    goToLogin: () -> Unit
 ) {
     HistoryScreen(
         isLoggedIn = isLoggedIn,
@@ -46,6 +49,7 @@ fun HistoryScreenRoot(
         cartItems = cartItems,
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToMenu = goToMenu,
+        goToLogin = goToLogin,
         onAction = { action ->
             viewModel.onAction(action)
         }
@@ -59,6 +63,7 @@ fun HistoryScreen(
     cartItems: Int,
     state: HistoryState,
     goToMenu: () -> Unit,
+    goToLogin: () -> Unit,
     onAction: (HistoryAction) -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -93,10 +98,10 @@ fun HistoryScreen(
                             .padding(horizontal = 20.dp)
                 ) {
                     if (isLoggedIn) {
-                        OrderHistory(orders = state.orders)
+                        OrderHistory(orders = state.orders, goToMenu = goToMenu)
                     } else {
                         SignedOut(
-                            goToMenu = goToMenu
+                            goToLogin = goToLogin
                         )
                     }
                 }
@@ -129,10 +134,10 @@ fun HistoryScreen(
                                 .padding(bottom = 20.dp)
                     )
                     if (isLoggedIn) {
-                        OrderHistory(orders = state.orders, columns = 2)
+                        OrderHistory(orders = state.orders, columns = 2, goToMenu = goToMenu)
                     } else {
                         SignedOut(
-                            goToMenu = goToMenu
+                            goToLogin = goToLogin
                         )
                     }
                 }
@@ -144,7 +149,20 @@ fun HistoryScreen(
 @Composable
 fun OrderHistory(
     orders: List<Order>,
-    columns: Int = 1
+    columns: Int = 1,
+    goToMenu: () -> Unit
+) {
+    if (orders.isEmpty()) {
+        EmptyOrderList(goToMenu = goToMenu)
+    } else {
+        OrderList(orders = orders, columns = columns)
+    }
+}
+
+@Composable
+fun OrderList(
+    orders: List<Order>,
+    columns: Int
 ) {
     LazyVerticalGrid(
         state = rememberLazyGridState(),
@@ -164,19 +182,42 @@ fun OrderHistory(
 }
 
 @Composable
-fun SignedOut(goToMenu: () -> Unit) {
+fun EmptyOrderList(goToMenu: () -> Unit) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            "No Orders Yet",
+            style = MaterialTheme.typography.titleLarge,
+            modifier =
+                Modifier
+                    .padding(top = 140.dp)
+        )
+        Text(
+            "Your orders will appear here after your first purchase.",
+            textAlign =
+                TextAlign.Center
+        )
+        Button(onClick = {
+            goToMenu()
+        }) {
+            Text("Go to Menu")
+        }
+    }
+}
+
+@Composable
+fun SignedOut(goToLogin: () -> Unit) {
     Text(
-        "No Orders Yet",
+        "Not Signed In",
         style = MaterialTheme.typography.titleLarge,
         modifier =
             Modifier
                 .padding(top = 140.dp)
     )
-    Text("Your orders will appear here after your first purchase.")
+    Text("Please sign in to view your order history.")
     Button(onClick = {
-        goToMenu()
+        goToLogin()
     }) {
-        Text("Go to Menu")
+        Text("Sign In")
     }
 }
 
@@ -193,12 +234,13 @@ fun HistoryScreenPreview() {
             state =
                 HistoryState(
                     isSignedIn = true,
-                    orders = previewOrders
+                    orders = emptyList() // previewOrders
                 ),
             onAction = {},
             goToMenu = {},
             cartItems = 2,
             isLoggedIn = true,
+            goToLogin = {},
             bottomNavItemUis = previewBottomNavItemUis
         )
     }

@@ -155,6 +155,9 @@ fun NavigationRoot(
                 isLoggedIn = isLoggedIn,
                 cartItems = cartItems,
                 bottomNavItemUis = bottomNavigationItems,
+                goToLogin = {
+                    navController.navigate(Routes.Login)
+                },
                 goToMenu = {
                     navController.navigate(Routes.Menu) {
                         popUpTo(0) {
