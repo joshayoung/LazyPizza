@@ -113,7 +113,7 @@ fun HistoryScreen(
             LargePizzaScaffold(
                 cartItems = cartItems,
                 appBarItems = bottomNavItemUis
-            ) { ->
+            ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp),

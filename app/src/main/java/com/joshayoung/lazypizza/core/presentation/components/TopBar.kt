@@ -144,10 +144,7 @@ fun LoginStatusIcons(
         }
     } else {
         IconButton(
-            onClick =
-                {
-                    authenticate()
-                }
+            onClick = { authenticate() }
         ) {
             Icon(
                 imageVector = UserIcon,
@@ -219,7 +216,6 @@ fun Logo() {
         )
         Text(
             text = "LazyPizza",
-            color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )

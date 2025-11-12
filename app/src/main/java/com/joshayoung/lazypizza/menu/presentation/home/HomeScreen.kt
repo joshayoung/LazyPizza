@@ -182,6 +182,16 @@ fun HomeScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
             LargePizzaScaffold(
+                topAppBar = {
+                    TopBar(
+                        logOut = {
+                            logOut()
+                        },
+                        showUserIcon = true,
+                        authenticate = goToLoginScreen,
+                        isAuthenticated = isLoggedIn
+                    )
+                },
                 appBarItems = bottomNavItemUis,
                 cartItems = cartItems
             ) {

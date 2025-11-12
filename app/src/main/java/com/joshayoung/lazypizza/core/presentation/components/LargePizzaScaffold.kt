@@ -36,6 +36,7 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 
 @Composable
 fun LargePizzaScaffold(
+    topAppBar: @Composable () -> Unit = {},
     cartItems: Int = 0,
     appBarItems: List<BottomNavItemUi>,
     content: @Composable () -> Unit
@@ -72,7 +73,7 @@ fun LargePizzaScaffold(
         }
         Scaffold(
             topBar = {
-                TopBar(title = "Cart")
+                topAppBar()
             }
         ) { innerPadding ->
             Box(
@@ -139,7 +140,10 @@ fun CustomNavigationRailItem(item: BottomNavItemUi) {
 fun LazyPizzaNavigationRailPreview() {
     LazyPizzaTheme {
         LargePizzaScaffold(
-            appBarItems = previewBottomNavItemUis
+            appBarItems = previewBottomNavItemUis,
+            topAppBar = {
+                TopBar(title = "Cart")
+            }
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
