@@ -42,80 +42,6 @@ val previewBottomNavItemUis: List<BottomNavItemUi>
         )
     }
 
-val productUiListForPreview =
-    listOf(
-        ProductUi(
-            id = "3",
-            localId = 3,
-            description = "A delicious food",
-            imageResource = R.drawable.cookies,
-            name = "Chocolate Ice Cream",
-            price = BigDecimal("10.19"),
-            inCart = true,
-            numberInCart = 1
-        ),
-        ProductUi(
-            id = "1",
-            localId = 1,
-            description = "A delicious food",
-            imageResource = R.drawable.hawaiian,
-            name = "Hawaiian Pizza",
-            price = BigDecimal("10.19")
-        ),
-        ProductUi(
-            id = "2",
-            localId = 2,
-            description =
-                "Tomato sauce, mozzarella, " +
-                    "mushrooms, olives, bell pepper, onion, corn",
-            imageResource = R.drawable.meat_lovers,
-            name = "Veggie Delight",
-            price = BigDecimal("9.79"),
-            numberInCart = 2
-        ),
-        ProductUi(
-            id = "4",
-            localId = 4,
-            description = "Another food",
-            imageResource = R.drawable.strawberry,
-            name = "Meat Lovers Pizza",
-            price = BigDecimal("13.28"),
-            numberInCart = 1
-        ),
-        ProductUi(
-            id = "5",
-            localId = 5,
-            description = "A delicious food",
-            imageResource = R.drawable.mineral_water,
-            name = "Hawaiian Pizza",
-            price = BigDecimal("8.18")
-        ),
-        ProductUi(
-            id = "6",
-            localId = 6,
-            description = "Another food",
-            imageResource = R.drawable.pepsi,
-            name = "Meat Lovers Pizza",
-            price = BigDecimal("18.88")
-        ),
-        ProductUi(
-            id = "7",
-            localId = 7,
-            description = "A delicious food",
-            imageResource = R.drawable.spicy_chili_sauce,
-            name = "Hawaiian Pizza",
-            price = BigDecimal("21.19")
-        ),
-        ProductUi(
-            id = "8",
-            localId = 8,
-            description = "Another food",
-            imageResource = R.drawable.bbq_sauce,
-            name = "Meat Lovers Pizza",
-            price = BigDecimal("5.43")
-        )
-    )
-
 val addOnsForPreview =
     listOf(
         ProductUi(
@@ -262,6 +188,25 @@ val previewOrders =
                         lineNumbers = emptyList(),
                         productId = 4,
                         toppings = emptyList()
+                    ),
+                    InCartItemUi(
+                        name = "Pepsi",
+                        description = "Just Cheese",
+                        toppingsForDisplay =
+                            mapOf(
+                                "Mushrooms" to 2,
+                                "Olives" to 1,
+                                "Onions" to 4
+                            ),
+                        imageResource = R.drawable.margherita,
+                        price = "4.34",
+                        remoteId = "93",
+                        numberInCart = 1,
+                        imageUrl = "",
+                        type = MenuTypeUi.Entree,
+                        lineNumbers = emptyList(),
+                        productId = 14,
+                        toppings = emptyList()
                     )
                 ),
             status = OrderStatus.InProgress,
@@ -273,8 +218,8 @@ val previewOrders =
             items =
                 listOf(
                     InCartItemUi(
-                        name = "Veggy Pizza",
-                        description = "Delicious Vegitables",
+                        name = "Veggie Pizza",
+                        description = "Delicious Vegetables",
                         toppingsForDisplay =
                             mapOf(
                                 "Pepperoni" to 2,
@@ -289,6 +234,25 @@ val previewOrders =
                         type = MenuTypeUi.Entree,
                         lineNumbers = emptyList(),
                         productId = 1,
+                        toppings = emptyList()
+                    ),
+                    InCartItemUi(
+                        name = "Pepsi",
+                        description = "Just Cheese",
+                        toppingsForDisplay =
+                            mapOf(
+                                "Mushrooms" to 2,
+                                "Olives" to 1,
+                                "Onions" to 4
+                            ),
+                        imageResource = R.drawable.margherita,
+                        price = "4.34",
+                        remoteId = "93",
+                        numberInCart = 1,
+                        imageUrl = "",
+                        type = MenuTypeUi.Entree,
+                        lineNumbers = emptyList(),
+                        productId = 14,
                         toppings = emptyList()
                     )
                 ),

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,11 +27,13 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.room.util.TableInfo
 import com.joshayoung.lazypizza.R
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
+import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.domain.models.OrderStatus
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
@@ -49,14 +52,14 @@ fun HistoryCard(
                         RoundedCornerShape(20.dp),
                     shadow =
                         Shadow(
-                            radius = 6.dp,
-                            spread = 1.dp,
+                            radius = 16.dp,
+                            spread = 6.dp,
                             color =
-                                MaterialTheme.colorScheme.surfaceHigher,
+                                MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.05f),
                             offset = DpOffset(x = 0.dp, 4.dp)
                         )
                 ).clip(RoundedCornerShape(10.dp))
-                .background(color = MaterialTheme.colorScheme.surface)
+                .background(color = MaterialTheme.colorScheme.surfaceHigher)
                 .padding(10.dp)
     ) {
         Row(
@@ -71,11 +74,19 @@ fun HistoryCard(
                     Modifier
                         .fillMaxHeight()
             ) {
-                Column {
+                Column(
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                ) {
                     Text("Order #${order.number}", style = MaterialTheme.typography.titleMedium)
                     Text(order.date)
                 }
-                LazyColumn {
+                LazyColumn(
+                    verticalArrangement = Arrangement.Bottom,
+
+
+                    modifier = Modifier.heightIn(min = 20.dp, max = 100.dp)
+                ) {
                     items(order.items) { purchase ->
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -120,16 +131,14 @@ fun HistoryCartPreview() {
         Column(
             modifier =
                 Modifier
-                    .background(Color.LightGray)
+                    .background(MaterialTheme.colorScheme.background)
                     .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             HistoryCard(
                 modifier =
-                    Modifier
-                        .height(100.dp)
-                        .width(360.dp),
+                Modifier,
                 order =
                     Order(
                         number = "123456",
@@ -138,6 +147,46 @@ fun HistoryCartPreview() {
                             listOf(
                                 InCartItemUi(
                                     name = "Meat Pizza",
+                                    description = "Meat Lovers Pizza",
+                                    toppingsForDisplay =
+
+                                        mapOf(
+                                            "Pepperoni" to 2,
+                                            "Mushrooms" to 2,
+                                            "Olives" to 1
+                                        ),
+                                    imageResource = R.drawable.meat_lovers,
+                                    price = "20.19",
+                                    remoteId = "123",
+                                    numberInCart = 2,
+                                    imageUrl = "",
+                                    type = MenuTypeUi.Entree,
+                                    lineNumbers = emptyList(),
+                                    productId = 1,
+                                    toppings = emptyList()
+                                ),
+                                InCartItemUi(
+                                    name = "Pepsi",
+                                    description = "Pepsi",
+                                    toppingsForDisplay =
+
+                                        mapOf(
+                                            "Pepperoni" to 2,
+                                            "Mushrooms" to 2,
+                                            "Olives" to 1
+                                        ),
+                                    imageResource = R.drawable.meat_lovers,
+                                    price = "20.19",
+                                    remoteId = "123",
+                                    numberInCart = 1,
+                                    imageUrl = "",
+                                    type = MenuTypeUi.Entree,
+                                    lineNumbers = emptyList(),
+                                    productId = 1,
+                                    toppings = emptyList()
+                                ),
+                                InCartItemUi(
+                                    name = "Cookies Ice Cream",
                                     description = "Meat Lovers Pizza",
                                     toppingsForDisplay =
 

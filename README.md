@@ -23,6 +23,7 @@ Android Application for Pizza Orders
 * **If a join returns all null results all of the values in the object used for deserialization have to be nullable or it wlll crash the app!**
 * If you use a key for something like `LazyVerticalGrid`, make sure your keys are all unique for the preview.
   * Otherwise the preview will not work.
+* If you have a `lazy` component inside another lazy commpoent, make sure the inner one has either a `height` or `heightIn` so the outer component can render. Otherwise it does not know enought to render the correct height.
 
 ### Ktlint
 * `./gradlew ktlintCheck` - generate reports

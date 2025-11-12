@@ -33,6 +33,25 @@ class HistoryRepositoryImpl : HistoryRepository {
                             lineNumbers = emptyList(),
                             productId = 4,
                             toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "Pepsi",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 1,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 14,
+                            toppings = emptyList()
                         )
                     ),
                 status = OrderStatus.InProgress,
@@ -44,8 +63,8 @@ class HistoryRepositoryImpl : HistoryRepository {
                 items =
                     listOf(
                         InCartItemUi(
-                            name = "Veggy Pizza",
-                            description = "Delicious Vegitables",
+                            name = "Veggie Pizza",
+                            description = "Delicious Vegetables",
                             toppingsForDisplay =
                                 mapOf(
                                     "Pepperoni" to 2,
@@ -65,6 +84,92 @@ class HistoryRepositoryImpl : HistoryRepository {
                     ),
                 status = OrderStatus.Completed,
                 total = "13.21"
+            ),
+            Order(
+                number = "123456",
+                date = "September 5, 10:10",
+                items =
+                    listOf(
+                        InCartItemUi(
+                            name = "Pepperoni Pizza",
+                            description = "Meat Lovers Pizza",
+                            toppingsForDisplay =
+
+                                mapOf(
+                                    "Pepperoni" to 2,
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1
+                                ),
+                            imageResource = R.drawable.meat_lovers,
+                            price = "20.19",
+                            remoteId = "123",
+                            numberInCart = 2,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 1,
+                            toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "Chocolate Ice Cream",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 5,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 24,
+                            toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "7-Up",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 1,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 24,
+                            toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "Apple Juice",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 1,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 24,
+                            toppings = emptyList()
+                        )
+                    ),
+                status = OrderStatus.InProgress,
+                total = "51.09"
             ),
             Order(
                 number = "123456",
@@ -90,10 +195,67 @@ class HistoryRepositoryImpl : HistoryRepository {
                             lineNumbers = emptyList(),
                             productId = 1,
                             toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "Mineral Water",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 5,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 24,
+                            toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "7-Up",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 1,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 24,
+                            toppings = emptyList()
+                        ),
+                        InCartItemUi(
+                            name = "Pepsi",
+                            description = "Just Cheese",
+                            toppingsForDisplay =
+                                mapOf(
+                                    "Mushrooms" to 2,
+                                    "Olives" to 1,
+                                    "Onions" to 4
+                                ),
+                            imageResource = R.drawable.margherita,
+                            price = "4.34",
+                            remoteId = "93",
+                            numberInCart = 1,
+                            imageUrl = "",
+                            type = MenuTypeUi.Entree,
+                            lineNumbers = emptyList(),
+                            productId = 24,
+                            toppings = emptyList()
                         )
                     ),
                 status = OrderStatus.InProgress,
-                total = "23.21"
+                total = "43.21"
             )
         )
     }

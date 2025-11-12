@@ -3,12 +3,11 @@ package com.joshayoung.lazypizza.history.presentation.order_history
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +25,7 @@ import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
+import com.joshayoung.lazypizza.core.presentation.utils.previewOrders
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.history.domain.models.Order
@@ -47,10 +47,7 @@ fun HistoryScreenRoot(
         cartItems = cartItems,
         state = viewModel.state.collectAsStateWithLifecycle().value,
         goToMenu = goToMenu,
-        goToLogin = goToLogin,
-        onAction = { action ->
-            viewModel.onAction(action)
-        }
+        goToLogin = goToLogin
     )
 }
 
@@ -61,8 +58,7 @@ fun HistoryScreen(
     cartItems: Int,
     state: HistoryState,
     goToMenu: () -> Unit,
-    goToLogin: () -> Unit,
-    onAction: (HistoryAction) -> Unit
+    goToLogin: () -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -160,10 +156,10 @@ fun OrderList(
     orders: List<Order>,
     columns: Int
 ) {
-    LazyVerticalGrid(
-        state = rememberLazyGridState(),
+    LazyVerticalStaggeredGrid(
+        state = rememberLazyStaggeredGridState(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        columns = GridCells.Fixed(columns)
+        columns = StaggeredGridCells.Fixed(columns)
     ) {
         items(orders) { order ->
             HistoryCard(
@@ -171,7 +167,6 @@ fun OrderList(
                 modifier =
                     Modifier
                         .padding(bottom = 10.dp)
-                        .height(100.dp)
             )
         }
     }
@@ -230,9 +225,8 @@ fun HistoryScreenPreview() {
             state =
                 HistoryState(
                     isSignedIn = true,
-                    orders = emptyList() // previewOrders
+                    orders = previewOrders
                 ),
-            onAction = {},
             goToMenu = {},
             cartItems = 2,
             isLoggedIn = true,
