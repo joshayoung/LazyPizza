@@ -33,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -199,7 +200,6 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.Top,
                     modifier =
                         Modifier
-                            .background(Color.Red)
                             .background(Color(0xFFFAFBFC))
                             .padding(horizontal = 20.dp)
                 ) {
@@ -233,6 +233,7 @@ fun HeaderAndSearch(
         contentScale = ContentScale.FillWidth,
         modifier =
             Modifier
+                .clip(RoundedCornerShape(8.dp))
                 .fillMaxWidth()
                 .height(height = height)
     )
@@ -401,7 +402,7 @@ fun SearchItemsScreenPreview() {
 }
 
 @Composable
-// @Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Preview(
     showBackground = true,
     showSystemUi = true,

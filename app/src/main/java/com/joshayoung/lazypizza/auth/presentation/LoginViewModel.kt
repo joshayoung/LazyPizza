@@ -180,9 +180,9 @@ class LoginViewModel(
         flow {
             var counter = 60
 
-            if (inDebug()) {
-                counter = 20
-            }
+//            if (inDebug()) {
+//                counter = 20
+//            }
 
             while (counter >= 0) {
                 emit(counter)

@@ -105,13 +105,18 @@ fun HistoryCard(
                     Modifier
                         .fillMaxHeight()
             ) {
+                var statusColor = Color.Transparent
+                when(order.status) {
+                    OrderStatus.InProgress -> statusColor = LazyPizzaColors.inProgress
+                    OrderStatus.Completed -> statusColor = LazyPizzaColors.completed
+                }
                 Text(
                     order.status.displayValue,
                     modifier =
                         Modifier
                             .clip(
                                 RoundedCornerShape(20.dp)
-                            ).background(LazyPizzaColors.inProgress)
+                            ).background(statusColor)
                             .padding(horizontal = 10.dp),
                     color = MaterialTheme.colorScheme.surfaceHigher
                 )

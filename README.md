@@ -8,6 +8,8 @@ Android Application for Pizza Orders
     <img alt="LazyPizza" src="./screenshots/tablet_details.png" width="200" />
     <img alt="LazyPizza" src="./screenshots/tablet_not_signed_in.png" width="200" />
     <img alt="LazyPizza" src="./screenshots/tablet_cart_item.png" width="200" />
+    <img alt="LazyPizza" src="./screenshots/tablet_order_history.png" width="200" />
+    <img alt="LazyPizza" src="./screenshots/tablet_login.png" width="200" />
 </p>
 
 ## Walkthroughs
