@@ -17,6 +17,7 @@ Android Application for Pizza Orders
 <p style='padding: 20px;' float="left">
     <img alt="LazyPizza Milestone 1" src="./videos/milestone_one.mp4" width="200" />
     <img alt="LazyPizza Milestone 2" src="./videos/milestone_two.mp4" width="200" />
+    <img alt="LazyPizza Milestone 3" src="./videos/milestone_three.mp4" width="200" />
 </p>
 
 ### Notes
