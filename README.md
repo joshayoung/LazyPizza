@@ -8,17 +8,17 @@ Android Application for Pizza Orders
     <img alt="LazyPizza" src="./screenshots/tablet_details.png" width="200" />
     <img alt="LazyPizza" src="./screenshots/tablet_not_signed_in.png" width="200" />
     <img alt="LazyPizza" src="./screenshots/tablet_cart_item.png" width="200" />
-    <img alt="LazyPizza" src="./screenshots/tablet_order_history.png" width="200" />
     <img alt="LazyPizza" src="./screenshots/tablet_login.png" width="200" />
+    <img alt="LazyPizza" src="./screenshots/tablet_order_history.png" width="200" />
 </p>
 
 ## Walkthroughs
 
-<p style='padding: 20px;' float="left">
-    <img alt="LazyPizza Milestone 1" src="./videos/milestone_one.mp4" width="200" />
-    <img alt="LazyPizza Milestone 2" src="./videos/milestone_two.mp4" width="200" />
-    <img alt="LazyPizza Milestone 3" src="./videos/milestone_three.mp4" width="200" />
-</p>
+<ul style='padding: 20px;' float="left">
+<li><a href="./videos/milestone_one.mp4" width="200">Milestone 1</a></li>
+<li><a href="./videos/milestone_two.mp4" width="200">Milestone 2</a></li>
+<li><a href="./videos/milestone_three.mp4" width="200">Milestone 3</a></li>
+</ul>
 
 ### Notes
 * `io.coil-kt.coil3:coil-network-okhttp` is needed to get `AsyncImage` working with `coil`.
