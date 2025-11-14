@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.history.presentation.order_history
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -158,15 +159,19 @@ fun OrderList(
 ) {
     LazyVerticalStaggeredGrid(
         state = rememberLazyStaggeredGridState(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        columns = StaggeredGridCells.Fixed(columns)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalItemSpacing = 4.dp,
+        columns = StaggeredGridCells.Fixed(columns),
+        modifier =
+            Modifier
+                .fillMaxSize()
     ) {
         items(orders) { order ->
             HistoryCard(
                 order,
-                modifier =
-                    Modifier
-                        .padding(bottom = 10.dp)
+//                modifier =
+//                    Modifier
+//                        .height(if (order.items.count() > 1) 140.dp else 100.dp)
             )
         }
     }
