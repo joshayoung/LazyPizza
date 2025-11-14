@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.cart.presentation.cart_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,7 +55,8 @@ fun CartScreenRoot(
     cartItems: Int,
     viewModel: CartViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
-    backToMenu: () -> Unit
+    backToMenu: () -> Unit,
+    checkout: () -> Unit
 ) {
     CartScreen(
         cartItems = cartItems,
@@ -63,7 +65,8 @@ fun CartScreenRoot(
         onAction = { action ->
             viewModel.onAction(action)
         },
-        backToMenu = backToMenu
+        backToMenu = backToMenu,
+        checkout = checkout
     )
 }
 
@@ -73,7 +76,8 @@ fun CartScreen(
     bottomNavItemUis: List<BottomNavItemUi>,
     state: CartState,
     onAction: (CartAction) -> Unit,
-    backToMenu: () -> Unit
+    backToMenu: () -> Unit,
+    checkout: () -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -148,7 +152,8 @@ fun CartScreen(
                                 CheckOutButton(
                                     state = state,
                                     modifier =
-                                    Modifier
+                                    Modifier,
+                                    checkout = checkout
                                 )
                             }
                         }
@@ -205,7 +210,8 @@ fun CartScreen(
                                     state = state,
                                     modifier =
                                         Modifier
-                                            .padding(top = 20.dp)
+                                            .padding(top = 20.dp),
+                                    checkout = checkout
                                 )
                             }
                         }
@@ -277,7 +283,8 @@ fun LoadingBox() {
 @Composable
 fun CheckOutButton(
     modifier: Modifier = Modifier,
-    state: CartState
+    state: CartState,
+    checkout: () -> Unit
 ) {
     Button(
         onClick = {
@@ -302,7 +309,13 @@ fun CheckOutButton(
                 )
     ) {
         val formatted = String.format(Locale.US, "%.2f", state.checkoutPrice)
-        Text("Proceed to Checkout ($$formatted)")
+        Text(
+            "Proceed to Checkout ($$formatted)",
+            modifier =
+                Modifier.clickable {
+                    checkout()
+                }
+        )
     }
 }
 
@@ -359,7 +372,8 @@ private fun CartScreenPreview() {
                 ),
             onAction = {},
             backToMenu = {},
-            cartItems = 2
+            cartItems = 2,
+            checkout = {}
         )
     }
 }

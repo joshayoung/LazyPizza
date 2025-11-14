@@ -15,6 +15,7 @@ import com.joshayoung.lazypizza.auth.ObserveAsEvents
 import com.joshayoung.lazypizza.auth.domain.AuthState
 import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
+import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutScreenRoot
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
 import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
@@ -140,6 +141,9 @@ fun NavigationRoot(
             CartScreenRoot(
                 bottomNavItemUis = bottomNavigationItems,
                 cartItems = cartItems,
+                checkout = {
+                    navController.navigate(Routes.Checkout)
+                },
                 backToMenu = {
                     navController.navigate(Routes.Menu) {
                         popUpTo(0) {
@@ -178,6 +182,10 @@ fun NavigationRoot(
                     }
                 }
             )
+        }
+
+        composable<Routes.Checkout> {
+            CheckoutScreenRoot()
         }
     }
 }
