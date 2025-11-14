@@ -27,6 +27,10 @@ Android Application for Pizza Orders
 * If you use a key for something like `LazyVerticalGrid`, make sure your keys are all unique for the preview.
   * Otherwise the preview will not work.
 * If you have a `lazy` component inside another lazy commpoent, make sure the inner one has either a `height` or `heightIn` so the outer component can render. Otherwise it does not know enought to render the correct height.
+* Compose does not support nested `Lazy` layouts unless the inner ones have defined heights.
+  * To circumvent this, you can use a `Column` as the inner layout and loop through your items using a `forEach` loop.
+    * This is not very performant, but it is ok if you only have a few items in your list.
+* If you want the repeating elements in a `Lazy` layout to take up the full height of the largest element in the component being usined, you can use `.height(IntrinsicSize.Max)` on the outer element.
 
 ### Ktlint
 * `./gradlew ktlintCheck` - generate reports
