@@ -41,7 +41,9 @@ import java.math.BigDecimal
 fun CartItem(
     inCartItemUi: InCartItemUi,
     modifier: Modifier = Modifier,
-    onAction: (CartAction) -> Unit
+    removeAllFromCart: (inCartItemUi: InCartItemUi) -> Unit,
+    removeItemFromCart: (inCartItemUi: InCartItemUi) -> Unit,
+    addItemToCart: (inCartItemUi: InCartItemUi) -> Unit
 ) {
     Row(
         modifier =
@@ -84,7 +86,7 @@ fun CartItem(
             verticalArrangement = Arrangement.Top
         ) {
             ProductHeader(inCartItemUi.numberInCart, inCartItemUi.name, onAction = {
-                onAction(CartAction.RemoveAllFromCart(inCartItemUi))
+                removeItemFromCart(inCartItemUi)
             })
 
             inCartItemUi.toppingsForDisplay.let { toppings ->
@@ -112,7 +114,7 @@ fun CartItem(
                         BigDecimal(inCartItemUi.price),
                         onAction =
                             {
-                                onAction(CartAction.AddItemToCart(inCartItemUi))
+                                addItemToCart(inCartItemUi)
                             }
                     )
                 } else {
@@ -121,10 +123,10 @@ fun CartItem(
                         price = BigDecimal(inCartItemUi.price),
                         inCartItemUi.numberInCart,
                         increment = {
-                            onAction(CartAction.AddItemToCart(inCartItemUi))
+                            addItemToCart(inCartItemUi)
                         },
                         decrement = {
-                            onAction(CartAction.RemoveItemFromCart(inCartItemUi))
+                            removeItemFromCart(inCartItemUi)
                         }
                     )
                 }
@@ -171,7 +173,9 @@ fun CartItemPreview() {
                             remoteId = "",
                             toppings = emptyList()
                         ),
-                    onAction = {}
+                    removeItemFromCart = {},
+                    addItemToCart = {},
+                    removeAllFromCart = {}
                 )
             }
         }

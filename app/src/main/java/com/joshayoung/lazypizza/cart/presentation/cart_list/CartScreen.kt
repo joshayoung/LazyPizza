@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.cart.presentation.components.AddOn
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
+import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
@@ -138,14 +139,26 @@ fun CartScreen(
                                                 Modifier
                                                     .padding(bottom = 10.dp)
                                                     .height(140.dp),
-                                            onAction = onAction
+                                            removeAllFromCart = { inCartItemUi ->
+
+                                                onAction(CartAction.RemoveAllFromCart(inCartItemUi))
+                                            },
+                                            removeItemFromCart = { inCartItemUi ->
+                                                onAction(
+                                                    CartAction.RemoveItemFromCart(inCartItemUi)
+                                                )
+                                            },
+                                            addItemToCart = { inCartItemUi ->
+                                                onAction(CartAction.AddItemToCart(inCartItemUi))
+                                            }
                                         )
                                     }
                                     item {
                                         RecommendedAddOns(
                                             state.recommendedAddOns,
-                                            onAction =
-                                            onAction
+                                            addProductToCart = { productUi ->
+                                                onAction(CartAction.AddAddOnToCart(productUi))
+                                            }
                                         )
                                     }
                                 }
@@ -205,7 +218,12 @@ fun CartScreen(
                                         .padding(20.dp)
                                         .weight(1f)
                             ) {
-                                RecommendedAddOns(state.recommendedAddOns, onAction = onAction)
+                                RecommendedAddOns(
+                                    state.recommendedAddOns,
+                                    addProductToCart = {
+                                        onAction(CartAction.AddAddOnToCart(it))
+                                    }
+                                )
                                 CheckOutButton(
                                     state = state,
                                     modifier =
@@ -241,7 +259,18 @@ fun CartItems(
                     Modifier
                         .padding(bottom = 10.dp)
                         .height(140.dp),
-                onAction = onAction
+                removeAllFromCart = { inCartItemUi ->
+
+                    onAction(CartAction.RemoveAllFromCart(inCartItemUi))
+                },
+                removeItemFromCart = { inCartItemUi ->
+                    onAction(
+                        CartAction.RemoveItemFromCart(inCartItemUi)
+                    )
+                },
+                addItemToCart = { inCartItemUi ->
+                    onAction(CartAction.AddItemToCart(inCartItemUi))
+                }
             )
         }
     }
@@ -316,40 +345,6 @@ fun CheckOutButton(
                     checkout()
                 }
         )
-    }
-}
-
-@Composable
-fun RecommendedAddOns(
-    addOns: List<ProductUi>,
-    onAction: (CartAction) -> Unit
-) {
-    Column {
-        Text(
-            "Recommended to Add to Your Order".uppercase(),
-            fontSize = 14.sp,
-            modifier =
-                Modifier
-                    .padding(bottom = 10.dp)
-        )
-        LazyRow(
-            modifier = Modifier,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(addOns) { productUi ->
-                AddOn(
-                    productUi,
-                    addToCart =
-                        {
-                            onAction(CartAction.AddAddOnToCart(productUi))
-                        },
-                    modifier =
-                        Modifier
-                            .width(140.dp)
-                            .height(220.dp)
-                )
-            }
-        }
     }
 }
 

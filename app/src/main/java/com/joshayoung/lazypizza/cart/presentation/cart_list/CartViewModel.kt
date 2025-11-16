@@ -57,6 +57,7 @@ class CartViewModel(
         }
     }
 
+    // TODO: Move logic to use case:
     private fun loadCart() {
         viewModelScope.launch {
             var count = 0

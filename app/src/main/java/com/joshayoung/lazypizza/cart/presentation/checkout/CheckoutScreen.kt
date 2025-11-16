@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -29,6 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.joshayoung.lazypizza.cart.presentation.cart_list.CartAction
+import com.joshayoung.lazypizza.cart.presentation.components.CartItem
+import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.TopBar
@@ -99,7 +106,7 @@ fun CheckoutScreen(
                         Text("12:15")
                     }
 
-                    Accordion()
+                    Accordion(state = state, onAction = onAction)
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -132,7 +139,10 @@ fun CheckoutScreen(
 }
 
 @Composable
-fun Accordion() {
+fun Accordion(
+    state: CheckoutState,
+    onAction: (CheckoutAction) -> Unit
+) {
     var isOpen by remember { mutableStateOf(false) }
 
     Row(
@@ -170,7 +180,42 @@ fun Accordion() {
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
         Column {
-            Text("my content")
+            LazyVerticalGrid(
+                modifier =
+                    Modifier
+                        .weight(1f),
+                columns = GridCells.Fixed(1)
+            ) {
+                items(state.items, key = { it.key }) { inCartItem ->
+                    CartItem(
+                        inCartItem,
+                        modifier =
+                            Modifier
+                                .padding(bottom = 10.dp)
+                                .height(140.dp),
+                        removeAllFromCart = { inCartItemUi ->
+
+                            onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
+                        },
+                        removeItemFromCart = { inCartItemUi ->
+                            onAction(
+                                CheckoutAction.RemoveItemFromCart(inCartItemUi)
+                            )
+                        },
+                        addItemToCart = { inCartItemUi ->
+                            onAction(CheckoutAction.AddItemToCart(inCartItemUi))
+                        }
+                    )
+                }
+                item {
+                    RecommendedAddOns(
+                        state.recommendedAddOns,
+                        addProductToCart = {
+                            onAction(CheckoutAction.AddAddOnToCart(it))
+                        }
+                    )
+                }
+            }
         }
     }
 }
