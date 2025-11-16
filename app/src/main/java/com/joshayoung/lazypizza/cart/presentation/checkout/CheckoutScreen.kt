@@ -1,15 +1,39 @@
 package com.joshayoung.lazypizza.cart.presentation.checkout
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.TopBar
-import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
-import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
+import com.joshayoung.lazypizza.core.ui.theme.DownIcon
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import org.koin.androidx.compose.koinViewModel
 
@@ -47,10 +71,53 @@ fun CheckoutScreen(
                             backToCart()
                         },
                         showContact = false,
-                        title = "Cart"
+                        title = "Order Checkout"
                     )
                 }
             ) { innerPadding ->
+
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .padding(8.dp)
+                ) {
+                    Text(text = "Pickup Time".uppercase())
+                    TimeSelection(
+                        onSelect = {},
+                        isSelected = false,
+                        text = "Earliest available time"
+                    )
+                    TimeSelection(onSelect = {}, isSelected = false, text = "Schedule time")
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                    ) {
+                        Text("Earliest Pickup Time:".uppercase())
+                        Text("12:15")
+                    }
+
+                    Accordion()
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier =
+                            Modifier.fillMaxWidth()
+                    ) {
+                        Text("Order Total")
+                        Text("$25.34")
+                    }
+
+                    Button(onClick = {}) {
+                        Text(
+                            "Place Order",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
             }
         }
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
@@ -64,12 +131,84 @@ fun CheckoutScreen(
     }
 }
 
+@Composable
+fun Accordion() {
+    var isOpen by remember { mutableStateOf(false) }
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = "Order Details".uppercase())
+        IconButton(
+            onClick = {
+                isOpen = !isOpen
+            },
+            modifier =
+                Modifier
+                    .border(
+                        1.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        shape = RoundedCornerShape(8.dp)
+                    ).padding(6.dp)
+                    .size(20.dp)
+        ) {
+            Icon(
+                imageVector = DownIcon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier =
+                Modifier
+            )
+        }
+    }
+
+    AnimatedVisibility(
+        visible = isOpen,
+        enter = slideInVertically(initialOffsetY = { -it }),
+        exit = slideOutVertically(targetOffsetY = { -it })
+    ) {
+        Column {
+            Text("my content")
+        }
+    }
+}
+
+@Composable
+fun TimeSelection(
+    text: String,
+    isSelected: Boolean,
+    onSelect: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier =
+            Modifier
+                .border(
+                    1.dp,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(100.dp)
+                ).padding(
+                    start = 10.dp,
+                    end = 20.dp
+                ).fillMaxWidth()
+    ) {
+        RadioButton(onClick = {
+            onSelect()
+        }, selected = isSelected)
+        Text(text)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun CheckoutScreenPreview() {
-    CheckoutScreen(
-        backToCart = {},
-        state = CheckoutState(),
-        onAction = {}
-    )
+    LazyPizzaTheme {
+        CheckoutScreen(
+            backToCart = {},
+            state = CheckoutState(),
+            onAction = {}
+        )
+    }
 }

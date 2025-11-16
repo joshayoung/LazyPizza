@@ -58,3 +58,11 @@ val CartIcon: ImageVector
 val HistoryIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(R.drawable.history)
+
+val UpIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.up)
+
+val DownIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(R.drawable.down)
