@@ -17,18 +17,16 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 @Composable
 fun RecommendedAddOns(
     addOns: List<ProductUi>,
-    addProductToCart: (productUi: ProductUi) -> Unit
+    addProductToCart: (productUi: ProductUi) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column {
         Text(
             "Recommended to Add to Your Order".uppercase(),
-            fontSize = 14.sp,
-            modifier =
-                Modifier
-                    .padding(bottom = 10.dp)
+            fontSize = 14.sp
         )
         LazyRow(
-            modifier = Modifier,
+            modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(addOns) { productUi ->
