@@ -2,7 +2,10 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
+import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
@@ -56,6 +59,54 @@ class CheckoutViewModel(
             )
 
     fun onAction(action: CheckoutAction) {
+        when (action) {
+            is CheckoutAction.AddAddOnToCart -> {
+                viewModelScope.launch {
+                    val product = action.productUi.toProduct()
+                    cartRepository.addProductToCart(product)
+                }
+            }
+            is CheckoutAction.AddItemToCart -> {
+                viewModelScope.launch {
+                    val lineItem =
+                        cartRepository.insertProductId(
+                            ProductsInCartEntity(
+                                cartId = 1,
+                                productId = action.inCartItemUi.productId
+                            )
+                        )
+                    action.inCartItemUi.toppings.forEach { topping ->
+                        cartRepository.insertToppingId(
+                            ToppingsInCartEntity(
+                                lineItemNumber = lineItem,
+                                toppingId = topping.toppingId,
+                                cartId = 1
+                            )
+                        )
+                    }
+                }
+            }
+            is CheckoutAction.RemoveAllFromCart -> {
+                viewModelScope.launch {
+                    action.inCartItemUi.lineNumbers.forEach { lineNumber ->
+                        if (lineNumber != null) {
+                            cartRepository.removeAllFromCart(lineNumber)
+                        }
+                    }
+                }
+            }
+            is CheckoutAction.RemoveItemFromCart -> {
+                viewModelScope.launch {
+                    val lastLineNumber = action.inCartItemUi.lineNumbers.last()
+                    if (lastLineNumber != null) {
+                        val item = cartRepository.getProductInCart(lastLineNumber)
+                        if (item != null) {
+                            cartRepository.deleteCartItem(item)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // TODO: This is duplicated here and in the CartViewModel.

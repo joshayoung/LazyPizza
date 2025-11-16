@@ -1,5 +1,8 @@
 package com.joshayoung.lazypizza.cart.presentation.checkout
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +43,7 @@ import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
 import com.joshayoung.lazypizza.core.ui.theme.DownIcon
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.UpIcon
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import org.koin.androidx.compose.koinViewModel
 
@@ -65,6 +69,7 @@ fun CheckoutScreen(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
+    var isOpen by remember { mutableStateOf(false) }
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
@@ -88,6 +93,7 @@ fun CheckoutScreen(
                             Modifier
                                 .fillMaxSize()
                                 .padding(bottom = 100.dp)
+                                .padding(20.dp)
                     ) {
                         item {
                             Column(
@@ -116,6 +122,7 @@ fun CheckoutScreen(
                                 Text(text = "Order Details".uppercase())
                                 IconButton(
                                     onClick = {
+                                        isOpen = !isOpen
                                     },
                                     modifier =
                                         Modifier
@@ -126,8 +133,9 @@ fun CheckoutScreen(
                                             ).padding(6.dp)
                                             .size(20.dp)
                                 ) {
+                                    val icon = if (isOpen) UpIcon else DownIcon
                                     Icon(
-                                        imageVector = DownIcon,
+                                        imageVector = icon,
                                         contentDescription = null,
                                         tint = MaterialTheme.colorScheme.primary,
                                         modifier =
@@ -138,26 +146,33 @@ fun CheckoutScreen(
                         }
 
                         items(state.items, key = { it.key }) { inCartItem ->
-                            CartItem(
-                                inCartItem,
-                                modifier =
-                                    Modifier
-                                        .padding(bottom = 10.dp)
-                                        .height(140.dp),
-                                removeAllFromCart = { inCartItemUi ->
+                            AnimatedVisibility(
+                                visible = isOpen,
+                                enter = slideInVertically(initialOffsetY = { -it }),
+                                exit = slideOutVertically(targetOffsetY = { -it })
+                            ) {
+                                CartItem(
+                                    inCartItem,
+                                    modifier =
+                                        Modifier
+                                            .padding(bottom = 10.dp)
+                                            .height(140.dp),
+                                    removeAllFromCart = { inCartItemUi ->
 
-                                    onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
-                                },
-                                removeItemFromCart = { inCartItemUi ->
-                                    onAction(
-                                        CheckoutAction.RemoveItemFromCart(inCartItemUi)
-                                    )
-                                },
-                                addItemToCart = { inCartItemUi ->
-                                    onAction(CheckoutAction.AddItemToCart(inCartItemUi))
-                                }
-                            )
+                                        onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
+                                    },
+                                    removeItemFromCart = { inCartItemUi ->
+                                        onAction(
+                                            CheckoutAction.RemoveItemFromCart(inCartItemUi)
+                                        )
+                                    },
+                                    addItemToCart = { inCartItemUi ->
+                                        onAction(CheckoutAction.AddItemToCart(inCartItemUi))
+                                    }
+                                )
+                            }
                         }
+
                         item {
                             RecommendedAddOns(
                                 state.recommendedAddOns,
@@ -171,6 +186,7 @@ fun CheckoutScreen(
                         modifier =
                             Modifier
                                 .align(Alignment.BottomCenter)
+                                .padding(20.dp)
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -192,82 +208,6 @@ fun CheckoutScreen(
         DeviceConfiguration.DESKTOP -> {
         }
     }
-
-    // /
-}
-
-@Composable
-fun Accordion(
-    state: CheckoutState,
-    onAction: (CheckoutAction) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var isOpen by remember { mutableStateOf(false) }
-
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(text = "Order Details".uppercase())
-        IconButton(
-            onClick = {
-                isOpen = !isOpen
-            },
-            modifier =
-                Modifier
-                    .border(
-                        1.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                        shape = RoundedCornerShape(8.dp)
-                    ).padding(6.dp)
-                    .size(20.dp)
-        ) {
-            Icon(
-                imageVector = DownIcon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier =
-                Modifier
-            )
-        }
-    }
-
-//    AnimatedVisibility(
-//        visible = isOpen,
-//        enter = slideInVertically(initialOffsetY = { -it }),
-//        exit = slideOutVertically(targetOffsetY = { -it })
-//    ) {
-    Column {
-        LazyVerticalGrid(
-            modifier =
-            Modifier,
-            columns = GridCells.Fixed(1)
-        ) {
-            items(state.items, key = { it.key }) { inCartItem ->
-                CartItem(
-                    inCartItem,
-                    modifier =
-                        Modifier
-                            .padding(bottom = 10.dp)
-                            .height(140.dp),
-                    removeAllFromCart = { inCartItemUi ->
-
-                        onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
-                    },
-                    removeItemFromCart = { inCartItemUi ->
-                        onAction(
-                            CheckoutAction.RemoveItemFromCart(inCartItemUi)
-                        )
-                    },
-                    addItemToCart = { inCartItemUi ->
-                        onAction(CheckoutAction.AddItemToCart(inCartItemUi))
-                    }
-                )
-            }
-        }
-    }
-//    }
 }
 
 @Composable
