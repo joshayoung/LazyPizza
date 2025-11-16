@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartViewModel
+import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutViewModel
 import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
 import com.joshayoung.lazypizza.core.data.RoomLocalDataSource
 import com.joshayoung.lazypizza.core.data.database.CartDatabase
@@ -39,6 +40,7 @@ fun createPreferencesDataStore(context: Context): DataStore<Preferences> =
 var cartModule =
     module {
         viewModelOf(::CartViewModel)
+        viewModelOf(::CheckoutViewModel)
 
         val cartQualifier = named("cartDataStore")
 

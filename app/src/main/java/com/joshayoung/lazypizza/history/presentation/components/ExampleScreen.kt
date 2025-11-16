@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -60,7 +57,7 @@ fun ExampleCard(
                 Modifier
                     .background(Color.Red)
         ) {
-            Box() {
+            Box {
                 Column {
                     place.foods.forEach { food ->
                         Text(food)
@@ -71,8 +68,9 @@ fun ExampleCard(
 
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxHeight()
+            modifier =
+                Modifier
+                    .fillMaxHeight()
         ) {
             Text("TOP")
             Text("BOTTOM:")

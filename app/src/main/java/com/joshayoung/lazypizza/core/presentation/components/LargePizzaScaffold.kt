@@ -38,7 +38,7 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 fun LargePizzaScaffold(
     topAppBar: @Composable () -> Unit = {},
     cartItems: Int = 0,
-    appBarItems: List<BottomNavItemUi>,
+    appBarItems: List<BottomNavItemUi>? = null,
     content: @Composable () -> Unit
 ) {
     Row(modifier = Modifier.background(Color.Blue)) {
@@ -46,7 +46,7 @@ fun LargePizzaScaffold(
             containerColor = MaterialTheme.colorScheme.surfaceHigher
         ) {
             Spacer(Modifier.weight(1f))
-            appBarItems.forEachIndexed { index, item ->
+            appBarItems?.forEachIndexed { index, item ->
 
                 if (index == 1 && cartItems > 0) {
                     BadgedBox(

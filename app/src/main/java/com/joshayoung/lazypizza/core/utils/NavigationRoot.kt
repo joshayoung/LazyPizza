@@ -185,7 +185,11 @@ fun NavigationRoot(
         }
 
         composable<Routes.Checkout> {
-            CheckoutScreenRoot()
+            CheckoutScreenRoot(
+                backToCart = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }
