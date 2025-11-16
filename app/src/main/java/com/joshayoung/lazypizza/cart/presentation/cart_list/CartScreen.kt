@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -31,9 +29,7 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.joshayoung.lazypizza.cart.presentation.components.AddOn
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
@@ -47,7 +43,6 @@ import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import org.koin.androidx.compose.koinViewModel
 import java.util.Locale
 

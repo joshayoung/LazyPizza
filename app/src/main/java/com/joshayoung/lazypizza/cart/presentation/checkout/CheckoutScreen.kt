@@ -1,12 +1,11 @@
 package com.joshayoung.lazypizza.cart.presentation.checkout
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,12 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.joshayoung.lazypizza.cart.presentation.cart_list.CartAction
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
-import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.TopBar
+import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
+import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
 import com.joshayoung.lazypizza.core.ui.theme.DownIcon
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
@@ -82,47 +81,106 @@ fun CheckoutScreen(
                     )
                 }
             ) { innerPadding ->
-
-                Column(
-                    modifier =
-                        Modifier
-                            .padding(innerPadding)
-                            .padding(8.dp)
-                ) {
-                    Text(text = "Pickup Time".uppercase())
-                    TimeSelection(
-                        onSelect = {},
-                        isSelected = false,
-                        text = "Earliest available time"
-                    )
-                    TimeSelection(onSelect = {}, isSelected = false, text = "Schedule time")
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(1),
                         modifier =
                             Modifier
-                                .fillMaxWidth()
+                                .fillMaxSize()
+                                .padding(bottom = 100.dp)
                     ) {
-                        Text("Earliest Pickup Time:".uppercase())
-                        Text("12:15")
+                        item {
+                            Column(
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                            ) {
+                                Text(text = "Pickup Time".uppercase())
+                                TimeSelection(
+                                    onSelect = {},
+                                    isSelected = false,
+                                    text = "Earliest available time"
+                                )
+                                TimeSelection(
+                                    onSelect = {},
+                                    isSelected = false,
+                                    text = "Schedule time"
+                                )
+                            }
+                        }
+                        item {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(text = "Order Details".uppercase())
+                                IconButton(
+                                    onClick = {
+                                    },
+                                    modifier =
+                                        Modifier
+                                            .border(
+                                                1.dp,
+                                                color = MaterialTheme.colorScheme.outlineVariant,
+                                                shape = RoundedCornerShape(8.dp)
+                                            ).padding(6.dp)
+                                            .size(20.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = DownIcon,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier =
+                                        Modifier
+                                    )
+                                }
+                            }
+                        }
+
+                        items(state.items, key = { it.key }) { inCartItem ->
+                            CartItem(
+                                inCartItem,
+                                modifier =
+                                    Modifier
+                                        .padding(bottom = 10.dp)
+                                        .height(140.dp),
+                                removeAllFromCart = { inCartItemUi ->
+
+                                    onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
+                                },
+                                removeItemFromCart = { inCartItemUi ->
+                                    onAction(
+                                        CheckoutAction.RemoveItemFromCart(inCartItemUi)
+                                    )
+                                },
+                                addItemToCart = { inCartItemUi ->
+                                    onAction(CheckoutAction.AddItemToCart(inCartItemUi))
+                                }
+                            )
+                        }
+                        item {
+                            RecommendedAddOns(
+                                state.recommendedAddOns,
+                                addProductToCart = {
+                                    onAction(CheckoutAction.AddAddOnToCart(it))
+                                }
+                            )
+                        }
                     }
-
-                    Accordion(state = state, onAction = onAction)
-
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                    Column(
                         modifier =
-                            Modifier.fillMaxWidth()
+                            Modifier
+                                .align(Alignment.BottomCenter)
                     ) {
-                        Text("Order Total")
-                        Text("$25.34")
-                    }
-
-                    Button(onClick = {}) {
-                        Text(
-                            "Place Order",
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier =
+                                Modifier.fillMaxWidth()
+                        ) {
+                            Text("Order Total")
+                            Text("$25.34")
+                        }
+                        PlaceOrderButton2()
                     }
                 }
             }
@@ -132,23 +190,24 @@ fun CheckoutScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            LargePizzaScaffold {
-            }
         }
     }
+
+    // /
 }
 
 @Composable
 fun Accordion(
     state: CheckoutState,
-    onAction: (CheckoutAction) -> Unit
+    onAction: (CheckoutAction) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var isOpen by remember { mutableStateOf(false) }
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(text = "Order Details".uppercase())
         IconButton(
@@ -174,49 +233,51 @@ fun Accordion(
         }
     }
 
-    AnimatedVisibility(
-        visible = isOpen,
-        enter = slideInVertically(initialOffsetY = { -it }),
-        exit = slideOutVertically(targetOffsetY = { -it })
-    ) {
-        Column {
-            LazyVerticalGrid(
-                modifier =
-                    Modifier
-                        .weight(1f),
-                columns = GridCells.Fixed(1)
-            ) {
-                items(state.items, key = { it.key }) { inCartItem ->
-                    CartItem(
-                        inCartItem,
-                        modifier =
-                            Modifier
-                                .padding(bottom = 10.dp)
-                                .height(140.dp),
-                        removeAllFromCart = { inCartItemUi ->
+//    AnimatedVisibility(
+//        visible = isOpen,
+//        enter = slideInVertically(initialOffsetY = { -it }),
+//        exit = slideOutVertically(targetOffsetY = { -it })
+//    ) {
+    Column {
+        LazyVerticalGrid(
+            modifier =
+            Modifier,
+            columns = GridCells.Fixed(1)
+        ) {
+            items(state.items, key = { it.key }) { inCartItem ->
+                CartItem(
+                    inCartItem,
+                    modifier =
+                        Modifier
+                            .padding(bottom = 10.dp)
+                            .height(140.dp),
+                    removeAllFromCart = { inCartItemUi ->
 
-                            onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
-                        },
-                        removeItemFromCart = { inCartItemUi ->
-                            onAction(
-                                CheckoutAction.RemoveItemFromCart(inCartItemUi)
-                            )
-                        },
-                        addItemToCart = { inCartItemUi ->
-                            onAction(CheckoutAction.AddItemToCart(inCartItemUi))
-                        }
-                    )
-                }
-                item {
-                    RecommendedAddOns(
-                        state.recommendedAddOns,
-                        addProductToCart = {
-                            onAction(CheckoutAction.AddAddOnToCart(it))
-                        }
-                    )
-                }
+                        onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
+                    },
+                    removeItemFromCart = { inCartItemUi ->
+                        onAction(
+                            CheckoutAction.RemoveItemFromCart(inCartItemUi)
+                        )
+                    },
+                    addItemToCart = { inCartItemUi ->
+                        onAction(CheckoutAction.AddItemToCart(inCartItemUi))
+                    }
+                )
             }
         }
+    }
+//    }
+}
+
+@Composable
+fun PlaceOrderButton2() {
+    Button(onClick = {}) {
+        Text(
+            "Place Order",
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -252,7 +313,11 @@ private fun CheckoutScreenPreview() {
     LazyPizzaTheme {
         CheckoutScreen(
             backToCart = {},
-            state = CheckoutState(),
+            state =
+                CheckoutState(
+                    items = inCartItemsForPreviewUis,
+                    recommendedAddOns = addOnsForPreview
+                ),
             onAction = {}
         )
     }

@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
@@ -11,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -24,6 +26,24 @@ class CheckoutViewModel(
     private val cartRepository: CartRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
+
+    init {
+        viewModelScope.launch {
+            cartRepository
+                .sidesNotInCart()
+                .distinctUntilChanged()
+                .collect { items ->
+                    _state.update {
+                        it.copy(
+                            recommendedAddOns =
+                                items
+                                    .map { item -> item.toProductUi() }
+                                    .shuffled()
+                        )
+                    }
+                }
+        }
+    }
 
     val state =
         _state

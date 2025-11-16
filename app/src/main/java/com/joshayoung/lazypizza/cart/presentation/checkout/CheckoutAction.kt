@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.cart.presentation.checkout
 
-import com.joshayoung.lazypizza.cart.presentation.cart_list.CartAction
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
