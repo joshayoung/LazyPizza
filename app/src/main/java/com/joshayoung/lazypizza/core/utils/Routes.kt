@@ -20,4 +20,7 @@ sealed interface Routes {
 
     @Serializable
     data object Checkout : Routes
+
+    @Serializable
+    data object Confirmation : Routes
 }

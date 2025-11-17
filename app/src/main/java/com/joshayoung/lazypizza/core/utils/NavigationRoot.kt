@@ -16,6 +16,7 @@ import com.joshayoung.lazypizza.auth.domain.AuthState
 import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutScreenRoot
+import com.joshayoung.lazypizza.cart.presentation.confirmation.presentation.ConfirmationScreenRoot
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
 import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
@@ -188,8 +189,15 @@ fun NavigationRoot(
             CheckoutScreenRoot(
                 backToCart = {
                     navController.navigateUp()
+                },
+                navigateToConfirmation = {
+                    navController.navigate(Routes.Confirmation)
                 }
             )
+        }
+
+        composable<Routes.Confirmation> {
+            ConfirmationScreenRoot()
         }
     }
 }

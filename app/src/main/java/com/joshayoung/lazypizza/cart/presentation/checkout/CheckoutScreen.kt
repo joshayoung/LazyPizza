@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -79,14 +80,16 @@ import java.util.Calendar
 @Composable
 fun CheckoutScreenRoot(
     viewModel: CheckoutViewModel = koinViewModel(),
-    backToCart: () -> Unit
+    backToCart: () -> Unit,
+    navigateToConfirmation: () -> Unit
 ) {
     CheckoutScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         onAction = { action ->
             viewModel.onAction(action)
         },
-        backToCart = backToCart
+        backToCart = backToCart,
+        navigateToConfirmation = navigateToConfirmation
     )
 }
 
@@ -108,7 +111,8 @@ object FutureDates : SelectableDates {
 fun CheckoutScreen(
     state: CheckoutState,
     onAction: (CheckoutAction) -> Unit,
-    backToCart: () -> Unit
+    backToCart: () -> Unit,
+    navigateToConfirmation: () -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
@@ -344,7 +348,8 @@ fun CheckoutScreen(
                             modifier =
                                 Modifier
                                     .padding(pagePadding)
-                                    .align(Alignment.BottomCenter)
+                                    .align(Alignment.BottomCenter),
+                            navigateToConfirmation = navigateToConfirmation
                         )
                     }
                 }
@@ -454,7 +459,9 @@ fun Comments(modifier: Modifier = Modifier) {
     Column(
         modifier =
             modifier
+                .heightIn(min = 92.dp)
                 .fillMaxWidth()
+                .padding(bottom = 100.dp)
     ) {
         Text(
             "Comments".uppercase(),
@@ -488,7 +495,10 @@ fun Comments(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Footer(modifier: Modifier = Modifier) {
+fun Footer(
+    modifier: Modifier = Modifier,
+    navigateToConfirmation: () -> Unit
+) {
     Column(
         modifier =
         modifier
@@ -496,7 +506,9 @@ fun Footer(modifier: Modifier = Modifier) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier =
-                Modifier.fillMaxWidth()
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
         ) {
             Text(
                 "Order Total:".uppercase(),
@@ -507,7 +519,7 @@ fun Footer(modifier: Modifier = Modifier) {
             )
             Text("$25.34", style = MaterialTheme.typography.titleSmall)
         }
-        PlaceOrderButton2()
+        PlaceOrderButton2(navigateToConfirmation = navigateToConfirmation)
     }
 }
 
@@ -545,8 +557,10 @@ fun Accordion(
 }
 
 @Composable
-fun PlaceOrderButton2() {
-    Button(onClick = {}) {
+fun PlaceOrderButton2(navigateToConfirmation: () -> Unit) {
+    Button(onClick = {
+        navigateToConfirmation()
+    }) {
         Text(
             "Place Order",
             modifier = Modifier.fillMaxWidth(),
@@ -591,10 +605,11 @@ private fun CheckoutScreenPreview() {
                 CheckoutState(
                     items = inCartItemsForPreviewUis,
                     recommendedAddOns = addOnsForPreview,
-                    scheduleTime = true,
+                    scheduleTime = false,
                     timeError = "Pickup available between 10:15 and 21:45"
                 ),
-            onAction = {}
+            onAction = {},
+            navigateToConfirmation = {}
         )
     }
 }
