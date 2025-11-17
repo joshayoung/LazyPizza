@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.cart.presentation.checkout
 
+import android.view.WindowInsets
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
@@ -26,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -38,9 +42,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
@@ -50,10 +61,13 @@ import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
+import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.DownIcon
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.UpIcon
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
+import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import org.koin.androidx.compose.koinViewModel
 
@@ -85,102 +99,154 @@ fun CheckoutScreen(
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
-            SmallPizzaScaffold(
-                topAppBar = {
-                    TopBar(
-                        showLogo = false,
-                        showBackButton = true,
-                        onBackClick = {
-                            backToCart()
-                        },
-                        showContact = false,
-                        title = "Order Checkout"
-                    )
+            Scaffold(
+                modifier =
+                    Modifier
+                        .background(MaterialTheme.colorScheme.surfaceHighest)
+                        .padding(top = 60.dp)
+                        .dropShadow(
+                            shape =
+                                RoundedCornerShape(20.dp),
+                            shadow =
+                                Shadow(
+                                    radius = 16.dp,
+                                    spread = 0.dp,
+                                    color =
+                                        MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.04f),
+                                    offset = DpOffset(x = 0.dp, -(4.dp))
+                                )
+                        ).clip(RoundedCornerShape(20.dp)),
+                topBar = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier =
+                            Modifier
+                                .background(MaterialTheme.colorScheme.surfaceHigher)
+                                .padding(top = 20.dp)
+                                .padding(horizontal = 20.dp)
+                                .fillMaxWidth()
+                    ) {
+                        Box(
+                            modifier =
+                                Modifier
+                                    .clip(CircleShape)
+                                    .background(Color.LightGray.copy(alpha = 0.5f))
+                                    .size(30.dp)
+                        ) {
+                            IconButton(onClick = {
+                                backToCart()
+                            }) {
+                                Icon(
+                                    imageVector = BackIcon,
+                                    tint = MaterialTheme.colorScheme.onSecondary,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            "Order Checkout",
+                            modifier = Modifier,
+                            style =
+                                MaterialTheme.typography.titleSmall
+                        )
+                        Spacer(Modifier.weight(1f))
+                    }
                 }
             ) { innerPadding ->
-                Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(1),
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(pagePadding)
-                    ) {
-                        item {
-                            TimeSelections(
-                                state = state,
-                                pickTime = {
-                                    onAction(CheckoutAction.PickTime)
-                                },
-                                earliestAvailableTime = {
-                                    onAction(CheckoutAction.PickEarliestTime)
-                                },
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding)
-                            )
+
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surfaceHigher)
+                ) {
+                    Box {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(1),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(pagePadding)
+                        ) {
+                            item {
+                                TimeSelections(
+                                    state = state,
+                                    pickTime = {
+                                        onAction(CheckoutAction.PickTime)
+                                    },
+                                    earliestAvailableTime = {
+                                        onAction(CheckoutAction.PickEarliestTime)
+                                    },
+                                    modifier =
+                                        Modifier
+                                            .padding(vertical = verticalPadding)
+                                )
+                            }
+
+                            item {
+                                EarliestTime(
+                                    modifier =
+                                        Modifier
+                                            .padding(vertical = verticalPadding)
+                                )
+                            }
+
+                            item {
+                                CheckoutDivider()
+                            }
+
+                            item {
+                                AccordionHeader(
+                                    isOpen,
+                                    modifier =
+                                        Modifier
+                                            .padding(vertical = verticalPadding)
+                                )
+                            }
+
+                            items(state.items, key = { it.key }) { inCartItem ->
+                                Accordion(inCartItem, onAction = onAction, isOpen)
+                            }
+
+                            item {
+                                CheckoutDivider()
+                            }
+
+                            item {
+                                RecommendedAddOns(
+                                    modifier =
+                                        Modifier
+                                            .padding(vertical = verticalPadding),
+                                    addOns = state.recommendedAddOns,
+                                    addProductToCart = {
+                                        onAction(CheckoutAction.AddAddOnToCart(it))
+                                    }
+                                )
+                            }
+
+                            item {
+                                CheckoutDivider()
+                            }
+
+                            item {
+                                Comments(
+                                    modifier =
+                                        Modifier
+                                            .padding(vertical = verticalPadding)
+                                )
+                            }
                         }
 
-                        item {
-                            EarliestTime(
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding)
-                            )
-                        }
-
-                        item {
-                            CheckoutDivider()
-                        }
-
-                        item {
-                            AccordionHeader(
-                                isOpen,
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding)
-                            )
-                        }
-
-                        items(state.items, key = { it.key }) { inCartItem ->
-                            Accordion(inCartItem, onAction = onAction, isOpen)
-                        }
-
-                        item {
-                            CheckoutDivider()
-                        }
-
-                        item {
-                            RecommendedAddOns(
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding),
-                                addOns = state.recommendedAddOns,
-                                addProductToCart = {
-                                    onAction(CheckoutAction.AddAddOnToCart(it))
-                                }
-                            )
-                        }
-
-                        item {
-                            CheckoutDivider()
-                        }
-
-                        item {
-                            Comments(
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding)
-                            )
-                        }
+                        Footer(
+                            modifier =
+                                Modifier
+                                    .padding(pagePadding)
+                                    .align(Alignment.BottomCenter)
+                        )
                     }
-
-                    Footer(
-                        modifier =
-                            Modifier
-                                .padding(pagePadding)
-                                .align(Alignment.BottomCenter)
-                    )
                 }
             }
         }
