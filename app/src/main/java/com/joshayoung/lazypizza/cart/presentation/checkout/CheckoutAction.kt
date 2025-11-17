@@ -19,4 +19,8 @@ sealed interface CheckoutAction {
     data class AddAddOnToCart(
         var productUi: ProductUi
     ) : CheckoutAction
+
+    data object PickTime : CheckoutAction
+
+    data object PickEarliestTime : CheckoutAction
 }

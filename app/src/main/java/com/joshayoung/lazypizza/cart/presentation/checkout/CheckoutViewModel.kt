@@ -106,6 +106,23 @@ class CheckoutViewModel(
                     }
                 }
             }
+
+            CheckoutAction.PickEarliestTime -> {
+                _state.update {
+                    it.copy(
+                        earliestTime = true,
+                        scheduleTime = false
+                    )
+                }
+            }
+            CheckoutAction.PickTime -> {
+                _state.update {
+                    it.copy(
+                        scheduleTime = true,
+                        earliestTime = false
+                    )
+                }
+            }
         }
     }
 

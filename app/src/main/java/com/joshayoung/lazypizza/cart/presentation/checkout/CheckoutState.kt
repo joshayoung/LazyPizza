@@ -9,5 +9,7 @@ data class CheckoutState(
     val isLoadingCart: Boolean = true,
     val cartItems: Int = 0,
     val recommendedAddOns: List<ProductUi> = emptyList(),
-    val checkoutPrice: BigDecimal = BigDecimal(0.0)
+    val checkoutPrice: BigDecimal = BigDecimal(0.0),
+    val earliestTime: Boolean = true,
+    val scheduleTime: Boolean = false
 )

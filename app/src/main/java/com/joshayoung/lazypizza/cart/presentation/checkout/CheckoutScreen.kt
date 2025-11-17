@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -27,7 +25,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -111,6 +108,13 @@ fun CheckoutScreen(
                     ) {
                         item {
                             TimeSelections(
+                                state = state,
+                                pickTime = {
+                                    onAction(CheckoutAction.PickTime)
+                                },
+                                earliestAvailableTime = {
+                                    onAction(CheckoutAction.PickEarliestTime)
+                                },
                                 modifier =
                                     Modifier
                                         .padding(vertical = verticalPadding)
@@ -190,7 +194,12 @@ fun CheckoutScreen(
 }
 
 @Composable
-fun TimeSelections(modifier: Modifier = Modifier) {
+fun TimeSelections(
+    state: CheckoutState,
+    pickTime: () -> Unit,
+    earliestAvailableTime: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp),
         modifier =
@@ -199,13 +208,17 @@ fun TimeSelections(modifier: Modifier = Modifier) {
     ) {
         Text(text = "Pickup Time".uppercase())
         TimeSelection(
-            onSelect = {},
-            isSelected = false,
+            onSelect = {
+                earliestAvailableTime()
+            },
+            isSelected = state.earliestTime,
             text = "Earliest available time"
         )
         TimeSelection(
-            onSelect = {},
-            isSelected = false,
+            onSelect = {
+                pickTime()
+            },
+            isSelected = state.scheduleTime,
             text = "Schedule time"
         )
     }
@@ -274,7 +287,13 @@ fun Comments(modifier: Modifier = Modifier) {
             modifier
                 .fillMaxWidth()
     ) {
-        Text("Comments".uppercase(), style = MaterialTheme.typography.labelMedium)
+        Text(
+            "Comments".uppercase(),
+            style = MaterialTheme.typography.labelMedium,
+            modifier =
+                Modifier
+                    .padding(bottom = 10.dp)
+        )
         TextField(
             colors =
                 TextFieldDefaults.colors(
@@ -310,7 +329,13 @@ fun Footer(modifier: Modifier = Modifier) {
             modifier =
                 Modifier.fillMaxWidth()
         ) {
-            Text("Order Total:".uppercase(), style = MaterialTheme.typography.bodySmall)
+            Text(
+                "Order Total:".uppercase(),
+                style = MaterialTheme.typography.bodySmall,
+                modifier =
+                    Modifier
+                        .padding(bottom = 10.dp)
+            )
             Text("$25.34", style = MaterialTheme.typography.titleSmall)
         }
         PlaceOrderButton2()
