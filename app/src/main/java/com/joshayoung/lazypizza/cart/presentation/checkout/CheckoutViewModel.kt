@@ -22,8 +22,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import kotlin.collections.component1
 import kotlin.collections.component2
+import kotlin.time.Duration.Companion.minutes
 
 class CheckoutViewModel(
     private val cartRepository: CartRepository
@@ -31,6 +34,16 @@ class CheckoutViewModel(
     private var _state = MutableStateFlow(CheckoutState())
 
     init {
+        val currentTime = LocalTime.now()
+        var availableTime = currentTime.plusMinutes(15)
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val formattedTime = availableTime.format(formatter)
+        _state.update {
+            it.copy(
+                earliestPickupTime = formattedTime
+            )
+        }
+
         viewModelScope.launch {
             cartRepository
                 .sidesNotInCart()

@@ -11,5 +11,6 @@ data class CheckoutState(
     val recommendedAddOns: List<ProductUi> = emptyList(),
     val checkoutPrice: BigDecimal = BigDecimal(0.0),
     val earliestTime: Boolean = true,
-    val scheduleTime: Boolean = false
+    val scheduleTime: Boolean = false,
+    val earliestPickupTime: String = "00:00"
 )

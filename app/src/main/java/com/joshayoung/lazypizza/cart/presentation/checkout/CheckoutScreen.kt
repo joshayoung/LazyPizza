@@ -188,6 +188,7 @@ fun CheckoutScreen(
 
                             item {
                                 EarliestTime(
+                                    state = state,
                                     modifier =
                                         Modifier
                                             .padding(vertical = verticalPadding)
@@ -291,13 +292,16 @@ fun TimeSelections(
 }
 
 @Composable
-fun EarliestTime(modifier: Modifier = Modifier) {
+fun EarliestTime(
+    state: CheckoutState,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text("Earliest Pickup Time".uppercase())
-        Text("12:15", style = MaterialTheme.typography.titleSmall)
+        Text(state.earliestPickupTime, style = MaterialTheme.typography.titleSmall)
     }
 }
 
