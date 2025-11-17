@@ -12,5 +12,8 @@ data class CheckoutState(
     val checkoutPrice: BigDecimal = BigDecimal(0.0),
     val earliestTime: Boolean = true,
     val scheduleTime: Boolean = false,
-    val earliestPickupTime: String = "00:00"
+    val earliestPickupTime: String = "00:00",
+    val date: Long? = null,
+    val hour: Int? = null,
+    val minute: Int? = null
 )

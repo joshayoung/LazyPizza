@@ -77,3 +77,5 @@ Android Application for Pizza Orders
 * [Visual Go](https://visualgo.net/en)
 * [Stateful vs. Stateless Composables In Jetpack Compose? - Everything You Need to Know](https://www.youtube.com/watch?v=C8IfGDrmwiE)
 * [Nested Scrolling](https://www.youtube.com/watch?v=Y547UHx5Rc0)
+* [Date Range Picker](https://medium.com/@segunfrancis/how-to-create-material-date-and-time-pickers-in-android-with-jetpack-compose-3c13b35c2cdc)
+* [Disable Dates in the Past](https://stackoverflow.com/questions/77676317/how-to-disable-future-dates-in-android-compose-material3-datepicker)

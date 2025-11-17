@@ -26,7 +26,6 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.collections.component1
 import kotlin.collections.component2
-import kotlin.time.Duration.Companion.minutes
 
 class CheckoutViewModel(
     private val cartRepository: CartRepository
@@ -133,6 +132,23 @@ class CheckoutViewModel(
                     it.copy(
                         scheduleTime = true,
                         earliestTime = false
+                    )
+                }
+            }
+
+            is CheckoutAction.SetDate -> {
+                _state.update {
+                    it.copy(
+                        date = action.date
+                    )
+                }
+            }
+
+            is CheckoutAction.SetTime -> {
+                _state.update {
+                    it.copy(
+                        hour = action.hour,
+                        minute = action.minute
                     )
                 }
             }

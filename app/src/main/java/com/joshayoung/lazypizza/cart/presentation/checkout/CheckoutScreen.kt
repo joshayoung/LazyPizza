@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.cart.presentation.checkout
 
-import android.view.WindowInsets
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -24,40 +23,43 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TimeInput
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
-import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
-import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
@@ -70,6 +72,9 @@ import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
+import java.time.ZoneOffset
+import java.util.Calendar
 
 @Composable
 fun CheckoutScreenRoot(
@@ -85,6 +90,20 @@ fun CheckoutScreenRoot(
     )
 }
 
+object FutureDates : SelectableDates {
+    private val now = LocalDate.now()
+    private val startOfDay = now.atTime(0, 0, 0, 0).toEpochSecond(ZoneOffset.UTC) * 1000
+
+    override fun isSelectableYear(year: Int): Boolean {
+        return year >= now.year
+    }
+
+    override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+        return utcTimeMillis >= startOfDay
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckoutScreen(
     state: CheckoutState,
@@ -96,6 +115,85 @@ fun CheckoutScreen(
     val isOpen = remember { mutableStateOf(false) }
     val pagePadding = 10.dp
     val verticalPadding = 10.dp
+    val datePickerState =
+        rememberDatePickerState(
+            selectableDates = FutureDates
+        )
+    val showDatePicker = remember { mutableStateOf(false) }
+    val showTimePicker = remember { mutableStateOf(false) }
+
+    if (showDatePicker.value) {
+        DatePickerDialog(
+            onDismissRequest = {},
+            confirmButton = {
+                Button(onClick = {
+                    showDatePicker.value = !showDatePicker.value
+                    onAction(CheckoutAction.SetDate(datePickerState.selectedDateMillis))
+                    showTimePicker.value = !showTimePicker.value
+                }) {
+                    Text("Ok")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showDatePicker.value = !showDatePicker.value
+                }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState,
+                dateFormatter = DatePickerDefaults.dateFormatter(selectedDateSkeleton = "MMMM dd")
+            )
+        }
+    }
+
+    if (showTimePicker.value) {
+        val currentTime = Calendar.getInstance()
+
+        val timePickerState =
+            rememberTimePickerState(
+                initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+                initialMinute = currentTime.get(Calendar.MINUTE),
+                is24Hour = true
+            )
+        Dialog(
+            onDismissRequest = {}
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(30.dp))
+                        .background(MaterialTheme.colorScheme.outline)
+                        .padding(20.dp)
+            ) {
+                Text("Select Time".uppercase())
+                TimeInput(
+                    modifier =
+                        Modifier
+                            .padding(0.dp),
+                    state = timePickerState
+                )
+                Row {
+                    TextButton(onClick = {
+                        showTimePicker.value = false
+                    }, modifier = Modifier) {
+                        Text("Cancel")
+                    }
+                    Button(onClick = {
+                        onAction(
+                            CheckoutAction.SetTime(timePickerState.hour, timePickerState.minute)
+                        )
+                        showTimePicker.value = false
+                    }) {
+                        Text("Ok")
+                    }
+                }
+            }
+        }
+    }
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
@@ -173,6 +271,7 @@ fun CheckoutScreen(
                         ) {
                             item {
                                 TimeSelections(
+                                    showDatePicker = showDatePicker,
                                     state = state,
                                     pickTime = {
                                         onAction(CheckoutAction.PickTime)
@@ -262,6 +361,7 @@ fun CheckoutScreen(
 
 @Composable
 fun TimeSelections(
+    showDatePicker: MutableState<Boolean>,
     state: CheckoutState,
     pickTime: () -> Unit,
     earliestAvailableTime: () -> Unit,
@@ -284,6 +384,7 @@ fun TimeSelections(
         TimeSelection(
             onSelect = {
                 pickTime()
+                showDatePicker.value = !showDatePicker.value
             },
             isSelected = state.scheduleTime,
             text = "Schedule time"

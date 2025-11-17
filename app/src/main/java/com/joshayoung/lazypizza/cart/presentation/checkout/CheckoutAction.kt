@@ -20,6 +20,15 @@ sealed interface CheckoutAction {
         var productUi: ProductUi
     ) : CheckoutAction
 
+    data class SetDate(
+        val date: Long?
+    ) : CheckoutAction
+
+    data class SetTime(
+        val hour: Int,
+        val minute: Int
+    ) : CheckoutAction
+
     data object PickTime : CheckoutAction
 
     data object PickEarliestTime : CheckoutAction
