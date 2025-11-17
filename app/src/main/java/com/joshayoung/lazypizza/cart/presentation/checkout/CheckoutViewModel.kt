@@ -22,10 +22,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.collections.component1
 import kotlin.collections.component2
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class CheckoutViewModel(
     private val cartRepository: CartRepository
@@ -39,7 +43,7 @@ class CheckoutViewModel(
         val formattedTime = availableTime.format(formatter)
         _state.update {
             it.copy(
-                earliestPickupTime = formattedTime
+                pickupTime = formattedTime
             )
         }
 
@@ -70,6 +74,7 @@ class CheckoutViewModel(
                 CheckoutState()
             )
 
+    @OptIn(ExperimentalTime::class)
     fun onAction(action: CheckoutAction) {
         when (action) {
             is CheckoutAction.AddAddOnToCart -> {
@@ -130,25 +135,105 @@ class CheckoutViewModel(
             CheckoutAction.PickTime -> {
                 _state.update {
                     it.copy(
-                        scheduleTime = true,
+                        scheduleDate = true,
                         earliestTime = false
                     )
                 }
             }
 
             is CheckoutAction.SetDate -> {
+                if (action.date == null) {
+                    return
+                }
+
                 _state.update {
                     it.copy(
-                        date = action.date
+                        date = action.date,
+                        scheduleDate = false,
+                        scheduleTime = true
                     )
                 }
             }
 
             is CheckoutAction.SetTime -> {
+                val selectedTime = LocalTime.of(action.hour, action.minute)
+                val startingTime = LocalTime.of(10, 15)
+                val endingTime = LocalTime.of(21, 45)
+
+                if (selectedTime.isBefore(startingTime) || selectedTime.isAfter(endingTime)) {
+                    _state.update {
+                        it.copy(
+                            timeError = "Pickup available between 10:15 and 21:45"
+                        )
+                    }
+                    return
+                }
+
+                val currentTimePlus15 = LocalTime.now().plusMinutes(15)
+                val selDate = getLocalTime(_state.value.date)
+                val current = LocalDate.now()
+                var today = false
+                if (selDate.compareTo(current) == 0) {
+                    today = true
+                }
+
+                if (today && selectedTime.isBefore(currentTimePlus15)) {
+                    _state.update {
+                        it.copy(
+                            timeError =
+                                "Pickup is possible at least 15 " +
+                                    "minutes from the current time"
+                        )
+                    }
+                    return
+                }
+
+                _state
+                    .update {
+                        it.copy(
+                            hour = action.hour,
+                            minute = action.minute
+                        )
+                    }
+
+                val date = getLocalTime(_state.value.date)
+                val now = LocalDate.now()
+                var pickupTime = ""
+                if (date.compareTo(now) == 0) {
+                    pickupTime = "${_state.value.hour}:${_state.value.minute}"
+                } else {
+                    val formattedDate = formatDate(date, "MMMM dd")
+                    val minute = _state.value.minute
+                    var minuteFormatted = ""
+                    if (minute.toString().length == 1) {
+                        minuteFormatted = "0$minute"
+                    } else {
+                        minuteFormatted = minute.toString()
+                    }
+                    pickupTime = "$formattedDate, ${_state.value.hour}:$minuteFormatted"
+                }
+                _state
+                    .update {
+                        it.copy(
+                            scheduleTime = false,
+                            timeScheduled = true,
+                            pickupTime = pickupTime
+                        )
+                    }
+            }
+
+            CheckoutAction.CloseDatePicker -> {
                 _state.update {
                     it.copy(
-                        hour = action.hour,
-                        minute = action.minute
+                        scheduleDate = false
+                    )
+                }
+            }
+
+            CheckoutAction.CloseTimePicker -> {
+                _state.update {
+                    it.copy(
+                        scheduleTime = false
                     )
                 }
             }
@@ -255,5 +340,28 @@ class CheckoutViewModel(
             }
 
         return BigDecimal(base + toppings)
+    }
+
+    fun formatDate(
+        localDate: LocalDate,
+        pattern: String
+    ): String {
+        val formatter = DateTimeFormatter.ofPattern(pattern)
+
+        return localDate.format(formatter)
+    }
+
+    @OptIn(ExperimentalTime::class)
+    private fun getLocalTime(date: Long?): LocalDate {
+        val instant = Instant.fromEpochMilliseconds(date ?: 0)
+
+        val zoneId = ZoneId.of("UTC")
+        val localDateTime =
+            java.time.LocalDateTime.ofInstant(
+                java.time.Instant.ofEpochMilli(instant.toEpochMilliseconds()),
+                zoneId
+            )
+
+        return localDateTime.toLocalDate()
     }
 }

@@ -119,24 +119,20 @@ fun CheckoutScreen(
         rememberDatePickerState(
             selectableDates = FutureDates
         )
-    val showDatePicker = remember { mutableStateOf(false) }
-    val showTimePicker = remember { mutableStateOf(false) }
 
-    if (showDatePicker.value) {
+    if (state.scheduleDate) {
         DatePickerDialog(
             onDismissRequest = {},
             confirmButton = {
                 Button(onClick = {
-                    showDatePicker.value = !showDatePicker.value
                     onAction(CheckoutAction.SetDate(datePickerState.selectedDateMillis))
-                    showTimePicker.value = !showTimePicker.value
                 }) {
                     Text("Ok")
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
-                    showDatePicker.value = !showDatePicker.value
+                    onAction(CheckoutAction.CloseDatePicker)
                 }) {
                     Text("Cancel")
                 }
@@ -149,7 +145,7 @@ fun CheckoutScreen(
         }
     }
 
-    if (showTimePicker.value) {
+    if (state.scheduleTime) {
         val currentTime = Calendar.getInstance()
 
         val timePickerState =
@@ -159,7 +155,8 @@ fun CheckoutScreen(
                 is24Hour = true
             )
         Dialog(
-            onDismissRequest = {}
+            onDismissRequest = {
+            }
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -176,9 +173,14 @@ fun CheckoutScreen(
                             .padding(0.dp),
                     state = timePickerState
                 )
+                Text(
+                    state.timeError,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Row {
                     TextButton(onClick = {
-                        showTimePicker.value = false
+                        onAction(CheckoutAction.CloseTimePicker)
                     }, modifier = Modifier) {
                         Text("Cancel")
                     }
@@ -186,7 +188,6 @@ fun CheckoutScreen(
                         onAction(
                             CheckoutAction.SetTime(timePickerState.hour, timePickerState.minute)
                         )
-                        showTimePicker.value = false
                     }) {
                         Text("Ok")
                     }
@@ -271,7 +272,6 @@ fun CheckoutScreen(
                         ) {
                             item {
                                 TimeSelections(
-                                    showDatePicker = showDatePicker,
                                     state = state,
                                     pickTime = {
                                         onAction(CheckoutAction.PickTime)
@@ -361,7 +361,6 @@ fun CheckoutScreen(
 
 @Composable
 fun TimeSelections(
-    showDatePicker: MutableState<Boolean>,
     state: CheckoutState,
     pickTime: () -> Unit,
     earliestAvailableTime: () -> Unit,
@@ -384,9 +383,8 @@ fun TimeSelections(
         TimeSelection(
             onSelect = {
                 pickTime()
-                showDatePicker.value = !showDatePicker.value
             },
-            isSelected = state.scheduleTime,
+            isSelected = state.timeScheduled,
             text = "Schedule time"
         )
     }
@@ -402,7 +400,7 @@ fun EarliestTime(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text("Earliest Pickup Time".uppercase())
-        Text(state.earliestPickupTime, style = MaterialTheme.typography.titleSmall)
+        Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
     }
 }
 
@@ -592,7 +590,9 @@ private fun CheckoutScreenPreview() {
             state =
                 CheckoutState(
                     items = inCartItemsForPreviewUis,
-                    recommendedAddOns = addOnsForPreview
+                    recommendedAddOns = addOnsForPreview,
+                    scheduleTime = true,
+                    timeError = "Pickup available between 10:15 and 21:45"
                 ),
             onAction = {}
         )
