@@ -145,4 +145,8 @@ class CartRepositoryImpl(
     override suspend fun getProduct(productId: String): Product {
         return localDataSource.getProduct(productId)
     }
+
+    override suspend fun placeOrder() {
+        cartRemoteDataSource.placeOrder()
+    }
 }

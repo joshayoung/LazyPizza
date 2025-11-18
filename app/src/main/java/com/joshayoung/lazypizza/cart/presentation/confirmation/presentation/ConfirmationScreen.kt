@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.cart.presentation.confirmation.presentation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,15 +14,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.room.util.TableInfo
 import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutViewModel
+import com.joshayoung.lazypizza.core.presentation.components.RoundedTopBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallRoundedPizzaScaffold
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import org.koin.androidx.compose.koinViewModel
@@ -41,7 +38,9 @@ fun ConfirmationScreenRoot(
 @Composable
 fun ConfirmationScreen(backToMain: () -> Unit) {
     SmallRoundedPizzaScaffold(
-        backToCart = backToMain
+        topBar = {
+            RoundedTopBar(backToCart = backToMain)
+        }
     ) { innerPadding ->
         val paddingVertical = 10.dp
 

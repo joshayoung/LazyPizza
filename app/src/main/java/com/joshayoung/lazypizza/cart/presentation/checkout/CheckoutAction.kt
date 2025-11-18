@@ -31,6 +31,8 @@ sealed interface CheckoutAction {
 
     data object PickTime : CheckoutAction
 
+    data object PlaceOrder : CheckoutAction
+
     data object CloseDatePicker : CheckoutAction
 
     data object CloseTimePicker : CheckoutAction

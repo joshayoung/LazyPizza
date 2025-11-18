@@ -18,5 +18,6 @@ data class CheckoutState(
     val pickupTime: String = "00:00",
     val date: Long? = null,
     val hour: Int? = null,
-    val minute: Int? = null
+    val minute: Int? = null,
+    val orderInProgress: Boolean = false
 )

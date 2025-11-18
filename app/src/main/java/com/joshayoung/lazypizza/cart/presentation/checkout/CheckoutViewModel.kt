@@ -237,6 +237,24 @@ class CheckoutViewModel(
                     )
                 }
             }
+
+            CheckoutAction.PlaceOrder -> {
+                viewModelScope.launch {
+                    _state
+                        .update {
+                            it.copy(
+                                orderInProgress = true
+                            )
+                        }
+//                    cartRepository.placeOrder()
+                    _state
+                        .update {
+                            it.copy(
+                                orderInProgress = true
+                            )
+                        }
+                }
+            }
         }
     }
 

@@ -9,4 +9,6 @@ interface CartRemoteDataSource {
     suspend fun getToppings(table: String): List<Topping>
 
     suspend fun getProduct(productId: String?): Product?
+
+    suspend fun placeOrder()
 }
