@@ -1,10 +1,13 @@
 package com.joshayoung.lazypizza.core.data.network
 
+import android.util.Log
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import io.appwrite.Client
+import io.appwrite.ID
+import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.TablesDB
 
 class AppWriteCartRemoteDataSource(
@@ -97,5 +100,27 @@ class AppWriteCartRemoteDataSource(
     }
 
     override suspend fun placeOrder() {
+        return
+        val tablesDB = TablesDB(client = appWriteClient)
+
+        try {
+            val row =
+                tablesDB.createRow(
+                    BuildConfig.DATABASE_ID,
+                    tableId = BuildConfig.ORDERS_COLLECTION_ID,
+                    rowId = ID.unique(),
+                    data =
+                        mapOf(
+                            "userId" to "b",
+                            "orderNumber" to "c",
+                            "pickupTime" to "d",
+                            "items" to "e",
+                            "totalAmount" to "f",
+                            "status" to "completed"
+                        )
+                )
+        } catch (e: AppwriteException) {
+            Log.e("Appwrite", "Error: " + e.message)
+        }
     }
 }

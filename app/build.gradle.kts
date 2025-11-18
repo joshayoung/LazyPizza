@@ -98,6 +98,11 @@ android {
                 "MENU_ITEMS_COLLECTION_ID",
                 localProperties.getProperty("MENU_ITEMS_COLLECTION_ID")
             )
+            buildConfigField(
+                "String",
+                "ORDERS_COLLECTION_ID",
+                localProperties.getProperty("ORDERS_COLLECTION_ID")
+            )
         }
 
         release {

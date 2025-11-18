@@ -51,11 +51,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.joshayoung.lazypizza.auth.ObserveAsEvents
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
 import com.joshayoung.lazypizza.core.presentation.components.RoundedTopBar
@@ -69,6 +72,7 @@ import com.joshayoung.lazypizza.core.ui.theme.UpIcon
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import com.joshayoung.lazypizza.core.utils.Routes
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -78,8 +82,13 @@ import java.util.Calendar
 fun CheckoutScreenRoot(
     viewModel: CheckoutViewModel = koinViewModel(),
     backToCart: () -> Unit,
-    navigateToConfirmation: () -> Unit
+    navigateToConfirmation: () -> Unit,
+    navController: NavController
 ) {
+    ObserveAsEvents(viewModel.events) { event ->
+        navController.navigate(Routes.Confirmation)
+    }
+
     CheckoutScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         onAction = { action ->

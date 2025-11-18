@@ -12,12 +12,14 @@ import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,6 +37,9 @@ class CheckoutViewModel(
     private val cartRepository: CartRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
+
+    private val eventChannel = Channel<String?>()
+    val events = eventChannel.receiveAsFlow()
 
     init {
         val currentTime = LocalTime.now()
@@ -246,11 +251,12 @@ class CheckoutViewModel(
                                 orderInProgress = true
                             )
                         }
-//                    cartRepository.placeOrder()
+                    cartRepository.placeOrder()
+                    eventChannel.send("Note Auto Saved!")
                     _state
                         .update {
                             it.copy(
-                                orderInProgress = true
+                                orderInProgress = false
                             )
                         }
                 }

@@ -190,6 +190,7 @@ fun NavigationRoot(
                 backToCart = {
                     navController.navigateUp()
                 },
+                navController = navController,
                 navigateToConfirmation = {
                     navController.navigate(Routes.Confirmation)
                 }
