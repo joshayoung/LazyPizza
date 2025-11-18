@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutViewModel
 import com.joshayoung.lazypizza.core.presentation.components.RoundedTopBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallRoundedPizzaScaffold
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -31,12 +30,16 @@ fun ConfirmationScreenRoot(
     backToMain: () -> Unit
 ) {
     ConfirmationScreen(
-        backToMain = backToMain
+        backToMain = backToMain,
+        state = viewModel.state
     )
 }
 
 @Composable
-fun ConfirmationScreen(backToMain: () -> Unit) {
+fun ConfirmationScreen(
+    state: ConfirmationState,
+    backToMain: () -> Unit
+) {
     SmallRoundedPizzaScaffold(
         topBar = {
             RoundedTopBar(backToCart = backToMain)
@@ -87,7 +90,7 @@ fun ConfirmationScreen(backToMain: () -> Unit) {
                             .fillMaxWidth()
                 ) {
                     Text("Order Number:".uppercase())
-                    Text("#1234", style = MaterialTheme.typography.titleSmall)
+                    Text(state.orderNumber, style = MaterialTheme.typography.titleSmall)
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -96,7 +99,7 @@ fun ConfirmationScreen(backToMain: () -> Unit) {
                             .fillMaxWidth()
                 ) {
                     Text("Pickup Time:".uppercase())
-                    Text("September 25, 12:15", style = MaterialTheme.typography.titleSmall)
+                    Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
                 }
             }
 
@@ -120,6 +123,9 @@ fun ConfirmationScreen(backToMain: () -> Unit) {
 @Composable
 private fun ConfirmationScreenPreview() {
     LazyPizzaTheme {
-        ConfirmationScreen(backToMain = {})
+        ConfirmationScreen(
+            state = ConfirmationState(),
+            backToMain = {}
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -146,7 +147,11 @@ class CartRepositoryImpl(
         return localDataSource.getProduct(productId)
     }
 
-    override suspend fun placeOrder() {
-        cartRemoteDataSource.placeOrder()
+    override suspend fun getOrderInfo(orderNumber: String): OrderDto? {
+        return cartRemoteDataSource.getOrderInfo(orderNumber)
+    }
+
+    override suspend fun placeOrder(): String? {
+        return cartRemoteDataSource.placeOrder()
     }
 }

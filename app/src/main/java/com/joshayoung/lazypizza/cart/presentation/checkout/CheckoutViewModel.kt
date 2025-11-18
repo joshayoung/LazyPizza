@@ -252,9 +252,8 @@ class CheckoutViewModel(
                                 orderInProgress = true
                             )
                         }
-                    val orderNumber = "1234"
-                    cartRepository.placeOrder()
-                    eventChannel.send(Stuff(orderNumber = orderNumber))
+                    val id = cartRepository.placeOrder()
+                    eventChannel.send(Stuff(orderNumber = id))
                     _state
                         .update {
                             it.copy(

@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.core.domain
 
+import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -42,7 +43,7 @@ interface CartRepository {
 
     suspend fun clearCartForUser(user: String?)
 
-    suspend fun placeOrder()
+    suspend fun placeOrder(): String?
 
     suspend fun createCartForUser(
         cartId: Long,
@@ -54,4 +55,6 @@ interface CartRepository {
     fun getNumberProductsInCart(cartId: Long): Flow<Int>
 
     suspend fun getProduct(productId: String): Product
+
+    suspend fun getOrderInfo(orderNumber: String): OrderDto?
 }

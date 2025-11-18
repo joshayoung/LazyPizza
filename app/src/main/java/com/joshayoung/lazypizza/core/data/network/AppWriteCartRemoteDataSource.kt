@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.data.network
 
 import android.util.Log
 import com.joshayoung.lazypizza.BuildConfig
+import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
@@ -81,7 +82,6 @@ class AppWriteCartRemoteDataSource(
                         BuildConfig.MENU_ITEMS_COLLECTION_ID,
                         id
                     )
-                val t = response.data["name"]
 
                 return Product(
                     id = response.data["\$id"] as? String ?: "",
@@ -99,8 +99,7 @@ class AppWriteCartRemoteDataSource(
         return null
     }
 
-    override suspend fun placeOrder() {
-        return
+    override suspend fun placeOrder(): String? {
         val tablesDB = TablesDB(client = appWriteClient)
 
         try {
@@ -119,8 +118,34 @@ class AppWriteCartRemoteDataSource(
                             "status" to "completed"
                         )
                 )
+
+            return row.id
         } catch (e: AppwriteException) {
             Log.e("Appwrite", "Error: " + e.message)
         }
+
+        return null
+    }
+
+    override suspend fun getOrderInfo(id: String): OrderDto? {
+        try {
+            val tables = TablesDB(client = appWriteClient)
+            val response =
+                tables.getRow(
+                    BuildConfig.DATABASE_ID,
+                    BuildConfig.ORDERS_COLLECTION_ID,
+                    id
+                )
+            val t = response.data["name"]
+
+            return OrderDto(
+                orderNumber = response.data["orderNumber"] as? String ?: "",
+                pickupTime = response.data["pickupTime"] as? String ?: ""
+            )
+        } catch (e: Exception) {
+            null
+        }
+
+        return null
     }
 }
