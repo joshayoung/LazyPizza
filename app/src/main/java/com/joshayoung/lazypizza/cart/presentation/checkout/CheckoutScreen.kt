@@ -86,7 +86,10 @@ fun CheckoutScreenRoot(
     navController: NavController
 ) {
     ObserveAsEvents(viewModel.events) { event ->
-        navController.navigate(Routes.Confirmation)
+        navController.navigate(
+            Routes.Confirmation.toString() +
+                "?orderNumber=${event.orderNumber}"
+        )
     }
 
     CheckoutScreen(

@@ -27,7 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ConfirmationScreenRoot(
-    viewModel: CheckoutViewModel = koinViewModel(),
+    viewModel: ConfirmationViewModel = koinViewModel(),
     backToMain: () -> Unit
 ) {
     ConfirmationScreen(

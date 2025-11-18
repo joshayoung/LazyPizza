@@ -25,6 +25,8 @@ import com.joshayoung.lazypizza.history.presentation.order_history.HistoryScreen
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.parameter.parametersOf
+import kotlin.collections.listOf
 
 @Composable
 fun NavigationRoot(
@@ -197,10 +199,24 @@ fun NavigationRoot(
             )
         }
 
-        composable<Routes.Confirmation> {
+        composable(
+            route =
+                Routes.Confirmation.toString() +
+                    "?orderNumber={orderNumber}",
+            arguments =
+                listOf(
+                    navArgument(
+                        name = "orderNumber"
+                    ) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    }
+                )
+        ) {
             ConfirmationScreenRoot(
                 backToMain = {
                     navController.navigate(Routes.Menu) {
+                        parametersOf()
                         popUpTo(0) {
                             inclusive = true
                         }

@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joshayoung.lazypizza.cart.data.di.Stuff
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -38,7 +39,7 @@ class CheckoutViewModel(
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
 
-    private val eventChannel = Channel<String?>()
+    private val eventChannel = Channel<Stuff>()
     val events = eventChannel.receiveAsFlow()
 
     init {
@@ -251,8 +252,9 @@ class CheckoutViewModel(
                                 orderInProgress = true
                             )
                         }
+                    val orderNumber = "1234"
                     cartRepository.placeOrder()
-                    eventChannel.send("Note Auto Saved!")
+                    eventChannel.send(Stuff(orderNumber = orderNumber))
                     _state
                         .update {
                             it.copy(

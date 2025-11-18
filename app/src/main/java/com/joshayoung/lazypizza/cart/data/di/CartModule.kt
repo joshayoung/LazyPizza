@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartViewModel
 import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutViewModel
+import com.joshayoung.lazypizza.cart.presentation.confirmation.presentation.ConfirmationViewModel
 import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
 import com.joshayoung.lazypizza.core.data.RoomLocalDataSource
 import com.joshayoung.lazypizza.core.data.database.CartDatabase
@@ -41,6 +42,7 @@ var cartModule =
     module {
         viewModelOf(::CartViewModel)
         viewModelOf(::CheckoutViewModel)
+        viewModelOf(::ConfirmationViewModel)
 
         val cartQualifier = named("cartDataStore")
 
