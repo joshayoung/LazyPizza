@@ -197,7 +197,15 @@ fun NavigationRoot(
         }
 
         composable<Routes.Confirmation> {
-            ConfirmationScreenRoot()
+            ConfirmationScreenRoot(
+                backToMain = {
+                    navController.navigate(Routes.Menu) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
