@@ -163,50 +163,50 @@ val previewProducts: List<MenuItemUi> =
 
 // val previewOrders =
 //    listOf(
-//        Order(
+//        OrderUi(
 //            number = "3456",
 //            date = "May 15, 9:35",
-//            items =
-//                listOf(
-//                    InCartItemUi(
-//                        name = "Cheese Pizza",
-//                        description = "Just Cheese",
-//                        toppingsForDisplay =
-//                            mapOf(
-//                                "Mushrooms" to 2,
-//                                "Olives" to 1,
-//                                "Onions" to 4
-//                            ),
-//                        imageResource = R.drawable.margherita,
-//                        price = "14.34",
-//                        remoteId = "93",
-//                        numberInCart = 3,
-//                        imageUrl = "",
-//                        type = MenuTypeUi.Entree,
-//                        lineNumbers = emptyList(),
-//                        productId = 4,
-//                        toppings = emptyList()
-//                    ),
-//                    InCartItemUi(
-//                        name = "Pepsi",
-//                        description = "Just Cheese",
-//                        toppingsForDisplay =
-//                            mapOf(
-//                                "Mushrooms" to 2,
-//                                "Olives" to 1,
-//                                "Onions" to 4
-//                            ),
-//                        imageResource = R.drawable.margherita,
-//                        price = "4.34",
-//                        remoteId = "93",
-//                        numberInCart = 1,
-//                        imageUrl = "",
-//                        type = MenuTypeUi.Entree,
-//                        lineNumbers = emptyList(),
-//                        productId = 14,
-//                        toppings = emptyList()
-//                    )
-//                ),
+//            items = "",
+// //                listOf(
+// //                    InCartItemUi(
+// //                        name = "Cheese Pizza",
+// //                        description = "Just Cheese",
+// //                        toppingsForDisplay =
+// //                            mapOf(
+// //                                "Mushrooms" to 2,
+// //                                "Olives" to 1,
+// //                                "Onions" to 4
+// //                            ),
+// //                        imageResource = R.drawable.margherita,
+// //                        price = "14.34",
+// //                        remoteId = "93",
+// //                        numberInCart = 3,
+// //                        imageUrl = "",
+// //                        type = MenuTypeUi.Entree,
+// //                        lineNumbers = emptyList(),
+// //                        productId = 4,
+// //                        toppings = emptyList()
+// //                    ),
+// //                    InCartItemUi(
+// //                        name = "Pepsi",
+// //                        description = "Just Cheese",
+// //                        toppingsForDisplay =
+// //                            mapOf(
+// //                                "Mushrooms" to 2,
+// //                                "Olives" to 1,
+// //                                "Onions" to 4
+// //                            ),
+// //                        imageResource = R.drawable.margherita,
+// //                        price = "4.34",
+// //                        remoteId = "93",
+// //                        numberInCart = 1,
+// //                        imageUrl = "",
+// //                        type = MenuTypeUi.Entree,
+// //                        lineNumbers = emptyList(),
+// //                        productId = 14,
+// //                        toppings = emptyList()
+// //                    )
+// //                ),
 //            status = OrderStatus.InProgress,
 //            total = "15.58"
 //        ),

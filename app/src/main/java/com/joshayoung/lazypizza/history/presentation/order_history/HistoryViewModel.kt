@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.history.presentation.order_history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.history.toOrderUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.WhileSubscribed
@@ -19,10 +20,10 @@ class HistoryViewModel(
     init {
         // TODO: Use correct user here:
         viewModelScope.launch {
-            val orders = cardRepository.getOrdersFor("userId")
+            val orderUis = cardRepository.getOrdersFor("userId").map { order -> order.toOrderUi() }
             _state.update {
                 it.copy(
-                    orders = orders
+                    orderUis = orderUis
                 )
             }
         }

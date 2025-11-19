@@ -27,8 +27,8 @@ import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.presentation.components.HistoryCard
+import com.joshayoung.lazypizza.history.presentation.models.OrderUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -91,7 +91,7 @@ fun HistoryScreen(
                             .padding(horizontal = 20.dp)
                 ) {
                     if (isLoggedIn) {
-                        OrderHistory(orders = state.orders, goToMenu = goToMenu)
+                        OrderHistory(orderUis = state.orderUis, goToMenu = goToMenu)
                     } else {
                         SignedOut(
                             goToLogin = goToLogin
@@ -125,7 +125,7 @@ fun HistoryScreen(
                                 .padding(bottom = 20.dp)
                     )
                     if (isLoggedIn) {
-                        OrderHistory(orders = state.orders, columns = 2, goToMenu = goToMenu)
+                        OrderHistory(orderUis = state.orderUis, columns = 2, goToMenu = goToMenu)
                     } else {
                         SignedOut(
                             goToLogin = goToLogin
@@ -139,20 +139,20 @@ fun HistoryScreen(
 
 @Composable
 fun OrderHistory(
-    orders: List<Order>,
+    orderUis: List<OrderUi>,
     columns: Int = 1,
     goToMenu: () -> Unit
 ) {
-    if (orders.isEmpty()) {
+    if (orderUis.isEmpty()) {
         EmptyOrderList(goToMenu = goToMenu)
     } else {
-        OrderList(orders = orders, columns = columns)
+        OrderList(orderUis = orderUis, columns = columns)
     }
 }
 
 @Composable
 fun OrderList(
-    orders: List<Order>,
+    orderUis: List<OrderUi>,
     columns: Int
 ) {
     LazyVerticalStaggeredGrid(
@@ -164,8 +164,8 @@ fun OrderList(
             Modifier
                 .fillMaxSize()
     ) {
-        items(orders) { order ->
-            HistoryCard(order)
+        items(orderUis) { orderUi ->
+            HistoryCard(orderUi)
         }
     }
 }
@@ -223,8 +223,7 @@ fun HistoryScreenPreview() {
             state =
                 HistoryState(
                     isSignedIn = true,
-                    orders = emptyList()
-                    //                    previewOrders
+                    orderUis = emptyList() // previewOrders
                 ),
             goToMenu = {},
             cartItems = 2,

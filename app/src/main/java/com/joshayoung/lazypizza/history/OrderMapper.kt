@@ -4,7 +4,20 @@ import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.domain.models.OrderStatus
+import com.joshayoung.lazypizza.history.presentation.models.OrderUi
 import kotlinx.serialization.json.Json
+
+fun Order.toOrderUi(): OrderUi {
+    return OrderUi(
+        number = number,
+        date = date,
+        items = items,
+        status = status,
+        total = total,
+        userId = userId,
+        pickupTime = pickupTime
+    )
+}
 
 fun OrderDto.toOrder(): Order {
     val json = Json.decodeFromString<List<Ordered>>(items)

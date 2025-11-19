@@ -27,13 +27,13 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
-import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.domain.models.OrderStatus
+import com.joshayoung.lazypizza.history.presentation.models.OrderUi
 
 // TODO: Convert to OrderUi:
 @Composable
 fun HistoryCard(
-    order: Order,
+    orderUi: OrderUi,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -68,8 +68,8 @@ fun HistoryCard(
                     Modifier
                         .padding(bottom = 10.dp)
             ) {
-                Text("Order #${order.number}", style = MaterialTheme.typography.titleMedium)
-                Text(order.date)
+                Text("Order #${orderUi.number}", style = MaterialTheme.typography.titleMedium)
+                Text(orderUi.date)
             }
             Column(
                 verticalArrangement = Arrangement.Bottom
@@ -93,13 +93,13 @@ fun HistoryCard(
                     .fillMaxHeight()
         ) {
             val statusColor =
-                when (order.status) {
+                when (orderUi.status) {
                     OrderStatus.InProgress -> LazyPizzaColors.inProgress
                     OrderStatus.Completed -> LazyPizzaColors.completed
                     OrderStatus.Unknown -> Color.Transparent
                 }
             Text(
-                order.status.displayValue,
+                orderUi.status.displayValue,
                 modifier =
                     Modifier
                         .clip(
@@ -110,7 +110,7 @@ fun HistoryCard(
             )
             Column(horizontalAlignment = Alignment.End) {
                 Text("Total amount:")
-                Text("$${order.total}", style = MaterialTheme.typography.titleMedium)
+                Text("$${orderUi.total}", style = MaterialTheme.typography.titleMedium)
             }
         }
     }
@@ -131,8 +131,8 @@ fun HistoryCartPreview() {
             HistoryCard(
                 modifier =
                 Modifier,
-                order =
-                    Order(
+                orderUi =
+                    OrderUi(
                         number = "1234",
                         pickupTime = "Sept 26, 2025",
                         userId = "joe",
