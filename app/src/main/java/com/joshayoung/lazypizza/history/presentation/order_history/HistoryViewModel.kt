@@ -20,10 +20,10 @@ class HistoryViewModel(
     init {
         // TODO: Use correct user here:
         viewModelScope.launch {
-            val orderUis = cardRepository.getOrdersFor("userId").map { order -> order.toOrderUi() }
+            val orders = cardRepository.getOrdersFor("userId").map { order -> order.toOrderUi() }
             _state.update {
                 it.copy(
-                    orderUis = orderUis
+                    orderUis = orders
                 )
             }
         }

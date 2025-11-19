@@ -74,15 +74,15 @@ fun HistoryCard(
             Column(
                 verticalArrangement = Arrangement.Bottom
             ) {
-//                order.items.forEach { purchase ->
-//                    Row(
-//                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-//                    ) {
+                orderUi.products.forEach { product ->
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
 //                        Text(text = purchase.numberInCart.toString())
-//                        Text("x")
-//                        Text(purchase.name)
-//                    }
-//                }
+                        Text("x")
+                        Text(product.name)
+                    }
+                }
             }
         }
 
@@ -136,7 +136,7 @@ fun HistoryCartPreview() {
                         number = "1234",
                         pickupTime = "Sept 26, 2025",
                         userId = "joe",
-                        items = emptyList(),
+                        products = emptyList(),
                         total = "12.54",
                         status = OrderStatus.InProgress,
                         date = "bla"

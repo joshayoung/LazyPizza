@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.core.data
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
+import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -17,9 +18,10 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import com.joshayoung.lazypizza.core.presentation.mappers.toTopping
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingEntity
 import com.joshayoung.lazypizza.history.domain.models.Order
-import com.joshayoung.lazypizza.history.toOrder
+import com.joshayoung.lazypizza.history.domain.models.OrderStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
 
 class CartRepositoryImpl(
     private var localDataSource: LocalDataSource,
@@ -146,6 +148,7 @@ class CartRepositoryImpl(
         return localDataSource.getNumberProductsInCart(cartId)
     }
 
+    // TODO: Move to a different repository:
     override suspend fun getProduct(productId: String): Product {
         return localDataSource.getProduct(productId)
     }
@@ -175,12 +178,47 @@ class CartRepositoryImpl(
     }
 
     override suspend fun getOrdersFor(user: String): List<Order> {
-        return cartRemoteDataSource
-            .getOrders(
-                user,
-                BuildConfig.ORDERS_COLLECTION_ID
-            ).map { orderDto ->
-                orderDto.toOrder()
+        val orderDtos =
+            cartRemoteDataSource
+                .getOrders(
+                    user,
+                    BuildConfig.ORDERS_COLLECTION_ID
+                )
+
+        val orders =
+            orderDtos.map { orderDto ->
+                val ordered = Json.decodeFromString<List<Ordered>>(orderDto.items)
+
+                // TODO: Also return the toppings:
+                val products =
+                    ordered.map { order ->
+                        getProduct(order.productRemoteId)
+                    }
+                Order(
+                    number = orderDto.orderNumber,
+                    date = orderDto.createdAt,
+                    products = products,
+                    status = getStatus(orderDto.status),
+                    total = orderDto.totalAmount,
+                    userId = orderDto.userId,
+                    pickupTime = orderDto.pickupTime
+                )
             }
+
+        return orders
+    }
+
+    private fun getStatus(status: String): OrderStatus {
+        return when (status) {
+            "inProgress" -> {
+                OrderStatus.InProgress
+            }
+            "completed" -> {
+                OrderStatus.Completed
+            }
+            else -> {
+                OrderStatus.Unknown
+            }
+        }
     }
 }
