@@ -64,4 +64,6 @@ interface CartRepository {
     suspend fun getProduct(productId: String): Product
 
     suspend fun getOrderInfo(orderNumber: String): OrderDto?
+
+    suspend fun getOrdersFor(user: String): List<OrderDto>
 }

@@ -9,6 +9,7 @@ import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import io.appwrite.Client
 import io.appwrite.ID
+import io.appwrite.Query
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.TablesDB
 
@@ -148,5 +149,38 @@ class AppWriteCartRemoteDataSource(
         }
 
         return null
+    }
+
+    override suspend fun getOrders(
+        user: String,
+        table: String
+    ): List<OrderDto> {
+        try {
+            val tables =
+                TablesDB(
+                    client = appWriteClient
+                )
+            val response =
+                tables.listRows(
+                    BuildConfig.DATABASE_ID,
+                    table,
+                    queries =
+                        listOf(
+                            Query.equal("userId", user)
+                        )
+                )
+            val data =
+                response.rows.map { row ->
+                    OrderDto(
+//                        id = row.data["\$id"] as? String ?: "",
+                        orderNumber = row.data["orderNumber"] as? String ?: "",
+                        pickupTime = row.data["pickupTime"] as? String ?: "0.00"
+                    )
+                }
+
+            return data
+        } catch (e: Exception) {
+            return emptyList()
+        }
     }
 }

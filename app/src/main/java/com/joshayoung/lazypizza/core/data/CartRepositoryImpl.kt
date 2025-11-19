@@ -171,4 +171,12 @@ class CartRepositoryImpl(
             )
         return cartRemoteDataSource.placeOrder(orderRequest)
     }
+
+    override suspend fun getOrdersFor(user: String): List<OrderDto> {
+        return cartRemoteDataSource
+            .getOrders(
+                user,
+                BuildConfig.ORDERS_COLLECTION_ID
+            )
+    }
 }
