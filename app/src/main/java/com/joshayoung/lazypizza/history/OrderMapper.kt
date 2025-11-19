@@ -5,11 +5,8 @@ import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.domain.models.OrderStatus
 import com.joshayoung.lazypizza.history.presentation.models.OrderUi
 import com.joshayoung.lazypizza.history.presentation.models.ProductWithCountUi
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.time.Instant
 
 fun Order.toOrderUi(): OrderUi {
     return OrderUi(

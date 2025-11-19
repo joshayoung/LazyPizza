@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -168,25 +168,56 @@ fun CheckoutScreen(
             }
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier =
                     Modifier
                         .clip(RoundedCornerShape(30.dp))
-                        .padding(20.dp)
+                        .background(MaterialTheme.colorScheme.surfaceHighest)
             ) {
-                Text("Select Time".uppercase())
-                TimeInput(
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier =
                         Modifier
-                            .padding(0.dp),
-                    state = timePickerState
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 20.dp)
+                ) {
+                    Text(
+                        "Select Time".uppercase(),
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier =
+                            Modifier
+                                .align(
+                                    alignment =
+                                        Alignment.Start
+                                ).padding(start = 20.dp)
+                                .padding(bottom = 20.dp)
+                    )
+                    TimeInput(
+                        modifier =
+                            Modifier
+                                .width(220.dp),
+                        state = timePickerState
+                    )
+                    Text(
+                        state.timeError,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+                HorizontalDivider(
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier =
+                        Modifier
+                            .height(1.dp)
                 )
-                Text(
-                    state.timeError,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Row {
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier =
+                        Modifier
+                            .width(220.dp)
+                            .padding(vertical = 10.dp)
+                ) {
                     TextButton(onClick = {
                         onAction(CheckoutAction.CloseTimePicker)
                     }, modifier = Modifier) {
@@ -596,8 +627,8 @@ private fun CheckoutScreenPreview() {
                     items = inCartItemsForPreviewUis,
                     orderInProgress = false,
                     recommendedAddOns = addOnsForPreview,
-                    scheduleTime = false,
-                    timeError = "Pickup available between 10:15 and 21:45"
+                    scheduleTime = false
+//                    timeError = "Pickup available between 10:15 and 21:45"
                 ),
             onAction = {}
         )
