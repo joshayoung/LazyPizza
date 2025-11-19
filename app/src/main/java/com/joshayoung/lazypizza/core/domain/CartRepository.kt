@@ -43,7 +43,14 @@ interface CartRepository {
 
     suspend fun clearCartForUser(user: String?)
 
-    suspend fun placeOrder(): String?
+    suspend fun placeOrder(
+        userId: String,
+        orderNumber: String,
+        pickupTime: String,
+        items: String,
+        checkoutPrice: String,
+        status: String
+    ): String?
 
     suspend fun createCartForUser(
         cartId: Long,

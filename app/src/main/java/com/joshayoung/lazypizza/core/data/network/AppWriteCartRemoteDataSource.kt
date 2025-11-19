@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.core.data.network
 import android.util.Log
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.models.OrderDto
+import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
@@ -99,7 +100,7 @@ class AppWriteCartRemoteDataSource(
         return null
     }
 
-    override suspend fun placeOrder(): String? {
+    override suspend fun placeOrder(orderRequest: OrderRequest): String? {
         val tablesDB = TablesDB(client = appWriteClient)
 
         try {
@@ -110,12 +111,12 @@ class AppWriteCartRemoteDataSource(
                     rowId = ID.unique(),
                     data =
                         mapOf(
-                            "userId" to "b",
-                            "orderNumber" to "c",
-                            "pickupTime" to "d",
-                            "items" to "e",
-                            "totalAmount" to "f",
-                            "status" to "completed"
+                            "userId" to orderRequest.userId,
+                            "orderNumber" to orderRequest.orderNumber,
+                            "pickupTime" to orderRequest.pickupTime,
+                            "items" to orderRequest.items,
+                            "totalAmount" to orderRequest.checkoutPrice,
+                            "status" to orderRequest.status
                         )
                 )
 

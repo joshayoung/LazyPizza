@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.cart.data.di.Stuff
+import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -24,8 +25,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -204,18 +208,18 @@ class CheckoutViewModel(
 
                 val date = getLocalTime(_state.value.date)
                 val now = LocalDate.now()
-                var pickupTime = ""
+                var pickupTime: String
                 if (date.compareTo(now) == 0) {
                     pickupTime = "${_state.value.hour}:${_state.value.minute}"
                 } else {
                     val formattedDate = formatDate(date, "MMMM dd")
                     val minute = _state.value.minute
-                    var minuteFormatted = ""
-                    if (minute.toString().length == 1) {
-                        minuteFormatted = "0$minute"
-                    } else {
-                        minuteFormatted = minute.toString()
-                    }
+                    val minuteFormatted: String =
+                        if (minute.toString().length == 1) {
+                            "0$minute"
+                        } else {
+                            minute.toString()
+                        }
                     pickupTime = "$formattedDate, ${_state.value.hour}:$minuteFormatted"
                 }
                 _state
@@ -252,7 +256,22 @@ class CheckoutViewModel(
                                 orderInProgress = true
                             )
                         }
-                    val id = cartRepository.placeOrder()
+
+                    val orderNumber = System.currentTimeMillis().toString().takeLast(5)
+                    val cartItems = convertToItems(_state.value.items)
+                    val json = Json.encodeToString(cartItems)
+                    println()
+                    val id =
+                        cartRepository.placeOrder(
+                            "userId",
+                            orderNumber,
+                            _state.value.pickupTime,
+                            json,
+                            _state.value.checkoutPrice
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .toString(),
+                            "inProgress"
+                        )
                     eventChannel.send(Stuff(orderNumber = id))
                     _state
                         .update {
@@ -262,6 +281,15 @@ class CheckoutViewModel(
                         }
                 }
             }
+        }
+    }
+
+    private fun convertToItems(inCartItems: List<InCartItemUi>): List<Ordered> {
+        return inCartItems.map { inCartItem ->
+            Ordered(
+                productRemoteId = inCartItem.remoteId,
+                toppingRemoteIds = inCartItem.toppings.map { topping -> topping.remoteId }
+            )
         }
     }
 
@@ -382,7 +410,7 @@ class CheckoutViewModel(
 
         val zoneId = ZoneId.of("UTC")
         val localDateTime =
-            java.time.LocalDateTime.ofInstant(
+            LocalDateTime.ofInstant(
                 java.time.Instant.ofEpochMilli(instant.toEpochMilliseconds()),
                 zoneId
             )

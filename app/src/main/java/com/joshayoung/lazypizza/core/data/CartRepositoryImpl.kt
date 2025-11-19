@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.models.OrderDto
+import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -151,7 +152,23 @@ class CartRepositoryImpl(
         return cartRemoteDataSource.getOrderInfo(orderNumber)
     }
 
-    override suspend fun placeOrder(): String? {
-        return cartRemoteDataSource.placeOrder()
+    override suspend fun placeOrder(
+        userId: String,
+        orderNumber: String,
+        pickupTime: String,
+        items: String,
+        checkoutPrice: String,
+        status: String
+    ): String? {
+        val orderRequest =
+            OrderRequest(
+                userId = userId,
+                orderNumber = orderNumber,
+                pickupTime = pickupTime,
+                items = items,
+                checkoutPrice = checkoutPrice,
+                status = status
+            )
+        return cartRemoteDataSource.placeOrder(orderRequest)
     }
 }
