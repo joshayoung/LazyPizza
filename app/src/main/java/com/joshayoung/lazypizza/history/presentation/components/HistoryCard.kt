@@ -18,19 +18,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.joshayoung.lazypizza.cart.domain.models.OrderDto
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
+import com.joshayoung.lazypizza.history.domain.models.Order
+import com.joshayoung.lazypizza.history.domain.models.OrderStatus
 
 // TODO: Convert to OrderUi:
 @Composable
 fun HistoryCard(
-    order: OrderDto,
+    order: Order,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -65,8 +68,8 @@ fun HistoryCard(
                     Modifier
                         .padding(bottom = 10.dp)
             ) {
-                Text("Order #${order.orderNumber}", style = MaterialTheme.typography.titleMedium)
-//                Text(order.date)
+                Text("Order #${order.number}", style = MaterialTheme.typography.titleMedium)
+                Text(order.date)
             }
             Column(
                 verticalArrangement = Arrangement.Bottom
@@ -89,24 +92,25 @@ fun HistoryCard(
                 Modifier
                     .fillMaxHeight()
         ) {
-//            val statusColor =
-//                when (order.status) {
-//                    OrderStatus.InProgress -> LazyPizzaColors.inProgress
-//                    OrderStatus.Completed -> LazyPizzaColors.completed
-//                }
-//            Text(
-//                order.status.displayValue,
-//                modifier =
-//                    Modifier
-//                        .clip(
-//                            RoundedCornerShape(20.dp)
-//                        ).background(statusColor)
-//                        .padding(horizontal = 10.dp),
-//                color = MaterialTheme.colorScheme.surfaceHigher
-//            )
+            val statusColor =
+                when (order.status) {
+                    OrderStatus.InProgress -> LazyPizzaColors.inProgress
+                    OrderStatus.Completed -> LazyPizzaColors.completed
+                    OrderStatus.Unknown -> Color.Transparent
+                }
+            Text(
+                order.status.displayValue,
+                modifier =
+                    Modifier
+                        .clip(
+                            RoundedCornerShape(20.dp)
+                        ).background(statusColor)
+                        .padding(horizontal = 10.dp),
+                color = MaterialTheme.colorScheme.surfaceHigher
+            )
             Column(horizontalAlignment = Alignment.End) {
                 Text("Total amount:")
-//                Text("$${order.total}", style = MaterialTheme.typography.titleMedium)
+                Text("$${order.total}", style = MaterialTheme.typography.titleMedium)
             }
         }
     }
@@ -128,9 +132,14 @@ fun HistoryCartPreview() {
                 modifier =
                 Modifier,
                 order =
-                    OrderDto(
-                        orderNumber = "1234",
-                        pickupTime = ""
+                    Order(
+                        number = "1234",
+                        pickupTime = "Sept 26, 2025",
+                        userId = "joe",
+                        items = emptyList(),
+                        total = "12.54",
+                        status = OrderStatus.InProgress,
+                        date = "bla"
                     )
 //                    Order(
 //                        number = "123456",

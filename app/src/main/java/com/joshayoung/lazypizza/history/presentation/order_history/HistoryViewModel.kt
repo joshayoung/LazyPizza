@@ -22,8 +22,6 @@ class HistoryViewModel(
             val orders = cardRepository.getOrdersFor("userId")
             _state.update {
                 it.copy(
-                    // TODO: Temporary for testing
-                    isSignedIn = true,
                     orders = orders
                 )
             }

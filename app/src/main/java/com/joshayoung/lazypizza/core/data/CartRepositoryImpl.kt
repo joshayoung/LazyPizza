@@ -16,6 +16,8 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import com.joshayoung.lazypizza.core.presentation.mappers.toTopping
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingEntity
+import com.joshayoung.lazypizza.history.domain.models.Order
+import com.joshayoung.lazypizza.history.toOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -172,11 +174,13 @@ class CartRepositoryImpl(
         return cartRemoteDataSource.placeOrder(orderRequest)
     }
 
-    override suspend fun getOrdersFor(user: String): List<OrderDto> {
+    override suspend fun getOrdersFor(user: String): List<Order> {
         return cartRemoteDataSource
             .getOrders(
                 user,
                 BuildConfig.ORDERS_COLLECTION_ID
-            )
+            ).map { orderDto ->
+                orderDto.toOrder()
+            }
     }
 }

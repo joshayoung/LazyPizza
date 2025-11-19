@@ -138,11 +138,15 @@ class AppWriteCartRemoteDataSource(
                     BuildConfig.ORDERS_COLLECTION_ID,
                     id
                 )
-            val t = response.data["name"]
 
             return OrderDto(
+                userId = response.data["userId"] as? String ?: "",
                 orderNumber = response.data["orderNumber"] as? String ?: "",
-                pickupTime = response.data["pickupTime"] as? String ?: ""
+                pickupTime = response.data["pickupTime"] as? String ?: "",
+                items = response.data["items"] as? String ?: "",
+                totalAmount = response.data["totalAmount"] as? String ?: "",
+                status = response.data["status"] as? String ?: "",
+                createdAt = response.data["\$createdAt"] as? String ?: ""
             )
         } catch (e: Exception) {
             null
@@ -172,9 +176,13 @@ class AppWriteCartRemoteDataSource(
             val data =
                 response.rows.map { row ->
                     OrderDto(
-//                        id = row.data["\$id"] as? String ?: "",
+                        userId = row.data["userId"] as? String ?: "",
                         orderNumber = row.data["orderNumber"] as? String ?: "",
-                        pickupTime = row.data["pickupTime"] as? String ?: "0.00"
+                        pickupTime = row.data["pickupTime"] as? String ?: "",
+                        items = row.data["items"] as? String ?: "",
+                        totalAmount = row.data["totalAmount"] as? String ?: "",
+                        status = row.data["status"] as? String ?: "",
+                        createdAt = row.data["\$createdAt"] as? String ?: ""
                     )
                 }
 

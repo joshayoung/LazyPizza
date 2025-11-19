@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
@@ -28,6 +27,7 @@ import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.presentation.components.HistoryCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -139,7 +139,7 @@ fun HistoryScreen(
 
 @Composable
 fun OrderHistory(
-    orders: List<OrderDto>,
+    orders: List<Order>,
     columns: Int = 1,
     goToMenu: () -> Unit
 ) {
@@ -152,7 +152,7 @@ fun OrderHistory(
 
 @Composable
 fun OrderList(
-    orders: List<OrderDto>,
+    orders: List<Order>,
     columns: Int
 ) {
     LazyVerticalStaggeredGrid(

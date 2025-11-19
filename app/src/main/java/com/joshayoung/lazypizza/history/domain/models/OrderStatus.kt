@@ -4,5 +4,6 @@ enum class OrderStatus(
     val displayValue: String
 ) {
     InProgress("In Progress"),
-    Completed("Completed")
+    Completed("Completed"),
+    Unknown("Unknown")
 }
