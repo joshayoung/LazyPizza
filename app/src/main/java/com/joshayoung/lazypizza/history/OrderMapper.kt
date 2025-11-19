@@ -5,17 +5,29 @@ import com.joshayoung.lazypizza.history.domain.models.Order
 import com.joshayoung.lazypizza.history.domain.models.OrderStatus
 import com.joshayoung.lazypizza.history.presentation.models.OrderUi
 import com.joshayoung.lazypizza.history.presentation.models.ProductWithCountUi
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.time.Instant
 
 fun Order.toOrderUi(): OrderUi {
     return OrderUi(
         number = number,
-        date = date,
+        date = formatDate(date),
         productsWithCount = getProductWithCounts(products),
         status = status,
         total = total,
         userId = userId,
         pickupTime = pickupTime
     )
+}
+
+private fun formatDate(date: String): String {
+    val dateTimeWithZone = ZonedDateTime.parse(date)
+    val formatter = DateTimeFormatter.ofPattern("MMM dd, HH:mm")
+
+    return dateTimeWithZone.format(formatter)
 }
 
 private fun getProductWithCounts(products: List<Product>): List<ProductWithCountUi> {
