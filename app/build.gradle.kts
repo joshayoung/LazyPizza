@@ -103,6 +103,11 @@ android {
                 "ORDERS_COLLECTION_ID",
                 localProperties.getProperty("ORDERS_COLLECTION_ID")
             )
+            buildConfigField(
+                "String",
+                "GUEST_USER",
+                localProperties.getProperty("GUEST_USER")
+            )
         }
 
         release {

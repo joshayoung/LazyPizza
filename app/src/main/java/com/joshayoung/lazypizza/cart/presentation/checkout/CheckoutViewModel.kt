@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joshayoung.lazypizza.auth.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.cart.data.di.Stuff
 import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
@@ -42,6 +43,8 @@ class CheckoutViewModel(
     private val cartRepository: CartRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
+
+    private val firebaseAuthUiClient: FirebaseAuthUiClient = FirebaseAuthUiClient()
 
     private val eventChannel = Channel<Stuff>()
     val events = eventChannel.receiveAsFlow()
@@ -260,10 +263,10 @@ class CheckoutViewModel(
                     val orderNumber = System.currentTimeMillis().toString().takeLast(5)
                     val cartItems = convertToItems(_state.value.items)
                     val json = Json.encodeToString(cartItems)
-                    println()
+                    val user = firebaseAuthUiClient.currentUser
                     val id =
                         cartRepository.placeOrder(
-                            "userId",
+                            user,
                             orderNumber,
                             _state.value.pickupTime,
                             json,
@@ -272,6 +275,7 @@ class CheckoutViewModel(
                                 .toString(),
                             "inProgress"
                         )
+                    cartRepository.clearCartForUser(user)
                     eventChannel.send(Stuff(orderNumber = id))
                     _state
                         .update {
@@ -377,8 +381,6 @@ class CheckoutViewModel(
                     )
                 }
             }
-
-            println()
         }
     }
 

@@ -36,7 +36,10 @@ class MainViewModel(
                 )
 
             if (loggedIn) {
-                cartRepository.createCartForUser(1, "guest-user")
+                cartRepository.createCartForUser(
+                    1,
+                    BuildConfig.GUEST_USER
+                )
                 state = state.copy(isLoading = false)
             }
             cartRepository.getNumberProductsInCart(1).collectLatest { count ->

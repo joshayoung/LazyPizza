@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.menu.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -102,7 +103,10 @@ class HomeViewModel(
                 firebaseAuth.signOut()
                 viewModelScope.launch {
                     cartRepository.clearCartForUser(user)
-                    cartRepository.transferCartTo(user, "guest-user")
+                    cartRepository.transferCartTo(
+                        user,
+                        BuildConfig.GUEST_USER
+                    )
                 }
             }
         }

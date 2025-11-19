@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.history.presentation.order_history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joshayoung.lazypizza.auth.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.history.toOrderUi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,10 +18,14 @@ class HistoryViewModel(
 ) : ViewModel() {
     private var _state = MutableStateFlow(HistoryState())
 
+    // TODO: Should this be injected. I am using it in multiple places:
+    private val firebaseAuthUiClient: FirebaseAuthUiClient = FirebaseAuthUiClient()
+
     init {
         // TODO: Use correct user here:
         viewModelScope.launch {
-            val orders = cardRepository.getOrdersFor("userId").map { order -> order.toOrderUi() }
+            val user = firebaseAuthUiClient.currentUser
+            val orders = cardRepository.getOrdersFor(user).map { order -> order.toOrderUi() }
             _state.update {
                 it.copy(
                     orderUis = orders

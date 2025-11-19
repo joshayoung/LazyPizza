@@ -97,7 +97,10 @@ class LoginViewModel(
                         )
 
                     if (loggedIn) {
-                        cartRepository.transferCartTo("guest-user", FirebaseAuth.getInstance().uid)
+                        cartRepository.transferCartTo(
+                            BuildConfig.GUEST_USER,
+                            FirebaseAuth.getInstance().uid
+                        )
                     }
 
                     state =

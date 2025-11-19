@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.auth.domain.AuthState
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +29,12 @@ class FirebaseAuthUiClient {
 
             awaitClose { firebaseAuth.removeAuthStateListener(listener) }
         }
+
+    // TODO: The fallback to 'guest' here needs to be more robust:
+    val currentUser: String
+        get() =
+            firebaseAuth.currentUser?.uid
+                ?: BuildConfig.GUEST_USER
 
     suspend fun verifyPhoneNumber(
         activity: Activity,
