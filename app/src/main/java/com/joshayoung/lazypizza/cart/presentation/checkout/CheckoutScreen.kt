@@ -81,7 +81,6 @@ import java.util.Calendar
 fun CheckoutScreenRoot(
     viewModel: CheckoutViewModel = koinViewModel(),
     backToCart: () -> Unit,
-    navigateToConfirmation: () -> Unit,
     navController: NavController
 ) {
     ObserveAsEvents(viewModel.events) { event ->
@@ -97,7 +96,6 @@ fun CheckoutScreenRoot(
             viewModel.onAction(action)
         },
         backToCart = backToCart,
-        navigateToConfirmation = navigateToConfirmation
     )
 }
 
@@ -119,13 +117,11 @@ object FutureDates : SelectableDates {
 fun CheckoutScreen(
     state: CheckoutState,
     onAction: (CheckoutAction) -> Unit,
-    backToCart: () -> Unit,
-    navigateToConfirmation: () -> Unit
+    backToCart: () -> Unit
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
     val isOpen = remember { mutableStateOf(false) }
-    val pagePadding = 10.dp
     val verticalPadding = 10.dp
     val datePickerState =
         rememberDatePickerState(
@@ -216,22 +212,21 @@ fun CheckoutScreen(
             var topPadding = 60.dp
             if (state.orderInProgress) {
                 topPadding = 0.dp
-                topAppBar = {
-                }
+                topAppBar = { }
             }
             SmallRoundedPizzaScaffold(
                 topPadding = topPadding,
                 topBar = { topAppBar() }
             ) { innerPadding ->
-                var pagePadding = innerPadding
-                if (state.orderInProgress) {
-                    pagePadding = PaddingValues(0.dp)
-                }
-                Box {
+                Box(
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .padding(horizontal = 20.dp)
+                ) {
                     Column(
                         modifier =
                             Modifier
-                                .padding(pagePadding)
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.surfaceHigher)
                     ) {
@@ -241,7 +236,6 @@ fun CheckoutScreen(
                                 modifier =
                                     Modifier
                                         .fillMaxSize()
-                                        .padding(pagePadding)
                             ) {
                                 item {
                                     TimeSelections(
@@ -316,15 +310,10 @@ fun CheckoutScreen(
                             Footer(
                                 modifier =
                                     Modifier
-                                        .padding(pagePadding)
                                         .align(Alignment.BottomCenter),
-                                navigateToConfirmation = navigateToConfirmation,
                                 onAction = onAction
                             )
                         }
-                    }
-                    if (state.orderInProgress) {
-                        LoadingModal()
                     }
                 }
             }
@@ -335,6 +324,9 @@ fun CheckoutScreen(
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
         }
+    }
+    if (state.orderInProgress) {
+        LoadingModal()
     }
 }
 
@@ -370,6 +362,7 @@ fun TimeSelections(
         modifier =
             modifier
                 .fillMaxWidth()
+                .padding(top = 10.dp)
     ) {
         Text(text = "Pickup Time".uppercase())
         TimeSelection(
@@ -491,7 +484,6 @@ fun Comments(modifier: Modifier = Modifier) {
 @Composable
 fun Footer(
     modifier: Modifier = Modifier,
-    navigateToConfirmation: () -> Unit,
     onAction: (CheckoutAction) -> Unit
 ) {
     Column(
@@ -514,7 +506,7 @@ fun Footer(
             )
             Text("$25.34", style = MaterialTheme.typography.titleSmall)
         }
-        PlaceOrderButton2(navigateToConfirmation = navigateToConfirmation, onAction = onAction)
+        PlaceOrderButton(onAction = onAction)
     }
 }
 
@@ -552,15 +544,9 @@ fun Accordion(
 }
 
 @Composable
-fun PlaceOrderButton2(
-    navigateToConfirmation: () -> Unit,
-    onAction: (CheckoutAction) -> Unit
-) {
+fun PlaceOrderButton(onAction: (CheckoutAction) -> Unit) {
     Button(onClick = {
         onAction(CheckoutAction.PlaceOrder)
-
-        // Do not navigate yet:
-        // navigateToConfirmation()
     }) {
         Text(
             "Place Order",
@@ -605,13 +591,12 @@ private fun CheckoutScreenPreview() {
             state =
                 CheckoutState(
                     items = inCartItemsForPreviewUis,
-                    orderInProgress = true,
+                    orderInProgress = false,
                     recommendedAddOns = addOnsForPreview,
                     scheduleTime = false,
                     timeError = "Pickup available between 10:15 and 21:45"
                 ),
             onAction = {},
-            navigateToConfirmation = {}
         )
     }
 }
