@@ -377,6 +377,8 @@ class CheckoutViewModel(
                     )
                 }
             }
+
+            println()
         }
     }
 

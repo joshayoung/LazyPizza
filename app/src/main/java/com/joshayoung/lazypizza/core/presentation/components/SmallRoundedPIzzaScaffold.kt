@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 
@@ -43,5 +46,20 @@ fun SmallRoundedPizzaScaffold(
         topBar = topBar
     ) { innerPadding ->
         content(innerPadding)
+    }
+}
+
+@Preview
+@Composable
+private fun SmallRoundedPizzaScaffoldPreview() {
+    LazyPizzaTheme {
+        SmallRoundedPizzaScaffold(
+            topBar = {
+                RoundedTopBar(backToCart = {})
+            },
+            topPadding = 60.dp
+        ) {
+            Text("Content")
+        }
     }
 }

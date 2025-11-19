@@ -76,6 +76,7 @@ import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.Calendar
+import java.util.Locale
 
 @Composable
 fun CheckoutScreenRoot(
@@ -95,7 +96,7 @@ fun CheckoutScreenRoot(
         onAction = { action ->
             viewModel.onAction(action)
         },
-        backToCart = backToCart,
+        backToCart = backToCart
     )
 }
 
@@ -171,7 +172,6 @@ fun CheckoutScreen(
                 modifier =
                     Modifier
                         .clip(RoundedCornerShape(30.dp))
-                        .background(MaterialTheme.colorScheme.outline)
                         .padding(20.dp)
             ) {
                 Text("Select Time".uppercase())
@@ -221,6 +221,7 @@ fun CheckoutScreen(
                 Box(
                     modifier =
                         Modifier
+                            .background(MaterialTheme.colorScheme.surfaceHigher)
                             .padding(innerPadding)
                             .padding(horizontal = 20.dp)
                 ) {
@@ -228,7 +229,6 @@ fun CheckoutScreen(
                         modifier =
                             Modifier
                                 .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.surfaceHigher)
                     ) {
                         Box {
                             LazyVerticalGrid(
@@ -308,6 +308,7 @@ fun CheckoutScreen(
                             }
 
                             Footer(
+                                state = state,
                                 modifier =
                                     Modifier
                                         .align(Alignment.BottomCenter),
@@ -464,7 +465,7 @@ fun Comments(modifier: Modifier = Modifier) {
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-            label = {
+            placeholder = {
                 Text("Add Comment")
             },
             lineLimits = TextFieldLineLimits.MultiLine(3),
@@ -484,6 +485,7 @@ fun Comments(modifier: Modifier = Modifier) {
 @Composable
 fun Footer(
     modifier: Modifier = Modifier,
+    state: CheckoutState,
     onAction: (CheckoutAction) -> Unit
 ) {
     Column(
@@ -504,7 +506,8 @@ fun Footer(
                     Modifier
                         .padding(bottom = 10.dp)
             )
-            Text("$25.34", style = MaterialTheme.typography.titleSmall)
+            val formatted = String.format(Locale.US, "%.2f", state.checkoutPrice)
+            Text(formatted, style = MaterialTheme.typography.titleSmall)
         }
         PlaceOrderButton(onAction = onAction)
     }
@@ -596,7 +599,7 @@ private fun CheckoutScreenPreview() {
                     scheduleTime = false,
                     timeError = "Pickup available between 10:15 and 21:45"
                 ),
-            onAction = {},
+            onAction = {}
         )
     }
 }
