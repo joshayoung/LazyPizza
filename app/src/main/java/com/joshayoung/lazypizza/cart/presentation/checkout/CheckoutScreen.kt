@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,7 +56,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -69,7 +71,6 @@ import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
 import com.joshayoung.lazypizza.core.ui.theme.DownIcon
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.UpIcon
-import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.core.utils.Routes
@@ -123,7 +124,7 @@ fun CheckoutScreen(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-    val isOpen = remember { mutableStateOf(false) }
+    val isOpen = remember { mutableStateOf(true) }
     val verticalPadding = 10.dp
     val datePickerState =
         rememberDatePickerState(
@@ -247,31 +248,81 @@ fun CheckoutScreen(
                 Box(
                     modifier =
                         Modifier
-                            .background(MaterialTheme.colorScheme.surfaceHigher)
-                            .padding(innerPadding)
+                            .fillMaxHeight()
                             .padding(horizontal = 20.dp)
                 ) {
-                    Column(
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(1),
                         modifier =
                             Modifier
-                                .fillMaxSize()
+                                .padding(bottom = 100.dp)
                     ) {
-                        Box {
-                            PageItems(
-                                state = state,
-                                onAction = onAction,
-                                verticalPadding = verticalPadding,
-                                isOpen = isOpen
-                            )
-
-                            Footer(
-                                state = state,
+                        item {
+                            Column(
                                 modifier =
                                     Modifier
-                                        .align(Alignment.BottomCenter),
-                                onAction = onAction
+                                        .fillMaxWidth()
+                                        .padding(top = 10.dp)
+                            ) {
+                                Text(text = "Pickup Time".uppercase())
+                                TimeSelections(
+                                    state = state,
+                                    pickTime = {
+                                        onAction(CheckoutAction.PickTime)
+                                    },
+                                    earliestAvailableTime = {
+                                        onAction(CheckoutAction.PickEarliestTime)
+                                    },
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                )
+                            }
+                        }
+                        item {
+                            EarliestTime(
+                                state = state,
+                                modifier = Modifier
                             )
                         }
+                        item {
+                            AccordionHeader(
+                                isOpen,
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                            )
+                        }
+                        AccordionItems(
+                            state = state,
+                            onAction = onAction,
+                            isOpen = isOpen
+                        )
+                        item {
+                            RecommendedAddOns(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding),
+                                addOns = state.recommendedAddOns,
+                                addProductToCart = {
+                                    onAction(CheckoutAction.AddAddOnToCart(it))
+                                }
+                            )
+                        }
+                        item {
+                            Comments()
+                        }
+                    }
+                    Column(
+                        modifier =
+                            Modifier.align(Alignment.BottomCenter)
+                    ) {
+                        OrderTotal(
+                            state = state,
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        )
+                        PlaceOrderButton(onAction = onAction, modifier = Modifier.fillMaxWidth())
                     }
                 }
             }
@@ -290,123 +341,152 @@ fun CheckoutScreen(
                 Box(
                     modifier =
                         Modifier
-                            .background(MaterialTheme.colorScheme.surfaceHigher)
-                            .padding(innerPadding)
+                            .fillMaxHeight()
                             .padding(horizontal = 20.dp)
                 ) {
-                    Column(
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
                         modifier =
                             Modifier
-                                .fillMaxSize()
+                                .padding(bottom = 100.dp)
                     ) {
-                        Box {
-                            PageItems(
-                                state = state,
-                                onAction = onAction,
-                                verticalPadding = verticalPadding,
-                                isOpen = isOpen
-                            )
-
-                            Footer(
-                                state = state,
+                        item(span = { GridItemSpan(2) }) {
+                            Text(text = "Pickup Time".uppercase())
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
                                 modifier =
                                     Modifier
-                                        .align(Alignment.BottomCenter),
-                                onAction = onAction
+                                        .fillMaxWidth()
+                                        .padding(top = 10.dp)
+                            ) {
+                                TimeSelections(
+                                    state = state,
+                                    pickTime = {
+                                        onAction(CheckoutAction.PickTime)
+                                    },
+                                    earliestAvailableTime = {
+                                        onAction(CheckoutAction.PickEarliestTime)
+                                    },
+                                    modifier =
+                                        Modifier
+                                            .weight(1f)
+                                )
+                            }
+                        }
+                        item(span = { GridItemSpan(2) }) {
+                            EarliestTime(
+                                state = state,
+                                modifier = Modifier
                             )
                         }
+                        item(span = { GridItemSpan(2) }) {
+                            AccordionHeader(
+                                isOpen,
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                            )
+                        }
+                        AccordionItems(
+                            state = state,
+                            onAction = onAction,
+                            isOpen = isOpen
+                        )
+                        item(span = { GridItemSpan(2) }) {
+                            RecommendedAddOns(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding),
+                                addOns = state.recommendedAddOns,
+                                addProductToCart = {
+                                    onAction(CheckoutAction.AddAddOnToCart(it))
+                                }
+                            )
+                        }
+
+                        item(span = { GridItemSpan(2) }) {
+                            Comments()
+                        }
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.Absolute.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier =
+                            Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                    ) {
+                        OrderTotal(
+                            state = state,
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        )
+                        PlaceOrderButton(onAction = onAction, modifier = Modifier.weight(1f))
                     }
                 }
             }
         }
     }
-    if (state.orderInProgress) {
-        LoadingModal()
+}
+
+@Composable
+fun OrderTotal(
+    state: CheckoutState,
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start
+) {
+    Row(
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier =
+            modifier
+                .background(MaterialTheme.colorScheme.background)
+    ) {
+        Text(
+            "Order Total:".uppercase(),
+            style = MaterialTheme.typography.bodySmall
+        )
+        val formatted = String.format(Locale.US, "%.2f", state.checkoutPrice)
+        Text(formatted, style = MaterialTheme.typography.titleSmall)
+    }
+}
+
+fun LazyGridScope.AccordionItems(
+    state: CheckoutState,
+    onAction: (CheckoutAction) -> Unit,
+    isOpen: MutableState<Boolean>
+) {
+    items(
+        state.items,
+        key = { it.key }
+    ) { inCartItem ->
+        Accordion(inCartItem, onAction = onAction, isOpen)
     }
 }
 
 @Composable
-fun PageItems(
+fun TimeSelections(
     state: CheckoutState,
-    onAction: (CheckoutAction) -> Unit,
-    verticalPadding: Dp,
-    isOpen: MutableState<Boolean>
+    pickTime: () -> Unit,
+    earliestAvailableTime: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(1),
-        modifier =
-            Modifier
-                .fillMaxSize()
-    ) {
-        item {
-            TimeSelections(
-                state = state,
-                pickTime = {
-                    onAction(CheckoutAction.PickTime)
-                },
-                earliestAvailableTime = {
-                    onAction(CheckoutAction.PickEarliestTime)
-                },
-                modifier =
-                    Modifier
-                        .padding(vertical = verticalPadding)
-            )
-        }
-
-        item {
-            EarliestTime(
-                state = state,
-                modifier =
-                    Modifier
-                        .padding(vertical = verticalPadding)
-            )
-        }
-
-        item {
-            CheckoutDivider()
-        }
-
-        item {
-            AccordionHeader(
-                isOpen,
-                modifier =
-                    Modifier
-                        .padding(vertical = verticalPadding)
-            )
-        }
-
-        items(state.items, key = { it.key }) { inCartItem ->
-            Accordion(inCartItem, onAction = onAction, isOpen)
-        }
-
-        item {
-            CheckoutDivider()
-        }
-
-        item {
-            RecommendedAddOns(
-                modifier =
-                    Modifier
-                        .padding(vertical = verticalPadding),
-                addOns = state.recommendedAddOns,
-                addProductToCart = {
-                    onAction(CheckoutAction.AddAddOnToCart(it))
-                }
-            )
-        }
-
-        item {
-            CheckoutDivider()
-        }
-
-        item {
-            Comments(
-                modifier =
-                    Modifier
-                        .padding(vertical = verticalPadding)
-            )
-        }
-    }
+    TimeSelection(
+        modifier = modifier,
+        onSelect = {
+            earliestAvailableTime()
+        },
+        isSelected = state.earliestTime,
+        text = "Earliest available time"
+    )
+    TimeSelection(
+        modifier = modifier,
+        onSelect = {
+            pickTime()
+        },
+        isSelected = state.timeScheduled,
+        text = "Schedule time"
+    )
 }
 
 @Composable
@@ -430,48 +510,27 @@ fun LoadingModal() {
 }
 
 @Composable
-fun TimeSelections(
-    state: CheckoutState,
-    pickTime: () -> Unit,
-    earliestAvailableTime: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp)
-    ) {
-        Text(text = "Pickup Time".uppercase())
-        TimeSelection(
-            onSelect = {
-                earliestAvailableTime()
-            },
-            isSelected = state.earliestTime,
-            text = "Earliest available time"
-        )
-        TimeSelection(
-            onSelect = {
-                pickTime()
-            },
-            isSelected = state.timeScheduled,
-            text = "Schedule time"
-        )
-    }
-}
-
-@Composable
 fun EarliestTime(
     state: CheckoutState,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text("Earliest Pickup Time".uppercase())
-        Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
+    Column {
+        Row(
+            modifier =
+                modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Earliest Pickup Time".uppercase())
+            Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
+        }
+        HorizontalDivider(
+            modifier = Modifier.height(1.dp),
+            color =
+                MaterialTheme.colorScheme.outline
+        )
     }
 }
 
@@ -483,8 +542,7 @@ fun AccordionHeader(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier =
-        modifier
+        modifier = modifier
     ) {
         Text(text = "Order Details".uppercase())
         IconButton(
@@ -508,16 +566,6 @@ fun AccordionHeader(
             )
         }
     }
-}
-
-@Composable
-fun CheckoutDivider() {
-    HorizontalDivider(
-        modifier =
-            Modifier
-                .padding(vertical = 10.dp)
-                .background(MaterialTheme.colorScheme.outline)
-    )
 }
 
 @Composable
@@ -562,33 +610,11 @@ fun Comments(modifier: Modifier = Modifier) {
 
 @Composable
 fun Footer(
-    modifier: Modifier = Modifier,
     state: CheckoutState,
-    onAction: (CheckoutAction) -> Unit
+    modifier: Modifier = Modifier,
+    onAction: (CheckoutAction) -> Unit,
+    arrangement: Arrangement.Horizontal = Arrangement.Start
 ) {
-    Column(
-        modifier =
-        modifier
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-        ) {
-            Text(
-                "Order Total:".uppercase(),
-                style = MaterialTheme.typography.bodySmall,
-                modifier =
-                    Modifier
-                        .padding(bottom = 10.dp)
-            )
-            val formatted = String.format(Locale.US, "%.2f", state.checkoutPrice)
-            Text(formatted, style = MaterialTheme.typography.titleSmall)
-        }
-        PlaceOrderButton(onAction = onAction)
-    }
 }
 
 @Composable
@@ -625,13 +651,18 @@ fun Accordion(
 }
 
 @Composable
-fun PlaceOrderButton(onAction: (CheckoutAction) -> Unit) {
-    Button(onClick = {
-        onAction(CheckoutAction.PlaceOrder)
-    }) {
+fun PlaceOrderButton(
+    modifier: Modifier = Modifier,
+    onAction: (CheckoutAction) -> Unit
+) {
+    Button(
+        modifier = modifier,
+        onClick = {
+            onAction(CheckoutAction.PlaceOrder)
+        }
+    ) {
         Text(
             "Place Order",
-            modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
     }
@@ -641,12 +672,13 @@ fun PlaceOrderButton(onAction: (CheckoutAction) -> Unit) {
 fun TimeSelection(
     text: String,
     isSelected: Boolean,
-    onSelect: () -> Unit
+    onSelect: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
-            Modifier
+            modifier
                 .border(
                     1.dp,
                     color = MaterialTheme.colorScheme.outline,
@@ -654,7 +686,7 @@ fun TimeSelection(
                 ).padding(
                     start = 10.dp,
                     end = 20.dp
-                ).fillMaxWidth()
+                )
     ) {
         RadioButton(onClick = {
             onSelect()
@@ -663,7 +695,11 @@ fun TimeSelection(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    widthDp = 400,
+    heightDp = 1380
+)
 @Preview(
     showBackground = true,
     widthDp = 800,

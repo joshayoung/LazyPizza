@@ -52,74 +52,74 @@ fun ConfirmationScreen(
     ) { innerPadding ->
         val paddingVertical = 10.dp
 
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+                    .padding(14.dp)
+        ) {
+            Text(
+                "Your order has been placed!",
+                fontWeight = FontWeight.Bold,
+                fontSize = 26.sp,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(paddingVertical)
+            )
+            Text(
+                "Thank you for your order! Please come at the indicated time.",
+                textAlign = TextAlign.Center,
                 modifier =
                     Modifier
-                        .padding(innerPadding)
-                        .fillMaxSize()
-                        .padding(14.dp)
+                        .padding(paddingVertical)
+            )
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            shape = RoundedCornerShape(10.dp)
+                        ).padding(10.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                ) {
+                    Text("Order Number:".uppercase())
+                    Text(state.orderNumber, style = MaterialTheme.typography.titleSmall)
+                }
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                ) {
+                    Text("Pickup Time:".uppercase())
+                    Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
+                }
+            }
+
+            TextButton(
+                onClick = {
+                    backToMain()
+                },
+                modifier = Modifier.padding(top = 20.dp)
             ) {
                 Text(
-                    "Your order has been placed!",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 26.sp,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(paddingVertical)
+                    "Back to Menu",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleMedium
                 )
-                Text(
-                    "Thank you for your order! Please come at the indicated time.",
-                    textAlign = TextAlign.Center,
-                    modifier =
-                        Modifier
-                            .padding(paddingVertical)
-                )
-
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier =
-                        Modifier
-                            .padding(top = 10.dp)
-                            .fillMaxWidth()
-                            .border(
-                                1.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant,
-                                shape = RoundedCornerShape(10.dp)
-                            ).padding(10.dp)
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                    ) {
-                        Text("Order Number:".uppercase())
-                        Text(state.orderNumber, style = MaterialTheme.typography.titleSmall)
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                    ) {
-                        Text("Pickup Time:".uppercase())
-                        Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
-                    }
-                }
-
-                TextButton(
-                    onClick = {
-                        backToMain()
-                    },
-                    modifier = Modifier.padding(top = 20.dp)
-                ) {
-                    Text(
-                        "Back to Menu",
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
+            }
         }
     }
     if (state.isLoading) {
