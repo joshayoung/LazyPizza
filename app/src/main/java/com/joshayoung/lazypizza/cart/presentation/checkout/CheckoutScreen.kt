@@ -293,7 +293,7 @@ fun CheckoutScreen(
                                         .fillMaxWidth()
                             )
                         }
-                        AccordionItems(
+                        accordionItems(
                             state = state,
                             onAction = onAction,
                             isOpen = isOpen
@@ -325,6 +325,9 @@ fun CheckoutScreen(
                         PlaceOrderButton(onAction = onAction, modifier = Modifier.fillMaxWidth())
                     }
                 }
+            }
+            if (state.orderInProgress) {
+                LoadingModal()
             }
         }
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
@@ -387,7 +390,7 @@ fun CheckoutScreen(
                                         .fillMaxWidth()
                             )
                         }
-                        AccordionItems(
+                        accordionItems(
                             state = state,
                             onAction = onAction,
                             isOpen = isOpen
@@ -425,6 +428,9 @@ fun CheckoutScreen(
                     }
                 }
             }
+            if (state.orderInProgress) {
+                LoadingModal()
+            }
         }
     }
 }
@@ -451,7 +457,7 @@ fun OrderTotal(
     }
 }
 
-fun LazyGridScope.AccordionItems(
+fun LazyGridScope.accordionItems(
     state: CheckoutState,
     onAction: (CheckoutAction) -> Unit,
     isOpen: MutableState<Boolean>
@@ -609,15 +615,6 @@ fun Comments(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Footer(
-    state: CheckoutState,
-    modifier: Modifier = Modifier,
-    onAction: (CheckoutAction) -> Unit,
-    arrangement: Arrangement.Horizontal = Arrangement.Start
-) {
-}
-
-@Composable
 fun Accordion(
     inCartItem: InCartItemUi,
     onAction: (CheckoutAction) -> Unit,
@@ -713,7 +710,7 @@ private fun CheckoutScreenPreview() {
             state =
                 CheckoutState(
                     items = inCartItemsForPreviewUis,
-                    orderInProgress = false,
+                    orderInProgress = true,
                     recommendedAddOns = addOnsForPreview,
                     scheduleTime = false
 //                    timeError = "Pickup available between 10:15 and 21:45"
