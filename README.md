@@ -53,6 +53,9 @@ Android Application for Pizza Orders
 ### Ktlint Plugin
 * https://plugins.jetbrains.com/plugin/15057-ktlint
 
+### Re-Attach Debugger
+* View > Tool Windows > Debug
+
 ### Resources
 * [Font](https://fonts.google.com/specimen/Instrument+Sans)
 * https://firebase.google.com/docs/storage/android/start

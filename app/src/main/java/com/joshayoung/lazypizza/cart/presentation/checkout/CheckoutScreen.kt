@@ -53,6 +53,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -262,81 +263,12 @@ fun CheckoutScreen(
                                 .fillMaxSize()
                     ) {
                         Box {
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(1),
-                                modifier =
-                                    Modifier
-                                        .fillMaxSize()
-                            ) {
-                                item {
-                                    TimeSelections(
-                                        state = state,
-                                        pickTime = {
-                                            onAction(CheckoutAction.PickTime)
-                                        },
-                                        earliestAvailableTime = {
-                                            onAction(CheckoutAction.PickEarliestTime)
-                                        },
-                                        modifier =
-                                            Modifier
-                                                .padding(vertical = verticalPadding)
-                                    )
-                                }
-
-                                item {
-                                    EarliestTime(
-                                        state = state,
-                                        modifier =
-                                            Modifier
-                                                .padding(vertical = verticalPadding)
-                                    )
-                                }
-
-                                item {
-                                    CheckoutDivider()
-                                }
-
-                                item {
-                                    AccordionHeader(
-                                        isOpen,
-                                        modifier =
-                                            Modifier
-                                                .padding(vertical = verticalPadding)
-                                    )
-                                }
-
-                                items(state.items, key = { it.key }) { inCartItem ->
-                                    Accordion(inCartItem, onAction = onAction, isOpen)
-                                }
-
-                                item {
-                                    CheckoutDivider()
-                                }
-
-                                item {
-                                    RecommendedAddOns(
-                                        modifier =
-                                            Modifier
-                                                .padding(vertical = verticalPadding),
-                                        addOns = state.recommendedAddOns,
-                                        addProductToCart = {
-                                            onAction(CheckoutAction.AddAddOnToCart(it))
-                                        }
-                                    )
-                                }
-
-                                item {
-                                    CheckoutDivider()
-                                }
-
-                                item {
-                                    Comments(
-                                        modifier =
-                                            Modifier
-                                                .padding(vertical = verticalPadding)
-                                    )
-                                }
-                            }
+                            PageItems(
+                                state = state,
+                                onAction = onAction,
+                                verticalPadding = verticalPadding,
+                                isOpen = isOpen
+                            )
 
                             Footer(
                                 state = state,
@@ -355,10 +287,134 @@ fun CheckoutScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
+            val topPadding = 60.dp
+            var topAppBar: @Composable () -> Unit = {
+                RoundedTopBar(backToCart = backToCart)
+            }
+
+            SmallRoundedPizzaScaffold(
+                topPadding = topPadding,
+                topBar = { topAppBar() }
+            ) { innerPadding ->
+                Box(
+                    modifier =
+                        Modifier
+                            .background(MaterialTheme.colorScheme.surfaceHigher)
+                            .padding(innerPadding)
+                            .padding(horizontal = 20.dp)
+                ) {
+                    Column(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                    ) {
+                        Box {
+                            PageItems(
+                                state = state,
+                                onAction = onAction,
+                                verticalPadding = verticalPadding,
+                                isOpen = isOpen
+                            )
+
+                            Footer(
+                                state = state,
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.BottomCenter),
+                                onAction = onAction
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
     if (state.orderInProgress) {
         LoadingModal()
+    }
+}
+
+@Composable
+fun PageItems(
+    state: CheckoutState,
+    onAction: (CheckoutAction) -> Unit,
+    verticalPadding: Dp,
+    isOpen: MutableState<Boolean>
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(1),
+        modifier =
+            Modifier
+                .fillMaxSize()
+    ) {
+        item {
+            TimeSelections(
+                state = state,
+                pickTime = {
+                    onAction(CheckoutAction.PickTime)
+                },
+                earliestAvailableTime = {
+                    onAction(CheckoutAction.PickEarliestTime)
+                },
+                modifier =
+                    Modifier
+                        .padding(vertical = verticalPadding)
+            )
+        }
+
+        item {
+            EarliestTime(
+                state = state,
+                modifier =
+                    Modifier
+                        .padding(vertical = verticalPadding)
+            )
+        }
+
+        item {
+            CheckoutDivider()
+        }
+
+        item {
+            AccordionHeader(
+                isOpen,
+                modifier =
+                    Modifier
+                        .padding(vertical = verticalPadding)
+            )
+        }
+
+        items(state.items, key = { it.key }) { inCartItem ->
+            Accordion(inCartItem, onAction = onAction, isOpen)
+        }
+
+        item {
+            CheckoutDivider()
+        }
+
+        item {
+            RecommendedAddOns(
+                modifier =
+                    Modifier
+                        .padding(vertical = verticalPadding),
+                addOns = state.recommendedAddOns,
+                addProductToCart = {
+                    onAction(CheckoutAction.AddAddOnToCart(it))
+                }
+            )
+        }
+
+        item {
+            CheckoutDivider()
+        }
+
+        item {
+            Comments(
+                modifier =
+                    Modifier
+                        .padding(vertical = verticalPadding)
+            )
+        }
     }
 }
 
@@ -616,7 +672,12 @@ fun TimeSelection(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    widthDp = 800,
+    heightDp = 1280
+)
 @Composable
 private fun CheckoutScreenPreview() {
     LazyPizzaTheme {
