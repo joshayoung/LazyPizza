@@ -18,6 +18,10 @@ class ConfirmationViewModel(
 
     init {
         viewModelScope.launch {
+            state =
+                state.copy(
+                    isLoading = true
+                )
             savedStateHandle.get<String>("orderNumber")?.let { orderNumber ->
 
                 val result = cartRepository.getOrderInfo(orderNumber)
@@ -29,8 +33,10 @@ class ConfirmationViewModel(
                             pickupTime = result.pickupTime
                         )
                 }
-
-                println()
+                state =
+                    state.copy(
+                        isLoading = false
+                    )
             }
         }
     }

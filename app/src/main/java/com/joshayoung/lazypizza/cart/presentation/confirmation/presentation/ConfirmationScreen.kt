@@ -1,13 +1,18 @@
 package com.joshayoung.lazypizza.cart.presentation.confirmation.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,74 +52,92 @@ fun ConfirmationScreen(
     ) { innerPadding ->
         val paddingVertical = 10.dp
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier =
-                Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
-                    .padding(14.dp)
-        ) {
-            Text(
-                "Your order has been placed!",
-                fontWeight = FontWeight.Bold,
-                fontSize = 26.sp,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(paddingVertical)
-            )
-            Text(
-                "Thank you for your order! Please come at the indicated time.",
-                textAlign = TextAlign.Center,
-                modifier =
-                    Modifier
-                        .padding(paddingVertical)
-            )
-
             Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier =
                     Modifier
-                        .padding(top = 10.dp)
-                        .fillMaxWidth()
-                        .border(
-                            1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant,
-                            shape = RoundedCornerShape(10.dp)
-                        ).padding(10.dp)
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                ) {
-                    Text("Order Number:".uppercase())
-                    Text(state.orderNumber, style = MaterialTheme.typography.titleSmall)
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                ) {
-                    Text("Pickup Time:".uppercase())
-                    Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
-                }
-            }
-
-            TextButton(
-                onClick = {
-                    backToMain()
-                },
-                modifier = Modifier.padding(top = 20.dp)
+                        .padding(innerPadding)
+                        .fillMaxSize()
+                        .padding(14.dp)
             ) {
                 Text(
-                    "Back to Menu",
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.titleMedium
+                    "Your order has been placed!",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 26.sp,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(paddingVertical)
                 )
-            }
+                Text(
+                    "Thank you for your order! Please come at the indicated time.",
+                    textAlign = TextAlign.Center,
+                    modifier =
+                        Modifier
+                            .padding(paddingVertical)
+                )
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier =
+                        Modifier
+                            .padding(top = 10.dp)
+                            .fillMaxWidth()
+                            .border(
+                                1.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant,
+                                shape = RoundedCornerShape(10.dp)
+                            ).padding(10.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                    ) {
+                        Text("Order Number:".uppercase())
+                        Text(state.orderNumber, style = MaterialTheme.typography.titleSmall)
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                    ) {
+                        Text("Pickup Time:".uppercase())
+                        Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
+                    }
+                }
+
+                TextButton(
+                    onClick = {
+                        backToMain()
+                    },
+                    modifier = Modifier.padding(top = 20.dp)
+                ) {
+                    Text(
+                        "Back to Menu",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+        }
+    }
+    if (state.isLoading) {
+        Box(
+            modifier =
+                Modifier
+                    .clickable {
+                        // NOTE: Prevent clicking items below.
+                    }.fillMaxSize()
+                    .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.7f)),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                modifier =
+                    Modifier
+                        .size(80.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -124,7 +147,10 @@ fun ConfirmationScreen(
 private fun ConfirmationScreenPreview() {
     LazyPizzaTheme {
         ConfirmationScreen(
-            state = ConfirmationState(),
+            state =
+                ConfirmationState(
+                    isLoading = true
+                ),
             backToMain = {}
         )
     }
