@@ -16,6 +16,7 @@ import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.data.toInCartItemUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -259,7 +260,6 @@ class CheckoutViewModel(
                                 orderInProgress = true
                             )
                         }
-
                     val orderNumber = System.currentTimeMillis().toString().takeLast(5)
                     val cartItems = convertToItems(_state.value.items)
                     val json = Json.encodeToString(cartItems)

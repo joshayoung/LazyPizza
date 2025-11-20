@@ -238,17 +238,11 @@ fun CheckoutScreen(
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
-            var topAppBar: @Composable () -> Unit = {
-                RoundedTopBar(backToCart = backToCart)
-            }
-            var topPadding = 60.dp
-            if (state.orderInProgress) {
-                topPadding = 0.dp
-                topAppBar = { }
-            }
             SmallRoundedPizzaScaffold(
-                topPadding = topPadding,
-                topBar = { topAppBar() }
+                topPadding = 60.dp,
+                topBar = {
+                    RoundedTopBar(backToCart = backToCart)
+                }
             ) { innerPadding ->
                 Box(
                     modifier =
@@ -287,14 +281,11 @@ fun CheckoutScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            val topPadding = 60.dp
-            var topAppBar: @Composable () -> Unit = {
-                RoundedTopBar(backToCart = backToCart)
-            }
-
             SmallRoundedPizzaScaffold(
-                topPadding = topPadding,
-                topBar = { topAppBar() }
+                topPadding = 60.dp,
+                topBar = {
+                    RoundedTopBar(backToCart = backToCart)
+                }
             ) { innerPadding ->
                 Box(
                     modifier =
