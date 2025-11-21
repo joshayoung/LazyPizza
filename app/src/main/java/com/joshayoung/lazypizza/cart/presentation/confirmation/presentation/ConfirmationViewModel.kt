@@ -5,13 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.order.domain.OrderRepository
 import kotlinx.coroutines.launch
 
 class ConfirmationViewModel(
     savedStateHandle: SavedStateHandle,
-    private val cartRepository: CartRepository
+    private val orderRepository: OrderRepository
 ) : ViewModel() {
     var state by mutableStateOf(ConfirmationState())
         private set
@@ -24,7 +26,7 @@ class ConfirmationViewModel(
                 )
             savedStateHandle.get<String>("orderNumber")?.let { orderNumber ->
 
-                val result = cartRepository.getOrderInfo(orderNumber)
+                val result = orderRepository.getOrderInfo(orderNumber)
 
                 result?.let { orderDto ->
                     state =

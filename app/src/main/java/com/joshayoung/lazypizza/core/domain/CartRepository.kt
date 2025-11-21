@@ -44,15 +44,6 @@ interface CartRepository {
 
     suspend fun clearCartForUser(user: String?)
 
-    suspend fun placeOrder(
-        userId: String,
-        orderNumber: String,
-        pickupTime: String,
-        items: String,
-        checkoutPrice: String,
-        status: String
-    ): String?
-
     suspend fun createCartForUser(
         cartId: Long,
         theUser: String
@@ -63,8 +54,4 @@ interface CartRepository {
     fun getNumberProductsInCart(cartId: Long): Flow<Int>
 
     suspend fun getProduct(productId: String): Product
-
-    suspend fun getOrderInfo(orderNumber: String): OrderDto?
-
-    suspend fun getOrdersFor(user: String): List<Order>
 }

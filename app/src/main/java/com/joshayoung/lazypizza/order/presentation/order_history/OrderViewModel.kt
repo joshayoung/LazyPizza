@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
+import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.presentation.mappers.toOrderUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class OrderViewModel(
-    private val cardRepository: CartRepository
+    private val orderRepository: OrderRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(OrderState())
 
@@ -24,7 +25,7 @@ class OrderViewModel(
         // TODO: Use correct user here:
         viewModelScope.launch {
             val user = firebaseAuthUiClient.currentUser
-            val orders = cardRepository.getOrdersFor(user).map { order -> order.toOrderUi() }
+            val orders = orderRepository.getOrdersFor(user).map { order -> order.toOrderUi() }
             _state.update {
                 it.copy(
                     orderUis = orders

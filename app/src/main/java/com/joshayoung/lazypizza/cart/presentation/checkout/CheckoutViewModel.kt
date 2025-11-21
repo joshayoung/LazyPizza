@@ -14,6 +14,7 @@ import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
+import com.joshayoung.lazypizza.order.domain.OrderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +41,8 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 class CheckoutViewModel(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val orderRepository: OrderRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
 
@@ -297,7 +299,7 @@ class CheckoutViewModel(
                     val json = Json.encodeToString(cartItems)
                     val user = firebaseAuthUiClient.currentUser
                     val id =
-                        cartRepository.placeOrder(
+                        orderRepository.placeOrder(
                             user,
                             orderNumber,
                             _state.value.pickupTime,
