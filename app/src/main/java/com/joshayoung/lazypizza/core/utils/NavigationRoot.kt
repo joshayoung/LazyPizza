@@ -20,7 +20,7 @@ import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
 import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
 import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
-import com.joshayoung.lazypizza.history.presentation.order_history.HistoryScreenRoot
+import com.joshayoung.lazypizza.order.presentation.order_history.OrderScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
 import kotlinx.coroutines.flow.Flow
@@ -157,7 +157,7 @@ fun NavigationRoot(
         }
 
         composable<Routes.History> {
-            HistoryScreenRoot(
+            OrderScreenRoot(
                 isLoggedIn = isLoggedIn,
                 cartItems = cartItems,
                 bottomNavItemUis = bottomNavigationItems,

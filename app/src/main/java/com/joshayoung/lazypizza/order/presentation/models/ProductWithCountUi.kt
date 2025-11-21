@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.history.presentation.models
+package com.joshayoung.lazypizza.order.presentation.models
 
 data class ProductWithCountUi(
     val name: String,

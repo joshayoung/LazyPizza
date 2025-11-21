@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.history.presentation.order_history
+package com.joshayoung.lazypizza.order.presentation.order_history
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,20 +27,20 @@ import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.history.presentation.components.HistoryCard
-import com.joshayoung.lazypizza.history.presentation.models.OrderUi
+import com.joshayoung.lazypizza.order.presentation.components.OrderCard
+import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HistoryScreenRoot(
+fun OrderScreenRoot(
     isLoggedIn: Boolean,
     cartItems: Int,
-    viewModel: HistoryViewModel = koinViewModel(),
+    viewModel: OrderViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     goToMenu: () -> Unit,
     goToLogin: () -> Unit
 ) {
-    HistoryScreen(
+    OrderScreen(
         isLoggedIn = isLoggedIn,
         bottomNavItemUis = bottomNavItemUis,
         cartItems = cartItems,
@@ -51,11 +51,11 @@ fun HistoryScreenRoot(
 }
 
 @Composable
-fun HistoryScreen(
+fun OrderScreen(
     isLoggedIn: Boolean,
     bottomNavItemUis: List<BottomNavItemUi>,
     cartItems: Int,
-    state: HistoryState,
+    state: OrderState,
     goToMenu: () -> Unit,
     goToLogin: () -> Unit
 ) {
@@ -165,7 +165,7 @@ fun OrderList(
                 .fillMaxSize()
     ) {
         items(orderUis) { orderUi ->
-            HistoryCard(orderUi)
+            OrderCard(orderUi)
         }
     }
 }
@@ -217,11 +217,11 @@ fun SignedOut(goToLogin: () -> Unit) {
     heightDp = 1280
 )
 @Composable
-fun HistoryScreenPreview() {
+fun OrderScreenPreview() {
     LazyPizzaTheme {
-        HistoryScreen(
+        OrderScreen(
             state =
-                HistoryState(
+                OrderState(
                     isSignedIn = true,
                     orderUis = emptyList() // previewOrders
                 ),

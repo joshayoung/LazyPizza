@@ -6,7 +6,7 @@ import com.joshayoung.lazypizza.auth.domain.di.authModule
 import com.joshayoung.lazypizza.cart.data.di.cartModule
 import com.joshayoung.lazypizza.core.data.di.coreModule
 import com.joshayoung.lazypizza.core.networking.JwtManager
-import com.joshayoung.lazypizza.history.data.di.historyModule
+import com.joshayoung.lazypizza.order.data.di.orderModule
 import com.joshayoung.lazypizza.menu.data.di.menuModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -29,7 +29,7 @@ class LazyPizzaApp : Application() {
                 appModule,
                 cartModule,
                 coreModule,
-                historyModule,
+                orderModule,
                 menuModule,
                 authModule
             )

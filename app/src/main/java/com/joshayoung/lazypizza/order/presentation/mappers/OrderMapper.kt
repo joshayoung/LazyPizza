@@ -1,10 +1,10 @@
-package com.joshayoung.lazypizza.history.presentation.mappers
+package com.joshayoung.lazypizza.order.presentation.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.history.domain.models.Order
-import com.joshayoung.lazypizza.history.domain.models.OrderStatus
-import com.joshayoung.lazypizza.history.presentation.models.OrderUi
-import com.joshayoung.lazypizza.history.presentation.models.ProductWithCountUi
+import com.joshayoung.lazypizza.order.domain.models.Order
+import com.joshayoung.lazypizza.order.domain.models.OrderStatus
+import com.joshayoung.lazypizza.order.presentation.models.OrderUi
+import com.joshayoung.lazypizza.order.presentation.models.ProductWithCountUi
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 

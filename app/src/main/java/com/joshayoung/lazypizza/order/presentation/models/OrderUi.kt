@@ -1,6 +1,6 @@
-package com.joshayoung.lazypizza.history.presentation.models
+package com.joshayoung.lazypizza.order.presentation.models
 
-import com.joshayoung.lazypizza.history.domain.models.OrderStatus
+import com.joshayoung.lazypizza.order.domain.models.OrderStatus
 
 data class OrderUi(
     val number: String,

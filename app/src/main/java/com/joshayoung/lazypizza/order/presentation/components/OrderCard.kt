@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.history.presentation.components
+package com.joshayoung.lazypizza.order.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,12 +27,12 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
-import com.joshayoung.lazypizza.history.domain.models.OrderStatus
-import com.joshayoung.lazypizza.history.presentation.models.OrderUi
+import com.joshayoung.lazypizza.order.domain.models.OrderStatus
+import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 
 // TODO: Convert to OrderUi:
 @Composable
-fun HistoryCard(
+fun OrderCard(
     orderUi: OrderUi,
     modifier: Modifier = Modifier
 ) {
@@ -118,7 +118,7 @@ fun HistoryCard(
 
 @Preview(showBackground = true)
 @Composable
-fun HistoryCartPreview() {
+fun OrderCardPreview() {
     LazyPizzaTheme {
         Column(
             modifier =
@@ -128,7 +128,7 @@ fun HistoryCartPreview() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            HistoryCard(
+            OrderCard(
                 modifier =
                 Modifier,
                 orderUi =

@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.history.domain.models
+package com.joshayoung.lazypizza.order.domain.models
 
 enum class OrderStatus(
     val displayValue: String

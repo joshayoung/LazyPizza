@@ -17,8 +17,8 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import com.joshayoung.lazypizza.core.presentation.mappers.toTopping
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingEntity
-import com.joshayoung.lazypizza.history.domain.models.Order
-import com.joshayoung.lazypizza.history.domain.models.OrderStatus
+import com.joshayoung.lazypizza.order.domain.models.Order
+import com.joshayoung.lazypizza.order.domain.models.OrderStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
