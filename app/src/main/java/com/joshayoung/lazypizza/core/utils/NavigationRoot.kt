@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.joshayoung.lazypizza.auth.domain.models.AuthState
+import com.joshayoung.lazypizza.app.domain.models.AppWriteState
 import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutScreenRoot
@@ -20,16 +20,16 @@ import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.ui.theme.CartIcon
 import com.joshayoung.lazypizza.core.ui.theme.HistoryIcon
 import com.joshayoung.lazypizza.core.ui.theme.MenuIcon
-import com.joshayoung.lazypizza.order.presentation.order_history.OrderScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.details.DetailsScreenRoot
 import com.joshayoung.lazypizza.menu.presentation.home.HomeScreenRoot
+import com.joshayoung.lazypizza.order.presentation.order_history.OrderScreenRoot
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.parameter.parametersOf
 import kotlin.collections.listOf
 
 @Composable
 fun NavigationRoot(
-    authFlow: Flow<AuthState>,
+    authFlow: Flow<AppWriteState>,
     navController: NavHostController,
     cartItems: Int
 ) {

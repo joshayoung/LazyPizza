@@ -1,12 +1,11 @@
-package com.joshayoung.lazypizza.auth.data
+package com.joshayoung.lazypizza.app.data
 
-import com.joshayoung.lazypizza.auth.domain.AuthRepository
+import com.joshayoung.lazypizza.app.domain.AuthRepository
 import com.joshayoung.lazypizza.core.networking.JwtManager
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 
-// TODO: Should this be in a different layer?
 class AppWriteAuthRepository(
     private var appWriteClient: Client
 ) : AuthRepository {

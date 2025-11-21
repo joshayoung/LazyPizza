@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.auth.domain
+package com.joshayoung.lazypizza.app.domain
 
 interface AuthRepository {
     suspend fun login(

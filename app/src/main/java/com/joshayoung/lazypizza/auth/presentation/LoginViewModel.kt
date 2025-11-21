@@ -184,18 +184,10 @@ class LoginViewModel(
         flow {
             var counter = 60
 
-//            if (inDebug()) {
-//                counter = 20
-//            }
-
             while (counter >= 0) {
                 emit(counter)
                 delay(1000)
                 counter--
             }
         }
-
-    private fun inDebug(): Boolean {
-        return BuildConfig.DEBUG
-    }
 }

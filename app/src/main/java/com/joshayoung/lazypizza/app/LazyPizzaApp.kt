@@ -2,12 +2,12 @@ package com.joshayoung.lazypizza.app
 
 import android.app.Application
 import com.joshayoung.lazypizza.app.data.di.appModule
-import com.joshayoung.lazypizza.auth.domain.di.authModule
+import com.joshayoung.lazypizza.auth.data.di.authModule
 import com.joshayoung.lazypizza.cart.data.di.cartModule
 import com.joshayoung.lazypizza.core.data.di.coreModule
 import com.joshayoung.lazypizza.core.networking.JwtManager
-import com.joshayoung.lazypizza.order.data.di.orderModule
 import com.joshayoung.lazypizza.menu.data.di.menuModule
+import com.joshayoung.lazypizza.order.data.di.orderModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext

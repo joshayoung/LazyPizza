@@ -7,7 +7,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.auth.domain.models.AuthState
+import com.joshayoung.lazypizza.app.domain.models.AppWriteState
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,12 +18,12 @@ import kotlin.coroutines.resume
 class FirebaseAuthUiClient {
     val firebaseAuth = FirebaseAuth.getInstance()
 
-    val authState: Flow<AuthState> =
+    val appWriteState: Flow<AppWriteState> =
         callbackFlow {
             val listener =
                 FirebaseAuth.AuthStateListener {
                     val user = firebaseAuth.currentUser
-                    trySend(AuthState(user != null, user?.uid))
+                    trySend(AppWriteState(user != null, user?.uid))
                 }
             firebaseAuth.addAuthStateListener(listener)
 
