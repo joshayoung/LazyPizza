@@ -1,7 +1,5 @@
 package com.joshayoung.lazypizza.order.data.di
 
-import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
-import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.order.data.OrderRepositoryImpl
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.presentation.order_history.OrderViewModel

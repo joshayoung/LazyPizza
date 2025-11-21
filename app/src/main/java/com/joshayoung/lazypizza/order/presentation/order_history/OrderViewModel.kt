@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.order.presentation.order_history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.presentation.mappers.toOrderUi

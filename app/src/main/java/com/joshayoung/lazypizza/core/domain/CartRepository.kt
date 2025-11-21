@@ -1,13 +1,10 @@
 package com.joshayoung.lazypizza.core.domain
 
-import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.core.domain.models.Topping
-import com.joshayoung.lazypizza.order.domain.models.Order
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {

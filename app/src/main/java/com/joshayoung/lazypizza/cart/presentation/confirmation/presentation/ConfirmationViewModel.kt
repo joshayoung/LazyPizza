@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import kotlinx.coroutines.launch
 

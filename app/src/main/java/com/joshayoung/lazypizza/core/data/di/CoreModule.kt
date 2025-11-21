@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.core.data.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 var coreModule =

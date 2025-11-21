@@ -5,7 +5,6 @@ import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
 import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import com.joshayoung.lazypizza.order.domain.OrderRepository
