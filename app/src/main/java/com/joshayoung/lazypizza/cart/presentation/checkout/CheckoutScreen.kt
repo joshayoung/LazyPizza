@@ -369,33 +369,49 @@ fun CheckoutScreen(
                                 .padding(bottom = 100.dp)
                     ) {
                         item(span = { GridItemSpan(2) }) {
-                            Text(text = "Pickup Time".uppercase())
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceEvenly,
+                            Column(
                                 modifier =
                                     Modifier
-                                        .fillMaxWidth()
                                         .padding(top = 10.dp)
+                                        .padding(bottom = 10.dp)
                             ) {
-                                TimeSelections(
-                                    state = state,
-                                    pickTime = {
-                                        onAction(CheckoutAction.PickTime)
-                                    },
-                                    earliestAvailableTime = {
-                                        onAction(CheckoutAction.PickEarliestTime)
-                                    },
+                                Text(
+                                    text = "Pickup Time".uppercase(),
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(10.dp),
                                     modifier =
                                         Modifier
-                                            .weight(1f)
-                                )
+                                            .fillMaxWidth()
+                                            .padding(top = 10.dp)
+                                ) {
+                                    TimeSelections(
+                                        state = state,
+                                        pickTime = {
+                                            onAction(CheckoutAction.PickTime)
+                                        },
+                                        earliestAvailableTime = {
+                                            onAction(CheckoutAction.PickEarliestTime)
+                                        },
+                                        modifier =
+                                            Modifier
+                                                .weight(1f)
+                                    )
+                                }
                             }
+                        }
+                        item(span = { GridItemSpan(2) }) {
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
                         }
                         item(span = { GridItemSpan(2) }) {
                             EarliestTime(
                                 state = state,
                                 modifier = Modifier
                             )
+                        }
+                        item(span = { GridItemSpan(2) }) {
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
                         }
                         item(span = { GridItemSpan(2) }) {
                             AccordionHeader(
@@ -411,6 +427,9 @@ fun CheckoutScreen(
                             isOpen = isOpen
                         )
                         item(span = { GridItemSpan(2) }) {
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                        }
+                        item(span = { GridItemSpan(2) }) {
                             RecommendedAddOns(
                                 modifier =
                                     Modifier
@@ -420,6 +439,9 @@ fun CheckoutScreen(
                                     onAction(CheckoutAction.AddAddOnToCart(it))
                                 }
                             )
+                        }
+                        item(span = { GridItemSpan(2) }) {
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
                         }
 
                         item(span = { GridItemSpan(2) }) {
@@ -481,7 +503,7 @@ fun OrderTotal(
             "Order Total:".uppercase(),
             style = MaterialTheme.typography.bodySmall
         )
-        val formatted = String.format(Locale.US, "%.2f", state.checkoutPrice)
+        val formatted = String.format(Locale.US, "$%.2f", state.checkoutPrice)
         Text(formatted, style = MaterialTheme.typography.titleSmall)
     }
 }
@@ -560,7 +582,7 @@ fun EarliestTime(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Earliest Pickup Time".uppercase())
+            Text("Earliest Pickup Time".uppercase(), style = MaterialTheme.typography.bodySmall)
             Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
         }
     }
@@ -719,11 +741,11 @@ fun TimeSelection(
     }
 }
 
-@Preview(
+ @Preview(
     showBackground = true,
     widthDp = 400,
     heightDp = 1380
-)
+ )
 @Preview(
     showBackground = true,
     widthDp = 800,
