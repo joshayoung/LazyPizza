@@ -1,6 +1,6 @@
-package com.joshayoung.lazypizza.core.data
+package com.joshayoung.lazypizza.auth.data
 
-import com.joshayoung.lazypizza.core.domain.AuthRepository
+import com.joshayoung.lazypizza.auth.domain.AuthRepository
 import com.joshayoung.lazypizza.core.networking.JwtManager
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
