@@ -15,6 +15,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 
+// TODO: Should this be injected. I am using it in multiple places:
 class FirebaseAuthUiClient {
     val firebaseAuth = FirebaseAuth.getInstance()
 

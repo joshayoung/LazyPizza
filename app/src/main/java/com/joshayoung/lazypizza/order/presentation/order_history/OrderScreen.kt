@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
@@ -44,7 +43,7 @@ fun OrderScreenRoot(
         isLoggedIn = isLoggedIn,
         bottomNavItemUis = bottomNavItemUis,
         cartItems = cartItems,
-        state = viewModel.state.collectAsStateWithLifecycle().value,
+        state = viewModel.state,
         goToMenu = goToMenu,
         goToLogin = goToLogin
     )

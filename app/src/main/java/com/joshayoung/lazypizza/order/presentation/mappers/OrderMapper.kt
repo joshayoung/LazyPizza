@@ -2,7 +2,7 @@ package com.joshayoung.lazypizza.order.presentation.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.order.domain.models.Order
-import com.joshayoung.lazypizza.order.domain.models.OrderStatus
+import com.joshayoung.lazypizza.order.presentation.models.OrderStatusUi
 import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 import com.joshayoung.lazypizza.order.presentation.models.ProductWithCountUi
 import java.time.ZonedDateTime
@@ -13,7 +13,7 @@ fun Order.toOrderUi(): OrderUi {
         number = number,
         date = formatDate(date),
         productsWithCount = getProductWithCounts(products),
-        status = status,
+        status = getStatus(status),
         total = total,
         userId = userId,
         pickupTime = pickupTime
@@ -36,17 +36,16 @@ private fun getProductWithCounts(products: List<Product>): List<ProductWithCount
     }
 }
 
-// TODO: Use this in UI layer:
-private fun getStatus(status: String): OrderStatus {
+private fun getStatus(status: String): OrderStatusUi {
     return when (status) {
         "inProgress" -> {
-            OrderStatus.InProgress
+            OrderStatusUi.InProgress
         }
         "completed" -> {
-            OrderStatus.Completed
+            OrderStatusUi.Completed
         }
         else -> {
-            OrderStatus.Unknown
+            OrderStatusUi.Unknown
         }
     }
 }

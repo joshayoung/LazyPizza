@@ -1,9 +1,9 @@
 package com.joshayoung.lazypizza.core.domain.network
 
-import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
+import com.joshayoung.lazypizza.order.domain.network.models.OrderDto
 
 interface CartRemoteDataSource {
     suspend fun getProducts(table: String): List<Product>

@@ -27,7 +27,7 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaColors
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.textPrimary
-import com.joshayoung.lazypizza.order.domain.models.OrderStatus
+import com.joshayoung.lazypizza.order.presentation.models.OrderStatusUi
 import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 
 // TODO: Convert to OrderUi:
@@ -94,9 +94,9 @@ fun OrderCard(
         ) {
             val statusColor =
                 when (orderUi.status) {
-                    OrderStatus.InProgress -> LazyPizzaColors.inProgress
-                    OrderStatus.Completed -> LazyPizzaColors.completed
-                    OrderStatus.Unknown -> Color.Transparent
+                    OrderStatusUi.InProgress -> LazyPizzaColors.inProgress
+                    OrderStatusUi.Completed -> LazyPizzaColors.completed
+                    OrderStatusUi.Unknown -> Color.Transparent
                 }
             Text(
                 orderUi.status.displayValue,
@@ -138,7 +138,7 @@ fun OrderCardPreview() {
                         userId = "joe",
                         productsWithCount = emptyList(),
                         total = "12.54",
-                        status = OrderStatus.InProgress,
+                        status = OrderStatusUi.InProgress,
                         date = "bla"
                     )
 //                    Order(

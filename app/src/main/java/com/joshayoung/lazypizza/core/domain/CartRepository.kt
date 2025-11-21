@@ -1,9 +1,9 @@
 package com.joshayoung.lazypizza.core.domain
 
-import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
+import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.Product
 import kotlinx.coroutines.flow.Flow
 

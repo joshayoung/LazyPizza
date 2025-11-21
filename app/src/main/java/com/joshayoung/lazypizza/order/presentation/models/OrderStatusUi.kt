@@ -1,6 +1,6 @@
-package com.joshayoung.lazypizza.order.domain.models
+package com.joshayoung.lazypizza.order.presentation.models
 
-enum class OrderStatus(
+enum class OrderStatusUi(
     val displayValue: String
 ) {
     InProgress("In Progress"),

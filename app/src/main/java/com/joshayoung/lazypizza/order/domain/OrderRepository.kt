@@ -1,10 +1,9 @@
 package com.joshayoung.lazypizza.order.domain
 
-import com.joshayoung.lazypizza.cart.domain.models.OrderDto
 import com.joshayoung.lazypizza.order.domain.models.Order
 
 interface OrderRepository {
-    suspend fun getOrderInfo(orderNumber: String): OrderDto?
+    suspend fun getOrderInfo(orderNumber: String): Order?
 
     suspend fun getOrdersFor(user: String): List<Order>
 

@@ -29,7 +29,7 @@ class ConfirmationViewModel(
                 result?.let { orderDto ->
                     state =
                         state.copy(
-                            orderNumber = result.orderNumber,
+                            orderNumber = result.number,
                             pickupTime = result.pickupTime
                         )
                 }
