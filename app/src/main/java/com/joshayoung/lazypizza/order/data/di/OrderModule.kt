@@ -16,6 +16,7 @@ var orderModule =
         single {
             OrderRepositoryImpl(
                 get(),
+                get(),
                 get()
             )
         }.bind<OrderRepository>()

@@ -11,13 +11,15 @@ import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.mappers.toToppingUi
+import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class DetailViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val menuRepository: MenuRepository
 ) : ViewModel() {
     var state by mutableStateOf(DetailsState())
         private set
@@ -35,14 +37,14 @@ class DetailViewModel(
         viewModelScope.launch {
             cartRepository.updateLocalToppingsWithRemote()
             productId?.let { id ->
-                val product = cartRepository.getProduct(id)
+                val product = menuRepository.getProduct(id)
                 val productUi = product.toProductUi()
                 state =
                     state.copy(
                         productUi = productUi,
                         totalPrice = productUi.price
                     )
-                var toppings = cartRepository.getToppings()
+                var toppings = menuRepository.getToppings()
                 state =
                     state.copy(
                         toppings = toppings.map { it.toToppingUi() }

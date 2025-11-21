@@ -7,6 +7,7 @@ import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.domain.models.Order
 import com.joshayoung.lazypizza.order.domain.models.OrderStatus
@@ -14,7 +15,8 @@ import kotlinx.serialization.json.Json
 
 class OrderRepositoryImpl(
     private var cartRemoteDataSource: CartRemoteDataSource,
-    private var cartRepository: CartRepository
+    private var cartRepository: CartRepository,
+    private var menuRepository: MenuRepository
 ) : OrderRepository {
     override suspend fun getOrdersFor(user: String): List<Order> {
         val orderDtos =
@@ -32,7 +34,7 @@ class OrderRepositoryImpl(
                 val products =
                     ordered.map { order ->
                         // TODO: This needs to be done in a use case instead of having two repos:
-                        cartRepository.getProduct(order.productRemoteId)
+                        menuRepository.getProduct(order.productRemoteId)
                     }
                 Order(
                     number = orderDto.orderNumber,

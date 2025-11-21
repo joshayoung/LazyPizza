@@ -15,8 +15,6 @@ interface CartRepository {
 
     suspend fun removeAllFromCart(lineNumber: Long)
 
-    suspend fun getToppings(): List<Topping>
-
     suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto>
 
     suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>>
@@ -52,6 +50,4 @@ interface CartRepository {
     fun allProductsWithCartItems(): Flow<List<ProductInCartDto>>
 
     fun getNumberProductsInCart(cartId: Long): Flow<Int>
-
-    suspend fun getProduct(productId: String): Product
 }

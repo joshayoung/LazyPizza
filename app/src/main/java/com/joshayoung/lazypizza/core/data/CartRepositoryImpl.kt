@@ -39,25 +39,6 @@ class CartRepositoryImpl(
         )
     }
 
-    override suspend fun getToppings(): List<Topping> {
-        val localToppings = localDataSource.getAllToppings()
-        if (!localToppings.isEmpty()) {
-            return localToppings.map { it.toTopping() }
-        } else {
-            val remoteToppings =
-                cartRemoteDataSource
-                    .getToppings(
-                        BuildConfig.TOPPINGS_COLLECTION_ID
-                    )
-
-            remoteToppings.forEach { topping ->
-                localDataSource.upsertTopping(topping.toToppingEntity())
-            }
-
-            return remoteToppings
-        }
-    }
-
     override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto> {
         return localDataSource.getToppingForProductInCart(lineItemId)
     }
@@ -146,10 +127,5 @@ class CartRepositoryImpl(
 
     override fun getNumberProductsInCart(cartId: Long): Flow<Int> {
         return localDataSource.getNumberProductsInCart(cartId)
-    }
-
-    // TODO: Move to a different repository:
-    override suspend fun getProduct(productId: String): Product {
-        return localDataSource.getProduct(productId)
     }
 }
