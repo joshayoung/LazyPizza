@@ -24,7 +24,7 @@ import com.joshayoung.lazypizza.core.ui.theme.BackIcon
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 
 @Composable
-fun RoundedTopBar(backToCart: () -> Unit) {
+fun RoundedTopBar(backToCart: () -> Unit = {}) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,

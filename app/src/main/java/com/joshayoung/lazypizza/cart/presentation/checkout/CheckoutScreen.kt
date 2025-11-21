@@ -741,11 +741,11 @@ fun TimeSelection(
     }
 }
 
- @Preview(
+@Preview(
     showBackground = true,
     widthDp = 400,
     heightDp = 1380
- )
+)
 @Preview(
     showBackground = true,
     widthDp = 800,
