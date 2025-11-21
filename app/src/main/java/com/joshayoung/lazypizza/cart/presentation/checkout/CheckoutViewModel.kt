@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.cart.utils.OrderEvent
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
@@ -15,6 +14,7 @@ import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
 import com.joshayoung.lazypizza.order.domain.OrderRepository
+import com.joshayoung.lazypizza.order.domain.models.ProductWithToppings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -322,9 +322,9 @@ class CheckoutViewModel(
         }
     }
 
-    private fun convertToItems(inCartItems: List<InCartItemUi>): List<Ordered> {
+    private fun convertToItems(inCartItems: List<InCartItemUi>): List<ProductWithToppings> {
         return inCartItems.map { inCartItem ->
-            Ordered(
+            ProductWithToppings(
                 productRemoteId = inCartItem.remoteId,
                 toppingRemoteIds = inCartItem.toppings.map { topping -> topping.remoteId }
             )

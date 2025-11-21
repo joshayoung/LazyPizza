@@ -1,6 +1,8 @@
 package com.joshayoung.lazypizza.order.data.di
 
+import com.joshayoung.lazypizza.order.data.OrderProcessorImpl
 import com.joshayoung.lazypizza.order.data.OrderRepositoryImpl
+import com.joshayoung.lazypizza.order.domain.OrderProcessor
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.presentation.order_history.OrderViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -13,8 +15,14 @@ var orderModule =
 
         single {
             OrderRepositoryImpl(
-                get(),
                 get()
             )
         }.bind<OrderRepository>()
+
+        single {
+            OrderProcessorImpl(
+                get(),
+                get()
+            )
+        }.bind<OrderProcessor>()
     }

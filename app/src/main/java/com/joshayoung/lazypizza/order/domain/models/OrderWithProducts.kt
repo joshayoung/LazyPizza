@@ -1,9 +1,12 @@
 package com.joshayoung.lazypizza.order.domain.models
 
-data class Order(
+import com.joshayoung.lazypizza.core.domain.models.Product
+
+// TODO: Include the toppings in this object:
+data class OrderWithProducts(
     val number: String,
     val date: String,
-    val products: List<ProductWithToppings>,
+    val products: List<Product>,
     val status: String,
     val total: String,
     val userId: String,

@@ -2,16 +2,14 @@ package com.joshayoung.lazypizza.order.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
-import com.joshayoung.lazypizza.cart.domain.models.Ordered
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
-import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.domain.models.Order
+import com.joshayoung.lazypizza.order.domain.models.ProductWithToppings
 import kotlinx.serialization.json.Json
 
 class OrderRepositoryImpl(
-    private var cartRemoteDataSource: CartRemoteDataSource,
-    private var menuRepository: MenuRepository
+    private var cartRemoteDataSource: CartRemoteDataSource
 ) : OrderRepository {
     override suspend fun getOrdersFor(user: String): List<Order> {
         val orderDtos =
@@ -23,18 +21,15 @@ class OrderRepositoryImpl(
 
         val orders =
             orderDtos.map { orderDto ->
-                val ordered = Json.decodeFromString<List<Ordered>>(orderDto.items)
+                val productWithToppings =
+                    Json.decodeFromString<List<ProductWithToppings>>(
+                        orderDto.items
+                    )
 
-                // TODO: Also return the toppings:
-                val products =
-                    ordered.map { order ->
-                        // TODO: This needs to be done in a use case instead of having two repos:
-                        menuRepository.getProduct(order.productRemoteId)
-                    }
                 Order(
                     number = orderDto.orderNumber,
                     date = orderDto.createdAt,
-                    products = products,
+                    products = productWithToppings,
                     status = orderDto.status,
                     total = orderDto.totalAmount,
                     userId = orderDto.userId,
@@ -48,19 +43,15 @@ class OrderRepositoryImpl(
     override suspend fun getOrderInfo(orderNumber: String): Order? {
         val orderDto = cartRemoteDataSource.getOrderInfo(orderNumber)
         if (orderDto != null) {
-            val ordered = Json.decodeFromString<List<Ordered>>(orderDto.items)
-
-            // TODO: Also return the toppings:
-            val products =
-                ordered.map { order ->
-                    // TODO: This needs to be done in a use case instead of having two repos:
-                    menuRepository.getProduct(order.productRemoteId)
-                }
+            val productWithToppings =
+                Json.decodeFromString<List<ProductWithToppings>>(
+                    orderDto.items
+                )
 
             return Order(
                 number = orderDto.orderNumber,
                 date = orderDto.createdAt,
-                products = products,
+                products = productWithToppings,
                 status = orderDto.status,
                 total = orderDto.totalAmount,
                 userId = orderDto.userId,

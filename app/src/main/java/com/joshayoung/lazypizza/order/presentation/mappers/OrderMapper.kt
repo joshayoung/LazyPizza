@@ -1,14 +1,14 @@
 package com.joshayoung.lazypizza.order.presentation.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
-import com.joshayoung.lazypizza.order.domain.models.Order
+import com.joshayoung.lazypizza.order.domain.models.OrderWithProducts
 import com.joshayoung.lazypizza.order.presentation.models.OrderStatusUi
 import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 import com.joshayoung.lazypizza.order.presentation.models.ProductWithCountUi
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-fun Order.toOrderUi(): OrderUi {
+fun OrderWithProducts.toOrderUi(): OrderUi {
     return OrderUi(
         number = number,
         date = formatDate(date),

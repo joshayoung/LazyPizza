@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.order.domain.network.models
 
-// TODO: Add other fields:
 data class OrderDto(
     val userId: String,
     val orderNumber: String,

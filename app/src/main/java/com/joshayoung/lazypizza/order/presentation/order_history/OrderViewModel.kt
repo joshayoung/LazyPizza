@@ -6,12 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
-import com.joshayoung.lazypizza.order.domain.OrderRepository
+import com.joshayoung.lazypizza.order.domain.OrderProcessor
 import com.joshayoung.lazypizza.order.presentation.mappers.toOrderUi
 import kotlinx.coroutines.launch
 
 class OrderViewModel(
-    private val orderRepository: OrderRepository
+    private val orderProcessor: OrderProcessor
 ) : ViewModel() {
     var state by mutableStateOf(OrderState())
         private set
@@ -21,7 +21,7 @@ class OrderViewModel(
     init {
         viewModelScope.launch {
             val user = firebaseAuthUiClient.currentUser
-            val orders = orderRepository.getOrdersFor(user).map { order -> order.toOrderUi() }
+            val orders = orderProcessor.getOrdersFor(user).map { order -> order.toOrderUi() }
             state =
                 state.copy(
                     orderUis = orders
