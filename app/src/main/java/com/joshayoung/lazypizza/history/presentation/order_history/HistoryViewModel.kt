@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.auth.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.history.toOrderUi
+import com.joshayoung.lazypizza.history.presentation.mappers.toOrderUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update

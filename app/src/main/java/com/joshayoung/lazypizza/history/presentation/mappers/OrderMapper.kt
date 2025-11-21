@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.history
+package com.joshayoung.lazypizza.history.presentation.mappers
 
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.history.domain.models.Order

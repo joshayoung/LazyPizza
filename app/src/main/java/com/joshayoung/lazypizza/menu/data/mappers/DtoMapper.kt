@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.menu.data
+package com.joshayoung.lazypizza.menu.data.mappers
 
 import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto

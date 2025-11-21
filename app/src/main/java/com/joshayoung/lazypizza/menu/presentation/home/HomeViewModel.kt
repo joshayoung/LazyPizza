@@ -8,7 +8,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
-import com.joshayoung.lazypizza.menu.data.toInCartItemUi
+import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import kotlinx.coroutines.flow.MutableStateFlow

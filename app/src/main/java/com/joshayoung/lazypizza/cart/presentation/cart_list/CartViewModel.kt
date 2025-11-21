@@ -10,7 +10,7 @@ import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
-import com.joshayoung.lazypizza.menu.data.toInCartItemUi
+import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
