@@ -49,14 +49,19 @@ class CheckoutViewModel(
     private val eventChannel = Channel<Stuff>()
     val events = eventChannel.receiveAsFlow()
 
-    init {
+    private fun timePlusFifteen(): String {
         val currentTime = LocalTime.now()
-        var availableTime = currentTime.plusMinutes(15)
+        val availableTime = currentTime.plusMinutes(15)
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val formattedTime = availableTime.format(formatter)
+
+        return formattedTime
+    }
+
+    init {
         _state.update {
             it.copy(
-                pickupTime = formattedTime
+                pickupTime = timePlusFifteen()
             )
         }
 
@@ -140,16 +145,18 @@ class CheckoutViewModel(
             CheckoutAction.PickEarliestTime -> {
                 _state.update {
                     it.copy(
-                        earliestTime = true,
-                        scheduleTime = false
+                        earliestTimeSet = true,
+                        futureDeliveryTimeSet = false,
+                        futureDeliveryDateSelected = false,
+                        pickupTime = timePlusFifteen()
                     )
                 }
             }
-            CheckoutAction.PickTime -> {
+            CheckoutAction.PickDateAndTime -> {
                 _state.update {
                     it.copy(
-                        scheduleDate = true,
-                        earliestTime = false
+                        datePickerOpen = true,
+                        futureDeliveryDateSelected = true
                     )
                 }
             }
@@ -162,8 +169,8 @@ class CheckoutViewModel(
                 _state.update {
                     it.copy(
                         date = action.date,
-                        scheduleDate = false,
-                        scheduleTime = true
+                        datePickerOpen = false,
+                        timePickerOpen = true
                     )
                 }
             }
@@ -228,25 +235,51 @@ class CheckoutViewModel(
                 _state
                     .update {
                         it.copy(
-                            scheduleTime = false,
-                            timeScheduled = true,
+                            timePickerOpen = false,
+                            futureDeliveryTimeSet = true,
                             pickupTime = pickupTime
                         )
                     }
             }
 
             CheckoutAction.CloseDatePicker -> {
+                if (_state.value.futureDeliveryTimeSet) {
+                    _state.update {
+                        it.copy(
+                            datePickerOpen = false
+                        )
+                    }
+                    return
+                }
+
                 _state.update {
                     it.copy(
-                        scheduleDate = false
+                        earliestTimeSet = true,
+                        futureDeliveryTimeSet = false,
+                        futureDeliveryDateSelected = false,
+                        datePickerOpen = false,
+                        pickupTime = timePlusFifteen()
                     )
                 }
             }
 
             CheckoutAction.CloseTimePicker -> {
+                if (_state.value.futureDeliveryTimeSet) {
+                    _state.update {
+                        it.copy(
+                            timePickerOpen = false
+                        )
+                    }
+                    return
+                }
+
                 _state.update {
                     it.copy(
-                        scheduleTime = false
+                        earliestTimeSet = true,
+                        futureDeliveryTimeSet = false,
+                        futureDeliveryDateSelected = false,
+                        timePickerOpen = false,
+                        pickupTime = timePlusFifteen()
                     )
                 }
             }

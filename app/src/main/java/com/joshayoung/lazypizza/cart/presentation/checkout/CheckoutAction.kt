@@ -29,7 +29,7 @@ sealed interface CheckoutAction {
         val minute: Int
     ) : CheckoutAction
 
-    data object PickTime : CheckoutAction
+    data object PickDateAndTime : CheckoutAction
 
     data object PlaceOrder : CheckoutAction
 

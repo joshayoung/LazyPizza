@@ -10,14 +10,21 @@ data class CheckoutState(
     val cartItems: Int = 0,
     val recommendedAddOns: List<ProductUi> = emptyList(),
     val checkoutPrice: BigDecimal = BigDecimal(0.0),
-    val earliestTime: Boolean = true,
-    val scheduleDate: Boolean = false,
-    val scheduleTime: Boolean = false,
-    val timeScheduled: Boolean = false,
+    val earliestTimeSet: Boolean = true,
+    val datePickerOpen: Boolean = false,
+    val timePickerOpen: Boolean = false,
+    val futureDeliveryTimeSet: Boolean = false,
+    val futureDeliveryDateSelected: Boolean = false,
     val timeError: String = "",
     val pickupTime: String = "00:00",
     val date: Long? = null,
     val hour: Int? = null,
     val minute: Int? = null,
     val orderInProgress: Boolean = false
-)
+) {
+    val customScheduleActive: Boolean
+        get() = futureDeliveryTimeSet || futureDeliveryDateSelected
+
+    val earliestAvailableActive: Boolean
+        get() = !futureDeliveryTimeSet && !futureDeliveryDateSelected
+}

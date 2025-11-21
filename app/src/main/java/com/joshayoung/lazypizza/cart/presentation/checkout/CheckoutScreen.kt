@@ -123,14 +123,14 @@ fun CheckoutScreen(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-    val isOpen = remember { mutableStateOf(false) }
+    val isOpen = remember { mutableStateOf(true) }
     val verticalPadding = 10.dp
     val datePickerState =
         rememberDatePickerState(
             selectableDates = FutureDates
         )
 
-    if (state.scheduleDate) {
+    if (state.datePickerOpen) {
         DatePickerDialog(
             onDismissRequest = {},
             confirmButton = {
@@ -155,7 +155,7 @@ fun CheckoutScreen(
         }
     }
 
-    if (state.scheduleTime) {
+    if (state.timePickerOpen) {
         val currentTime = Calendar.getInstance()
 
         val timePickerState =
@@ -268,7 +268,7 @@ fun CheckoutScreen(
                                 TimeSelections(
                                     state = state,
                                     pickTime = {
-                                        onAction(CheckoutAction.PickTime)
+                                        onAction(CheckoutAction.PickDateAndTime)
                                     },
                                     earliestAvailableTime = {
                                         onAction(CheckoutAction.PickEarliestTime)
@@ -389,7 +389,7 @@ fun CheckoutScreen(
                                     TimeSelections(
                                         state = state,
                                         pickTime = {
-                                            onAction(CheckoutAction.PickTime)
+                                            onAction(CheckoutAction.PickDateAndTime)
                                         },
                                         earliestAvailableTime = {
                                             onAction(CheckoutAction.PickEarliestTime)
@@ -533,7 +533,7 @@ fun TimeSelections(
         onSelect = {
             earliestAvailableTime()
         },
-        isSelected = state.earliestTime,
+        isSelected = state.earliestAvailableActive,
         text = "Earliest available time"
     )
     TimeSelection(
@@ -541,7 +541,7 @@ fun TimeSelections(
         onSelect = {
             pickTime()
         },
-        isSelected = state.timeScheduled,
+        isSelected = state.customScheduleActive,
         text = "Schedule time"
     )
 }
@@ -761,7 +761,7 @@ private fun CheckoutScreenPreview() {
                     items = inCartItemsForPreviewUis,
                     orderInProgress = false,
                     recommendedAddOns = addOnsForPreview,
-                    scheduleTime = false
+                    timePickerOpen = false
 //                    timeError = "Pickup available between 10:15 and 21:45"
                 ),
             onAction = {}
