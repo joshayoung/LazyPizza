@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core.data.database.dto
+package com.joshayoung.lazypizza.core.data.network.dto
 
 import kotlinx.serialization.Serializable
 

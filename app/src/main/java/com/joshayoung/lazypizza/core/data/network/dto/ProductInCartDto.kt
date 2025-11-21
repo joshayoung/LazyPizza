@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core.data.database.dto
+package com.joshayoung.lazypizza.core.data.network.dto
 
 data class ProductInCartDto(
     var lineItemId: Long? = null,

@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.core.presentation.models
 
-import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 
 data class InCartItemUi(

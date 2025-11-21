@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.menu.data.mappers
 
-import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 

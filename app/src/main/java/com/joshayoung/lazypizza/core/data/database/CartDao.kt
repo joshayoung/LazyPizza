@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.joshayoung.lazypizza.core.data.database.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity

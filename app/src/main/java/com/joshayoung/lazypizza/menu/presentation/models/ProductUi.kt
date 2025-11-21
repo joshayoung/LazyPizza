@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.menu.presentation.models
 
-import com.joshayoung.lazypizza.core.data.database.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import java.math.BigDecimal
 
 data class ProductUi(
