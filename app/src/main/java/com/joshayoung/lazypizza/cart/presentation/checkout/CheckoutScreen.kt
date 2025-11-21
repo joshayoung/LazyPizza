@@ -32,7 +32,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -124,7 +123,7 @@ fun CheckoutScreen(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-    val isOpen = remember { mutableStateOf(true) }
+    val isOpen = remember { mutableStateOf(false) }
     val verticalPadding = 10.dp
     val datePickerState =
         rememberDatePickerState(
@@ -207,12 +206,6 @@ fun CheckoutScreen(
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
-                HorizontalDivider(
-                    color = MaterialTheme.colorScheme.outline,
-                    modifier =
-                        Modifier
-                            .height(1.dp)
-                )
                 Row(
                     horizontalArrangement = Arrangement.End,
                     modifier =
@@ -248,6 +241,7 @@ fun CheckoutScreen(
                 Box(
                     modifier =
                         Modifier
+                            .padding(innerPadding)
                             .fillMaxHeight()
                             .padding(horizontal = 20.dp)
                 ) {
@@ -259,12 +253,18 @@ fun CheckoutScreen(
                     ) {
                         item {
                             Column(
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
                                         .padding(top = 10.dp)
+                                        .padding(bottom = 10.dp)
                             ) {
-                                Text(text = "Pickup Time".uppercase())
+                                Text(
+                                    text = "Pickup Time".uppercase(),
+                                    style =
+                                        MaterialTheme.typography.bodySmall
+                                )
                                 TimeSelections(
                                     state = state,
                                     pickTime = {
@@ -286,12 +286,21 @@ fun CheckoutScreen(
                             )
                         }
                         item {
-                            AccordionHeader(
-                                isOpen,
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                        }
+                        item {
+                            Column(
                                 modifier =
                                     Modifier
-                                        .fillMaxWidth()
-                            )
+                                        .fillMaxHeight()
+                            ) {
+                                AccordionHeader(
+                                    isOpen,
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                )
+                            }
                         }
                         accordionItems(
                             state = state,
@@ -299,15 +308,20 @@ fun CheckoutScreen(
                             isOpen = isOpen
                         )
                         item {
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                        }
+
+                        item {
                             RecommendedAddOns(
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding),
+                                modifier = Modifier.height(200.dp),
                                 addOns = state.recommendedAddOns,
                                 addProductToCart = {
                                     onAction(CheckoutAction.AddAddOnToCart(it))
                                 }
                             )
+                        }
+                        item {
+                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
                         }
                         item {
                             Comments()
@@ -344,6 +358,7 @@ fun CheckoutScreen(
                 Box(
                     modifier =
                         Modifier
+                            .padding(innerPadding)
                             .fillMaxHeight()
                             .padding(horizontal = 20.dp)
                 ) {
@@ -436,6 +451,20 @@ fun CheckoutScreen(
 }
 
 @Composable
+fun CheckoutBorder(modifier: Modifier = Modifier) {
+    Box(
+        modifier =
+            modifier
+                .border(
+                    width = 1.dp,
+                    color =
+                        MaterialTheme.colorScheme.outline
+                ).height(1.dp)
+                .fillMaxWidth()
+    )
+}
+
+@Composable
 fun OrderTotal(
     state: CheckoutState,
     modifier: Modifier = Modifier,
@@ -520,11 +549,13 @@ fun EarliestTime(
     state: CheckoutState,
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier =
+        Modifier
+    ) {
         Row(
             modifier =
                 modifier
-                    .padding(bottom = 10.dp)
                     .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -532,11 +563,6 @@ fun EarliestTime(
             Text("Earliest Pickup Time".uppercase())
             Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
         }
-        HorizontalDivider(
-            modifier = Modifier.height(1.dp),
-            color =
-                MaterialTheme.colorScheme.outline
-        )
     }
 }
 
@@ -548,9 +574,11 @@ fun AccordionHeader(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
+        modifier =
+            modifier
+                .fillMaxHeight()
     ) {
-        Text(text = "Order Details".uppercase())
+        Text(text = "Order Details".uppercase(), style = MaterialTheme.typography.bodySmall)
         IconButton(
             onClick = {
                 isOpen.value = !isOpen.value
@@ -562,7 +590,7 @@ fun AccordionHeader(
                         color = MaterialTheme.colorScheme.outlineVariant,
                         shape = RoundedCornerShape(8.dp)
                     ).padding(6.dp)
-                    .size(20.dp)
+                    .size(10.dp)
         ) {
             val icon = if (isOpen.value) UpIcon else DownIcon
             Icon(
@@ -581,7 +609,6 @@ fun Comments(modifier: Modifier = Modifier) {
             modifier
                 .heightIn(min = 92.dp)
                 .fillMaxWidth()
-                .padding(bottom = 100.dp)
     ) {
         Text(
             "Comments".uppercase(),
@@ -710,7 +737,7 @@ private fun CheckoutScreenPreview() {
             state =
                 CheckoutState(
                     items = inCartItemsForPreviewUis,
-                    orderInProgress = true,
+                    orderInProgress = false,
                     recommendedAddOns = addOnsForPreview,
                     scheduleTime = false
 //                    timeError = "Pickup available between 10:15 and 21:45"
