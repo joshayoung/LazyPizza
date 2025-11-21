@@ -681,7 +681,6 @@ fun Accordion(
                     .padding(bottom = 10.dp)
                     .height(140.dp),
             removeAllFromCart = { inCartItemUi ->
-
                 onAction(CheckoutAction.RemoveAllFromCart(inCartItemUi))
             },
             removeItemFromCart = { inCartItemUi ->

@@ -85,7 +85,7 @@ fun CartItem(
             verticalArrangement = Arrangement.Top
         ) {
             ProductHeader(inCartItemUi.numberInCart, inCartItemUi.name, onAction = {
-                removeItemFromCart(inCartItemUi)
+                removeAllFromCart(inCartItemUi)
             })
 
             inCartItemUi.toppingsForDisplay.let { toppings ->
