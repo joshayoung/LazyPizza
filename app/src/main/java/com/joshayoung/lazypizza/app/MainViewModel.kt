@@ -6,9 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.auth.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

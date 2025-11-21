@@ -59,7 +59,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.joshayoung.lazypizza.auth.ObserveAsEvents
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
 import com.joshayoung.lazypizza.core.presentation.components.RoundedTopBar
@@ -72,6 +71,7 @@ import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.UpIcon
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
+import com.joshayoung.lazypizza.core.utils.ObserveAsEvents
 import com.joshayoung.lazypizza.core.utils.Routes
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate

@@ -2,12 +2,12 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joshayoung.lazypizza.auth.presentation.FirebaseAuthUiClient
-import com.joshayoung.lazypizza.cart.data.di.Stuff
 import com.joshayoung.lazypizza.cart.domain.models.Ordered
+import com.joshayoung.lazypizza.cart.utils.OrderEvent
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
@@ -46,7 +46,7 @@ class CheckoutViewModel(
 
     private val firebaseAuthUiClient: FirebaseAuthUiClient = FirebaseAuthUiClient()
 
-    private val eventChannel = Channel<Stuff>()
+    private val eventChannel = Channel<OrderEvent>()
     val events = eventChannel.receiveAsFlow()
 
     private fun timePlusFifteen(): String {
@@ -308,7 +308,7 @@ class CheckoutViewModel(
                             "inProgress"
                         )
                     cartRepository.clearCartForUser(user)
-                    eventChannel.send(Stuff(orderNumber = id))
+                    eventChannel.send(OrderEvent(orderNumber = id))
                     _state
                         .update {
                             it.copy(

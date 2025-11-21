@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.auth
+package com.joshayoung.lazypizza.core.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

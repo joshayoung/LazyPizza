@@ -11,8 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.joshayoung.lazypizza.auth.ObserveAsEvents
-import com.joshayoung.lazypizza.auth.domain.AuthState
+import com.joshayoung.lazypizza.auth.domain.models.AuthState
 import com.joshayoung.lazypizza.auth.presentation.LoginScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.cart_list.CartScreenRoot
 import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutScreenRoot

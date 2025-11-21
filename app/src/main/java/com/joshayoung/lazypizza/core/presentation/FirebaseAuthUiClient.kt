@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.auth.presentation
+package com.joshayoung.lazypizza.core.presentation
 
 import android.app.Activity
 import com.google.firebase.FirebaseException
@@ -7,7 +7,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.auth.domain.AuthState
+import com.joshayoung.lazypizza.auth.domain.models.AuthState
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
