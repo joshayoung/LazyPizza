@@ -37,7 +37,7 @@ class RoomLocalMenuDataSource(
 
     override suspend fun upsertProduct(
         productEntity: ProductEntity
-    ): com.joshayoung.lazypizza.core.networking.Result<ProductEntity, DataError.Local> {
+    ): Result<ProductEntity, DataError.Local> {
         productDao.upsertProduct(productEntity)
 
         // TODO: This return is probably not correct:

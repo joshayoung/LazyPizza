@@ -1,11 +1,10 @@
 package com.joshayoung.lazypizza.menu.data
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.domain.LocalCartDataSource
 import com.joshayoung.lazypizza.core.domain.LocalMenuDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
-import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.core.domain.network.MenuRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
 import com.joshayoung.lazypizza.core.presentation.mappers.toTopping
@@ -15,8 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class MenuRepositoryImpl(
-    private val localCartDataSource: LocalCartDataSource,
-    private val cartRemoteDataSource: CartRemoteDataSource,
+    private val menuRemoteDataSource: MenuRemoteDataSource,
     private val localMenuDataSource: LocalMenuDataSource
 ) : MenuRepository {
     override suspend fun getProduct(productId: String): Product {
@@ -29,7 +27,7 @@ class MenuRepositoryImpl(
             return localToppings.map { it.toTopping() }
         } else {
             val remoteToppings =
-                cartRemoteDataSource
+                menuRemoteDataSource
                     .getToppings(
                         BuildConfig.TOPPINGS_COLLECTION_ID
                     )
@@ -48,7 +46,7 @@ class MenuRepositoryImpl(
             return
         }
 
-        val remoteProducts = cartRemoteDataSource.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
+        val remoteProducts = menuRemoteDataSource.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
         remoteProducts.forEach { product ->
             localMenuDataSource.upsertProduct(product.toProductEntity())
         }
@@ -60,7 +58,7 @@ class MenuRepositoryImpl(
             return
         }
 
-        val remoteToppings = cartRemoteDataSource.getToppings(BuildConfig.TOPPINGS_COLLECTION_ID)
+        val remoteToppings = menuRemoteDataSource.getToppings(BuildConfig.TOPPINGS_COLLECTION_ID)
         remoteToppings.forEach { topping ->
             localMenuDataSource.upsertTopping(topping.toToppingEntity())
         }

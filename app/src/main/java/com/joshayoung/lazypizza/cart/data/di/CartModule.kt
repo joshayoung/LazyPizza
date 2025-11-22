@@ -7,10 +7,10 @@ import com.joshayoung.lazypizza.cart.presentation.confirmation.presentation.Conf
 import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
 import com.joshayoung.lazypizza.core.data.RoomLocalCartDataSource
 import com.joshayoung.lazypizza.core.data.database.CartDatabase
-import com.joshayoung.lazypizza.core.data.network.AppWriteCartRemoteDataSource
+import com.joshayoung.lazypizza.core.data.network.AppWriteMenuRemoteDataSource
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalCartDataSource
-import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.core.domain.network.MenuRemoteDataSource
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -37,7 +37,7 @@ var cartModule =
         single { get<CartDatabase>().toppingDao }
 
         singleOf(::RoomLocalCartDataSource).bind<LocalCartDataSource>()
-        singleOf(::AppWriteCartRemoteDataSource).bind<CartRemoteDataSource>()
+        singleOf(::AppWriteMenuRemoteDataSource).bind<MenuRemoteDataSource>()
 
         single {
             CartRepositoryImpl(

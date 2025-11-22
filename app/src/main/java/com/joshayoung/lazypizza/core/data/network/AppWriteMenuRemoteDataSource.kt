@@ -3,13 +3,13 @@ package com.joshayoung.lazypizza.core.data.network
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
-import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.core.domain.network.MenuRemoteDataSource
 import io.appwrite.Client
 import io.appwrite.services.TablesDB
 
-class AppWriteCartRemoteDataSource(
+class AppWriteMenuRemoteDataSource(
     private var appWriteClient: Client
-) : CartRemoteDataSource {
+) : MenuRemoteDataSource {
     override suspend fun getProducts(table: String): List<Product> {
         try {
             val tables =
