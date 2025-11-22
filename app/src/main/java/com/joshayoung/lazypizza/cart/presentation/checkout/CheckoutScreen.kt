@@ -328,7 +328,9 @@ fun CheckoutScreen(
                         item {
                             RecommendedAddOns(
                                 header = "Recommended Add-Ons",
-                                modifier = Modifier.height(200.dp),
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding),
                                 addOns = state.recommendedAddOns,
                                 addProductToCart = {
                                     onAction(CheckoutAction.AddAddOnToCart(it))
@@ -395,6 +397,7 @@ fun CheckoutScreen(
                                     Modifier
                                         .padding(top = 20.dp)
                                         .padding(bottom = 10.dp)
+                                        .padding(vertical = verticalPadding)
                             ) {
                                 Text(
                                     text = "Pickup Time".uppercase(),
@@ -423,16 +426,19 @@ fun CheckoutScreen(
                             }
                         }
                         item(span = { GridItemSpan(2) }) {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
-                        }
-                        item(span = { GridItemSpan(2) }) {
                             EarliestTime(
                                 state = state,
-                                modifier = Modifier
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding)
                             )
                         }
                         item(span = { GridItemSpan(2) }) {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                            CheckoutBorder(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
                         item(span = { GridItemSpan(2) }) {
                             AccordionHeader(
@@ -440,6 +446,7 @@ fun CheckoutScreen(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
+                                        .padding(vertical = verticalPadding)
                             )
                         }
                         accordionItems(
@@ -448,12 +455,19 @@ fun CheckoutScreen(
                             isOpen = isOpen
                         )
                         item(span = { GridItemSpan(2) }) {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                            CheckoutBorder(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
                         item(span = { GridItemSpan(2) }) {
                             RecommendedAddOns(
+                                header = "Recommended Add-Ons",
                                 modifier =
-                                Modifier,
+                                    Modifier
+                                        .padding(bottom = 10.dp)
+                                        .padding(vertical = verticalPadding),
                                 addOns = state.recommendedAddOns,
                                 addProductToCart = {
                                     onAction(CheckoutAction.AddAddOnToCart(it))
@@ -461,11 +475,19 @@ fun CheckoutScreen(
                             )
                         }
                         item(span = { GridItemSpan(2) }) {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                            CheckoutBorder(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
 
                         item(span = { GridItemSpan(2) }) {
-                            Comments()
+                            Comments(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
                     }
                     Row(

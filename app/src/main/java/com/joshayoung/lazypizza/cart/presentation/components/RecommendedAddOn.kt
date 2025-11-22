@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.joshayoung.lazypizza.core.presentation.utils.addOnsForPreview
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
@@ -23,7 +22,7 @@ fun RecommendedAddOns(
     addOns: List<ProductUi>,
     addProductToCart: (productUi: ProductUi) -> Unit,
     modifier: Modifier = Modifier,
-            header: String = "Recommended to Add to Your Order",
+    header: String = "Recommended to Add to Your Order"
 ) {
     Column(
         modifier = modifier
