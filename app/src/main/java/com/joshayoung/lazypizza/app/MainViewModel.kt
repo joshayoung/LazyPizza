@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.app.domain.AuthRepository
+import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +30,7 @@ class MainViewModel(
             // Because this requires internet to login, the app will not navigate past the splash
             // page without a internet connection.
             var loggedIn =
-                authRepository.login(
+                authRepository.loginWithAppWrite(
                     BuildConfig.AUTH_EMAIL,
                     BuildConfig.AUTH_PASSWORD
                 )

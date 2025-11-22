@@ -1,15 +1,17 @@
-package com.joshayoung.lazypizza.app.data
+package com.joshayoung.lazypizza.core.data
 
-import com.joshayoung.lazypizza.app.domain.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.networking.JwtManager
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 
-class AppWriteAuthRepository(
-    private var appWriteClient: Client
+class AuthRepositoryImpl(
+    private var appWriteClient: Client,
+    private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
-    override suspend fun login(
+    override suspend fun loginWithAppWrite(
         email: String,
         password: String
     ): Boolean {
@@ -29,5 +31,9 @@ class AppWriteAuthRepository(
                 false
             }
         }
+    }
+
+    override fun logoutWithFirebase() {
+        firebaseAuth.signOut()
     }
 }

@@ -35,7 +35,7 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun Topping(
+fun ToppingCard(
     toppingUi: ToppingUi,
     modifier: Modifier,
     click: (DetailAction) -> Unit
@@ -113,10 +113,10 @@ fun Topping(
 
 @Preview(showBackground = true)
 @Composable
-fun ToppingPreview() {
+fun ToppingCardPreview() {
     LazyPizzaTheme {
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
-            Topping(
+            ToppingCard(
                 toppingUi =
                     ToppingUi(
                         localId = 2,
@@ -129,7 +129,7 @@ fun ToppingPreview() {
                 modifier = Modifier.size(200.dp),
                 click = {}
             )
-            Topping(
+            ToppingCard(
                 toppingUi =
                     ToppingUi(
                         localId = 3,

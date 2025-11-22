@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
+import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val firebaseAuth: FirebaseAuth
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
@@ -97,19 +98,21 @@ class HomeViewModel(
             }
 
             HomeAction.SignOut -> {
-                // TODO: Move to Repository:
-                // TODO: Make a Use-Case?
-                val user = FirebaseAuth.getInstance().uid
-                firebaseAuth.signOut()
                 viewModelScope.launch {
-                    cartRepository.clearCartForUser(user)
-                    cartRepository.transferCartTo(
-                        user,
-                        BuildConfig.GUEST_USER
-                    )
+                    logOutTransferAndClearCart()
                 }
             }
         }
+    }
+
+    private suspend fun logOutTransferAndClearCart() {
+        authRepository.logoutWithFirebase()
+        val user = FirebaseAuth.getInstance().uid
+        cartRepository.clearCartForUser(user)
+        cartRepository.transferCartTo(
+            user,
+            BuildConfig.GUEST_USER
+        )
     }
 
     private fun searchList(search: CharSequence) {

@@ -65,7 +65,7 @@ fun ProductHeader(
 fun ProductHeaderPreview() {
     LazyPizzaTheme {
         ProductHeader(
-            name = "test",
+            name = "Pizza",
             onAction = {},
             itemCount = 1
         )

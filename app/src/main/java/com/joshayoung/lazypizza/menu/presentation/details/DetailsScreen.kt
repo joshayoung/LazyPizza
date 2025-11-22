@@ -37,7 +37,7 @@ import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
-import com.joshayoung.lazypizza.menu.presentation.components.Topping
+import com.joshayoung.lazypizza.menu.presentation.components.ToppingCard
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import org.koin.androidx.compose.koinViewModel
@@ -241,7 +241,7 @@ fun Toppings(
                 )
             }
             items(state.toppings) { toppingUi ->
-                Topping(
+                ToppingCard(
                     toppingUi,
                     click = onAction,
                     modifier = Modifier
