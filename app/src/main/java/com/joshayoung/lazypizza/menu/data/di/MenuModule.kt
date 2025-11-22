@@ -21,6 +21,7 @@ var menuModule =
         single {
             MenuRepositoryImpl(
                 get(),
+                get(),
                 get()
             )
         }.bind<MenuRepository>()
