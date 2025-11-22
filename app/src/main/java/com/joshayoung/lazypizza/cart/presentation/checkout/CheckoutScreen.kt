@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -244,6 +245,8 @@ fun CheckoutScreen(
                             .background(MaterialTheme.colorScheme.surfaceHigher)
                             .fillMaxHeight()
                             .padding(horizontal = 16.dp)
+                            .imePadding()
+
                 ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(1),
