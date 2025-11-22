@@ -7,8 +7,10 @@ import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.mappers.toProductInCart
+import com.joshayoung.lazypizza.core.domain.mappers.toToppingInCart
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductInCart
+import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
@@ -32,8 +34,10 @@ class CartRepositoryImpl(
         )
     }
 
-    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto> {
-        return localDataSource.getToppingForProductInCart(lineItemId)
+    override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCart> {
+        return localDataSource.getToppingForProductInCart(lineItemId).map { toppingInCartDto ->
+            toppingInCartDto.toToppingInCart()
+        }
     }
 
     override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCart>> {

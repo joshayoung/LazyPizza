@@ -3,13 +3,14 @@ package com.joshayoung.lazypizza.menu.data.mappers
 import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.ProductInCart
+import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
 
 // TODO: Do not map from DTO to UI Model:
 fun List<ProductInCart>.toInCartItemUi(
     key: Int = 0,
-    toppings: List<ToppingInCartDto> = listOf(),
+    toppings: List<ToppingInCart> = listOf(),
     toppingsForDisplay: Map<String, Int> = mapOf()
 ): InCartItemUi {
     val lineNumbers = this.mapNotNull { it.lineItemId }

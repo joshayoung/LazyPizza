@@ -4,6 +4,7 @@ import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.getMenuTypeEnum
@@ -24,7 +25,7 @@ class CartUpdaterImpl(
     override suspend fun insertProductWithToppings(
         cartId: Long,
         productId: Long,
-        toppings: List<ToppingInCartDto>
+        toppings: List<ToppingInCart>
     ) {
         val lineItem =
             cartRepository.insertProductId(

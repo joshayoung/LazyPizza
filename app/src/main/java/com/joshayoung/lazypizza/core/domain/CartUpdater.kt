@@ -2,6 +2,7 @@ package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.ToppingUi
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,7 @@ interface CartUpdater {
     suspend fun insertProductWithToppings(
         cartId: Long,
         productId: Long,
-        toppings: List<ToppingInCartDto>
+        toppings: List<ToppingInCart>
     )
 
     suspend fun insertProductWithToppings(

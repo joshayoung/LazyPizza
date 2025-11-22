@@ -1,14 +1,14 @@
 package com.joshayoung.lazypizza.core.presentation.models
 
 import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
+import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 
 data class InCartItemUi(
     val key: Int = 0,
     val toppingsForDisplay: Map<String, Int>,
     val lineNumbers: List<Long?>,
-    // TODO: Convert to domain layer model:
-    val toppings: List<ToppingInCartDto> = emptyList(),
+    val toppings: List<ToppingInCart> = emptyList(),
     val productId: Long,
     val remoteId: String,
     val name: String,
