@@ -4,14 +4,14 @@ import com.joshayoung.lazypizza.order.data.OrderProcessorImpl
 import com.joshayoung.lazypizza.order.data.OrderRepositoryImpl
 import com.joshayoung.lazypizza.order.domain.OrderProcessor
 import com.joshayoung.lazypizza.order.domain.OrderRepository
-import com.joshayoung.lazypizza.order.presentation.order_history.OrderViewModel
+import com.joshayoung.lazypizza.order.presentation.order_history.OrderHistoryViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 var orderModule =
     module {
-        viewModelOf(::OrderViewModel)
+        viewModelOf(::OrderHistoryViewModel)
 
         single {
             OrderRepositoryImpl(

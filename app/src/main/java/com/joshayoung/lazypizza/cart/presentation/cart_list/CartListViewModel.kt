@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class CartViewModel(
+class CartListViewModel(
     private var cartRepository: CartRepository,
     private var cartUpdater: CartUpdater
 ) : ViewModel() {
-    private var _state = MutableStateFlow(CartState())
+    private var _state = MutableStateFlow(CartListState())
 
     val state =
         _state
@@ -27,7 +27,7 @@ class CartViewModel(
             }.stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(1000L),
-                CartState()
+                CartListState()
             )
 
     init {
@@ -63,9 +63,9 @@ class CartViewModel(
         }
     }
 
-    fun onAction(action: CartAction) {
+    fun onAction(action: CartListAction) {
         when (action) {
-            is CartAction.AddItemToCart -> {
+            is CartListAction.AddItemToCartList -> {
                 viewModelScope.launch {
                     cartUpdater.insertProductWithToppings(
                         cartId = 1,
@@ -75,7 +75,7 @@ class CartViewModel(
                 }
             }
 
-            is CartAction.RemoveItemFromCart -> {
+            is CartListAction.RemoveItemFromCartList -> {
                 viewModelScope.launch {
                     cartUpdater.removeItemFromCart(
                         lastLineNumber = action.inCartItemUi.lineNumbers.last()
@@ -83,7 +83,7 @@ class CartViewModel(
                 }
             }
 
-            is CartAction.RemoveAllFromCart -> {
+            is CartListAction.RemoveAllFromCartList -> {
                 viewModelScope.launch {
                     cartUpdater.removeAllFromCart(
                         lineNumbers =
@@ -92,7 +92,7 @@ class CartViewModel(
                 }
             }
 
-            is CartAction.AddAddOnToCart -> {
+            is CartListAction.AddAddOnToCartList -> {
                 viewModelScope.launch {
                     val product = action.productUi.toProduct()
                     cartRepository.addProductToCart(product)

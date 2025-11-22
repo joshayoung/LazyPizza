@@ -2,8 +2,8 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
-import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product

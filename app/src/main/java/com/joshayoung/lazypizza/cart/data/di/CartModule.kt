@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.cart.data.di
 
 import androidx.room.Room
-import com.joshayoung.lazypizza.cart.presentation.cart_list.CartViewModel
+import com.joshayoung.lazypizza.cart.presentation.cart_list.CartListViewModel
 import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutViewModel
 import com.joshayoung.lazypizza.cart.presentation.confirmation.presentation.ConfirmationViewModel
 import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
@@ -19,7 +19,7 @@ import org.koin.dsl.module
 
 var cartModule =
     module {
-        viewModelOf(::CartViewModel)
+        viewModelOf(::CartListViewModel)
         viewModelOf(::CheckoutViewModel)
         viewModelOf(::ConfirmationViewModel)
 

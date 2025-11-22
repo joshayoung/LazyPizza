@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -47,14 +46,14 @@ import org.koin.androidx.compose.koinViewModel
 import java.util.Locale
 
 @Composable
-fun CartScreenRoot(
+fun CartListScreenRoot(
     cartItems: Int,
-    viewModel: CartViewModel = koinViewModel(),
+    viewModel: CartListViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     backToMenu: () -> Unit,
     checkout: () -> Unit
 ) {
-    CartScreen(
+    CartListScreen(
         cartItems = cartItems,
         bottomNavItemUis = bottomNavItemUis,
         state = viewModel.state.collectAsStateWithLifecycle().value,
@@ -67,11 +66,11 @@ fun CartScreenRoot(
 }
 
 @Composable
-fun CartScreen(
+fun CartListScreen(
     cartItems: Int,
     bottomNavItemUis: List<BottomNavItemUi>,
-    state: CartState,
-    onAction: (CartAction) -> Unit,
+    state: CartListState,
+    onAction: (CartListAction) -> Unit,
     backToMenu: () -> Unit,
     checkout: () -> Unit
 ) {
@@ -136,15 +135,23 @@ fun CartScreen(
                                                     .height(140.dp),
                                             removeAllFromCart = { inCartItemUi ->
 
-                                                onAction(CartAction.RemoveAllFromCart(inCartItemUi))
+                                                onAction(
+                                                    CartListAction.RemoveAllFromCartList(
+                                                        inCartItemUi
+                                                    )
+                                                )
                                             },
                                             removeItemFromCart = { inCartItemUi ->
                                                 onAction(
-                                                    CartAction.RemoveItemFromCart(inCartItemUi)
+                                                    CartListAction.RemoveItemFromCartList(
+                                                        inCartItemUi
+                                                    )
                                                 )
                                             },
                                             addItemToCart = { inCartItemUi ->
-                                                onAction(CartAction.AddItemToCart(inCartItemUi))
+                                                onAction(
+                                                    CartListAction.AddItemToCartList(inCartItemUi)
+                                                )
                                             }
                                         )
                                     }
@@ -152,7 +159,9 @@ fun CartScreen(
                                         RecommendedAddOns(
                                             state.recommendedAddOns,
                                             addProductToCart = { productUi ->
-                                                onAction(CartAction.AddAddOnToCart(productUi))
+                                                onAction(
+                                                    CartListAction.AddAddOnToCartList(productUi)
+                                                )
                                             }
                                         )
                                     }
@@ -216,7 +225,7 @@ fun CartScreen(
                                 RecommendedAddOns(
                                     state.recommendedAddOns,
                                     addProductToCart = {
-                                        onAction(CartAction.AddAddOnToCart(it))
+                                        onAction(CartListAction.AddAddOnToCartList(it))
                                     }
                                 )
                                 CheckOutButton(
@@ -237,8 +246,8 @@ fun CartScreen(
 
 @Composable
 fun CartItems(
-    state: CartState,
-    onAction: (CartAction) -> Unit,
+    state: CartListState,
+    onAction: (CartListAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -256,15 +265,15 @@ fun CartItems(
                         .height(140.dp),
                 removeAllFromCart = { inCartItemUi ->
 
-                    onAction(CartAction.RemoveAllFromCart(inCartItemUi))
+                    onAction(CartListAction.RemoveAllFromCartList(inCartItemUi))
                 },
                 removeItemFromCart = { inCartItemUi ->
                     onAction(
-                        CartAction.RemoveItemFromCart(inCartItemUi)
+                        CartListAction.RemoveItemFromCartList(inCartItemUi)
                     )
                 },
                 addItemToCart = { inCartItemUi ->
-                    onAction(CartAction.AddItemToCart(inCartItemUi))
+                    onAction(CartListAction.AddItemToCartList(inCartItemUi))
                 }
             )
         }
@@ -307,7 +316,7 @@ fun LoadingBox() {
 @Composable
 fun CheckOutButton(
     modifier: Modifier = Modifier,
-    state: CartState,
+    state: CartListState,
     checkout: () -> Unit
 ) {
     Button(
@@ -352,10 +361,10 @@ fun CheckOutButton(
 )
 private fun CartScreenPreview() {
     LazyPizzaTheme {
-        CartScreen(
+        CartListScreen(
             bottomNavItemUis = previewBottomNavItemUis,
             state =
-                CartState(
+                CartListState(
                     isLoadingCart = false,
                     items = inCartItemsForPreviewUis,
                     recommendedAddOns = addOnsForPreview

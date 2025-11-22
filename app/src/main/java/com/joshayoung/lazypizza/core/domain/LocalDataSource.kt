@@ -4,8 +4,8 @@ import com.joshayoung.lazypizza.core.data.database.entity.CartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
-import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
+import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
+import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result

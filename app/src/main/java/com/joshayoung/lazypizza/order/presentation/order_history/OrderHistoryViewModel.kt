@@ -10,10 +10,10 @@ import com.joshayoung.lazypizza.order.domain.OrderProcessor
 import com.joshayoung.lazypizza.order.presentation.mappers.toOrderUi
 import kotlinx.coroutines.launch
 
-class OrderViewModel(
+class OrderHistoryViewModel(
     private val orderProcessor: OrderProcessor
 ) : ViewModel() {
-    var state by mutableStateOf(OrderState())
+    var state by mutableStateOf(OrderHistoryState())
         private set
 
     private val firebaseAuthUiClient: FirebaseAuthUiClient = FirebaseAuthUiClient()

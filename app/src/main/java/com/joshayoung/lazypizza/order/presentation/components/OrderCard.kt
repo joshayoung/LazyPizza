@@ -30,7 +30,6 @@ import com.joshayoung.lazypizza.core.ui.theme.textPrimary
 import com.joshayoung.lazypizza.order.presentation.models.OrderStatusUi
 import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 
-// TODO: Convert to OrderUi:
 @Composable
 fun OrderCard(
     orderUi: OrderUi,

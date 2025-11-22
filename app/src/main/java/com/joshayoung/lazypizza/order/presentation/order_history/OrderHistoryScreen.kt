@@ -31,15 +31,15 @@ import com.joshayoung.lazypizza.order.presentation.models.OrderUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun OrderScreenRoot(
+fun OrderHistoryScreenRoot(
     isLoggedIn: Boolean,
     cartItems: Int,
-    viewModel: OrderViewModel = koinViewModel(),
+    viewModel: OrderHistoryViewModel = koinViewModel(),
     bottomNavItemUis: List<BottomNavItemUi>,
     goToMenu: () -> Unit,
     goToLogin: () -> Unit
 ) {
-    OrderScreen(
+    OrderHistoryScreen(
         isLoggedIn = isLoggedIn,
         bottomNavItemUis = bottomNavItemUis,
         cartItems = cartItems,
@@ -50,11 +50,11 @@ fun OrderScreenRoot(
 }
 
 @Composable
-fun OrderScreen(
+fun OrderHistoryScreen(
     isLoggedIn: Boolean,
     bottomNavItemUis: List<BottomNavItemUi>,
     cartItems: Int,
-    state: OrderState,
+    state: OrderHistoryState,
     goToMenu: () -> Unit,
     goToLogin: () -> Unit
 ) {
@@ -216,11 +216,11 @@ fun SignedOut(goToLogin: () -> Unit) {
     heightDp = 1280
 )
 @Composable
-fun OrderScreenPreview() {
+fun OrderHistoryScreenPreview() {
     LazyPizzaTheme {
-        OrderScreen(
+        OrderHistoryScreen(
             state =
-                OrderState(
+                OrderHistoryState(
                     isSignedIn = true,
                     orderUis = emptyList() // previewOrders
                 ),

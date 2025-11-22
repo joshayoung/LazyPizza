@@ -3,20 +3,20 @@ package com.joshayoung.lazypizza.cart.presentation.cart_list
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 
-sealed interface CartAction {
-    data class AddItemToCart(
+sealed interface CartListAction {
+    data class AddItemToCartList(
         var inCartItemUi: InCartItemUi
-    ) : CartAction
+    ) : CartListAction
 
-    data class RemoveItemFromCart(
+    data class RemoveItemFromCartList(
         var inCartItemUi: InCartItemUi
-    ) : CartAction
+    ) : CartListAction
 
-    data class RemoveAllFromCart(
+    data class RemoveAllFromCartList(
         var inCartItemUi: InCartItemUi
-    ) : CartAction
+    ) : CartListAction
 
-    data class AddAddOnToCart(
+    data class AddAddOnToCartList(
         var productUi: ProductUi
-    ) : CartAction
+    ) : CartListAction
 }

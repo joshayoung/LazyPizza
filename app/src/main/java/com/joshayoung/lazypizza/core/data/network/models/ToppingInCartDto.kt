@@ -1,4 +1,4 @@
-package com.joshayoung.lazypizza.core.data.network.dto
+package com.joshayoung.lazypizza.core.data.network.models
 
 import kotlinx.serialization.Serializable
 
@@ -10,5 +10,4 @@ data class ToppingInCartDto(
     val price: String,
     val imageUrl: String,
     val productId: Int
-//    val numberOfToppings: Int = 0
 )
