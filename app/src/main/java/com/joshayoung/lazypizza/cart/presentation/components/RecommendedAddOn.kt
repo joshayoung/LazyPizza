@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,14 +22,15 @@ import com.joshayoung.lazypizza.menu.presentation.models.ProductUi
 fun RecommendedAddOns(
     addOns: List<ProductUi>,
     addProductToCart: (productUi: ProductUi) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+            header: String = "Recommended to Add to Your Order",
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            "Recommended to Add to Your Order".uppercase(),
-            fontSize = 14.sp,
+            header.uppercase(),
+            style = MaterialTheme.typography.bodySmall,
             modifier =
                 Modifier
                     .padding(bottom = 4.dp)

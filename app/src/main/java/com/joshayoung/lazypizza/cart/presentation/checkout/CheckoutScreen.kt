@@ -67,6 +67,7 @@ import com.joshayoung.lazypizza.core.presentation.utils.inCartItemsForPreviewUis
 import com.joshayoung.lazypizza.core.ui.theme.DownIcon
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
 import com.joshayoung.lazypizza.core.ui.theme.UpIcon
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHigher
 import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.core.utils.ObserveAsEvents
@@ -122,7 +123,7 @@ fun CheckoutScreen(
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
     val isOpen = remember { mutableStateOf(false) }
-    val verticalPadding = 10.dp
+    val verticalPadding = 6.dp
     val datePickerState =
         rememberDatePickerState(
             selectableDates = FutureDates
@@ -240,8 +241,9 @@ fun CheckoutScreen(
                     modifier =
                         Modifier
                             .padding(innerPadding)
+                            .background(MaterialTheme.colorScheme.surfaceHigher)
                             .fillMaxHeight()
-                            .padding(horizontal = 20.dp)
+                            .padding(horizontal = 16.dp)
                 ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(1),
@@ -255,8 +257,9 @@ fun CheckoutScreen(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
-                                        .padding(top = 10.dp)
+                                        .padding(top = 20.dp)
                                         .padding(bottom = 10.dp)
+                                        .padding(vertical = verticalPadding)
                             ) {
                                 Text(
                                     text = "Pickup Time".uppercase(),
@@ -280,17 +283,25 @@ fun CheckoutScreen(
                         item {
                             EarliestTime(
                                 state = state,
-                                modifier = Modifier
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = verticalPadding)
                             )
                         }
                         item {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                            CheckoutBorder(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = 10.dp)
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
                         item {
                             Column(
                                 modifier =
                                     Modifier
                                         .fillMaxHeight()
+                                        .padding(vertical = verticalPadding)
                             ) {
                                 AccordionHeader(
                                     isOpen,
@@ -306,11 +317,17 @@ fun CheckoutScreen(
                             isOpen = isOpen
                         )
                         item {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                            CheckoutBorder(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = 10.dp)
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
 
                         item {
                             RecommendedAddOns(
+                                header = "Recommended Add-Ons",
                                 modifier = Modifier.height(200.dp),
                                 addOns = state.recommendedAddOns,
                                 addProductToCart = {
@@ -319,7 +336,12 @@ fun CheckoutScreen(
                             )
                         }
                         item {
-                            CheckoutBorder(modifier = Modifier.padding(vertical = 10.dp))
+                            CheckoutBorder(
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = 10.dp)
+                                        .padding(vertical = verticalPadding)
+                            )
                         }
                         item {
                             Comments()
@@ -357,6 +379,7 @@ fun CheckoutScreen(
                     modifier =
                         Modifier
                             .padding(innerPadding)
+                            .background(MaterialTheme.colorScheme.surfaceHigher)
                             .fillMaxHeight()
                             .padding(horizontal = 20.dp)
                 ) {
@@ -370,7 +393,7 @@ fun CheckoutScreen(
                             Column(
                                 modifier =
                                     Modifier
-                                        .padding(top = 10.dp)
+                                        .padding(top = 20.dp)
                                         .padding(bottom = 10.dp)
                             ) {
                                 Text(
@@ -430,8 +453,7 @@ fun CheckoutScreen(
                         item(span = { GridItemSpan(2) }) {
                             RecommendedAddOns(
                                 modifier =
-                                    Modifier
-                                        .padding(vertical = verticalPadding),
+                                Modifier,
                                 addOns = state.recommendedAddOns,
                                 addProductToCart = {
                                     onAction(CheckoutAction.AddAddOnToCart(it))
@@ -495,7 +517,7 @@ fun OrderTotal(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             modifier
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.surfaceHigher)
     ) {
         Text(
             "Order Total:".uppercase(),
@@ -596,7 +618,7 @@ fun AccordionHeader(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
     }
