@@ -3,8 +3,6 @@ package com.joshayoung.lazypizza.cart.presentation.checkout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.cart.utils.OrderEvent
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
@@ -107,10 +105,8 @@ class CheckoutViewModel(
                 viewModelScope.launch {
                     val lineItem =
                         cartRepository.insertProductId(
-                            ProductsInCartEntity(
-                                cartId = 1,
-                                productId = action.inCartItemUi.productId
-                            )
+                            cartId = 1,
+                            productId = action.inCartItemUi.productId
                         )
                     action.inCartItemUi.toppings.forEach { topping ->
                         cartRepository.insertToppingId(

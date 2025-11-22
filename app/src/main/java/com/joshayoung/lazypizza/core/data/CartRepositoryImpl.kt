@@ -2,7 +2,6 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.data.network.dto.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.network.dto.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.CartRepository
@@ -43,8 +42,11 @@ class CartRepositoryImpl(
         return localDataSource.productsInCartWithToppings()
     }
 
-    override suspend fun insertProductId(productsInCartEntity: ProductsInCartEntity): Long {
-        return localDataSource.insertProductId(productsInCartEntity)
+    override suspend fun insertProductId(
+        cartId: Long,
+        productId: Long
+    ): Long {
+        return localDataSource.insertProductId(cartId, productId)
     }
 
     override suspend fun updateLocalWithRemote(reload: Boolean) {

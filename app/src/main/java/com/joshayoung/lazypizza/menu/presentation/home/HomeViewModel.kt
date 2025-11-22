@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
-import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
@@ -56,10 +54,8 @@ class HomeViewModel(
                 viewModelScope.launch {
                     val lineItem =
                         cartRepository.insertProductId(
-                            ProductsInCartEntity(
-                                cartId = 1,
-                                productId = action.inCartItemUi.productId
-                            )
+                            cartId = 1,
+                            productId = action.inCartItemUi.productId
                         )
                     if (action.inCartItemUi.toppings.any()) {
                         action.inCartItemUi.toppings.forEach { topping ->

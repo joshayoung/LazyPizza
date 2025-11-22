@@ -131,7 +131,15 @@ class RoomLocalDataSource(
         )
     }
 
-    override suspend fun insertProductId(productsInCartEntity: ProductsInCartEntity): Long {
+    override suspend fun insertProductId(
+        cartId: Long,
+        productId: Long
+    ): Long {
+        val productsInCartEntity =
+            ProductsInCartEntity(
+                cartId = cartId,
+                productId = productId
+            )
         return cartDao.insertProductId(
             productsInCartEntity
         )
