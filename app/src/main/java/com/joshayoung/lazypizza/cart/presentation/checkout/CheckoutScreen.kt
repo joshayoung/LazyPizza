@@ -5,13 +5,11 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -27,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -61,6 +58,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.joshayoung.lazypizza.cart.presentation.components.CartItem
 import com.joshayoung.lazypizza.cart.presentation.components.RecommendedAddOns
+import com.joshayoung.lazypizza.core.presentation.components.LoadingModal
 import com.joshayoung.lazypizza.core.presentation.components.RoundedTopBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallRoundedPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
@@ -123,7 +121,7 @@ fun CheckoutScreen(
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-    val isOpen = remember { mutableStateOf(true) }
+    val isOpen = remember { mutableStateOf(false) }
     val verticalPadding = 10.dp
     val datePickerState =
         rememberDatePickerState(
@@ -544,26 +542,6 @@ fun TimeSelections(
         isSelected = state.customScheduleActive,
         text = "Schedule time"
     )
-}
-
-@Composable
-fun LoadingModal() {
-    Box(
-        modifier =
-            Modifier
-                .clickable {
-                    // NOTE: Prevent clicking items below.
-                }.fillMaxSize()
-                .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.7f)),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            modifier =
-                Modifier
-                    .size(80.dp),
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
 }
 
 @Composable

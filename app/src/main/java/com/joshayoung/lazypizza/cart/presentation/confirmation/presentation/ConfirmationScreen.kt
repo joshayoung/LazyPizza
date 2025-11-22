@@ -2,18 +2,14 @@ package com.joshayoung.lazypizza.cart.presentation.confirmation.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.joshayoung.lazypizza.core.presentation.components.LoadingModal
 import com.joshayoung.lazypizza.core.presentation.components.RoundedTopBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallRoundedPizzaScaffold
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
@@ -59,7 +56,7 @@ fun ConfirmationScreen(
             SmallRoundedPizzaScaffold(
                 topPadding = 60.dp,
                 topBar = {
-                    RoundedTopBar()
+                    RoundedTopBar(backToCart = backToMain)
                 }
             ) { innerPadding ->
 
@@ -91,7 +88,9 @@ fun ConfirmationScreen(
             SmallRoundedPizzaScaffold(
                 topPadding = 60.dp,
                 topBar = {
-                    RoundedTopBar()
+                    RoundedTopBar(
+                        backToCart = backToMain
+                    )
                 }
             ) { innerPadding ->
 
@@ -117,22 +116,7 @@ fun ConfirmationScreen(
     }
 
     if (state.isLoading) {
-        Box(
-            modifier =
-                Modifier
-                    .clickable {
-                        // NOTE: Prevent clicking items below.
-                    }.fillMaxSize()
-                    .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.7f)),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(
-                modifier =
-                    Modifier
-                        .size(80.dp),
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+        LoadingModal()
     }
 }
 
@@ -150,7 +134,7 @@ fun ConfirmationInfo(
                 Modifier.then(Modifier.widthIn(max = maxWidth))
             } else {
                 Modifier
-            }
+            }.padding(horizontal = 14.dp)
     ) {
         Text(
             "Your order has been placed!",
@@ -226,7 +210,7 @@ private fun ConfirmationScreenPreview() {
         ConfirmationScreen(
             state =
                 ConfirmationState(
-                    isLoading = false
+                    isLoading = true
                 ),
             backToMain = {}
         )

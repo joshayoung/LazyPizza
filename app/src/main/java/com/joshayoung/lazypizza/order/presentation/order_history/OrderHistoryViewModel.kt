@@ -20,11 +20,16 @@ class OrderHistoryViewModel(
 
     init {
         viewModelScope.launch {
+            state =
+                state.copy(
+                    loadingOrders = true
+                )
             val user = firebaseAuthUiClient.currentUser
             val orders = orderProcessor.getOrdersFor(user).map { order -> order.toOrderUi() }
             state =
                 state.copy(
-                    orderUis = orders
+                    orderUis = orders,
+                    loadingOrders = false
                 )
         }
     }

@@ -1,5 +1,6 @@
 package com.joshayoung.lazypizza.order.presentation.order_history
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,12 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.joshayoung.lazypizza.core.presentation.components.LargePizzaScaffold
+import com.joshayoung.lazypizza.core.presentation.components.LoadingModal
 import com.joshayoung.lazypizza.core.presentation.components.PizzaBottomBar
 import com.joshayoung.lazypizza.core.presentation.components.SmallPizzaScaffold
 import com.joshayoung.lazypizza.core.presentation.components.TopBar
 import com.joshayoung.lazypizza.core.presentation.models.BottomNavItemUi
 import com.joshayoung.lazypizza.core.presentation.utils.previewBottomNavItemUis
 import com.joshayoung.lazypizza.core.ui.theme.LazyPizzaTheme
+import com.joshayoung.lazypizza.core.ui.theme.surfaceHighest
 import com.joshayoung.lazypizza.core.utils.DeviceConfiguration
 import com.joshayoung.lazypizza.order.presentation.components.OrderCard
 import com.joshayoung.lazypizza.order.presentation.models.OrderUi
@@ -63,40 +66,44 @@ fun OrderHistoryScreen(
 
     when (deviceConfiguration) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
-            SmallPizzaScaffold(
-                topAppBar = {
-                    TopBar(
-                        isAuthenticated = isLoggedIn,
-                        showLogo = false,
-                        showContact = false,
-                        title = "Order History"
-                    )
-                },
-                bottomBar = {
-                    PizzaBottomBar(
-                        cartItems = cartItems,
-                        bottomNavItemUis = bottomNavItemUis
-                    )
-                }
-            ) { innerPadding ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier =
-                        Modifier
-                            .padding(innerPadding)
-                            .padding(top = 20.dp)
-                            .fillMaxSize()
-                            .padding(horizontal = 20.dp)
-                ) {
-                    if (isLoggedIn) {
-                        OrderHistory(orderUis = state.orderUis, goToMenu = goToMenu)
-                    } else {
-                        SignedOut(
-                            goToLogin = goToLogin
+            if (!state.loadingOrders) {
+                SmallPizzaScaffold(
+                    topAppBar = {
+                        TopBar(
+                            isAuthenticated = isLoggedIn,
+                            showLogo = false,
+                            showContact = false,
+                            title = "Order History"
+                        )
+                    },
+                    bottomBar = {
+                        PizzaBottomBar(
+                            cartItems = cartItems,
+                            bottomNavItemUis = bottomNavItemUis
                         )
                     }
+                ) { innerPadding ->
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier =
+                            Modifier
+                                .padding(innerPadding)
+                                .padding(top = 20.dp)
+                                .fillMaxSize()
+                                .padding(horizontal = 20.dp)
+                    ) {
+                        if (isLoggedIn) {
+                            OrderHistory(orderUis = state.orderUis, goToMenu = goToMenu)
+                        } else {
+                            SignedOut(
+                                goToLogin = goToLogin
+                            )
+                        }
+                    }
                 }
+            } else {
+                FullBackgroundLoadingIndicator()
             }
         }
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
@@ -104,35 +111,55 @@ fun OrderHistoryScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            LargePizzaScaffold(
-                cartItems = cartItems,
-                appBarItems = bottomNavItemUis
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier =
-                        Modifier
-                            .padding(top = 20.dp)
-                            .fillMaxSize()
-                            .padding(horizontal = 20.dp)
+            if (state.loadingOrders) {
+                LargePizzaScaffold(
+                    cartItems = cartItems,
+                    appBarItems = bottomNavItemUis
                 ) {
-                    Text(
-                        "Order History",
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                         modifier =
                             Modifier
-                                .padding(bottom = 20.dp)
-                    )
-                    if (isLoggedIn) {
-                        OrderHistory(orderUis = state.orderUis, columns = 2, goToMenu = goToMenu)
-                    } else {
-                        SignedOut(
-                            goToLogin = goToLogin
+                                .padding(top = 20.dp)
+                                .fillMaxSize()
+                                .padding(horizontal = 20.dp)
+                    ) {
+                        Text(
+                            "Order History",
+                            modifier =
+                                Modifier
+                                    .padding(bottom = 20.dp)
                         )
+                        if (isLoggedIn) {
+                            OrderHistory(
+                                orderUis = state.orderUis,
+                                columns = 2,
+                                goToMenu = goToMenu
+                            )
+                        } else {
+                            SignedOut(
+                                goToLogin = goToLogin
+                            )
+                        }
                     }
                 }
+            } else {
+                FullBackgroundLoadingIndicator()
             }
         }
+    }
+}
+
+@Composable
+fun FullBackgroundLoadingIndicator() {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surfaceHighest)
+    ) {
+        LoadingModal()
     }
 }
 
@@ -222,6 +249,7 @@ fun OrderHistoryScreenPreview() {
             state =
                 OrderHistoryState(
                     isSignedIn = true,
+                    loadingOrders = true,
                     orderUis = emptyList() // previewOrders
                 ),
             goToMenu = {},
