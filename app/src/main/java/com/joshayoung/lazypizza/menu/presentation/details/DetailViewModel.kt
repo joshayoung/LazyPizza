@@ -88,11 +88,9 @@ class DetailViewModel(
                         toppings.forEach { topping ->
                             topping.localId?.let { id ->
                                 cartRepository.insertToppingId(
-                                    ToppingsInCartEntity(
-                                        lineItemNumber = lineItemNumber,
-                                        toppingId = id,
-                                        cartId = 1
-                                    )
+                                    lineItemNumber = lineItemNumber,
+                                    toppingId = id,
+                                    cartId = 1
                                 )
                             }
                         }

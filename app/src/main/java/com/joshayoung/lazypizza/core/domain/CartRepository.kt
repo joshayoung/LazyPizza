@@ -24,7 +24,11 @@ interface CartRepository {
 
     suspend fun updateLocalToppingsWithRemote(reload: Boolean = false)
 
-    suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity)
+    suspend fun insertToppingId(
+        lineItemNumber: Long,
+        toppingId: Long,
+        cartId: Long
+    )
 
     suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity?
 

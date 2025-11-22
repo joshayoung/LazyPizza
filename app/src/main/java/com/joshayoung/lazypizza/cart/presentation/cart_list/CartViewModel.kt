@@ -171,11 +171,9 @@ class CartViewModel(
                         )
                     action.inCartItemUi.toppings.forEach { topping ->
                         cartRepository.insertToppingId(
-                            ToppingsInCartEntity(
-                                lineItemNumber = lineItem,
-                                toppingId = topping.toppingId,
-                                cartId = 1
-                            )
+                            lineItemNumber = lineItem,
+                            toppingId = topping.toppingId,
+                            cartId = 1
                         )
                     }
                 }

@@ -71,8 +71,16 @@ class CartRepositoryImpl(
         }
     }
 
-    override suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity) {
-        localDataSource.insertToppingId(toppingsInCartEntity)
+    override suspend fun insertToppingId(
+        lineItemNumber: Long,
+        toppingId: Long,
+        cartId: Long
+    ) {
+        localDataSource.insertToppingId(
+            lineItemNumber = lineItemNumber,
+            toppingId = toppingId,
+            cartId = 1
+        )
     }
 
     override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity? {

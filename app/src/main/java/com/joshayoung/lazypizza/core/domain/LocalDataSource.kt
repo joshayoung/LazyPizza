@@ -46,7 +46,11 @@ interface LocalDataSource {
         theUser: String
     )
 
-    suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity)
+    suspend fun insertToppingId(
+        lineItemNumber: Long,
+        toppingId: Long,
+        cartId: Long
+    )
 
     suspend fun insertProductId(productsInCartEntity: ProductsInCartEntity): Long
 

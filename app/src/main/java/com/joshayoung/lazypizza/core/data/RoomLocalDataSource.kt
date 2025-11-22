@@ -115,7 +115,17 @@ class RoomLocalDataSource(
         )
     }
 
-    override suspend fun insertToppingId(toppingsInCartEntity: ToppingsInCartEntity) {
+    override suspend fun insertToppingId(
+        lineItemNumber: Long,
+        toppingId: Long,
+        cartId: Long
+    ) {
+        val toppingsInCartEntity =
+            ToppingsInCartEntity(
+                lineItemNumber = lineItemNumber,
+                toppingId = toppingId,
+                cartId = cartId
+            )
         cartDao.insertToppingId(
             toppingsInCartEntity
         )
