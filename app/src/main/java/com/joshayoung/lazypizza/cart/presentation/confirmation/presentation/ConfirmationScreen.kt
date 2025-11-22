@@ -105,7 +105,7 @@ fun ConfirmationScreen(
                             .padding(innerPadding)
                 ) {
                     ConfirmationInfo(
-                        maxWidth = 400.dp,
+                        maxWidth = 500.dp,
                         paddingVertical = paddingVertical,
                         state = state,
                         backToMain = backToMain
@@ -159,9 +159,9 @@ fun ConfirmationInfo(
                     .fillMaxWidth()
                     .border(
                         1.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant,
+                        color = MaterialTheme.colorScheme.outline,
                         shape = RoundedCornerShape(10.dp)
-                    ).padding(10.dp)
+                    ).padding(16.dp)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -170,7 +170,7 @@ fun ConfirmationInfo(
                         .fillMaxWidth()
             ) {
                 Text("Order Number:".uppercase())
-                Text(state.orderNumber, style = MaterialTheme.typography.titleSmall)
+                Text("#${state.orderNumber}", style = MaterialTheme.typography.titleSmall)
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -179,7 +179,7 @@ fun ConfirmationInfo(
                         .fillMaxWidth()
             ) {
                 Text("Pickup Time:".uppercase())
-                Text(state.pickupTime, style = MaterialTheme.typography.titleSmall)
+                Text(state.pickupTime.uppercase(), style = MaterialTheme.typography.titleSmall)
             }
         }
 
@@ -210,7 +210,9 @@ private fun ConfirmationScreenPreview() {
         ConfirmationScreen(
             state =
                 ConfirmationState(
-                    isLoading = true
+                    isLoading = false,
+                    pickupTime = "September 25, 12:15",
+                    orderNumber = "1234"
                 ),
             backToMain = {}
         )

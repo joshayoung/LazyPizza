@@ -111,7 +111,7 @@ fun OrderHistoryScreen(
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
-            if (state.loadingOrders) {
+            if (!state.loadingOrders) {
                 LargePizzaScaffold(
                     cartItems = cartItems,
                     appBarItems = bottomNavItemUis
