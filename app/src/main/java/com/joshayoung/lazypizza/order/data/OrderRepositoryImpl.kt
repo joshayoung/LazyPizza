@@ -1,39 +1,41 @@
 package com.joshayoung.lazypizza.order.data
 
-import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
+import com.joshayoung.lazypizza.order.data.mappers.toOrderEntity
+import com.joshayoung.lazypizza.order.domain.LocalOrderDataSource
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.domain.models.Order
 import com.joshayoung.lazypizza.order.domain.models.ProductWithToppings
 import kotlinx.serialization.json.Json
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class OrderRepositoryImpl(
-    private var cartRemoteDataSource: CartRemoteDataSource
+    private var cartRemoteDataSource: CartRemoteDataSource,
+    private var localOrderDataSource: LocalOrderDataSource
 ) : OrderRepository {
     override suspend fun getOrdersFor(user: String): List<Order> {
-        val orderDtos =
-            cartRemoteDataSource
-                .getOrders(
-                    user,
-                    BuildConfig.ORDERS_COLLECTION_ID
-                )
+        val orderEntities = localOrderDataSource.getOrders(user)
 
         val orders =
-            orderDtos.map { orderDto ->
+            orderEntities.map { orderEntity ->
                 val productWithToppings =
                     Json.decodeFromString<List<ProductWithToppings>>(
-                        orderDto.items
+                        orderEntity.items
                     )
 
+                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val createdAt: String = formatter.format(orderEntity.createdAt)
+
                 Order(
-                    number = orderDto.orderNumber,
-                    date = orderDto.createdAt,
+                    number = orderEntity.orderNumber,
+                    date = createdAt,
                     products = productWithToppings,
-                    status = orderDto.status,
-                    total = orderDto.totalAmount,
-                    userId = orderDto.userId,
-                    pickupTime = orderDto.pickupTime
+                    status = orderEntity.status,
+                    total = orderEntity.totalAmount,
+                    userId = orderEntity.userId,
+                    pickupTime = orderEntity.pickupTime
                 )
             }
 
@@ -79,6 +81,12 @@ class OrderRepositoryImpl(
                 checkoutPrice = checkoutPrice,
                 status = status
             )
-        return cartRemoteDataSource.placeOrder(orderRequest)
+        val result = cartRemoteDataSource.placeOrder(orderRequest)
+
+        if (result != null) {
+            localOrderDataSource.insertOrder(orderRequest.toOrderEntity())
+        }
+
+        return result
     }
 }

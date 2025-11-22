@@ -1,7 +1,10 @@
 package com.joshayoung.lazypizza.order.data.di
 
+import com.joshayoung.lazypizza.core.data.database.CartDatabase
 import com.joshayoung.lazypizza.order.data.OrderProcessorImpl
 import com.joshayoung.lazypizza.order.data.OrderRepositoryImpl
+import com.joshayoung.lazypizza.order.data.database.RoomLocalOrderDataSource
+import com.joshayoung.lazypizza.order.domain.LocalOrderDataSource
 import com.joshayoung.lazypizza.order.domain.OrderProcessor
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.presentation.order_history.OrderHistoryViewModel
@@ -15,9 +18,18 @@ var orderModule =
 
         single {
             OrderRepositoryImpl(
+                get(),
                 get()
             )
         }.bind<OrderRepository>()
+
+        single {
+            RoomLocalOrderDataSource(
+                get()
+            )
+        }.bind<LocalOrderDataSource>()
+
+        single { get<CartDatabase>().orderDao }
 
         single {
             OrderProcessorImpl(
