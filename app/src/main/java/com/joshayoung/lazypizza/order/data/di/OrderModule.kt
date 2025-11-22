@@ -1,6 +1,6 @@
 package com.joshayoung.lazypizza.order.data.di
 
-import com.joshayoung.lazypizza.core.data.database.CartDatabase
+import com.joshayoung.lazypizza.core.data.database.LazyPizzaDatabase
 import com.joshayoung.lazypizza.order.data.OrderProcessorImpl
 import com.joshayoung.lazypizza.order.data.OrderRepositoryImpl
 import com.joshayoung.lazypizza.order.data.database.RoomLocalOrderDataSource
@@ -31,7 +31,7 @@ var orderModule =
             )
         }.bind<LocalOrderDataSource>()
 
-        single { get<CartDatabase>().orderDao }
+        single { get<LazyPizzaDatabase>().orderDao }
 
         single {
             OrderProcessorImpl(

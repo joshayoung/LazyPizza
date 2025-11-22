@@ -17,7 +17,7 @@ import com.joshayoung.lazypizza.order.data.database.entity.OrderEntity
     ],
     version = 1
 )
-abstract class CartDatabase : RoomDatabase() {
+abstract class LazyPizzaDatabase : RoomDatabase() {
     abstract val cardDao: CartDao
     abstract val productDao: ProductDao
 

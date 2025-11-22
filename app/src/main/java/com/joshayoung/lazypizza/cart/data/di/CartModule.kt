@@ -6,7 +6,7 @@ import com.joshayoung.lazypizza.cart.presentation.checkout.CheckoutViewModel
 import com.joshayoung.lazypizza.cart.presentation.confirmation.presentation.ConfirmationViewModel
 import com.joshayoung.lazypizza.core.data.CartRepositoryImpl
 import com.joshayoung.lazypizza.core.data.RoomLocalCartDataSource
-import com.joshayoung.lazypizza.core.data.database.CartDatabase
+import com.joshayoung.lazypizza.core.data.database.LazyPizzaDatabase
 import com.joshayoung.lazypizza.core.data.network.AppWriteMenuRemoteDataSource
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalCartDataSource
@@ -27,14 +27,14 @@ var cartModule =
             Room
                 .databaseBuilder(
                     androidApplication(),
-                    CartDatabase::class.java,
-                    CartDatabase.DATABASE_NAME
+                    LazyPizzaDatabase::class.java,
+                    LazyPizzaDatabase.DATABASE_NAME
                 ).build()
         }
 
-        single { get<CartDatabase>().cardDao }
-        single { get<CartDatabase>().productDao }
-        single { get<CartDatabase>().toppingDao }
+        single { get<LazyPizzaDatabase>().cardDao }
+        single { get<LazyPizzaDatabase>().productDao }
+        single { get<LazyPizzaDatabase>().toppingDao }
 
         singleOf(::RoomLocalCartDataSource).bind<LocalCartDataSource>()
         singleOf(::AppWriteMenuRemoteDataSource).bind<MenuRemoteDataSource>()
