@@ -2,40 +2,38 @@ package com.joshayoung.lazypizza.core.data
 
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.domain.CartRepository
-import com.joshayoung.lazypizza.core.domain.LocalDataSource
+import com.joshayoung.lazypizza.core.domain.LocalCartDataSource
 import com.joshayoung.lazypizza.core.domain.mappers.toProductInCart
 import com.joshayoung.lazypizza.core.domain.mappers.toToppingInCart
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductInCart
 import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
-import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CartRepositoryImpl(
-    private var localDataSource: LocalDataSource,
-    private var cartRemoteDataSource: CartRemoteDataSource
+    private var localCartDataSource: LocalCartDataSource
 ) : CartRepository {
     override suspend fun addProductToCart(product: Product): Long? {
-        return localDataSource.addProductToCart(
+        return localCartDataSource.addProductToCart(
             product.localId
         )
     }
 
     override suspend fun removeAllFromCart(lineNumber: Long) {
-        localDataSource.removeAllFromCart(
+        localCartDataSource.removeAllFromCart(
             lineNumber
         )
     }
 
     override suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCart> {
-        return localDataSource.getToppingForProductInCart(lineItemId).map { toppingInCartDto ->
+        return localCartDataSource.getToppingForProductInCart(lineItemId).map { toppingInCartDto ->
             toppingInCartDto.toToppingInCart()
         }
     }
 
     override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCart>> {
-        return localDataSource.productsInCartWithNoToppings().map { productInCartDtoList ->
+        return localCartDataSource.productsInCartWithNoToppings().map { productInCartDtoList ->
             productInCartDtoList.map { productInCartDto ->
                 productInCartDto.toProductInCart()
             }
@@ -43,7 +41,7 @@ class CartRepositoryImpl(
     }
 
     override suspend fun productsInCartWithToppings(): Flow<List<ProductInCart>> {
-        return localDataSource.productsInCartWithToppings().map { productInCartDtoList ->
+        return localCartDataSource.productsInCartWithToppings().map { productInCartDtoList ->
             productInCartDtoList.map { productInCartDto ->
                 productInCartDto.toProductInCart()
             }
@@ -54,7 +52,7 @@ class CartRepositoryImpl(
         cartId: Long,
         productId: Long
     ): Long {
-        return localDataSource.insertProductId(cartId, productId)
+        return localCartDataSource.insertProductId(cartId, productId)
     }
 
     override suspend fun insertToppingId(
@@ -62,7 +60,7 @@ class CartRepositoryImpl(
         toppingId: Long,
         cartId: Long
     ) {
-        localDataSource.insertToppingId(
+        localCartDataSource.insertToppingId(
             lineItemNumber = lineItemNumber,
             toppingId = toppingId,
             cartId = 1
@@ -70,37 +68,37 @@ class CartRepositoryImpl(
     }
 
     override suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity? {
-        return localDataSource.getProductInCart(lastLineNumber)
+        return localCartDataSource.getProductInCart(lastLineNumber)
     }
 
     override suspend fun deleteCartItem(item: ProductsInCartEntity) {
-        localDataSource.deleteCartItem(item)
+        localCartDataSource.deleteCartItem(item)
     }
 
     override suspend fun transferCartTo(
         owner: String?,
         user: String?
     ) {
-        localDataSource.transferCart(owner, user)
+        localCartDataSource.transferCart(owner, user)
     }
 
     override suspend fun clearCartForUser(user: String?) {
-        localDataSource.clearCartForUser(user)
+        localCartDataSource.clearCartForUser(user)
     }
 
     override suspend fun createCartForUser(
         cartId: Long,
         theUser: String
     ) {
-        if (localDataSource.doesCartExist(cartId)) {
+        if (localCartDataSource.doesCartExist(cartId)) {
             return
         }
 
-        localDataSource.createCartForUser(cartId, theUser)
+        localCartDataSource.createCartForUser(cartId, theUser)
     }
 
     override fun allProductsWithCartItems(): Flow<List<ProductInCart>> {
-        return localDataSource.allProductsWithCartItems().map { productInCartDtoList ->
+        return localCartDataSource.allProductsWithCartItems().map { productInCartDtoList ->
             productInCartDtoList.map { productInCartDto ->
                 productInCartDto.toProductInCart()
             }
@@ -108,6 +106,6 @@ class CartRepositoryImpl(
     }
 
     override fun getNumberProductsInCart(cartId: Long): Flow<Int> {
-        return localDataSource.getNumberProductsInCart(cartId)
+        return localCartDataSource.getNumberProductsInCart(cartId)
     }
 }

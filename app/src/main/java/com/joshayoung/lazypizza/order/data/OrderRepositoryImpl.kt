@@ -1,19 +1,19 @@
 package com.joshayoung.lazypizza.order.data
 
 import com.joshayoung.lazypizza.cart.domain.models.OrderRequest
-import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.order.data.mappers.toOrderEntity
 import com.joshayoung.lazypizza.order.domain.LocalOrderDataSource
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.domain.models.Order
 import com.joshayoung.lazypizza.order.domain.models.ProductWithToppings
+import com.joshayoung.lazypizza.order.domain.network.OrderRemoteDataSource
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class OrderRepositoryImpl(
-    private var cartRemoteDataSource: CartRemoteDataSource,
-    private var localOrderDataSource: LocalOrderDataSource
+    private var localOrderDataSource: LocalOrderDataSource,
+    private var orderRemoteDataSource: OrderRemoteDataSource
 ) : OrderRepository {
     override suspend fun getOrdersFor(user: String): List<Order> {
         val orderEntities = localOrderDataSource.getOrders(user)
@@ -43,7 +43,7 @@ class OrderRepositoryImpl(
     }
 
     override suspend fun getOrderInfo(orderNumber: String): Order? {
-        val orderDto = cartRemoteDataSource.getOrderInfo(orderNumber)
+        val orderDto = orderRemoteDataSource.getOrderInfo(orderNumber)
         if (orderDto != null) {
             val productWithToppings =
                 Json.decodeFromString<List<ProductWithToppings>>(
@@ -81,7 +81,7 @@ class OrderRepositoryImpl(
                 checkoutPrice = checkoutPrice,
                 status = status
             )
-        val result = cartRemoteDataSource.placeOrder(orderRequest)
+        val result = orderRemoteDataSource.placeOrder(orderRequest)
 
         if (result != null) {
             localOrderDataSource.insertOrder(orderRequest.toOrderEntity())

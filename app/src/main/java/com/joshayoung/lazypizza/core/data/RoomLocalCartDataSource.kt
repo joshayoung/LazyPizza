@@ -10,18 +10,18 @@ import com.joshayoung.lazypizza.core.data.database.entity.ToppingEntity
 import com.joshayoung.lazypizza.core.data.database.entity.ToppingsInCartEntity
 import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
-import com.joshayoung.lazypizza.core.domain.LocalDataSource
+import com.joshayoung.lazypizza.core.domain.LocalCartDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import kotlinx.coroutines.flow.Flow
 
-class RoomLocalDataSource(
+class RoomLocalCartDataSource(
     private var cartDao: CartDao,
     private var productDao: ProductDao,
     private var toppingDao: ToppingDao
-) : LocalDataSource {
+) : LocalCartDataSource {
     override suspend fun getAllProducts(): List<ProductEntity> {
         return productDao.getAllProducts()
     }

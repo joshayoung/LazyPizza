@@ -1,7 +1,7 @@
 package com.joshayoung.lazypizza.menu.data
 
 import com.joshayoung.lazypizza.BuildConfig
-import com.joshayoung.lazypizza.core.domain.LocalDataSource
+import com.joshayoung.lazypizza.core.domain.LocalCartDataSource
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.Topping
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
@@ -14,15 +14,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class MenuRepositoryImpl(
-    private val localDataSource: LocalDataSource,
+    private val localCartDataSource: LocalCartDataSource,
     private val cartRemoteDataSource: CartRemoteDataSource
 ) : MenuRepository {
     override suspend fun getProduct(productId: String): Product {
-        return localDataSource.getProduct(productId)
+        return localCartDataSource.getProduct(productId)
     }
 
     override suspend fun getToppings(): List<Topping> {
-        val localToppings = localDataSource.getAllToppings()
+        val localToppings = localCartDataSource.getAllToppings()
         if (!localToppings.isEmpty()) {
             return localToppings.map { it.toTopping() }
         } else {
@@ -33,7 +33,7 @@ class MenuRepositoryImpl(
                     )
 
             remoteToppings.forEach { topping ->
-                localDataSource.upsertTopping(topping.toToppingEntity())
+                localCartDataSource.upsertTopping(topping.toToppingEntity())
             }
 
             return remoteToppings
@@ -41,31 +41,31 @@ class MenuRepositoryImpl(
     }
 
     override suspend fun updateLocalWithRemote(reload: Boolean) {
-        val localProducts = localDataSource.getAllProducts()
+        val localProducts = localCartDataSource.getAllProducts()
         if (!localProducts.isEmpty() && !reload) {
             return
         }
 
         val remoteProducts = cartRemoteDataSource.getProducts(BuildConfig.MENU_ITEMS_COLLECTION_ID)
         remoteProducts.forEach { product ->
-            localDataSource.upsertProduct(product.toProductEntity())
+            localCartDataSource.upsertProduct(product.toProductEntity())
         }
     }
 
     override suspend fun updateLocalToppingsWithRemote(reload: Boolean) {
-        val localToppings = localDataSource.getAllToppings()
+        val localToppings = localCartDataSource.getAllToppings()
         if (!localToppings.isEmpty() && !reload) {
             return
         }
 
         val remoteToppings = cartRemoteDataSource.getToppings(BuildConfig.TOPPINGS_COLLECTION_ID)
         remoteToppings.forEach { topping ->
-            localDataSource.upsertTopping(topping.toToppingEntity())
+            localCartDataSource.upsertTopping(topping.toToppingEntity())
         }
     }
 
     override suspend fun sidesNotInCart(): Flow<List<Product>> {
-        return localDataSource.sidesNotInCart().map {
+        return localCartDataSource.sidesNotInCart().map {
             it.map { item ->
                 item.toProduct()
             }

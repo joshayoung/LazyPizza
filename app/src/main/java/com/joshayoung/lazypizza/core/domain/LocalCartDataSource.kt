@@ -11,7 +11,7 @@ import com.joshayoung.lazypizza.core.networking.DataError
 import com.joshayoung.lazypizza.core.networking.Result
 import kotlinx.coroutines.flow.Flow
 
-interface LocalDataSource {
+interface LocalCartDataSource {
     suspend fun getAllProducts(): List<ProductEntity>
 
     suspend fun clearCartForUser(user: String?)

@@ -246,7 +246,6 @@ fun CheckoutScreen(
                             .fillMaxHeight()
                             .padding(horizontal = 16.dp)
                             .imePadding()
-
                 ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(1),
