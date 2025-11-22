@@ -64,23 +64,18 @@ class HomeViewModel(
 
             is HomeAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val lastLineNumber = action.inCartItemUi.lineNumbers.last()
-                    if (lastLineNumber == null) {
-                        return@launch
-                    }
-                    cartRepository.getProductInCart(lastLineNumber)?.let { item ->
-                        cartRepository.deleteCartItem(item)
-                    }
+                    cartUpdater.removeItemFromCart(
+                        lastLineNumber = action.inCartItemUi.lineNumbers.last()
+                    )
                 }
             }
 
             is HomeAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    action.inCartItemUi.lineNumbers.forEach { lineNumber ->
-                        if (lineNumber != null) {
-                            cartRepository.removeAllFromCart(lineNumber)
-                        }
-                    }
+                    cartUpdater.removeAllFromCart(
+                        lineNumbers =
+                            action.inCartItemUi.lineNumbers
+                    )
                 }
             }
 

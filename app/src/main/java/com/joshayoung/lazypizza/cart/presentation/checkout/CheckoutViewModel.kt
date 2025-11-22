@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -108,22 +107,17 @@ class CheckoutViewModel(
             }
             is CheckoutAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    action.inCartItemUi.lineNumbers.forEach { lineNumber ->
-                        if (lineNumber != null) {
-                            cartRepository.removeAllFromCart(lineNumber)
-                        }
-                    }
+                    cartUpdater.removeAllFromCart(
+                        lineNumbers =
+                            action.inCartItemUi.lineNumbers
+                    )
                 }
             }
             is CheckoutAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val lastLineNumber = action.inCartItemUi.lineNumbers.last()
-                    if (lastLineNumber != null) {
-                        val item = cartRepository.getProductInCart(lastLineNumber)
-                        if (item != null) {
-                            cartRepository.deleteCartItem(item)
-                        }
-                    }
+                    cartUpdater.removeItemFromCart(
+                        lastLineNumber = action.inCartItemUi.lineNumbers.last()
+                    )
                 }
             }
 
@@ -323,27 +317,12 @@ class CheckoutViewModel(
                 _state.update {
                     it.copy(
                         items = inCartItems,
-                        checkoutPrice = getTotal(inCartItems),
+                        checkoutPrice = cartUpdater.getTotal(inCartItems),
                         isLoadingCart = false
                     )
                 }
             }
         }
-    }
-
-    // TODO: This is duplicated here and in the CartViewModel.
-    private fun getTotal(inCartItems: List<InCartItemUi>): BigDecimal {
-        val base =
-            inCartItems.sumOf { item ->
-                item.price.toDouble() * item.numberInCart
-            }
-        val toppingsInCart = inCartItems.map { it.toppings }.flatMap { it }
-        val toppings =
-            toppingsInCart.sumOf { item ->
-                item.price.toDouble()
-            }
-
-        return BigDecimal(base + toppings)
     }
 
     fun formatDate(

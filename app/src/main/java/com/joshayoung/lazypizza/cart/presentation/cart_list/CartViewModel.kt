@@ -6,7 +6,6 @@ import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
-import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 class CartViewModel(
     private var cartRepository: CartRepository,
@@ -50,7 +48,6 @@ class CartViewModel(
         }
     }
 
-    // TODO: Move logic to use case:
     private fun loadCart() {
         viewModelScope.launch {
             val productsInCart = cartUpdater.productsInCart()
@@ -58,26 +55,12 @@ class CartViewModel(
                 _state.update {
                     it.copy(
                         items = inCartItems,
-                        checkoutPrice = getTotal(inCartItems),
+                        checkoutPrice = cartUpdater.getTotal(inCartItems),
                         isLoadingCart = false
                     )
                 }
             }
         }
-    }
-
-    private fun getTotal(inCartItems: List<InCartItemUi>): BigDecimal {
-        val base =
-            inCartItems.sumOf { item ->
-                item.price.toDouble() * item.numberInCart
-            }
-        val toppingsInCart = inCartItems.map { it.toppings }.flatMap { it }
-        val toppings =
-            toppingsInCart.sumOf { item ->
-                item.price.toDouble()
-            }
-
-        return BigDecimal(base + toppings)
     }
 
     fun onAction(action: CartAction) {
@@ -94,23 +77,18 @@ class CartViewModel(
 
             is CartAction.RemoveItemFromCart -> {
                 viewModelScope.launch {
-                    val lastLineNumber = action.inCartItemUi.lineNumbers.last()
-                    if (lastLineNumber != null) {
-                        val item = cartRepository.getProductInCart(lastLineNumber)
-                        if (item != null) {
-                            cartRepository.deleteCartItem(item)
-                        }
-                    }
+                    cartUpdater.removeItemFromCart(
+                        lastLineNumber = action.inCartItemUi.lineNumbers.last()
+                    )
                 }
             }
 
             is CartAction.RemoveAllFromCart -> {
                 viewModelScope.launch {
-                    action.inCartItemUi.lineNumbers.forEach { lineNumber ->
-                        if (lineNumber != null) {
-                            cartRepository.removeAllFromCart(lineNumber)
-                        }
-                    }
+                    cartUpdater.removeAllFromCart(
+                        lineNumbers =
+                            action.inCartItemUi.lineNumbers
+                    )
                 }
             }
 

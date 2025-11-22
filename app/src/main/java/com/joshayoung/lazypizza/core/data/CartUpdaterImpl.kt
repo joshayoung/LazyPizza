@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import java.math.BigDecimal
 import kotlin.collections.component1
 import kotlin.collections.component2
 
@@ -132,5 +133,36 @@ class CartUpdaterImpl(
 
                 inCartItemUis + inCartItemsWithToppingUis
             }.flowOn(Dispatchers.Default)
+    }
+
+    override fun getTotal(inCartItems: List<InCartItemUi>): BigDecimal {
+        val base =
+            inCartItems.sumOf { item ->
+                item.price.toDouble() * item.numberInCart
+            }
+        val toppingsInCart = inCartItems.map { it.toppings }.flatMap { it }
+        val toppings =
+            toppingsInCart.sumOf { item ->
+                item.price.toDouble()
+            }
+
+        return BigDecimal(base + toppings)
+    }
+
+    override suspend fun removeItemFromCart(lastLineNumber: Long?) {
+        if (lastLineNumber != null) {
+            val item = cartRepository.getProductInCart(lastLineNumber)
+            if (item != null) {
+                cartRepository.deleteCartItem(item)
+            }
+        }
+    }
+
+    override suspend fun removeAllFromCart(lineNumbers: List<Long?>) {
+        lineNumbers.forEach { lineNumber ->
+            if (lineNumber != null) {
+                cartRepository.removeAllFromCart(lineNumber)
+            }
+        }
     }
 }
