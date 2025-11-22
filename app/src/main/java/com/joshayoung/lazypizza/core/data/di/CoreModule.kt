@@ -2,7 +2,9 @@ package com.joshayoung.lazypizza.core.data.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.core.data.AuthRepositoryImpl
+import com.joshayoung.lazypizza.core.data.CartUpdaterImpl
 import com.joshayoung.lazypizza.core.domain.AuthRepository
+import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.networking.AppWriteClientProvider
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -18,4 +20,5 @@ var coreModule =
         }
 
         single { AuthRepositoryImpl(get(), get()) }.bind<AuthRepository>()
+        single { CartUpdaterImpl(get()) }.bind<CartUpdater>()
     }

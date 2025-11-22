@@ -3,6 +3,7 @@ package com.joshayoung.lazypizza.cart.presentation.cart_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemSingleUi
@@ -23,7 +24,8 @@ import java.math.BigDecimal
 import kotlin.collections.first
 
 class CartViewModel(
-    private var cartRepository: CartRepository
+    private var cartRepository: CartRepository,
+    private var cartUpdater: CartUpdater
 ) : ViewModel() {
     private var _state = MutableStateFlow(CartState())
 
@@ -160,18 +162,11 @@ class CartViewModel(
         when (action) {
             is CartAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    val lineItem =
-                        cartRepository.insertProductId(
-                            cartId = 1,
-                            productId = action.inCartItemUi.productId
-                        )
-                    action.inCartItemUi.toppings.forEach { topping ->
-                        cartRepository.insertToppingId(
-                            lineItemNumber = lineItem,
-                            toppingId = topping.toppingId,
-                            cartId = 1
-                        )
-                    }
+                    cartUpdater.insertProductWithToppings(
+                        cartId = 1,
+                        productId = action.inCartItemUi.productId,
+                        toppings = action.inCartItemUi.toppings
+                    )
                 }
             }
 

@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.joshayoung.lazypizza.BuildConfig
 import com.joshayoung.lazypizza.core.domain.AuthRepository
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
@@ -21,7 +22,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val cartRepository: CartRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val cartUpdater: CartUpdater
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
     private var _state = MutableStateFlow(HomeState())
@@ -52,20 +54,11 @@ class HomeViewModel(
         when (action) {
             is HomeAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    val lineItem =
-                        cartRepository.insertProductId(
-                            cartId = 1,
-                            productId = action.inCartItemUi.productId
-                        )
-                    if (action.inCartItemUi.toppings.any()) {
-                        action.inCartItemUi.toppings.forEach { topping ->
-                            cartRepository.insertToppingId(
-                                lineItemNumber = lineItem,
-                                toppingId = topping.toppingId,
-                                cartId = 1
-                            )
-                        }
-                    }
+                    cartUpdater.insertProductWithToppings(
+                        cartId = 1,
+                        productId = action.inCartItemUi.productId,
+                        toppings = action.inCartItemUi.toppings
+                    )
                 }
             }
 

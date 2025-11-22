@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshayoung.lazypizza.cart.utils.OrderEvent
 import com.joshayoung.lazypizza.core.domain.CartRepository
+import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
@@ -40,7 +41,8 @@ import kotlin.time.Instant
 
 class CheckoutViewModel(
     private val cartRepository: CartRepository,
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val cartUpdater: CartUpdater
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
 
@@ -103,18 +105,11 @@ class CheckoutViewModel(
             }
             is CheckoutAction.AddItemToCart -> {
                 viewModelScope.launch {
-                    val lineItem =
-                        cartRepository.insertProductId(
-                            cartId = 1,
-                            productId = action.inCartItemUi.productId
-                        )
-                    action.inCartItemUi.toppings.forEach { topping ->
-                        cartRepository.insertToppingId(
-                            lineItemNumber = lineItem,
-                            toppingId = topping.toppingId,
-                            cartId = 1
-                        )
-                    }
+                    cartUpdater.insertProductWithToppings(
+                        cartId = 1,
+                        productId = action.inCartItemUi.productId,
+                        toppings = action.inCartItemUi.toppings
+                    )
                 }
             }
             is CheckoutAction.RemoveAllFromCart -> {
