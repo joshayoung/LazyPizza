@@ -6,7 +6,9 @@ import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.LocalDataSource
+import com.joshayoung.lazypizza.core.domain.mappers.toProductInCart
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ProductInCart
 import com.joshayoung.lazypizza.core.domain.network.CartRemoteDataSource
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductEntity
@@ -34,12 +36,20 @@ class CartRepositoryImpl(
         return localDataSource.getToppingForProductInCart(lineItemId)
     }
 
-    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>> {
-        return localDataSource.productsInCartWithNoToppings()
+    override suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCart>> {
+        return localDataSource.productsInCartWithNoToppings().map { productInCartDtoList ->
+            productInCartDtoList.map { productInCartDto ->
+                productInCartDto.toProductInCart()
+            }
+        }
     }
 
-    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCartDto>> {
-        return localDataSource.productsInCartWithToppings()
+    override suspend fun productsInCartWithToppings(): Flow<List<ProductInCart>> {
+        return localDataSource.productsInCartWithToppings().map { productInCartDtoList ->
+            productInCartDtoList.map { productInCartDto ->
+                productInCartDto.toProductInCart()
+            }
+        }
     }
 
     override suspend fun insertProductId(
@@ -123,8 +133,12 @@ class CartRepositoryImpl(
         localDataSource.createCartForUser(cartId, theUser)
     }
 
-    override fun allProductsWithCartItems(): Flow<List<ProductInCartDto>> {
-        return localDataSource.allProductsWithCartItems()
+    override fun allProductsWithCartItems(): Flow<List<ProductInCart>> {
+        return localDataSource.allProductsWithCartItems().map { productInCartDtoList ->
+            productInCartDtoList.map { productInCartDto ->
+                productInCartDto.toProductInCart()
+            }
+        }
     }
 
     override fun getNumberProductsInCart(cartId: Long): Flow<Int> {

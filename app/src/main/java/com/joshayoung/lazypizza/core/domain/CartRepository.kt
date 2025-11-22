@@ -4,6 +4,7 @@ import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
 import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
 import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.Product
+import com.joshayoung.lazypizza.core.domain.models.ProductInCart
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
@@ -13,9 +14,9 @@ interface CartRepository {
 
     suspend fun getToppingForProductInCart(lineItemId: Long?): List<ToppingInCartDto>
 
-    suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCartDto>>
+    suspend fun productsInCartWithNoToppings(): Flow<List<ProductInCart>>
 
-    suspend fun productsInCartWithToppings(): Flow<List<ProductInCartDto>>
+    suspend fun productsInCartWithToppings(): Flow<List<ProductInCart>>
 
     suspend fun insertProductId(
         cartId: Long,
@@ -50,7 +51,7 @@ interface CartRepository {
         theUser: String
     )
 
-    fun allProductsWithCartItems(): Flow<List<ProductInCartDto>>
+    fun allProductsWithCartItems(): Flow<List<ProductInCart>>
 
     fun getNumberProductsInCart(cartId: Long): Flow<Int>
 }
