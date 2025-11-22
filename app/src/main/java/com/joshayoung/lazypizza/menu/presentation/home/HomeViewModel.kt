@@ -9,6 +9,7 @@ import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.presentation.utils.textAsFlow
 import com.joshayoung.lazypizza.menu.data.mappers.toInCartItemUi
+import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import com.joshayoung.lazypizza.menu.presentation.models.MenuItemUi
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val cartRepository: CartRepository,
     private val authRepository: AuthRepository,
+    private val menuRepository: MenuRepository,
     private val cartUpdater: CartUpdater
 ) : ViewModel() {
     private var orderedMenu: List<MenuItemUi> = emptyList()
@@ -143,7 +145,8 @@ class HomeViewModel(
             )
         }
         viewModelScope.launch {
-            cartRepository.updateLocalWithRemote()
+            menuRepository.updateLocalWithRemote()
+
             cartRepository
                 .allProductsWithCartItems()
                 .collect { productUiItems ->

@@ -6,6 +6,7 @@ import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
+import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 
 class CartListViewModel(
     private var cartRepository: CartRepository,
+    private var menuRepository: MenuRepository,
     private var cartUpdater: CartUpdater
 ) : ViewModel() {
     private var _state = MutableStateFlow(CartListState())
@@ -32,7 +34,7 @@ class CartListViewModel(
 
     init {
         viewModelScope.launch {
-            cartRepository
+            menuRepository
                 .sidesNotInCart()
                 .distinctUntilChanged()
                 .collect { items ->

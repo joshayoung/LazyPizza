@@ -9,6 +9,7 @@ import com.joshayoung.lazypizza.core.presentation.FirebaseAuthUiClient
 import com.joshayoung.lazypizza.core.presentation.mappers.toProduct
 import com.joshayoung.lazypizza.core.presentation.mappers.toProductUi
 import com.joshayoung.lazypizza.core.presentation.models.InCartItemUi
+import com.joshayoung.lazypizza.menu.domain.MenuRepository
 import com.joshayoung.lazypizza.order.domain.OrderRepository
 import com.joshayoung.lazypizza.order.domain.models.ProductWithToppings
 import kotlinx.coroutines.channels.Channel
@@ -35,6 +36,7 @@ import kotlin.time.Instant
 class CheckoutViewModel(
     private val cartRepository: CartRepository,
     private val orderRepository: OrderRepository,
+    private val menuRepository: MenuRepository,
     private val cartUpdater: CartUpdater
 ) : ViewModel() {
     private var _state = MutableStateFlow(CheckoutState())
@@ -61,7 +63,7 @@ class CheckoutViewModel(
         }
 
         viewModelScope.launch {
-            cartRepository
+            menuRepository
                 .sidesNotInCart()
                 .distinctUntilChanged()
                 .collect { items ->

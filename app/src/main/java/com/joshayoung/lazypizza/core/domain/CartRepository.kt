@@ -1,8 +1,6 @@
 package com.joshayoung.lazypizza.core.domain
 
 import com.joshayoung.lazypizza.core.data.database.entity.ProductsInCartEntity
-import com.joshayoung.lazypizza.core.data.network.models.ProductInCartDto
-import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.Product
 import com.joshayoung.lazypizza.core.domain.models.ProductInCart
 import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
@@ -24,10 +22,6 @@ interface CartRepository {
         productId: Long
     ): Long
 
-    suspend fun updateLocalWithRemote(reload: Boolean = false)
-
-    suspend fun updateLocalToppingsWithRemote(reload: Boolean = false)
-
     suspend fun insertToppingId(
         lineItemNumber: Long,
         toppingId: Long,
@@ -37,8 +31,6 @@ interface CartRepository {
     suspend fun getProductInCart(lastLineNumber: Long): ProductsInCartEntity?
 
     suspend fun deleteCartItem(item: ProductsInCartEntity)
-
-    suspend fun sidesNotInCart(): Flow<List<Product>>
 
     suspend fun transferCartTo(
         owner: String?,

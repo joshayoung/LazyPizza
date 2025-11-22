@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.core.presentation.models
 
-import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.models.ToppingInCart
 import com.joshayoung.lazypizza.menu.presentation.models.MenuTypeUi
 

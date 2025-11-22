@@ -1,6 +1,5 @@
 package com.joshayoung.lazypizza.core.data
 
-import com.joshayoung.lazypizza.core.data.network.models.ToppingInCartDto
 import com.joshayoung.lazypizza.core.domain.CartRepository
 import com.joshayoung.lazypizza.core.domain.CartUpdater
 import com.joshayoung.lazypizza.core.domain.models.Product

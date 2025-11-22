@@ -36,7 +36,7 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            cartRepository.updateLocalToppingsWithRemote()
+            menuRepository.updateLocalToppingsWithRemote()
             productId?.let { id ->
                 val product = menuRepository.getProduct(id)
                 val productUi = product.toProductUi()
